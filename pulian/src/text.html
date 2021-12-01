@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>留言板</title>
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+    }
+
+    .title {
+      text-align: center;
+      padding: 20px;
+      height: auto;
+      background: #E6E6FA;
+      font-size: 20px;
+      margin-bottom: 20px;
+    }
+
+    .main {
+      width: 750px;
+      margin: 0 auto;
+    }
+
+    .input {
+      width: auto;
+      padding: 20px;
+      height: auto;
+      margin: 0 20px;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      float: left;
+    }
+
+    .input input {
+      width: 200px;
+      margin-bottom: 10px;
+    }
+
+    .content {
+      width: 200px;
+      height: auto;
+      position: relative;
+      padding-left: 2.3em;
+    }
+
+    .content textarea {
+      width: 200px;
+      max-width: 200px;
+      height: 50px;
+    }
+
+    .content span {
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+
+    .liuyanban {
+      float: left;
+      width: 380px;
+      height: auto;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+      padding: 10px;
+    }
+
+    .liuyanban dl {
+      background: rgba(220, 220, 220, 0.4);
+      padding: 10px;
+      margin-bottom: 10px;
+    }
+
+    .liuyanban dt,
+    dd {
+      width: 100%;
+      height: auto;
+      margin-bottom: 5px;
+    }
+
+    .liuyanban a {
+      cursor: pointer;
+      padding: 3px 8px;
+      background: gray;
+      color: white;
+      font-size: 12px;
+    }
+
+    .liuyanban a:hover {
+      background: orange;
+    }
+
+  </style>
+  <script language="javascript" type="text/javascript">
+    console.log(222);
+
+
+
+
+    window.onload = function () {
+      
+      var title = document.getElementById('input').getElementsByTagName('input')[0],
+        btn = document.getElementsByTagName("button")[0],
+        content = document.getElementById("content").getElementsByTagName("textarea")[0],
+        liuyanban = document.getElementById("liuyanban");
+        console.log(btn);
+      btn.οnclick = function () {
+          alert(123);
+        var dl = document.createElement("dl"),
+          dt = document.createElement("dt"),
+          dd = document.createElement("dd"),
+          del = document.createElement("a"); //添加删除按钮的节点
+        del.innerHTML = "删除";
+        dt.innerHTML = "标题:" + title.value;
+        dd.innerHTML = "内容:" + content.value;
+        dl.appendChild(dt);
+        dl.appendChild(dd);
+        dl.appendChild(del);
+        liuyanban.appendChild(dl);
+        content.value = "";
+        title.value = "";
+        var note = liuyanban.getElementsByTagName("dl");
+        var dels = new Array();
+        for (var i = 0; i < note.length; i++) {
+          dels[i] = note[i].getElementsByTagName("a")[0];
+          dels[i].οnclick = function () { //点击后删除删除按钮所在的内容板块
+            this.parentNode.remove(note[i]);
+          }
+        }
+      }
+    }
+
+  </script>
+
+</head>
+
+<body>
+  <div class="title">
+    简易留言板
+  </div>
+  <div class="main">
+    <div class="input" id="input">
+      标题:<input type="text" name="">
+      <div class="content" id="content">
+        <span>内容:</span>
+        <textarea></textarea>
+        <button style="float: right">确定</button>
+      </div>
+    </div>
+    <div class="liuyanban" id="liuyanban"></div>
+  </div>
+
+  <script>
+    console.log(111);
+
+  </script>
+
+</body>
+
+</html>

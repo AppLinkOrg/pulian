@@ -8,6 +8,10 @@
 </template>
 
 <script>
+
+
+
+
 export default {
   name: "HelloWorld",
   data(){
@@ -20,7 +24,7 @@ export default {
   },
   methods:{
       tiaozhaun(){
-         this.$router.go(-1)
+         this.goback(-1)
       }
 
 

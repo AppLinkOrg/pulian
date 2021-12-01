@@ -1,40 +1,35 @@
 <template>
-  <div class="hello" @click="tiaozhaun()" >
-    <div style="width:100vw ;height:100vh;background:#999">1111</div>
- 
+  <div class="" style="" >
+    333
+   <!-- <van-tabbar v-model="active">
+  <van-tabbar-item icon="home-o" name="Home">标签</van-tabbar-item>
+  <van-tabbar-item icon="search" name="HelloWorld">标签</van-tabbar-item>
+</van-tabbar> -->
   </div>
 </template>
 
 <script>
-
-
-
-
-
 export default {
-  name: "Home",
+  name: "Footer",
   data(){
       return{
-
+ active: 'Home',
       }
   },
   created(){
-  
 
   },
   methods:{
       tiaozhaun(){
-          this.push('/HelloWorld')
+         this.goback(-1)
       }
 
 
   }
-
-  
 };
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
+
 <style scoped lang="less">
 h3 {
   margin: 40px 0 0;

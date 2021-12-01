@@ -6,41 +6,48 @@
     </div> -->
     <!-- <router-view /> -->
 
+
      <transition :name="transitionName">
-<keep-alive>
-        <router-view/>
-</keep-alive>
+        <router-view ></router-view>
     </transition>
 
   </div>
 </template>
 
+
 <script>
+
+
 export default {
   data(){
     return{
-      transitionName:'slide-left'
+      transitionName:'slide-left',
     }
   },
   watch:{
-    $route(to,from){
-       //如果to索引大于from索引,判断为前进状态,反之则为后退状态
-       let isBack=this.$router.isBack
-console.log(to,'to');
-console.log(to.meta.index,'to');
-console.log(from,'from');
-console.log(from.meta.index,'from');
-console.log(isBack,'isBack');
-       console.log(to.meta.index > from.meta.index,'index');
-      if(to.meta.index > from.meta.index){
-        // 前进
-        this.transitionName = 'slide-right';
-        }else{
-        this.transitionName = 'slide-left';
-      }
-    }
-  }
-};
+  
+     
+   $route(to,from){
+
+
+     let a = this.$router.a 
+     var isBack =this.$store.state.iaBack;
+     if(isBack==false){
+this.transitionName = 'slide-left';
+     }else{
+this.transitionName = 'slide-right';
+     }
+
+     console.log(to,from,a,isBack)
+
+   }
+
+
+
+  },
+
+
+}
 </script>
 
 
@@ -71,24 +78,6 @@ console.log(isBack,'isBack');
   }
 }
 
-// .slide-left-enter, .slide-right-leave-to {
-//   opacity: 0;
-//   transform: translateX(100%)
-// }
-
-// .slide-left-leave-to, .slide-right-enter {
-//   opacity: 0;
-//   transform: translateX(-100%)
-// }
-
-// .slide-left-enter-active, .slide-left-leave-active, .slide-right-enter-active, .slide-right-leave-active {
-//   transition: 1.5s;
-//   position: absolute;
-//   top:0;
-//   will-change: transform;
-// }
- 
- 
 .slide-right-enter-active,
 .slide-right-leave-active,
 .slide-left-enter-active,
