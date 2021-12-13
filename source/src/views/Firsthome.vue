@@ -15,6 +15,8 @@ let showVideo = ref(false);
 var indexbanner1 = ref({});
 var anniulist=ref([]);
 var servicelist=ref([]);
+var storelist=ref([]);
+
 
 PageHelper.Init(page, () => {});
 
@@ -33,6 +35,12 @@ HttpHelper.Post("service/servicelist", {}).then((res) => {
   servicelist.value = res;
 });
 
+// 门店列表
+HttpHelper.Post("store/storelist", {}).then((res) => {
+  storelist.value = res;
+});
+
+
 console.log("进来了");
 console.log(indexbanner1);
 var diaozhuan = (item) => {
@@ -42,9 +50,9 @@ var diaozhuan = (item) => {
   });
 };
 // 跳转店铺详情页
-var dianpu = ()=>{
+var dianpu = (index)=>{
   // '/storedetail?id=1'
-  router.push('/storedetail?id=1');
+  router.push('/storedetail?id='+index);
 }
 </script>
 
@@ -132,17 +140,17 @@ var dianpu = ()=>{
 </div>
  </div>
 <!-- 店铺 -->
-<div @click="dianpu">
+<div @click="dianpu(item.id)" v-for="(item,index) in storelist" :key="index">
   <div class="margin-top-15  margin-left-14 margin-right-14">
   <div class="flex-row ">
     <img :src="page.uploadpath + 'resource/' + page.Res.dianpu" class="icon-84"/>
     <div class="margin-left-10">
-      <div class="bold f-15 c-2 f-15 ">商户名称</div>
-      <div class="margin-top-9  f-11 c-3">5.0分</div>
-      <div class="margin-top-9 c-1 f-11 ">月售 232单</div>
+      <div class="bold f-15 c-2 f-15 ">{{item.name}}</div>
+      <div class="margin-top-9  f-11 c-3">{{item.score}}分</div>
+      <div class="margin-top-9 c-1 f-11 ">月售 {{item.monthlysale}}单</div>
       <div class="margin-top-9 flex-row flex-center">
         <img :src="page.uploadpath + 'resource/' + page.Res.dizhi" class="icon-13"/>
-        <div class="c-1 f-11 margin-left-4">北京市东城区烟袋斜街10号</div>
+        <div class="c-1 f-11 margin-left-4">{{item.address}}</div>
         <div class="flex-1"></div>
         <div class="f-11 c-1 ">3.20km</div>
 

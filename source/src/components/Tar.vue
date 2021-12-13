@@ -17,23 +17,23 @@ PageHelper.Init(page, () => {});
 var tz = (num) => {
     console.log('jinalia',num);
   if (num==1) {
-              router.push('/firsthome') 
+              router.push('/') 
             //   active='firsthome'  
         
               active.value='firsthome'
           }
           if (num==2) {
               router.push('/integral') 
-               active='integral'
-               this.active='integral'
+              //  active='integral'
+              //  this.active='integral'
                active.value='integral'
           }
           if (num==3) {
-             router.push('/store') 
+             router.push('/') 
                active.value='store'
           }
           if (num==4) {
-              router.push('/myself') 
+              router.push('/') 
                active.value='myself'
           }
 };

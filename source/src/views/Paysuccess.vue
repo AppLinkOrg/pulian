@@ -1,11 +1,36 @@
 <script setup>
 import { PageHelper } from "../PageHelper";
 import { ref } from "@vue/reactivity";
-
+import { HttpHelper } from "../HttpHelper";
+import { useRouter, useRoute } from "vue-router";
+import Config from "../Config";
 
 let page = ref({});
 PageHelper.Init(page, () => {});
 
+let router = useRouter();
+let route = useRoute();
+let orderdetail=ref({});
+let imgsrc=ref({});
+
+// 服务价格设置详情
+HttpHelper.Post("order/orderdetail", {id:route.query.id }).then((res) => {
+  orderdetail.value = res;
+});
+
+// 生成一个二维码
+// HttpHelper.Post("store/creatorqrcode", {id:route.query.id }).then((res) => {
+//   imgsrc.value = res;
+// });
+
+
+// console.log(Config.ApiUrl,'Config');
+ imgsrc.value  = Config.ApiUrl+'store/creatorqrcode?id='+route.query.id;
+
+// 查看订单
+var chakan = ()=>{
+    router.push('/orderdetail?id='+route.query.id)
+}
 
 
 </script>
@@ -32,21 +57,28 @@ PageHelper.Init(page, () => {});
            <div class="flex-row flex-center">
                 <div class="flex-1"></div>
                <div class="f-18 c-2 bold">¥</div>
-               <div class="c-2 f-40 bold">23</div>
+               <div class="c-2 f-40 bold">{{orderdetail.totalamount}}</div>
                 <div class="flex-1"></div>
            </div>
-           <div class="margin-top-45 c-2 f-14 bold center">标准洗车</div>
-           <div class="margin-top-20 icon-190"></div>
-           <div class="margin-top-20  flex-row flex-center">
+           <div class="margin-top-45 c-2 f-14 bold center">{{orderdetail.service_name}}</div>
+           <div class="margin-top-20"></div>
+           <div class=" icon-190 margin-auto">
+  <img
+          :src="imgsrc"
+          class=" icon-190  displat-block "
+        />
+           </div>
+         
+           <!-- <div class="margin-top-20  flex-row flex-center">
                 <div class="flex-1"></div>
                <div class="c-1 f-14 ">券码:</div>
-               <div class="margin-left-10 c-2 f-14 ">2423SDFE42352324</div>
+               <div class="margin-left-10 c-2 f-14 ">{{orderdetail.orderno}}</div>
                 <div class="flex-1"></div>
-           </div>
+           </div> -->
            <div class="margin-top-20  flex-row flex-center">
                <div class="flex-1"></div>
                <div class="c-1 f-14 ">有效期至:</div>
-               <div class="margin-left-10 c-2 f-14 ">2022.01.23</div>
+               <div class="margin-left-10 c-2 f-14 ">{{orderdetail.effective_time}}</div>
                 <div class="flex-1"></div>
            </div>
           <div class="h-1 bg-1 margin-top-15"></div>
@@ -57,7 +89,7 @@ PageHelper.Init(page, () => {});
        </div>
 
        <!--  -->
-       <div class="h-40 border-radius-20 bg-5 c-w f-16 bold center line-height-40 margin-top-30">查看订单</div>
+       <div class="h-40 border-radius-20 bg-5 c-w f-16 bold center line-height-40 margin-top-30" @click="chakan">查看订单</div>
 
 
 

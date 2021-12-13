@@ -86,6 +86,10 @@ background:#F6F6F6;
 .bg-5{
   background: linear-gradient(264deg, #409EFF 0%, #67B0FD 100%);
 }
+.bg-6{
+  background:#409EFF;
+}
+
 .w-100{
   width: 100vw;
 }
@@ -121,6 +125,9 @@ background:#F6F6F6;
 }
 .h-30{
   height: 30px;
+}
+.h-35{
+  height: 35px;
 }
 .h-38{
   height: 38px;
@@ -202,6 +209,9 @@ background:#F6F6F6;
 .c-5{
  color: #FB6260;
 }
+.c-6{
+ color: #409EFF ;
+}
 .f-1{
   font-size: 9px;
 }
@@ -276,6 +286,9 @@ background:#F6F6F6;
 }
 .line-height-22{
   line-height: 22px;
+}
+.line-height-35{
+  line-height: 35px;
 }
 .line-height-38{
   line-height: 38px;
@@ -424,6 +437,9 @@ button {
 .margin-top-15{
   margin-top: 15px;
 }
+.margin-top-16{
+  margin-top: 16px;
+}
 .margin-top-20{
   margin-top: 20px;
 }
@@ -507,6 +523,10 @@ button {
   width: 11px;
   height: 11px;
 }
+.icon-12{
+  width: 12px;
+  height: 12px;
+}
 .icon-13{
   width: 13px;
   height: 13px;
@@ -518,6 +538,10 @@ button {
 .icon-17{
   width: 17px;
   height: 17px;
+}
+.icon-18{
+  width: 18px;
+  height: 18px;
 }
 .icon-19{
   width: 19px;

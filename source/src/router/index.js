@@ -10,9 +10,10 @@ import Storedetail from '../views/Storedetail.vue'
 import Xzservice from '../views/Xzservice.vue'
 import Submitorder from '../views/Submitorder.vue'
 import Paysuccess from '../views/Paysuccess.vue'
+import Orderdetail from '../views/Orderdetail.vue'
 
 const routes = [{
-    path: '/',
+    path: '/home',
     name: 'Home',
     component: Home,
     children:[{
@@ -20,7 +21,7 @@ const routes = [{
       name: 'Integral',
       component: Integral
       },{
-        path: '/firsthome',
+        path: '/',
       name: 'Firsthome',
       component: Firsthome
       }]
@@ -40,6 +41,10 @@ const routes = [{
   path: '/paysuccess',
   name: 'Paysuccess',
   component: Paysuccess
+},{
+  path: '/orderdetail',
+  name: 'Orderdetail',
+  component: Orderdetail
 }
 
 

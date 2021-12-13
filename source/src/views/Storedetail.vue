@@ -16,6 +16,8 @@ var current = ref(0);
 
 let show =ref(false);
 
+var fuwudetail=ref([]);
+
 // 门店详情
 HttpHelper.Post("store/storedetail", { id: route.query.id }).then((res) => {
   storedetail.value = res;
@@ -26,9 +28,19 @@ var onChange = (index) => {
 };
 
 // 抢购
-var qiangou = (e) =>{
+var qiangou = (item) =>{
+  fuwudetail.value=item
+
+
   show.value=true;
-  console.log('寄哪里了',show);
+ 
+}
+
+// 购买
+var goumia=()=>{
+   router.push('/Submitorder?id='+fuwudetail.value.id);
+    console.log('寄哪里了---',fuwudetail,fuwudetail.id);
+
 }
 
 console.log(route.query.id, "router");
@@ -68,7 +80,7 @@ console.log(route.query.id, "router");
     >
       <div class="flex-row ">
         <div>
-          <div class="bold f-14 c-2 ">门店名称</div>
+          <div class="bold f-14 c-2 ">{{storedetail.name}}</div>
           <div class="margin-top-8 flex-row flex-center  ">
             <!-- <div
               v-for="item in 5"
@@ -88,9 +100,9 @@ console.log(route.query.id, "router");
               /> -->
             <!-- </div> -->
 
-            <div class="f-13 bold c-3 margin-left-10">5.0</div>
+            <div class="f-13 bold c-3 margin-left-10">{{storedetail.score}}</div>
           </div>
-          <div class="c-1 f-11 margin-top-10">营业中 周一至周五 09:00-22:00</div>
+          <div class="c-1 f-11 margin-top-10">{{storedetail.business_name}} {{storedetail.workinghours}}</div>
           <div class="flex-row flex-center margin-top-14 margin-bottom-9 ">
             <div class="h-17 padding-left-7 padding-right-7 bg-1 f-9 line-height-17">保养</div>
           </div>
@@ -108,7 +120,7 @@ console.log(route.query.id, "router");
       <div class="h-1 bg-2 margin-top-9 "></div>
       <div class="flex-row flex-center margin-top-14">
         <div>
-          <div class="c-2 f-11 ">翠竹接到太安路新港鸿综合楼140-1</div>
+          <div class="c-2 f-11 ">{{storedetail.address}}</div>
           <div class="c-1 f-11 margin-top-9">距离您1.9km，驾车约12分钟</div>
         </div>
         <div class="flex-1"></div>
@@ -147,20 +159,22 @@ console.log(route.query.id, "router");
           <div class="hen "></div>
         </div>
       </div>
-      <div class="margin-top-14 flex-row flex-center">
-        <div class="c-2 f-11 ">标准洗车</div>
+    <div v-for="(item,index) in storedetail.servicepricelist" :key="index">
+        <div class="margin-top-14 flex-row flex-center" >
+        <div class="c-2 f-11 ">{{item.service_name}}</div>
         <div class="flex-1"></div>
          <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 ">减免券¥10</div>
          <div class="c-4 f-9 margin-left-10">¥</div>
-      <div class="c-4 f-13 ">30</div> 
+      <div class="c-4 f-13 ">{{item.presentprice}}</div> 
       <div class="f-7 c-2 margin-left-10 " style="text-align: center;">¥</div>
-        <div class="f-9 c-2 " style="text-align: center;">40</div>
+        <div class="f-9 c-2 " style="text-align: center;">{{item.originalprice}}</div>
 </div>
 <div class="flex-row flex-center margin-top-6">
-<div class="c-1 f-9">已售 229</div>
+<div class="c-1 f-9">已售 {{item.sell}}</div>
 <div class="flex-1"></div>
-<div class="h-19  padding-left-14 padding-right-14 c-w f-9  border-radius-9 bg-3 line-height-19" @click="qiangou(1)">抢购</div>
+<div class="h-19  padding-left-14 padding-right-14 c-w f-9  border-radius-9 bg-3 line-height-19" @click="qiangou(item)">抢购</div>
 </div>
+    </div>
       </div>
       <!--使用说明  -->
          <div class="c-2 f-14 bold margin-top-20 margin-bottom-10 margin-left-14 ">使用说明</div>
@@ -276,7 +290,7 @@ console.log(route.query.id, "router");
 <van-popup  v-model:show="show" position="bottom" :style="{ height: '60vh' }" round >
 
   <div class="margin-left-14" style="overflow: scroll;height:100%;position: relative;" >
-  <div class=" f-15 bold c-2 margin-top-20">标准洗车</div>
+  <div class=" f-15 bold c-2 margin-top-20">{{fuwudetail.service_name}}</div>
   <div class="flex-row flex-center margin-top-10">
      <img  :src="page.uploadpath + 'resource/' + page.Res.dui" class="icon-11" />
      <div class="c-1 f-9 margin-left-4">未消费，随时退</div>
@@ -287,8 +301,8 @@ console.log(route.query.id, "router");
   <div class="h-1 bg-2 margin-top-14 "></div>
   <div class="flex-row flex-center margin-top-14 margin-bottom-14 margin-right-14">
 <div>
-  <div class="f-13 bold c-2">美容汽车中心</div>
-  <div class="margin-top-4 c-1 f-9 ">深圳市南山区xx街道xxx路右侧</div>
+  <div class="f-13 bold c-2">{{storedetail.name}}</div>
+  <div class="margin-top-4 c-1 f-9 ">{{storedetail.address}}</div>
 
 </div>
 <div class="flex-1"></div>
@@ -369,12 +383,12 @@ console.log(route.query.id, "router");
     <div>
       <div class="flex-row flex-center">
         <div class="f-12 c-5 ">¥</div>
-        <div class="f-18 c-5">30</div>
+        <div class="f-18 c-5">{{fuwudetail.originalprice}}</div>
       </div>
-      <div class="c-1 f-12 margin-top-4">标准洗车</div>
+      <div class="c-1 f-12 margin-top-4">{{fuwudetail.service_name}}</div>
     </div>
     <div class="flex-1"></div>
-    <div class="h-38 bg-5 c-w f-15 line-height-38 padding-left-36 padding-right-36 border-radius-19 " >立即购买</div>
+    <div class="h-38 bg-5 c-w f-15 line-height-38 padding-left-36 padding-right-36 border-radius-19 "  @click="goumia">立即购买</div>
   </div>
  </div>
 
