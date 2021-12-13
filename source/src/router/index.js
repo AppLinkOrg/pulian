@@ -11,6 +11,11 @@ import Xzservice from '../views/Xzservice.vue'
 import Submitorder from '../views/Submitorder.vue'
 import Paysuccess from '../views/Paysuccess.vue'
 import Orderdetail from '../views/Orderdetail.vue'
+import Myselef from '../views/Myselef.vue'
+import Myorder from '../views/Myorder.vue'
+import Evaluate from '../views/Evaluate.vue'
+import Refund from '../views/Refund.vue'
+import Garage from '../views/Garage.vue'
 
 const routes = [{
     path: '/home',
@@ -24,6 +29,10 @@ const routes = [{
         path: '/',
       name: 'Firsthome',
       component: Firsthome
+      },{
+        path: '/myselef',
+        name: 'Myselef',
+        component: Myselef
       }]
 },{
   path: '/storedetail',
@@ -45,8 +54,24 @@ const routes = [{
   path: '/orderdetail',
   name: 'Orderdetail',
   component: Orderdetail
+},{
+  path: '/myorder',
+  name: 'Myorder',
+  component: Myorder
+},{
+  path: '/evaluate',
+  name: 'Evaluate',
+  component: Evaluate
+},{
+  path: '/refund',
+  name: 'Refund',
+  component: Refund
 }
-
+,{
+  path: '/garage',
+  name: 'Garage',
+  component: Garage
+}
 
 
 ]

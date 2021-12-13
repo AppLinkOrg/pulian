@@ -5,6 +5,8 @@ import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import BackToTop from "./components/BackToTop.vue";
 import { useRouter } from "vue-router";
+
+
 let page = ref({});
 PageHelper.Init(page, () => {});
 watch(useRouter,(newValue,oldValue)=>{
@@ -120,8 +122,14 @@ background:#F6F6F6;
 .h-22{
   height: 22px;
 }
+.h-24{
+  height: 24px;
+}
 .h-25{
   height: 25px;
+}
+.h-26{
+  height: 26px;
 }
 .h-30{
   height: 30px;
@@ -144,14 +152,35 @@ background:#F6F6F6;
 .h-56{
   height: 56px;
 }
+.h-60{
+  height: 60px;
+}
+.h-64{
+  height: 64px;
+}
 .h-93{
   height: 93px;
+}
+.h-100{
+  height: 100px;
 }
 .h-200{
   height: 200px;
 }
 .h-215{
   height: 215px;
+}
+.h-260{
+  height: 260px;
+}
+.h-300{
+  height: 300px;
+}
+.h-450{
+  height: 450px;
+}
+.h-518{
+  height: 518px;
 }
 .flex-none{
   flex: none;
@@ -161,6 +190,9 @@ background:#F6F6F6;
 }
 .flex-1 {
   flex: 1;
+}
+.flex-2 {
+  flex: 2;
 }
 
 .flex-wrap {
@@ -257,6 +289,9 @@ background:#F6F6F6;
 .f-24{
   font-size: 24px;
 }
+.f-32{
+  font-size: 32px;
+}
 .f-40{
   font-size: 40px;
 }
@@ -272,11 +307,20 @@ background:#F6F6F6;
 .border-radius-11{
   border-radius: 11px;
 }
+.border-radius-12{
+  border-radius: 12px;
+}
+.border-radius-13{
+  border-radius: 13px;
+}
 .border-radius-19{
   border-radius: 19px;
 }
 .border-radius-20{
   border-radius: 20px;
+}
+.border-radius-50{
+  border-radius: 50%;
 }
 .line-height-17{
   line-height: 17px;
@@ -286,6 +330,12 @@ background:#F6F6F6;
 }
 .line-height-22{
   line-height: 22px;
+}
+.line-height-24{
+  line-height: 24px;
+}
+.line-height-26{
+  line-height:26px;
 }
 .line-height-35{
   line-height: 35px;
@@ -301,6 +351,25 @@ background:#F6F6F6;
 }
 .bd-1{
   border: 1px solid #FA625F;
+}
+.bd-2{
+  border-bottom:  1px solid #1890FE;
+  border-top:1px solid #1890FE ;
+  border-left: 1px solid #1890FE ;
+
+}
+.bd-3{
+  border: 1px solid #E4E4E4;
+}
+.bd-4{
+  border: 1px solid #CCCCCC ;
+}
+.bd-5{
+  border: 1px solid #409EFF ;
+}
+.btn-1{
+  width: 90px;
+height: 26px;
 }
 
 .button,
@@ -369,6 +438,9 @@ button {
 }
 .padding-15{
   padding: 15px;
+}
+.padding-20{
+  padding: 20px;
 }
 
 .padding-left-4{
@@ -455,6 +527,24 @@ button {
 .margin-top-30{
   margin-top: 30px;
 }
+.margin-top-36{
+  margin-top: 36px;
+}
+.margin-top-64{
+  margin-top: 64px;
+}
+.margin-top-74{
+  margin-top: 74px;
+}
+.margin-top-f200{
+  margin-top: -200px;
+}
+.margin-top-f260{
+  margin-top: -260px;
+}
+.margin-top-f518{
+  margin-top: -518px;
+}
 .margin-bottom-10{
   margin-bottom: 10px;
 }
@@ -479,6 +569,9 @@ button {
 .margin-left-14{
   margin-left:14px
 }
+.margin-left-18{
+  margin-left:18px
+}
 .margin-left-20{
   margin-left:20px
 }
@@ -499,6 +592,9 @@ button {
 }
 .margin-right-14{
   margin-right:14px
+}
+.margin-right-18{
+  margin-right:18px
 }
 .margin-right-23{
   margin-right:26px
@@ -547,6 +643,10 @@ button {
   width: 19px;
   height: 19px;
 }
+.icon-20{
+  width: 20px;
+  height: 20px;
+}
 .icon-21{
   width: 21px;
   height: 21px;
@@ -554,6 +654,10 @@ button {
 .icon-23{
   width: 23px;
   height: 23px;
+}
+.icon-25{
+  width: 25px;
+  height: 25px;
 }
 .icon-26{
   width: 26px;
@@ -567,9 +671,25 @@ button {
   width: 35px;
   height: 35px;
 }
+.icon-40{
+  width: 40px;
+  height: 40px;
+}
 .icon-42{
   width: 42px;
   height: 42px;
+}
+.icon-55{
+  width: 55px;
+  height: 55px;
+}
+.icon-60{
+  width: 60px;
+  height: 60px;
+}
+.icon-70{
+  width: 70px;
+  height: 70px;
 }
 .icon-78{
   width: 78px;
@@ -578,6 +698,14 @@ button {
 .icon-84{
   width: 84px;
   height: 84px;
+}
+.icon-90{
+  width: 90px;
+  height: 90px;
+}
+.icon-110{
+  width: 110px;
+  height: 110px;
 }
 .icon-190{
   width: 190px;
@@ -596,11 +724,30 @@ button {
   bottom: 0;
   width: 100%;
 }
+.position-top{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+}
 input {
   /* text-align: right; */
   outline: none;
   border: none;
   width: 100%;
 }
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
+
+  .block {
+    background: #FFFFFF;
+border-radius: 10px;
+padding:20px
+
+  }
 
 </style>

@@ -33,7 +33,7 @@ var tz = (num) => {
                active.value='store'
           }
           if (num==4) {
-              router.push('/') 
+              router.push('/myselef') 
                active.value='myself'
           }
 };
