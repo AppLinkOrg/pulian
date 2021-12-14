@@ -91,7 +91,9 @@ view,navigator,input,text,textarea{
   background: #2699EC;
   color:white;
 }
-  
+.bg-4{
+  background: #B56C5E;
+}
 .bg-gray{
   background: #edeceb;
 }

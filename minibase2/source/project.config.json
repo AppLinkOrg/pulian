@@ -4,7 +4,7 @@
         "ignore": []
     },
     "setting": {
-        "urlCheck": true,
+        "urlCheck": false,
         "es6": true,
         "enhance": true,
         "postcss": true,
@@ -37,12 +37,12 @@
         "packNpmRelationList": [],
         "minifyWXSS": true,
         "disableUseStrict": false,
+        "minifyWXML": true,
         "showES6CompileOption": false,
-        "useCompilerPlugins": false,
-        "minifyWXML": true
+        "useCompilerPlugins": false
     },
     "compileType": "miniprogram",
-    "libVersion": "2.5.0",
+    "libVersion": "2.21.1",
     "appid": "wxe976c5a333249854",
     "projectname": "%E8%BD%A6%E4%B8%BB%E6%9C%8D%E5%8A%A1",
     "debugOptions": {

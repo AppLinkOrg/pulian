@@ -232,7 +232,7 @@ export class AppBase {
   onReady() {
     console.log("onReady");
   }
-  minimm
+  
   onShow() {
     var that = this;
     
@@ -287,6 +287,7 @@ export class AppBase {
                 AppBase.UserInfo.session_key = data.session_key;
                 console.log(AppBase.UserInfo);
                 ApiConfig.SetToken(data.openid);
+                wx.setStorageSync('token',data.openid)
                 console.log("goto update info");
                 //this.loadtabtype();
 
@@ -436,6 +437,7 @@ export class AppBase {
     return this.Page.data;
   }
   getPhoneNo(e) {
+    console.log(e,'e====');
     var that = this;
 
     var api = new WechatApi();
@@ -443,11 +445,19 @@ export class AppBase {
     e.detail.session_key = AppBase.UserInfo.session_key;
     e.detail.openid = AppBase.UserInfo.openid;
 
+ 
+
     api.decrypteddata(e.detail, (ret) => {
       console.log(ret, '最最最');
-
-      that.phonenoCallback(ret.return.phoneNumber, e, ret.code);
+      // AppBase.usmobile = ret.return.phoneNumber
+      this.Base.setMyData({mobile:ret.return.phoneNumber})
+      
       console.log(ret.return.phoneNumber,'phoneNumber')
+     
+
+      if (ret.return.phoneNumber!=undefined ) {
+        that.phonenoCallback(ret.return.phoneNumber, e, ret.code);
+      }
 
     });
   }
@@ -475,6 +485,9 @@ export class AppBase {
             title: '获取成功',
             icon: 'none'
           })
+           wx.navigateBack({
+        delta: -1,
+      })
 
         });
 
