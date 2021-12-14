@@ -11,6 +11,7 @@ let page = ref({});
 PageHelper.Init(page, () => {});
 
 var allcategory = ref({});
+var storelist = ref([]);
 
 var current = ref(0);
 
@@ -21,6 +22,9 @@ var fuwudetail = ref([]);
 // 门店详情
 HttpHelper.Post("store/allcategory", {}).then((res) => {
   allcategory.value = res;
+});
+HttpHelper.Post("store/storelist", {}).then((res) => {
+  storelist.value = res;
 });
 
 // 轮播图改变时间
@@ -43,7 +47,7 @@ var goumia = () => {
       </div>
       <div class="radius_block"></div>
     </div>
-    
+
     <div class="flex-row flex-wrap padding-top-10">
       <div class="category" v-for="(item, index) in allcategory" :key="index">
         <img
@@ -64,7 +68,7 @@ var goumia = () => {
         /> -->
       <div class="flex-row">
         <!-- 广告左侧大图 -->
-        <div class=" ">
+        <div class="">
           <van-image
             width="90"
             height="206"
@@ -74,12 +78,12 @@ var goumia = () => {
         </div>
 
         <!-- 广告右侧店铺信息 -->
-        <div class=" flex-1 margin-left-10 " style="width:56vw">
+        <div class="flex-1 margin-left-10" style="width: 56vw">
           <div class="f-16 f-bold c-b">商户名称</div>
           <div class="flex-row flex-center margin-top-5">
             <div class="f-12 c-3">5.0分</div>
             <div class="f-12 c-7 margin-left-10">月售1234单</div>
-            <div class=" flex-1"></div>
+            <div class="flex-1"></div>
             <div class="f-12 c-7">2.0km</div>
           </div>
           <div class="flex-row flex-wrap">
@@ -99,7 +103,7 @@ var goumia = () => {
           </div>
 
           <!-- 广告店铺服务列表滚动区域 -->
- 
+
           <div
             class="flex-row margin-top-5"
             style="overflow: scroll; width: 100%"
@@ -157,6 +161,86 @@ var goumia = () => {
           :src="page.uploadpath + 'resource/' + page.Res.ls"
         /> -->
     </div>
+
+<van-sticky> 
+        <van-dropdown-menu>
+      <van-dropdown-item title="全城区" ref="item">
+        <div class="bg-w" style="width: 100%; height: 300px"></div>
+      </van-dropdown-item>
+
+      <van-dropdown-item title="全部服务" ref="item"> </van-dropdown-item>
+
+      <van-dropdown-item title="距离优先" ref="item"> </van-dropdown-item>
+
+      <van-dropdown-item title="门店筛选" ref="item"> </van-dropdown-item>
+    </van-dropdown-menu>
+</van-sticky>
+
+
+
+ <div
+      
+      v-for="(item, index) in storelist"
+      :key="index"
+    >
+      <div class="margin-top-15 margin-left-14 margin-right-14">
+        <div class="flex-row">
+          <img
+            :src="page.uploadpath + 'resource/' + page.Res.dianpu"
+            class="icon-84"
+          />
+          <div class="margin-left-10">
+            <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
+            <div class="margin-top-9 f-11 c-3">{{ item.score }}分</div>
+            <div class="margin-top-9 c-1 f-11">
+              月售 {{ item.monthlysale }}单
+            </div>
+            <div class="margin-top-9 flex-row flex-center">
+              <img
+                :src="page.uploadpath + 'resource/' + page.Res.dizhi"
+                class="icon-13"
+              />
+              <div class="c-1 f-11 margin-left-4">{{ item.address }}</div>
+              <div class="flex-1"></div>
+              <div class="f-11 c-1">3.20km</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-2 margin-top-15" style="height: 1px"></div>
+        <div class="margin-top-15 margin-bottom-15">
+          <div class="flex-row flex-center">
+            <div class="c-2 f-13 bold">标准洗车</div>
+            <div class="flex-1"></div>
+            <div
+              class="
+                bd-1
+                border-radius-2
+                h-14
+                padding-right-4 padding-left-4
+                c-4
+                f-8
+              "
+            >
+              减免券¥10
+            </div>
+            <div class="c-4 f-9 margin-left-10">¥</div>
+            <div class="c-4 f-13">30</div>
+          </div>
+          <div class="flex-row margin-top-10 flex-center">
+            <div class="c-1 f-9">已售 229</div>
+            <div class="flex-1"></div>
+            <div class="f-7 c-2" style="text-align: center">¥</div>
+            <div class="f-9 c-2" style="text-align: center">40</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-1 h-4"></div>
+    </div>
+
+
+
+
+
   </div>
 </template>
 <style scoped>
@@ -176,7 +260,7 @@ var goumia = () => {
   border-radius: 20px 20px 0px 0px;
   background: white;
   width: 100%;
-  position: absolute; 
+  position: absolute;
   bottom: -1%;
 }
 .margin-left-24 {
@@ -220,7 +304,4 @@ var goumia = () => {
   height: 70px;
   border-radius: 5px;
 }
-
-
- 
 </style>
