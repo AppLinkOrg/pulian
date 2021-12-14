@@ -11,6 +11,7 @@ import Xzservice from '../views/Xzservice.vue'
 import Submitorder from '../views/Submitorder.vue'
 import Paysuccess from '../views/Paysuccess.vue'
 import Orderdetail from '../views/Orderdetail.vue'
+import Storelist from '../views/Storelist.vue'
 
 const routes = [{
     path: '/home',
@@ -24,6 +25,10 @@ const routes = [{
         path: '/',
       name: 'Firsthome',
       component: Firsthome
+      },{
+        path: '/storelist',
+      name: 'Storelist',
+      component: Storelist
       }]
 },{
   path: '/storedetail',

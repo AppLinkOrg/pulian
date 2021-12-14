@@ -44,7 +44,9 @@ var goumia=()=>{
     v-if="page.Res!=null"
   >
   
-  <div>张三</div>
+  <div>
+      
+  </div>
 
   </div>
 </template>

@@ -29,7 +29,7 @@ var tz = (num) => {
                active.value='integral'
           }
           if (num==3) {
-             router.push('/') 
+             router.push('/storelist') 
                active.value='store'
           }
           if (num==4) {
