@@ -17,6 +17,9 @@ import Myorder from '../views/Myorder.vue'
 import Evaluate from '../views/Evaluate.vue'
 import Refund from '../views/Refund.vue'
 import Garage from '../views/Garage.vue'
+import Addgarage from '../views/Addgarage.vue'
+import Brand from '../views/Brand.vue'
+import Editvegicle from '../views/Editvegicle.vue'
 
 const routes = [{
   path: '/home',
@@ -76,6 +79,18 @@ const routes = [{
   path: '/garage',
   name: 'Garage',
   component: Garage
+}, {
+  path: '/addgarage',
+  name: 'Addgarage',
+  component: Addgarage
+}, {
+  path: '/brand',
+  name: 'Brand',
+  component: Brand
+}, {
+  path: '/editvegicle',
+  name: 'Editvegicle',
+  component: Editvegicle
 }
 
 

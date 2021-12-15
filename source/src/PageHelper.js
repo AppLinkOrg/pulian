@@ -9,6 +9,8 @@ export class PageHelper {
     static Res = null;
     static Inst = null;
     static Text=null;
+    static Memberinfo = null;
+
     static Init(page) {
         console.log(page,'page---');
      
@@ -45,5 +47,33 @@ export class PageHelper {
         //     page.value.Text = PageHelper.Text;
         // }
     }
+
+    static LoginAuth(page,callback=undefined) {
+
+        var token = window.localStorage.getItem("token");
+        if (token != null ) {
+    
+      
+              HttpHelper.Post("member/info", {}).then((res) => {
+            if (res == null ) {
+              callback(null);
+            }else{
+              if(callback!=undefined){
+                page.value.Memberinfo = res;
+             
+                
+                // callback(memberinfo);
+              }
+            }
+            
+          });
+        
+          
+        
+        }
+        //  else {
+        //   page.routeto('login');
+        // }
+      }
 
 }
