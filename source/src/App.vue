@@ -28,7 +28,7 @@ watch(useRouter,(newValue,oldValue)=>{
 
 <style>
 #app {
-  
+  background: red;
 }
 .mainbody {
   width: 100vw;
@@ -213,6 +213,10 @@ background:#F6F6F6;
   align-content: center;
   align-items: center;
 }
+.flex-bottom {
+    align-content: baseline;
+  align-items: baseline;
+}
 .flex-column {
   align-content: center;
   align-items: center;
@@ -236,6 +240,9 @@ background:#F6F6F6;
 .c-w {
   color: white;
 }
+.c-b {
+  color: black;
+}
 .c-1{
   color: #666666;
 }
@@ -253,6 +260,9 @@ background:#F6F6F6;
 }
 .c-6{
  color: #409EFF ;
+}
+.c-7{
+ color: #999999 ;
 }
 .f-1{
   font-size: 9px;
@@ -313,6 +323,9 @@ background:#F6F6F6;
 }
 .border-radius-9{
   border-radius: 9px;
+}
+.border-radius-10{
+  border-radius: 10px;
 }
 .border-radius-11{
   border-radius: 11px;
@@ -446,6 +459,9 @@ button {
   line-height: 42px;
   transition: all 0.2s linear;
 }
+.padding-10{
+  padding: 10px;
+}
 .padding-15{
   padding: 15px;
 }
@@ -483,20 +499,32 @@ button {
 .padding-right-36{
   padding-right:36px;
 }
-
-
-
+.padding-top-10{
+  padding-top:10px;
+}
+.padding-top-5{
+  padding-top:5px;
+}
+.padding-L-R-15{
+  padding:0 15px;
+}
 
 
 
 .bold{
   font-weight: bold;
 }
+.f-bold{
+  font-weight: 500;
+}
 .margin-auto{
   margin: auto;
 }
 .margin-top-4{
   margin-top: 4px;
+}
+.margin-top-5{
+  margin-top: 5px;
 }
 .margin-top-6{
   margin-top: 6px;
@@ -600,6 +628,9 @@ button {
 .margin-left-50{
   margin-left:50px
 }
+.margin-right-5{
+  margin-right:5px
+}
 .margin-right-10{
   margin-right:10px
 }
@@ -627,7 +658,9 @@ button {
 .margin-right-40{
   margin-right:40px
 }
-.icon-8{
+.margin-L-R-15{
+  margin:0 15px;
+}.icon-8{
   width: 8px;
   height: 8px;
 }
@@ -769,5 +802,8 @@ border-radius: 10px;
 padding:20px
 
   }
+  ::-webkit-scrollbar {
+  display: none;  
+}
 
 </style>
