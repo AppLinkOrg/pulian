@@ -53,7 +53,7 @@
   "simulatorPluginLibVersion": {},
   "condition": {
     "search": {
-      "list": []
+      "list": [],
     "setting": {
         "urlCheck": false,
         "es6": true,
