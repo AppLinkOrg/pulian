@@ -27,8 +27,9 @@ watch(useRouter,(newValue,oldValue)=>{
 </template>
 
 <style>
+
 #app {
-  background: red;
+  /* background: red; */
 }
 .mainbody {
   width: 100vw;
@@ -101,7 +102,7 @@ background:#F6F6F6;
 .w-90{
   width: 90px;
 }
-.h-100{
+.h-100b{
   height: 100%;
 }
 .h-1{
@@ -173,6 +174,9 @@ background:#F6F6F6;
 }
 .h-100{
   height: 100px;
+}
+.h-160{
+  height: 160px;
 }
 .h-200{
   height: 200px;
@@ -264,6 +268,9 @@ background:#F6F6F6;
 .c-7{
  color: #999999 ;
 }
+.c-8{
+ color: #AFB5C1 ;
+}
 .f-1{
   font-size: 9px;
 }
@@ -308,6 +315,9 @@ background:#F6F6F6;
 }
 .f-24{
   font-size: 24px;
+}
+.f-30{
+  font-size: 30px;
 }
 .f-32{
   font-size: 32px;
@@ -357,8 +367,14 @@ background:#F6F6F6;
 .line-height-24{
   line-height: 24px;
 }
+.line-height-25{
+  line-height: 25px;
+}
 .line-height-26{
   line-height:26px;
+}
+.line-height-30{
+  line-height: 30px;
 }
 .line-height-35{
   line-height: 35px;
@@ -502,13 +518,21 @@ button {
 .padding-top-10{
   padding-top:10px;
 }
+.padding-top-15{
+  padding-top:15px;
+}
+.padding-top-20{
+  padding-top:20px;
+}
 .padding-top-5{
   padding-top:5px;
 }
 .padding-L-R-15{
   padding:0 15px;
 }
-
+.padding-bottom-15{
+  padding-bottom:15px;
+}
 
 
 .bold{
@@ -568,11 +592,17 @@ button {
 .margin-top-36{
   margin-top: 36px;
 }
+.margin-top-40{
+  margin-top: 40px;
+}
 .margin-top-64{
   margin-top: 64px;
 }
 .margin-top-74{
   margin-top: 74px;
+}
+.margin-top-f160{
+  margin-top: -160px;
 }
 .margin-top-f200{
   margin-top: -200px;
@@ -625,6 +655,9 @@ button {
 .margin-left-32{
   margin-left:32px
 }
+.margin-left-40{
+  margin-left:40px
+}
 .margin-left-50{
   margin-left:50px
 }
@@ -639,6 +672,9 @@ button {
 }
 .margin-right-14{
   margin-right:14px
+}
+.margin-right-16{
+  margin-right:16px
 }
 .margin-right-18{
   margin-right:18px
@@ -680,6 +716,10 @@ button {
   width: 13px;
   height: 13px;
 }
+.icon-14{
+  width: 14px;
+  height: 14px;
+}
 .icon-15{
   width: 15px;
   height: 15px;
@@ -719,6 +759,10 @@ button {
 .icon-28{
   width: 28px;
   height: 28px;
+}
+.icon-30{
+  width: 30px;
+  height: 30px;
 }
 .icon-35{
   width: 35px;
@@ -788,6 +832,7 @@ input {
   outline: none;
   border: none;
   width: 100%;
+  background: none;
 }
 .wrapper {
     display: flex;

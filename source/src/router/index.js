@@ -20,6 +20,8 @@ import Garage from '../views/Garage.vue'
 import Addgarage from '../views/Addgarage.vue'
 import Brand from '../views/Brand.vue'
 import Editvegicle from '../views/Editvegicle.vue'
+import Recharge from '../views/Recharge.vue'
+import Integraldetail from '../views/Integraldetail.vue'
 
 const routes = [{
   path: '/home',
@@ -91,6 +93,14 @@ const routes = [{
   path: '/editvegicle',
   name: 'Editvegicle',
   component: Editvegicle
+}, {
+  path: '/recharge',
+  name: 'Recharge',
+  component: Recharge
+}, {
+  path: '/integraldetail',
+  name: 'Integraldetail',
+  component: Integraldetail
 }
 
 
