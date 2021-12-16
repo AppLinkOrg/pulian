@@ -59,24 +59,30 @@ let show = ref(false);
 
 var fuwudetail = ref([]);
 
-// 门店详情
+// 门店全部分类
 HttpHelper.Post("store/allcategory", {}).then((res) => {
   allcategory.value = res;
 });
+//门店列表
 HttpHelper.Post("store/storelist", {}).then((res) => {
   storelist.value = res;
 });
  
-
+// 选择门店类型
 var choosestoretype = (index) => {
   console.log("点击了",storetylelist.value[index].choose)
  storetylelist.value[index].choose=!storetylelist.value[index].choose; 
    storetylelist.value = storetylelist.value; 
 };
-
+// 选择门店营业状态
 var choosewokestatus = (index) => { 
  wokestatus.value[index].choose=!wokestatus.value[index].choose; 
    wokestatus.value = wokestatus.value; 
+};
+
+
+var tobrand = () => {  
+  router.push("/choosebrand");
 };
  
  
@@ -85,7 +91,7 @@ var choosewokestatus = (index) => {
 <template >
   <div class="all_page" v-if="page.Res != null">
     <div class="top_blue">
-      <div class="c-w f-16 f-bold margin-left-24 padding-top-5">
+      <div class="c-w f-16 f-bold margin-left-24 padding-top-5" @click="tobrand()">
         +添加我的爱车
       </div>
       <div class="radius_block"></div>

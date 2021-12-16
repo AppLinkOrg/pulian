@@ -11,22 +11,12 @@ let page = ref({});
 PageHelper.Init(page, () => {});
 
 var storedetail = ref({});
- 
-var fuwudetail=ref([]);
-
+  
 // 门店详情
 HttpHelper.Post("store/storedetail", { id: route.query.id }).then((res) => {
   storedetail.value = res;
 });
- 
-// 购买
-var goumia=()=>{
-   router.push('/Submitorder?id='+fuwudetail.value.id);
-    console.log('寄哪里了---',fuwudetail,fuwudetail.id); 
-}
-
- 
- 
+  
 </script>
 
 <template>
@@ -35,7 +25,7 @@ var goumia=()=>{
     v-if="page.Res!=null"
   >
   
-  <div>模版</div>
+  <div>张三</div>
 
   </div>
 </template>

@@ -27,8 +27,7 @@ watch(useRouter,(newValue,oldValue)=>{
 </template>
 
 <style>
-#app {
-  background: red;
+#app { 
 }
 .mainbody {
   width: 100vw;

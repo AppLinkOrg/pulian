@@ -20,6 +20,10 @@ import Garage from '../views/Garage.vue'
 import Addgarage from '../views/Addgarage.vue'
 import Brand from '../views/Brand.vue'
 import Editvegicle from '../views/Editvegicle.vue'
+import AddMyCar from '../views/AddMyCar.vue'
+import ChooseBrand from '../views/ChooseBrand.vue'
+import ChooseModel from '../views/ChooseModel.vue'
+import ChooseSeries from '../views/ChooseSeries.vue'
 
 const routes = [{
   path: '/home',
@@ -91,8 +95,24 @@ const routes = [{
   path: '/editvegicle',
   name: 'Editvegicle',
   component: Editvegicle
+}, {
+  path: '/addmycar',
+  name: 'AddMyCar',
+  component: AddMyCar
+}, {
+  path: '/choosebrand',
+  name: 'ChooseBrand',
+  component: ChooseBrand
+}, {
+  path: '/choosemodel',
+  name: 'ChooseModel',
+  component: ChooseModel
+}, {
+  path: '/chooseseries',
+  name: 'ChooseSeries',
+  component: ChooseSeries
 }
-
+ 
 
 ]
 
