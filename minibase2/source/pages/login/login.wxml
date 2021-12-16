@@ -1,0 +1,22 @@
+
+<!-- <view style="pointer-events:{{tongyi==true?'none':'auto'}}"> -->
+
+<view class="flex-row flex-column" style="height: 100vh;">
+<view class="flex-1"></view>
+<!-- mobile!=undefined -->
+<button  open-type="getUserInfo" class="clear-button " hover-class="none" wx:if="{{memberinfo==null}}"  bindtap="getUserInfo"  >
+  <view class="bg-4 h-80 margin-left-50 margin-right-50 flex-row  txt-white f-30 txt-bold radius-40 text-center" style="line-height:80rpx">
+  <view class="text-center flex-1 txt-white" >授权获取头像昵称</view> </view>
+</button>
+
+<button open-type="getPhoneNumber" class="clear-button" hover-class="none" wx:if="{{memberinfo!=null}}" bindgetphonenumber="getPhoneNo" >
+  <view class="bg-4 h-80 margin-left-50 margin-right-50 flex-row  txt-white f-30 txt-bold radius-40 text-center" style="line-height:80rpx">
+  <view class="text-center flex-1  txt-white" >授权手机号登录</view> </view>
+</button>
+
+<view class="flex-1"></view>
+</view>
+
+
+
+

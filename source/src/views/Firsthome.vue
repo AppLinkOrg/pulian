@@ -4,10 +4,11 @@ import { HttpHelper } from "../HttpHelper";
 import { ref, reactive } from "vue";
 import { Utils } from "../Utils";
 import { NModal } from "naive-ui";
-import { useRouter } from "vue-router";
+import { useRouter,useRoute } from "vue-router";
 import Tar from "../components/Tar.vue";
 
 let router = useRouter();
+let route = useRoute();
 let page = ref({});
 let data = ref({});
 let showVideo = ref(false);
@@ -16,6 +17,8 @@ var indexbanner1 = ref({});
 var anniulist = ref([]);
 var servicelist = ref([]);
 var storelist = ref([]);
+
+
 
 PageHelper.Init(page, () => {});
 
@@ -52,6 +55,16 @@ var dianpu = (index) => {
   // '/storedetail?id=1'
   router.push("/storedetail?id=" + index);
 };
+
+let member_id=ref(null)
+member_id.value=route.query.member_id
+// route.query.openid
+// owMBk5ZESuUrZUEPnfrbtj-jsVdM
+   window.localStorage.setItem("token",'owMBk5ZESuUrZUEPnfrbtj-jsVdM');
+ let memberinfo=ref({});
+PageHelper.LoginAuth(page, () => {});
+
+
 </script>
 
 <template >

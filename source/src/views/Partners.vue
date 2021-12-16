@@ -7,7 +7,12 @@ import { Toast } from 'vant';
 
 let page = ref({});
 let router = useRouter();
+let route = useRoute();
+
+
 PageHelper.Init(page, () => {});
+PageHelper.LoginAuth(page, () => {});
+
 </script>
 
 <template>

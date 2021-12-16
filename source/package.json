@@ -12,7 +12,8 @@
     "vant": "^3.3.6",
     "vue": "^3.2.16",
     "vue-router": "^4.0.12",
-    "vuex": "^3.6.2"
+    "vuex": "^3.6.2",
+    "weixin-js-sdk": "^1.6.0"
   },
   "devDependencies": {
     "@vicons/ionicons5": "^0.11.0",

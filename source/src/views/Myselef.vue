@@ -4,22 +4,39 @@ import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
 import { Toast } from 'vant';
-
+import wx from 'weixin-js-sdk'
 
 
 let page = ref({});
 let router = useRouter();
+let route = useRoute();
 PageHelper.Init(page, () => {});
-
-
-
+PageHelper.LoginAuth(page, () => {});
 
 
 // 点击全部订单
 var dindan = ()=>{
     router.push('/myorder')
-
 }
+// 授权页面点击
+var shouquan=()=>{
+
+   wx.miniProgram.navigateTo({url: '/pages/login/login'});
+}
+
+// 点击车库  
+var cheku = ()=>{
+   router.push('/garage') 
+}
+
+// 点击添加车
+var addaiche=()=>{
+    console.log(111);
+    router.push('/addgarage')
+}
+
+
+
 
 </script>
 
@@ -28,13 +45,13 @@ var dindan = ()=>{
       <div class="h-260"  :style="{
             backgroundImage:
               'url(' + page.uploadpath + 'resource/' + page.Res.mybg + ')',
-          }" style="background-size:100%;background-repeat: no-repeat"></div>
+          }" style="background-size:100%;background-repeat: no-repeat"  ></div>
 
      <div class="margin-top-f260"></div>
-     <div class="flex-row flex-center margin-top-36">
-           <img :src="page.uploadpath + 'resource/' + page.Res.dianpu" class="icon-55 border-radius-50 margin-left-14"/>
+     <div class="flex-row flex-center margin-top-36" >
+           <img :src="page.uploadpath + 'resource/' + page.Res.dianpu" class="icon-55 border-radius-50 margin-left-14" @click="shouquan()" />
            <div class="margin-left-14 ">
-               <div class="c-2 bold f-16">用户名111</div>
+               <div class="c-2 bold f-16">用户名{{member_id}}</div>
                <div class="margin-top-10 c-2 f-12">172****2314</div>
            </div>
            <div class="flex-1"></div>
@@ -100,10 +117,12 @@ var dindan = ()=>{
          <div class="flex-row flex-center">
              <div class="f-15 bold c-2 ">我的爱车</div>
              <div class="flex-1"></div>
-             <div class="c-1 f-10  ">车库</div>
+           <div class="flex-row flex-center " @click="cheku">
+                 <div class="c-1 f-10  " >车库</div>
                <img :src="page.uploadpath + 'resource/' + page.Res.youjian" class="icon-12 margin-left-4"/>
+           </div>
          </div>
-          <img :src="page.uploadpath + 'resource/' + page.Res.qiche" class="icon-50  displat-block margin-auto"/>
+          <img :src="page.uploadpath + 'resource/' + page.Res.qiche" class="icon-50  displat-block margin-auto"  @click="addaiche()"/>
           <div class="margin-top-4 c-1 f-14 center">添加爱车 享专属服务</div>
 
      </div>
