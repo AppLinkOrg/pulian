@@ -92,15 +92,27 @@ background:#F6F6F6;
 .bg-6{
   background:#409EFF;
 }
+.bg-7{
+  background: linear-gradient(0deg, rgba(171, 207, 250, 0) 0%, #4497F7 100%);
+}
+.bg-8{
+  background: #CCCCCC;
+}
 
 .w-100{
   width: 100vw;
+}
+.w-100f{
+   width: 100%;
 }
 .wf-100{
   width: 100%;
 }
 .w-90{
   width: 90px;
+}
+.w-127{
+  width: 127px;
 }
 .h-100b{
   height: 100%;
@@ -174,6 +186,12 @@ background:#F6F6F6;
 }
 .h-100{
   height: 100px;
+}
+.h-120{
+  height: 120px;
+}
+.h-130{
+  height: 130px;
 }
 .h-160{
   height: 160px;
@@ -358,6 +376,9 @@ background:#F6F6F6;
 .line-height-17{
   line-height: 17px;
 }
+.line-height-18{
+  line-height: 18px;
+}
 .line-height-19{
   line-height: 19px;
 }
@@ -409,6 +430,9 @@ background:#F6F6F6;
 .btn-1{
   width: 90px;
 height: 26px;
+}
+.bd-6{
+  border-bottom: 1px solid #CCCCCC ;
 }
 
 .button,
@@ -500,6 +524,9 @@ button {
 .padding-left-36{
   padding-left:36px;
 }
+.padding-left-30{
+  padding-left:30px;
+}
 .padding-right-4{
   padding-right:4px;
 }
@@ -511,6 +538,9 @@ button {
 }
 .padding-right-14{
   padding-right:14px;
+}
+.padding-right-30{
+  padding-right:30px;
 }
 .padding-right-36{
   padding-right:36px;
@@ -600,6 +630,9 @@ button {
 }
 .margin-top-74{
   margin-top: 74px;
+}
+.margin-top-f120{
+  margin-top: -120px;
 }
 .margin-top-f160{
   margin-top: -160px;
@@ -791,6 +824,10 @@ button {
 .icon-78{
   width: 78px;
   height: 78px;
+}
+.icon-80{
+  width: 80px;
+  height: 80px;
 }
 .icon-84{
   width: 84px;

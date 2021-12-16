@@ -22,6 +22,13 @@ import Brand from '../views/Brand.vue'
 import Editvegicle from '../views/Editvegicle.vue'
 import Recharge from '../views/Recharge.vue'
 import Integraldetail from '../views/Integraldetail.vue'
+import Couponsdetail from '../views/Couponsdetail.vue'
+import Materialdetail from '../views/Materialdetail.vue'
+import Submitintegral from '../views/Submitintegral.vue'
+import Addressguan from '../views/Addressguan.vue'
+import Addressadd from '../views/Addressadd.vue'
+import Exchangerecord from '../views/Exchangerecord.vue'
+import Integralorder from '../views/Integralorder.vue'
 
 const routes = [{
   path: '/home',
@@ -101,6 +108,34 @@ const routes = [{
   path: '/integraldetail',
   name: 'Integraldetail',
   component: Integraldetail
+}, {
+  path: '/couponsdetail',
+  name: 'Couponsdetail',
+  component: Couponsdetail
+}, {
+  path: '/materialdetail',
+  name: 'Materialdetail',
+  component: Materialdetail
+}, {
+  path: '/submitintegral',
+  name: 'Submitintegral',
+  component: Submitintegral
+}, {
+  path: '/addressguan',
+  name: 'Addressguan',
+  component: Addressguan
+}, {
+  path: '/addressadd',
+  name: 'Addressadd',
+  component: Addressadd
+}, {
+  path: '/exchangerecord',
+  name: 'Exchangerecord',
+  component: Exchangerecord
+}, {
+  path: '/integralorder',
+  name: 'Integralorder',
+  component: Integralorder
 }
 
 

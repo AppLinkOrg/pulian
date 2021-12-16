@@ -8,10 +8,20 @@ import { Toast } from 'vant';
 let page = ref({});
 let router = useRouter();
 let route = useRoute();
-
+let show=ref(false)
 
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
+
+// 点击积分充值
+var chongzhi=()=>{
+  router.push('/recharge')
+}
+
+// 点击积分明细
+var mingxi=()=>{
+   router.push('/integraldetail')
+}
 
 </script>
 
@@ -26,7 +36,7 @@ PageHelper.LoginAuth(page, () => {});
         <div class="margin-left-14 margin-right-14">
             <div class="flex-row flex-center padding-top-20">
             <div class="flex-1"></div>
-            <div class="f-12 c-w ">积分明细</div>
+            <div class="f-12 c-w " @click="mingxi()">积分明细</div>
           </div>
           <!--  -->
            <div class="flex-row flex-center padding-top-5">
@@ -39,7 +49,7 @@ PageHelper.LoginAuth(page, () => {});
             <img :src="page.uploadpath + 'resource/' + page.Res.xinxin" class="icon-26"/>
             <div class="f-30 bold c-w margin-left-4 ">600</div>
             <div class="flex-1"></div>
-            <div class="h-25 padding-left-10 padding-right-10 line-height-25 f-12 c-6 bg-w border-radius-12">积分充值</div>
+            <div class="h-25 padding-left-10 padding-right-10 line-height-25 f-12 c-6 bg-w border-radius-12" @click="chongzhi">积分充值</div>
           </div>
 
         </div>
@@ -146,6 +156,33 @@ PageHelper.LoginAuth(page, () => {});
         </div>
 
 <div class="h-100"></div>
+
+
+
+          <!-- 嵌入内容 -->
+      <van-overlay :show="show" @click="show = false">
+  <div class="wrapper" @click.stop>
+    <div class="block" >
+        <div class="flex-row flex-center">
+            <div class="flex-1"></div>
+            <img :src="page.uploadpath + 'resource/' + page.Res.cha" class="icon-13"/>
+           
+
+        </div>
+         <div class="bold c-1 f-16 center">积分不足</div>
+         <div class="flex-row ">
+           <div class="flex-1"></div>
+            <div class="c-1  margin-top-26 center w-127">您当前有200积分， 还差1800积分即可兑换。</div>
+            <div class="flex-1"></div>
+         </div>
+           
+            <div class="margin-top-30 flex-row flex-center">
+                <div class="btn-1 bd-5 border-radius-13 f-12 c-6 center line-height-26">做任务</div>
+                 <div class="btn-1 bg-6 border-radius-13 f-12  center line-height-26 margin-left-20 c-w ">去充值</div>
+            </div>
+    </div>
+  </div>
+</van-overlay>
 
   </div>
 </template>
