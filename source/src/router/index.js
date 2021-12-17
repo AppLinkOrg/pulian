@@ -29,6 +29,7 @@ import Addressguan from '../views/Addressguan.vue'
 import Addressadd from '../views/Addressadd.vue'
 import Exchangerecord from '../views/Exchangerecord.vue'
 import Integralorder from '../views/Integralorder.vue'
+import Aftersale from '../views/Aftersale.vue'
 
 const routes = [{
   path: '/home',
@@ -136,6 +137,10 @@ const routes = [{
   path: '/integralorder',
   name: 'Integralorder',
   component: Integralorder
+}, {
+  path: '/aftersale',
+  name: 'Aftersale',
+  component: Aftersale
 }
 
 

@@ -35,6 +35,10 @@ var addaiche=()=>{
     router.push('/addgarage')
 }
 
+// 点击地址
+var dizhi=()=>{
+     router.push('/addressguan')
+}
 
 
 
@@ -146,6 +150,17 @@ var addaiche=()=>{
                    <img :src="page.uploadpath + 'resource/' + page.Res.guanyu" class="icon-28 displat-block margin-auto"/>
                    <div class="margin-top-10 c-1 f-12 center">关于我们</div>
              </div>
+
+         </div>
+
+         <div class="flex-row flex-center margin-top-20">
+             <div class="flex-1"></div>
+             <div class="" @click="dizhi">
+                   <img :src="page.uploadpath + 'resource/' + page.Res.shiyon" class="icon-28 displat-block margin-auto"/>
+                   <div class="margin-top-10 c-1 f-12 center">地址</div>
+             </div>
+             <div class="flex-1"></div>
+            
 
          </div>
       </div>

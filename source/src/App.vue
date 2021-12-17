@@ -114,6 +114,9 @@ background:#F6F6F6;
 .w-127{
   width: 127px;
 }
+.h-m100{
+  min-height: 100vh;
+}
 .h-100b{
   height: 100%;
 }
@@ -330,6 +333,9 @@ background:#F6F6F6;
 }
 .f-18{
   font-size: 18px;
+}
+.f-20{
+  font-size: 20px;
 }
 .f-24{
   font-size: 24px;
@@ -643,6 +649,9 @@ button {
 .margin-top-f260{
   margin-top: -260px;
 }
+.margin-top-f300{
+  margin-top: -300px;
+}
 .margin-top-f518{
   margin-top: -518px;
 }
@@ -657,6 +666,9 @@ button {
 }
 .margin-bottom-18{
    margin-bottom: 18px;
+}
+.margin-bottom-20{
+  margin-bottom: 20px;
 }
 .margin-left-4{
   margin-left:4px
@@ -886,6 +898,12 @@ padding:20px
   }
   ::-webkit-scrollbar {
   display: none;  
+}
+.moren{
+    width: 30px;
+height: 18px;
+background: #ECF5FF;
+border-radius: 4px;
 }
 
 </style>

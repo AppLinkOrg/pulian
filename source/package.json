@@ -7,6 +7,7 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@vant/area-data": "^1.1.5",
     "axios": "^0.24.0",
     "postcss-px2rem": "^0.3.0",
     "vant": "^3.3.6",

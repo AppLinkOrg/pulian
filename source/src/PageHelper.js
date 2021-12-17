@@ -56,6 +56,7 @@ export class PageHelper {
       
               HttpHelper.Post("member/info", {}).then((res) => {
             if (res == null ) {
+              page.value.Memberinfo = null;
               callback(null);
             }else{
               if(callback!=undefined){
