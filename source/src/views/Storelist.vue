@@ -13,36 +13,85 @@ PageHelper.Init(page, () => {});
 var allcategory = ref({});
 var storelist = ref([]);
 
+var activeId = ref(1);
+var activeIndex = ref(0);
+var fuwulist = ref([
+  {
+    text: "浙江",
+    children: [
+      { text: "杭州", id: 1 },
+      { text: "温州", id: 2 },
+    ],
+  },
+  {
+    text: "江苏",
+    children: [
+      { text: "南京", id: 3 },
+      { text: "无锡", id: 4 },
+    ],
+  },
+]);
+
+var citylist = ref([
+  { text: "南京", id: 1 },
+  { text: "无锡", id: 2 },
+]);
+
+var seqlist = ref([
+  { text: "距离优先", id: 1 },
+  { text: "好评优先", id: 2 },
+  { text: "销量优先", id: 3 },
+]);
+
+var storetylelist = ref([
+  { name: "美容", id: 4 ,choose:false },
+  { name: "美容+快修", id: 5,choose:false },
+  { name: "洗车", id: 6,choose:false },
+]);
+var wokestatus = ref([
+  { name: "营业中", type: 'A',choose:false  },
+  { name: "休息中", type: 'B',choose:false  }, 
+]);
+
 var current = ref(0);
 
 let show = ref(false);
 
 var fuwudetail = ref([]);
 
-// 门店详情
+// 门店全部分类
 HttpHelper.Post("store/allcategory", {}).then((res) => {
   allcategory.value = res;
 });
+//门店列表
 HttpHelper.Post("store/storelist", {}).then((res) => {
   storelist.value = res;
 });
-
-// 轮播图改变时间
-var onChange = (index) => {
-  current.value = index;
+ 
+// 选择门店类型
+var choosestoretype = (index) => {
+  console.log("点击了",storetylelist.value[index].choose)
+ storetylelist.value[index].choose=!storetylelist.value[index].choose; 
+   storetylelist.value = storetylelist.value; 
+};
+// 选择门店营业状态
+var choosewokestatus = (index) => { 
+ wokestatus.value[index].choose=!wokestatus.value[index].choose; 
+   wokestatus.value = wokestatus.value; 
 };
 
-// 购买
-var goumia = () => {
-  router.push("/Submitorder?id=" + fuwudetail.value.id);
-  console.log("寄哪里了---", fuwudetail, fuwudetail.id);
+
+var tobrand = () => {  
+  router.push("/choosebrand");
 };
+ 
+ 
 </script>
 
 <template >
   <div class="all_page" v-if="page.Res != null">
     <div class="top_blue">
-      <div class="c-w f-16 f-bold margin-left-24 padding-top-5">
+      <div class="c-w f-16 f-bold margin-left-24 padding-top-5" @click="tobrand()">
         +添加我的爱车
       </div>
       <div class="radius_block"></div>
@@ -162,27 +211,61 @@ var goumia = () => {
         /> -->
     </div>
 
-<van-sticky> 
-        <van-dropdown-menu>
-      <van-dropdown-item title="全城区" ref="item">
-        <div class="bg-w" style="width: 100%; height: 300px"></div>
-      </van-dropdown-item>
+    <van-sticky>
+      <van-dropdown-menu>
+        <van-dropdown-item title="全城区" ref="item" class="text-center">
+          <van-list @load="onLoad" class="center">
+            <van-cell
+              v-for="item in citylist"
+              :key="item.id"
+              :title="item.text"
+            />
+          </van-list>
+        </van-dropdown-item>
 
-      <van-dropdown-item title="全部服务" ref="item"> </van-dropdown-item>
+        <van-dropdown-item title="全部服务" ref="item">
+          <van-tree-select
+            v-model:active-id="activeId"
+            v-model:main-active-index="activeIndex"
+            :items="fuwulist"
+          />
+        </van-dropdown-item>
 
-      <van-dropdown-item title="距离优先" ref="item"> </van-dropdown-item>
+        <van-dropdown-item title="距离优先" ref="item">
+          <van-list @load="onLoad" class="center">
+            <van-cell
+              v-for="item in seqlist"
+              :key="item.id"
+              class="van-cell"
+              :title="item.text"
+            />
+          </van-list>
+        </van-dropdown-item>
 
-      <van-dropdown-item title="门店筛选" ref="item"> </van-dropdown-item>
-    </van-dropdown-menu>
-</van-sticky>
+        <van-dropdown-item title="门店筛选" ref="item">
+          <div class="padding-10">
+            <div class="f-14 bold">门店类型</div>
+            <div class="flex-row flex-wrap">
+              <div v-for="(item,index) in storetylelist" :key="index" class="label_block  f-10" :class="item.choose==true?'choose_label':'not_choose_label'"  @click="choosestoretype(index)">{{item.name}}</div> 
+            </div>
+            <div class="f-14 bold margin-top-10">是否营业</div>
+            <div class="flex-row flex-wrap">
+              <div class="label_block not_choose_label f-10" v-for="(item,index) in wokestatus" :key="index" :class="item.choose==true?'choose_label':'not_choose_label'"  @click="choosewokestatus(index)">{{item.name}}</div> 
+            </div>
 
+            <div class="flex-row  margin-top-20 margin-bottom-10">
+                <div class="btn flex-1 btn_reset">重置</div> 
+                <div style="width:10px"></div>
+                <div class="btn flex-1 btn_confirm">确定</div> 
+            </div>
 
+          </div>
+        </van-dropdown-item>
+      </van-dropdown-menu>
+    </van-sticky>
 
- <div
-      
-      v-for="(item, index) in storelist"
-      :key="index"
-    >
+    <!-- 门店列表 -->
+    <div v-for="(item, index) in storelist" :key="index">
       <div class="margin-top-15 margin-left-14 margin-right-14">
         <div class="flex-row">
           <img
@@ -236,11 +319,6 @@ var goumia = () => {
       </div>
       <div class="bg-1 h-4"></div>
     </div>
-
-
-
-
-
   </div>
 </template>
 <style scoped>
@@ -303,5 +381,40 @@ var goumia = () => {
   width: 85px;
   height: 70px;
   border-radius: 5px;
+}
+.van-cell {
+  color: rgb(248, 81, 52) !important;
+}
+.label_block {
+  border-radius: 5px;
+  width: 80px;
+  line-height: 35px;
+  height: 35px;
+  text-align: center;
+  margin-top: 10px;
+  margin-right: 5px;
+}
+.not_choose_label {
+  background: rgb(241, 241, 241);
+  border: 1px solid rgb(241, 241, 241);
+  color: black;
+}
+.choose_label {
+  background: rgb(255, 245, 245);
+  border: 1px solid rgb(255, 151, 125);
+  color: rgb(255, 151, 125);
+}
+.btn{
+    padding: 10px;
+    border-radius: 30px;
+    text-align: center; 
+}
+.btn_reset{
+    border: 1px solid rgb(241, 241, 241);
+}
+.btn_confirm{
+  background: rgb(255, 61, 12);
+  border: 1px solid rgb(255, 101, 12);
+  color: white;
 }
 </style>

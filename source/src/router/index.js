@@ -22,6 +22,10 @@ import Brand from '../views/Brand.vue'
 import Editvegicle from '../views/Editvegicle.vue'
 import Recharge from '../views/Recharge.vue'
 import Integraldetail from '../views/Integraldetail.vue'
+import AddMyCar from '../views/AddMyCar.vue'
+import ChooseBrand from '../views/ChooseBrand.vue'
+import ChooseModel from '../views/ChooseModel.vue'
+import ChooseSeries from '../views/ChooseSeries.vue'
 import Couponsdetail from '../views/Couponsdetail.vue'
 import Materialdetail from '../views/Materialdetail.vue'
 import Submitintegral from '../views/Submitintegral.vue'
@@ -102,13 +106,21 @@ const routes = [{
   name: 'Editvegicle',
   component: Editvegicle
 }, {
-  path: '/recharge',
-  name: 'Recharge',
-  component: Recharge
+  path: '/addmycar',
+  name: 'AddMyCar',
+  component: AddMyCar
 }, {
-  path: '/integraldetail',
-  name: 'Integraldetail',
-  component: Integraldetail
+  path: '/choosebrand',
+  name: 'ChooseBrand',
+  component: ChooseBrand
+}, {
+  path: '/choosemodel',
+  name: 'ChooseModel',
+  component: ChooseModel
+}, {
+  path: '/chooseseries',
+  name: 'ChooseSeries',
+  component: ChooseSeries
 }, {
   path: '/couponsdetail',
   name: 'Couponsdetail',
@@ -142,7 +154,7 @@ const routes = [{
   name: 'Aftersale',
   component: Aftersale
 }
-
+ 
 
 ]
 
