@@ -8,10 +8,18 @@ import { Toast } from 'vant';
 let page = ref({});
 let router = useRouter();
 let route = useRoute();
-let show=ref(false)
+let show=ref(false);
+let leixin=ref('');
+let pointsmallist=ref([]);
+
 
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
+
+// 初始化展示列表
+  HttpHelper.Post('pointsmall/pointsmallist',{leixinss:leixin.value}).then((res)=>{
+    pointsmallist.value=res
+})
 
 // 点击积分充值
 var chongzhi=()=>{
@@ -22,6 +30,32 @@ var chongzhi=()=>{
 var mingxi=()=>{
    router.push('/integraldetail')
 }
+
+// 积分兑换分类
+var dianji=(e)=>{
+
+leixin.value=e
+poinlist(e);
+}
+
+// 积分物品 列表
+var poinlist=(e)=>{
+  HttpHelper.Post('pointsmall/pointsmallist',{leixinss:e}).then((res)=>{
+    pointsmallist.value=res
+})
+}
+
+// 点击立即兑换
+var xinqing=(e)=>{
+
+  router.push('/materialdetail?id='+e.id+'&type='+e.type)
+}
+
+// 兑换记录dianji
+var jilu=()=>{
+  router.push('/exchangerecord')
+}
+
 
 </script>
 
@@ -125,20 +159,23 @@ var mingxi=()=>{
           <div class="flex-row flex-center">
              <div class="f-15 bold  c-2 padding-top-15 padding-bottom-15 ">积分兑换</div>
              <div class="flex-1"></div>
-             <div class="c-6 f-12 bold ">兑换记录</div>
+             <div class="c-6 f-12 bold " @click="jilu()">兑换记录</div>
              <img :src="page.uploadpath + 'resource/' + page.Res.youjian" class="icon-10 margin-left-4"/>
           </div>
           <!--  -->
           <div class="flex-row flex-center margin-top-14">
-            <div class="f-12 c-2 ">全部</div>
+            <div class="f-12 c-2 " :style="{'color':(leixin==''?'#409EFF':'')}" @click="dianji('')">全部</div>
+            <div class="f-12 c-2 margin-left-20" :style="{'color':(leixin=='A'?'#409EFF':'')}" @click="dianji('A')">优惠券</div>
+            <div class="f-12 c-2  margin-left-20" :style="{'color':(leixin=='B'?'#409EFF':'')}" @click="dianji('B')">养车好物</div>
+            <div class="f-12 c-2  margin-left-20" :style="{'color':(leixin=='C'?'#409EFF':'')}" @click="dianji('C')">其他</div>
           </div>
 
           <!--  -->
           <div class="margin-top-20 flex-row " style="display: flex;display: -webkit-flex;justify-content: space-between;flex-direction: row;flex-wrap: wrap;">
-            <div class="bg-w border-radius-9">
-              <img :src="page.uploadpath + 'resource/' + page.Res.dianpu" class="inimg"/>
-              <div class="margin-top-10 center f-14 c-2 ">5元满减券</div>
-              <div class="margin-top-10 f-14 center c-6 ">2000积分</div>
+            <div class="bg-w border-radius-9 margin-bottom-14" v-for="(item,index) in pointsmallist" :key="index"  @click="xinqing(item)">
+              <img :src="page.uploadpath + 'pointsmall/' + item.img" class="inimg"/>
+              <div class="margin-top-10 center f-14 c-2 ">{{item.name}}</div>
+              <div class="margin-top-10 f-14 center c-6 ">{{item.point}}积分</div>
               <div class="flex-row ">
                 <div class="flex-1"></div>
                 <div class="f-12 c-w padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bg-6 margin-top-10 ">立即兑换</div>

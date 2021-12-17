@@ -34,6 +34,7 @@ import Addressadd from '../views/Addressadd.vue'
 import Exchangerecord from '../views/Exchangerecord.vue'
 import Integralorder from '../views/Integralorder.vue'
 import Aftersale from '../views/Aftersale.vue'
+import Interevalute from '../views/Interevalute.vue'
 
 const routes = [{
   path: '/home',
@@ -153,6 +154,14 @@ const routes = [{
   path: '/aftersale',
   name: 'Aftersale',
   component: Aftersale
+}, {
+  path: '/interevalute',
+  name: 'Interevalute',
+  component: Interevalute
+}, {
+  path: '/integraldetail',
+  name: 'Integraldetail',
+  component: Integraldetail
 }
  
 
