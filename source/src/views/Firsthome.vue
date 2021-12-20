@@ -67,6 +67,15 @@ if (route.query.openid!=undefined && route.query.openid!='') {
  let memberinfo=ref({});
 PageHelper.LoginAuth(page, () => {});
 
+var service_id=ref("");
+var filtratestore = (id) => {  
+  service_id.value=id; 
+   HttpHelper.Post("store/filtrate", { 
+   service_id:service_id.value
+   }).then((res) => {
+    storelist.value = res;
+   });
+};
 
 </script>
 
@@ -191,6 +200,7 @@ PageHelper.LoginAuth(page, () => {});
           "
           v-for="(item, index) in servicelist"
           :key="index"
+          @click="filtratestore(item.id)"
         >
           {{ item.name }}
         </div>

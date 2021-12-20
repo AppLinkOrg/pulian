@@ -15,70 +15,153 @@ var storelist = ref([]);
 
 var activeId = ref(1);
 var activeIndex = ref(0);
-var fuwulist = ref([
-  {
-    text: "浙江",
-    children: [
-      { text: "杭州", id: 1 },
-      { text: "温州", id: 2 },
-    ],
-  },
-  {
-    text: "江苏",
-    children: [
-      { text: "南京", id: 3 },
-      { text: "无锡", id: 4 },
-    ],
-  },
-]);
+var areaslist = ref([]);
+var filtrate_id = ref(0);
 
-var citylist = ref([
-  { text: "南京", id: 1 },
-  { text: "无锡", id: 2 },
-]);
 
+//选择区县 
+var area_id=ref(""); 
+var area_name=ref("全城区");
+var area_dropdown=ref();
+var chooseareas= (id,area) => { 
+   area_id.value=id; 
+   area_name.value=area;
+   console.log(area_id,'总共')
+   area_dropdown.value.toggle(); 
+   filtratestore();
+}; 
+HttpHelper.Post("store/areaslist", {}).then((res) => {
+  areaslist.value = res;
+});
+
+//选择服务类型,门店全部分类
+
+var service_id=ref(""); 
+var service_name=ref("全部服务");
+var service_dropdown=ref();
+HttpHelper.Post("store/allcategory", {}).then((res) => {
+  console.log(res,"总多少")
+  for(var i=0;i<res.length;i++){ 
+       var servicelist=res[i].servicelist;
+       
+       var children=[];
+    //  console.log(servicelist,'这个呢111')
+       for(var j=0;j<servicelist.length;j++){
+       children.push({text:servicelist[j].name,id:servicelist[j].id}); 
+       }
+       allserverlist.push({text:res[i].name,children:children})
+  }
+  console.log(allserverlist,'总服务列表')
+  allcategory.value = res;
+});
+var chooseservice= (e) => { 
+   console.log(e,'总共');
+   service_id.value=e.id;
+   service_name.value=e.text;
+   service_dropdown.value.toggle();  
+   filtratestore();
+}; 
+
+ 
+
+
+// 选择排序 
+var seqid=ref("");
+var seq_index=ref(0);
+var seq_name=ref("距离优先");
+var seq_dropdown=ref();
 var seqlist = ref([
   { text: "距离优先", id: 1 },
   { text: "好评优先", id: 2 },
   { text: "销量优先", id: 3 },
 ]);
+var chooseseq = (id,index,name) => { 
+   seqid.value=id;
+   seq_index.value=index;
+   seq_name.value=name;
+   seq_dropdown.value.toggle(); 
+    filtratestore();
+};
 
-var storetylelist = ref([
-  { name: "美容", id: 4 ,choose:false },
-  { name: "美容+快修", id: 5,choose:false },
-  { name: "洗车", id: 6,choose:false },
-]);
+
+
+// var storetylelist = ref([
+//   { name: "美容", id: 4 ,choose:false },
+//   { name: "美容+快修", id: 5,choose:false },
+//   { name: "洗车", id: 6,choose:false },
+// ]);
 var wokestatus = ref([
   { name: "营业中", type: 'A',choose:false  },
   { name: "休息中", type: 'B',choose:false  }, 
 ]);
+ 
 
-var current = ref(0);
+var allserverlist = [];
 
-let show = ref(false);
 
-var fuwudetail = ref([]);
-
-// 门店全部分类
-HttpHelper.Post("store/allcategory", {}).then((res) => {
-  allcategory.value = res;
-});
 //门店列表
 HttpHelper.Post("store/storelist", {}).then((res) => {
   storelist.value = res;
 });
- 
+
+
 // 选择门店类型
+var allcategory_id=ref(0)
 var choosestoretype = (index) => {
-  console.log("点击了",storetylelist.value[index].choose)
- storetylelist.value[index].choose=!storetylelist.value[index].choose; 
-   storetylelist.value = storetylelist.value; 
+  // console.log("点击了",storetylelist.value[index].choose)
+   
+  allcategory_id.value=allcategory.value[index].id;
+
+ allcategory.value[index].choose=!allcategory.value[index].choose; 
+   allcategory.value = allcategory.value; 
 };
+
 // 选择门店营业状态
+var wokestatus_type=ref("");
 var choosewokestatus = (index) => { 
+ 
+    wokestatus_type.value=wokestatus.value[index].type;
+
  wokestatus.value[index].choose=!wokestatus.value[index].choose; 
    wokestatus.value = wokestatus.value; 
 };
+
+var workstatus_storetype=ref();
+var confirm =()=>{ 
+   console.log("确定")
+   workstatus_storetype.value.toggle(); 
+}
+
+//调用筛选接口返回门店列表数据
+var filtratestore = () => {  
+ console.log(wokestatus_type.value,'有吗');
+   
+   HttpHelper.Post("store/filtrate", {
+   business:wokestatus_type.value,
+   seq:seqid.value,
+   service_id:service_id.value,
+   areas_id:area_id.value,
+   bigcategory_id:bigcategory_id.value
+   }).then((res) => {
+    storelist.value = res;
+   });
+};
+//大分类
+var bigcategory_id=ref("");
+var choosetype = (id) => {   
+   bigcategory_id.value=id;
+   wokestatus_type.value="";
+   seqid.value="";
+   service_id.value="";
+   area_id.value="";
+
+    filtratestore();
+};
+
+var tostoredetail = (index) => { 
+  router.push("/storedetail?id=" + index);
+};
+
 
 
 var tobrand = () => {  
@@ -90,6 +173,7 @@ var tobrand = () => {
 
 <template >
   <div class="all_page" v-if="page.Res != null">
+ 
     <div class="top_blue">
       <div class="c-w f-16 f-bold margin-left-24 padding-top-5" @click="tobrand()">
         +添加我的爱车
@@ -98,7 +182,7 @@ var tobrand = () => {
     </div>
 
     <div class="flex-row flex-wrap padding-top-10">
-      <div class="category" v-for="(item, index) in allcategory" :key="index">
+      <div class="category" v-for="(item, index) in allcategory" :key="index" @click="choosetype(item.id)">
         <img
           class="icon_category"
           :src="page.uploadpath + 'bigcategory/' + item.icon"
@@ -213,50 +297,58 @@ var tobrand = () => {
 
     <van-sticky>
       <van-dropdown-menu>
-        <van-dropdown-item title="全城区" ref="item" class="text-center">
+        <van-dropdown-item :title="area_name" ref="area_dropdown" class="text-center">
           <van-list @load="onLoad" class="center">
             <van-cell
-              v-for="item in citylist"
-              :key="item.id"
-              :title="item.text"
+              v-for="item in areaslist"
+              :key="item.areaid"
+              :title="item.area"
+              :class="area_id==item.areaid?'van_cell':''"
+              @click="chooseareas(item.areaid,item.area)"
             />
           </van-list>
         </van-dropdown-item>
 
-        <van-dropdown-item title="全部服务" ref="item">
+        
+
+        <van-dropdown-item :title="service_name" ref="service_dropdown">
           <van-tree-select
             v-model:active-id="activeId"
             v-model:main-active-index="activeIndex"
-            :items="fuwulist"
+            :items="allserverlist"
+            @click-item="chooseservice"
           />
+  
         </van-dropdown-item>
 
-        <van-dropdown-item title="距离优先" ref="item">
+ 
+        <van-dropdown-item :title="seq_name" ref="seq_dropdown"   >
           <van-list @load="onLoad" class="center">
             <van-cell
-              v-for="item in seqlist"
-              :key="item.id"
-              class="van-cell"
+              v-for="(item,index) in seqlist"
+              :key="index"
+              :class="seqid==item.id?'van_cell':''"
               :title="item.text"
+              @click="chooseseq(item.id,index,item.text)"
             />
           </van-list>
         </van-dropdown-item>
 
-        <van-dropdown-item title="门店筛选" ref="item">
+        <van-dropdown-item title="门店筛选" ref="workstatus_storetype">
           <div class="padding-10">
             <div class="f-14 bold">门店类型</div>
             <div class="flex-row flex-wrap">
-              <div v-for="(item,index) in storetylelist" :key="index" class="label_block  f-10" :class="item.choose==true?'choose_label':'not_choose_label'"  @click="choosestoretype(index)">{{item.name}}</div> 
+              <div v-for="(item, index) in allcategory"  :key="index" class="label_block  f-10" :class="item.id==allcategory_id?'choose_label':'not_choose_label'"  @click="choosestoretype(index)">{{item.name}}</div> 
             </div>
             <div class="f-14 bold margin-top-10">是否营业</div>
             <div class="flex-row flex-wrap">
-              <div class="label_block not_choose_label f-10" v-for="(item,index) in wokestatus" :key="index" :class="item.choose==true?'choose_label':'not_choose_label'"  @click="choosewokestatus(index)">{{item.name}}</div> 
+              <div class="label_block not_choose_label f-10" v-for="(item,index) in wokestatus" :key="index" :class="item.type==wokestatus_type?'choose_label':'not_choose_label'"  @click="choosewokestatus(index)">{{item.name}}</div> 
             </div>
 
             <div class="flex-row  margin-top-20 margin-bottom-10">
                 <div class="btn flex-1 btn_reset">重置</div> 
                 <div style="width:10px"></div>
-                <div class="btn flex-1 btn_confirm">确定</div> 
+                <div class="btn flex-1 btn_confirm" @click="confirm">确定</div> 
             </div>
 
           </div>
@@ -265,7 +357,7 @@ var tobrand = () => {
     </van-sticky>
 
     <!-- 门店列表 -->
-    <div v-for="(item, index) in storelist" :key="index">
+    <div v-for="(item, index) in storelist" :key="index" @click="tostoredetail(item.id)">
       <div class="margin-top-15 margin-left-14 margin-right-14">
         <div class="flex-row">
           <img
@@ -382,7 +474,7 @@ var tobrand = () => {
   height: 70px;
   border-radius: 5px;
 }
-.van-cell {
+.van_cell {
   color: rgb(248, 81, 52) !important;
 }
 .label_block {
