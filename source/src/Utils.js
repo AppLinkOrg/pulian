@@ -54,4 +54,17 @@ export class Utils{
         }
         return arrstr.join(",");
     }
+    static GetMileTxt(mile) {
+        console.log(mile);
+        if (mile > 10000) {
+          return + (mile / 1000.0).toFixed(0) + "km";
+        }
+        if (mile > 1000 && mile<10000) {
+          return + (mile / 1000.0).toFixed(1) + "km";
+        } else if (mile < 100) {
+          return "100米内";
+        } else {
+          return "" + (mile).toString() + "m";
+        }
+      }
 }

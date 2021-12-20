@@ -48,6 +48,7 @@ var tz = (num) => {
   <van-tabbar-item icon="shop-o" @click="tz(3)" name="store">门店</van-tabbar-item>
   <van-tabbar-item icon="manager-o" @click="tz(4)" name="myself">我的</van-tabbar-item>
 </van-tabbar>
+
    
   </div>
 </template>

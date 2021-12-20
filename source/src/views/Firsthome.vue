@@ -60,7 +60,10 @@ let member_id=ref(null)
 member_id.value=route.query.member_id
 // route.query.openid
 // owMBk5ZESuUrZUEPnfrbtj-jsVdM
-   window.localStorage.setItem("token",'owMBk5ZESuUrZUEPnfrbtj-jsVdM');
+if (route.query.openid!=undefined && route.query.openid!='') {
+   window.localStorage.setItem("token",route.query.openid);
+}
+  
  let memberinfo=ref({});
 PageHelper.LoginAuth(page, () => {});
 

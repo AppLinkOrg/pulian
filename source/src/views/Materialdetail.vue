@@ -13,15 +13,15 @@ let route = useRoute();
 let pointsmadetail=ref({});
 let type=ref('')
 
-
+PageHelper.Init(page, () => {});
+PageHelper.LoginAuth(page, () => {});
 
 type.value=route.query.type
 
 
 
 
-PageHelper.Init(page, () => {});
-PageHelper.LoginAuth(page, () => {});
+
 
 
 // 获取详情数据
@@ -32,6 +32,10 @@ HttpHelper.Post('pointsmall/pointsmadetail',{id:route.query.id}).then((res)=>{
 // 立即兑换
 var duihaun=()=>{
  if (page.value.Memberinfo==null) {
+
+   var token = window.localStorage.getItem("token");
+  
+    //  Toast(token+'ooo');
         Toast('请先授权用户信息');
   return;
     }
@@ -40,11 +44,18 @@ var duihaun=()=>{
 
 }
 
-
+const onClickLeft = () => history.back();
 </script>
 
 <template>
   <div  v-if="page.Res!=null">
+    <van-nav-bar
+  title="兑换详情"
+  left-text="返回"
+  left-arrow
+  fixed
+  @click-left="onClickLeft"
+/>
         <div class="padding-15">
           <div class="bg-w border-radius-9 ">
           <img :src="page.uploadpath + 'pointsmall/' + pointsmadetail.img" class="h-130 w-100f"/>

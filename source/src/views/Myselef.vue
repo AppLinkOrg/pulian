@@ -20,9 +20,12 @@ var dindan = ()=>{
 }
 // 授权页面点击
 var shouquan=()=>{
-
-   wx.miniProgram.navigateTo({url: '/pages/login/login'});
+    if (page.value.Memberinfo==null) {
+         wx.miniProgram.navigateTo({url: '/pages/login/login'});
 }
+    }
+
+  
 
 // 点击车库  
 var cheku = ()=>{

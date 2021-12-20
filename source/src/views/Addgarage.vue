@@ -19,10 +19,19 @@ var pingpai=()=>{
 router.push('/brand')
 }
 
+  const onClickLeft = () => history.back();
 </script>
 
 <template>
   <div  v-if="page.Res!=null">
+    <van-nav-bar
+  title="添加车辆"
+  left-text="返回"
+  left-arrow
+  fixed
+  @click-left="onClickLeft"
+/>
+<div class="h-50"></div>
     <div class="padding-15">
           <div class="padding-add bg-w border-radius-9">
           <div class="flex-row flex-center padding-15">

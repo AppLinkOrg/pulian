@@ -23,6 +23,7 @@ watch(useRouter,(newValue,oldValue)=>{
         <component :is="Component" />
       </transition>
     </router-view>
+    <van-number-keyboard safe-area-inset-bottom />
   </div>
 </template>
 
@@ -635,6 +636,9 @@ button {
 .margin-top-74{
   margin-top: 74px;
 }
+.margin-top-f78{
+  margin-top:-78px
+}
 .margin-top-f120{
   margin-top: -120px;
 }
@@ -721,6 +725,9 @@ button {
 }
 .margin-right-18{
   margin-right:18px
+}
+.margin-right-20{
+  margin-right:20px
 }
 .margin-right-23{
   margin-right:26px
