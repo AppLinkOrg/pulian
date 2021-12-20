@@ -106,11 +106,11 @@ HttpHelper.Post("store/storelist", {}).then((res) => {
 
 
 // 选择门店类型
-var allcategory_id=ref(0)
+var bigcategory_id=ref(0)
 var choosestoretype = (index) => {
   // console.log("点击了",storetylelist.value[index].choose)
    
-  allcategory_id.value=allcategory.value[index].id;
+  bigcategory_id.value=allcategory.value[index].id;
 
  allcategory.value[index].choose=!allcategory.value[index].choose; 
    allcategory.value = allcategory.value; 
@@ -339,7 +339,7 @@ var tobrand = () => {
           <div class="padding-10">
             <div class="f-14 bold">门店类型</div>
             <div class="flex-row flex-wrap">
-              <div v-for="(item, index) in allcategory"  :key="index" class="label_block  f-10" :class="item.id==allcategory_id?'choose_label':'not_choose_label'"  @click="choosestoretype(index)">{{item.name}}</div> 
+              <div v-for="(item, index) in allcategory"  :key="index" class="label_block  f-10" :class="item.id==bigcategory_id?'choose_label':'not_choose_label'"  @click="choosestoretype(index)">{{item.name}}</div> 
             </div>
             <div class="f-14 bold margin-top-10">是否营业</div>
             <div class="flex-row flex-wrap">
