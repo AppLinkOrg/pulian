@@ -130,6 +130,7 @@ var workstatus_storetype=ref();
 var confirm =()=>{ 
    console.log("确定")
    workstatus_storetype.value.toggle(); 
+   filtratestore();
 }
 
 //调用筛选接口返回门店列表数据
