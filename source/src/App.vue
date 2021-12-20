@@ -903,5 +903,7 @@ height: 18px;
 background: #ECF5FF;
 border-radius: 4px;
 }
-
+.htmlimg p>img{
+  width: 100% !important;
+}
 </style>

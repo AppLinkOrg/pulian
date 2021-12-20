@@ -8,10 +8,55 @@ import { Toast } from 'vant';
 let page = ref({});
 let router = useRouter();
 let route = useRoute();
+let morendetail=ref({})
+let pointsmadetail=ref({})
+let addressid=ref('')
 
 
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
+
+
+addressid.value = localStorage.getItem('addressid')
+ 
+localStorage.setItem('addressid', '')
+
+// 获取详情数据
+HttpHelper.Post('pointsmall/pointsmadetail',{id:route.query.id}).then((res)=>{
+    pointsmadetail.value=res
+})
+
+// 获取用户默认地址信息
+HttpHelper.Post('adress/moren',{addressid:addressid.value}).then((res)=>{
+    morendetail.value=res
+})
+
+// 选择地址
+var xzdizhi=()=>{
+    router.push('/addressguan?type=C')
+}
+
+// 提交订单
+var tijiao=()=>{
+
+    HttpHelper.Post('pintrecord/pintrecordadd',{
+        shouhuo:morendetail.value['shouhuo'],
+        phone:morendetail.value['phone'],
+        address:morendetail.value['address'],
+        xianxi:morendetail.value['xianxi'],
+        pointsmall_id:route.query.id,
+        }).then((res)=>{
+            if (res.code==0) {
+                Toast('兑换成功')
+                
+            }else{
+Toast('兑换失败')
+            }
+
+})
+
+}
+
 
 </script>
 
@@ -21,10 +66,20 @@ PageHelper.LoginAuth(page, () => {});
       <div class="margin-top-f200"></div>
 
       <div class="margin-left-14 margin-right-14 ">
-          <div class="margin-top-20 padding-15 bg-w border-radius-9 flex-row flex-center">
+          <div class="margin-top-20 padding-15 bg-w border-radius-9 flex-row flex-center" v-if="morendetail.xianxi!=null" @click="xzdizhi()">
               <div>
-                  <div class="c-2 bold f-15">青青草原羊村大门口</div>
-                  <div class="margin-top-10 c-2 f-12 ">牛肉粥 19568447268</div>
+                  <div class="c-2 bold f-15">{{morendetail.address}}{{morendetail.xianxi}}</div>
+                  <div class="margin-top-10 c-2 f-12 ">{{morendetail.shouhuo}} {{morendetail.phone}}</div>
+
+              </div>
+              <div class="flex-1"></div>
+              <img :src="page.uploadpath + 'resource/' + page.Res.youjian" class="icon-12"/>
+
+          </div>
+
+           <div class="margin-top-20 padding-15 bg-w border-radius-9 flex-row flex-center" v-else @click="xzdizhi()">
+              <div class="c-1 f-15">
+                请选择地址
 
               </div>
               <div class="flex-1"></div>
@@ -47,7 +102,7 @@ PageHelper.LoginAuth(page, () => {});
 
           </div>
           <!--  -->
-          <div class="padding-15 bg-w border-radius-9 margin-top-10">
+          <!-- <div class="padding-15 bg-w border-radius-9 margin-top-10">
               <div class="flex-row flex-center">
                   <div class="f-14 c-1 ">订单编号</div>
                   <div class="flex-1"></div>
@@ -58,7 +113,7 @@ PageHelper.LoginAuth(page, () => {});
                   <div class="flex-1"></div>
                   <div class="f-14 c-1">2021-09-23 23:34:35</div>
               </div>
-          </div>
+          </div> -->
 
           <!--  -->
 
@@ -78,7 +133,7 @@ PageHelper.LoginAuth(page, () => {});
         
               </div>
               <div class="flex-1"></div>
-              <div class="h-38 line-height-38 c-w bold f-14 bg-3 " style="padding:0 48px;border-radius: 5px 15px 5px 15px;" >提交订单</div>
+              <div class="h-38 line-height-38 c-w bold f-14 bg-3 " style="padding:0 48px;border-radius: 5px 15px 5px 15px;" @click="tijiao">提交订单</div>
             </div>
         </div>
 
