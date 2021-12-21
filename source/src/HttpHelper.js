@@ -4,7 +4,7 @@ export class HttpHelper {
   static Sign = "";
   static Token = "";
   static TokenKey = "";
-  static Unicode = "Ruideshi";
+  static Unicode = "pulian";
   static Post(url, data) {
     var fullurl = Config.ApiUrl + url;
     var token =  window.localStorage.getItem("token");

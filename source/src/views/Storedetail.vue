@@ -3,7 +3,6 @@ import { ref } from "@vue/reactivity";
 import { useRouter, useRoute } from "vue-router";
 import { HttpHelper } from "../HttpHelper";
 import { PageHelper } from "../PageHelper";
-import wx from 'weixin-js-sdk';
 import { Utils } from "../Utils";
 // import { provide } from "@vue/composition-api";
 // import NavBar from "../components/NavBar.vue";
@@ -78,21 +77,10 @@ var json={latitude:latstor*1,
             scale: 18,
             name};
            
-           wx.getLocation({
-  type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
-  success: function (res) {
-    var latitude = res.latitude; // 纬度，浮点数，范围为90 ~ -90
-    var longitude = res.longitude; // 经度，浮点数，范围为180 ~ -180。
-    var speed = res.speed; // 速度，以米/每秒计
-    var accuracy = res.accuracy; // 位置精度
-            alert(JSON.stringify(res));
-  },fail:function(res){
-            alert("fail"+JSON.stringify(res));
-  },complete:function(res){
-            alert("complete"+JSON.stringify(res));
-  }
-           }
-           );
+PageHelper.loadwechatconfig(()=>{
+  alert("loadwechatconfig");
+  wx.openLocation(json);
+});
 
 
 // wx.miniProgram.navigateTo({url: '/pages/daohan/daohan?latstor='+latstor+'&lngstor='+lngstor+'&name='+name});
