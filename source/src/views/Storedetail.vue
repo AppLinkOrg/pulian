@@ -309,7 +309,8 @@ const onClickLeft = () => history.back();
          <!--门店评价  -->
           <div class="c-2 f-14 bold margin-top-20 margin-bottom-10 margin-left-14 ">门店评价</div>
           <!--  -->
-          <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px "  v-for="(item,index) in evaluatelist" :key="index">
+      <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px ">
+            <div   v-for="(item,index) in evaluatelist" :key="index">
             <div class="flex-row margin-bottom-18">
               <img
           :src="item.member_avatarUrl"
@@ -348,10 +349,16 @@ const onClickLeft = () => history.back();
         <div class="c-1 f-9">{{item.time}}</div>
               
             </div>
-            <div class="h-1 bg-2"></div>
+      </div>
+          
+  <div class="h-1 bg-2"></div>
             <div class="center h-44 line-height-44 f-11">查看全部评论（90）</div>
-
           </div>
+   
+          
+         
+
+            
 
           <!--  附近更多-->
            <div class="c-2 f-14 bold margin-top-20 margin-bottom-10 margin-left-14 ">附近更多</div>
