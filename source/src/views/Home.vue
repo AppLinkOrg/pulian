@@ -22,9 +22,15 @@ var diaozhuan = (item) => {
 
 PageHelper.loadwechatconfig(()=>{
   wx.getLocation({
-          type: 'wgs84', // 默认为wgs84的gps坐标，如果要返回直接给openLocation用的火星坐标，可传入'gcj02'
+          type: 'wgs84', 
           success: function (res) {
-           alert("success" + JSON.stringify(res));
+     var latitude=res.latitude
+ var longitude=res.longitude
+ window.localStorage.setItem("latitude",latitude);
+  window.localStorage.setItem("longitude",longitude);
+
+
+          //  alert("success" + JSON.stringify(res));
           },
           fail: function (res) {
             console.log("getLocation","fail" + JSON.stringify(res));

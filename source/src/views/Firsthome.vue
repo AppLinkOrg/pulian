@@ -73,6 +73,7 @@ var filtratestore = (id) => {
    HttpHelper.Post("store/filtrate", { 
    service_id:service_id.value
    }).then((res) => {
+     
     storelist.value = res;
    });
 };

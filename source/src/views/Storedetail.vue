@@ -34,8 +34,8 @@ let evaluatelist=ref([]);
 
 
 // 门店详情
-var mylat= window.localStorage.getItem("lat");
-var mylng= window.localStorage.getItem("lng");
+var mylat= window.localStorage.getItem("latitude");
+var mylng= window.localStorage.getItem("longitude");
 // storedetail.distance
 
 
@@ -78,7 +78,7 @@ var json={latitude:latstor*1,
             name};
            
 PageHelper.loadwechatconfig(()=>{
-  alert("loadwechatconfig");
+  // alert("loadwechatconfig");
   wx.openLocation(json);
 });
 

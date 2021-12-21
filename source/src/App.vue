@@ -101,6 +101,9 @@ background:#F6F6F6;
 .w-100{
   width: 100vw;
 }
+.w-110{
+  width: 110px;
+}
 .w-100f{
    width: 100%;
 }

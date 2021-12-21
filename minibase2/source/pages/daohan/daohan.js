@@ -44,14 +44,14 @@ class Content extends AppBase {
     //     longitude:lngstor,//要去的经度-地址
     //     })
 var num =this.Base.getMyData().num
-        if (num*1>1) {
-            wx.navigateBack({
-              delta: -1,
-            })
-        }else{
-            num=num+1
-            this.Base.setMyData({num})
-        }
+        // if (num*1>1) {
+        //     wx.navigateBack({
+        //       delta: -1,
+        //     })
+        // }else{
+        //     num=num+1
+        //     this.Base.setMyData({num})
+        // }
         console.log('dddfff',num);
 
   }

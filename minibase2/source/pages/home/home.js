@@ -14,7 +14,8 @@ class Content extends AppBase {
     this.Base.setMyData({
       token:'',
       url:'',
-      timer:0
+      timer:0,
+
     })
     
   }
@@ -38,7 +39,11 @@ var str='http://localhost:3000/#/?openid='
 console.log('寄哪里了 啊   ');
     if (useropenid!=undefined&&useropenid!=null) {
       str=str+useropenid+'&lng='+lng+'&lat='+lat;
-      this.Base.setMyData({url:str})
+var url=this.Base.getMyData().url
+      if (url=='') {
+        this.Base.setMyData({url:str})
+      }
+     
     }
 
     

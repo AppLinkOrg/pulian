@@ -4,7 +4,8 @@ import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
 import { Toast } from 'vant';
-import wx from 'weixin-js-sdk'
+// import wx from "weixin-js-sdk";
+
 
 
 let page = ref({});
@@ -20,6 +21,7 @@ var dindan = ()=>{
 }
 // 授权页面点击
 var shouquan=()=>{
+    
     if (page.value.Memberinfo==null) {
          wx.miniProgram.navigateTo({url: '/pages/login/login'});
 }
