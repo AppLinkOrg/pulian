@@ -3,6 +3,16 @@ import { ref } from "@vue/reactivity";
 import { useRouter, useRoute } from "vue-router";
 import { HttpHelper } from "../HttpHelper";
 import { PageHelper } from "../PageHelper";
+import { Utils } from "../Utils";
+// import { provide } from "@vue/composition-api";
+// import NavBar from "../components/NavBar.vue";
+
+
+
+// provide("title", "我是父组件向子组件传递的值"); 
+
+
+
 
 let router = useRouter();
 let route = useRoute();
@@ -15,12 +25,25 @@ var storedetail = ref({});
 var current = ref(0);
 
 let show =ref(false);
+let fwshow=ref(0);
 
 var fuwudetail=ref([]);
+let fuwulist=ref({});
+let evaluatelist=ref([]);
+
+
 
 // 门店详情
-HttpHelper.Post("store/storedetail", { id: route.query.id }).then((res) => {
+var mylat= window.localStorage.getItem("latitude");
+var mylng= window.localStorage.getItem("longitude");
+// storedetail.distance
+
+
+HttpHelper.Post("store/storedetail", { id: route.query.id,mylat,mylng }).then((res) => {
+  res.distance2=Utils.GetMileTxt(res.distance)
   storedetail.value = res;
+
+  fuwu();
 });
 // 轮播图改变时间
 var onChange = (index) => {
@@ -43,7 +66,55 @@ var goumia=()=>{
 
 }
 
+// 导航
+var daohang=()=>{
+  let latstor=storedetail.value.lat
+let lngstor=storedetail.value.lng
+let name=storedetail.value.address
+// alert(latstor)
+var json={latitude:latstor*1,
+            longitude:lngstor*1,
+            scale: 18,
+            name};
+           
+PageHelper.loadwechatconfig(()=>{
+  // alert("loadwechatconfig");
+  wx.openLocation(json);
+});
+
+
+// wx.miniProgram.navigateTo({url: '/pages/daohan/daohan?latstor='+latstor+'&lngstor='+lngstor+'&name='+name});
+
+
+
+}
+
+// 筛选服务
+var dianj=(e)=>{
+fwshow.value=e
+fuwu()
+
+}
+// 服务
+var fuwu=()=>{
+  var bigcategory_id=storedetail.value.bigcategorylist[fwshow.value].id
+
+  HttpHelper.Post('serviceprice/servicepricelist2',{store_id:route.query.id,bigcategory_id}).then((Res)=>{
+    fuwulist.value=Res
+})
+}
+
+// 门店评价
+ HttpHelper.Post('evaluate/evaluatelist',{store_id:route.query.id,limit:"0,3"}).then((Res)=>{
+    evaluatelist.value=Res
+})
+
+
+
 console.log(route.query.id, "router");
+const onClickLeft = () => history.back();
+
+
 </script>
 
 <template>
@@ -51,6 +122,17 @@ console.log(route.query.id, "router");
     class=""
     v-if="page.Res!=null"
   >
+  <!-- <NavBar></NavBar> -->
+
+  <!-- <van-nav-bar
+  title="门店详情"
+  left-text="返回"
+  left-arrow
+  fixed
+  @click-left="onClickLeft"
+/> -->
+
+
     <!-- <div> -->
     <van-swipe
       :autoplay="3000"
@@ -72,7 +154,7 @@ console.log(route.query.id, "router");
     </van-swipe>
     <!-- </div> -->
 
-    <div style="margin-top:-78px"></div>
+    <div class="margin-top-f78"></div>
 
     <div
       class="margin-left-14 margin-right-14 bg-w border-radius-9"
@@ -121,7 +203,7 @@ console.log(route.query.id, "router");
       <div class="flex-row flex-center margin-top-14">
         <div>
           <div class="c-2 f-11 ">{{storedetail.address}}</div>
-          <div class="c-1 f-11 margin-top-9">距离您1.9km，驾车约12分钟</div>
+          <div class="c-1 f-11 margin-top-9">距离您{{storedetail.distance2}}，驾车约12分钟</div>
         </div>
         <div class="flex-1"></div>
         <div>
@@ -132,7 +214,7 @@ console.log(route.query.id, "router");
           <div class="f-9 c-1 margin-top-5">电话</div>
 
         </div>
-        <div class="margin-left-20">
+        <div class="margin-left-20" @click="daohang()">
           <img
             :src="page.uploadpath + 'resource/' + page.Res.	danhang"
             class="icon-15 "
@@ -149,23 +231,20 @@ console.log(route.query.id, "router");
     <!--  -->
     <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 7px 9px">
       <div class="flex-row flex-center">
-        <div>
-          <div class="f-13 c-2 ">保养</div>
-          <div class="hen"></div>
+      
+        <div  v-for="(item,index) in storedetail.bigcategorylist" :key="index" class="margin-right-20"  @click="dianj(index)">
+          <div class="f-13 c-2 ">{{item.name}}</div>
+          <div class="hen" :style="{'background':fwshow==index?'linear-gradient(-10deg, #409EFF, #67B0FD)':''}"></div>
         </div>
-        <div class="margin-left-20"></div>
-        <div>
-          <div class="f-13 c-2 ">优惠洗车</div>
-          <div class="hen "></div>
-        </div>
+       
       </div>
-    <div v-for="(item,index) in storedetail.servicepricelist" :key="index">
+    <div v-for="(item,index) in fuwulist" :key="index">
         <div class="margin-top-14 flex-row flex-center" >
         <div class="c-2 f-11 ">{{item.service_name}}</div>
         <div class="flex-1"></div>
-         <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 ">减免券¥10</div>
-         <div class="c-4 f-9 margin-left-10">¥</div>
-      <div class="c-4 f-13 ">{{item.presentprice}}</div> 
+         <!-- <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 ">减免券¥10</div> -->
+         <!-- <div class="c-4 f-9 margin-left-10">¥</div>
+      <div class="c-4 f-13 ">{{item.presentprice}}</div>  -->
       <div class="f-7 c-2 margin-left-10 " style="text-align: center;">¥</div>
         <div class="f-9 c-2 " style="text-align: center;">{{item.originalprice}}</div>
 </div>
@@ -218,38 +297,56 @@ console.log(route.query.id, "router");
          <!--门店评价  -->
           <div class="c-2 f-14 bold margin-top-20 margin-bottom-10 margin-left-14 ">门店评价</div>
           <!--  -->
-          <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px ">
+      <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px ">
+            <div   v-for="(item,index) in evaluatelist" :key="index">
             <div class="flex-row margin-bottom-18">
               <img
-          :src="page.uploadpath + 'resource/' + page.Res.touxian"
-          class="icon-28"
+          :src="item.member_avatarUrl"
+          class="icon-28 border-radius-50"
         />
         <div class="margin-left-6">
-          <div class="f-11 c-2">牛肉粥不是皮蛋瘦肉粥</div>
+          <div class="f-11 c-2">{{item.member_nickName}}</div>
           <div class="margin-top-4"></div>
-          <img
-              v-for="item in 5"
-              :key="item"
+    <div class="flex-row ">
+            <div   v-for="items in 5" :key="items"  class="icon-13 " >
+   <img
+            v-if="item.dianping*1>=items"
+              
+                :src="page.uploadpath + 'resource/' + page.Res.star2"
+                class="icon-13 "
+              />
+                 <img
+          v-else
+        
                 :src="page.uploadpath + 'resource/' + page.Res.star1"
                 class="icon-13 "
               />
-              <div class="margin-top-9 c-1 f-11">洗的挺干净的。</div>
+          </div>
+    </div>
+       
+              <div class="margin-top-9 c-1 f-11">{{item.neirong==''?'没评价':item.neirong}}</div>
               <div class="margin-top-9"></div>
                <img
                 :src="page.uploadpath + 'resource/' + page.Res.dianpu"
                 class="icon-78 "
               />
-              <div class="c-1 f-8 margin-top-9">精洗套餐</div>
+              <div class="c-1 f-8 margin-top-9">{{item.service_name}}</div>
 
         </div>
         <div class="flex-1"></div>
-        <div class="c-1 f-9">2021.09.23</div>
+        <div class="c-1 f-9">{{item.time}}</div>
               
             </div>
-            <div class="h-1 bg-2"></div>
+      </div>
+          
+  <div class="h-1 bg-2"></div>
             <div class="center h-44 line-height-44 f-11">查看全部评论（90）</div>
-
           </div>
+   
+          
+         
+
+            
 
           <!--  附近更多-->
            <div class="c-2 f-14 bold margin-top-20 margin-bottom-10 margin-left-14 ">附近更多</div>
@@ -430,7 +527,7 @@ console.log(route.query.id, "router");
 .hen{
   width: 19px;
 height: 4px;
-background: linear-gradient(-10deg, #409EFF, #67B0FD);
+
 border-radius: 2px;
 margin:5px auto 0;
 }

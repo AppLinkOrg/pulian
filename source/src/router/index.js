@@ -36,6 +36,7 @@ import Integralorder from '../views/Integralorder.vue'
 import Aftersale from '../views/Aftersale.vue'
 import Interevalute from '../views/Interevalute.vue'
 
+
 const routes = [{
   path: '/home',
   name: 'Home',

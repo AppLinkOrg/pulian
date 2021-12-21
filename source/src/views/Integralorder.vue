@@ -172,7 +172,7 @@ var pingjia=()=>{
             <div class="flex-row flex-center h-50 margin-left-14 margin-right-14">
                 <div class="flex-1"></div>
              <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='A'" @click="tuikuan()">退款</div>
-             <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='D'||item.orderstatus=='F'" @click="shanchu()">删除订单</div>
+             <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='D'||pintrecorddetail.orderstatus=='F'" @click="shanchu()">删除订单</div>
                <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 " v-if="pintrecorddetail.orderstatus=='B'" @click="shouhuo()">确认收货</div>
                  <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='C'" @click="shouhou()">申请售后</div>
                  <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 "  v-if="pintrecorddetail.orderstatus=='C'" @click="pingjia()">评价</div>

@@ -5,7 +5,7 @@ import { ref } from "vue";
 import { Utils } from "../Utils";
 import { NModal } from "naive-ui";
 import { useRouter } from "vue-router";
-import Tar from '../components/Tar.vue'
+import Tar from '../components/Tar.vue';
 
 let router = useRouter();
 let page = ref({});
@@ -19,6 +19,29 @@ var diaozhuan = (item) => {
     window.scrollTo(0, 0);
   });
 };
+
+PageHelper.loadwechatconfig(()=>{
+  wx.getLocation({
+          type: 'wgs84', 
+          success: function (res) {
+     var latitude=res.latitude
+ var longitude=res.longitude
+ window.localStorage.setItem("latitude",latitude);
+  window.localStorage.setItem("longitude",longitude);
+
+
+          //  alert("success" + JSON.stringify(res));
+          },
+          fail: function (res) {
+            console.log("getLocation","fail" + JSON.stringify(res));
+          },
+          complete: function (res) {
+            console.log("getLocation","complete" + JSON.stringify(res));
+          }
+        });
+});
+
+
 </script>
 
 <template>

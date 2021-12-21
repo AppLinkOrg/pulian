@@ -19,11 +19,23 @@ let miaoshu=ref('');
 let num =ref(0);
 let xzshow=ref(0);
 let pintrecorddetail=ref({});
+let type=ref('')
 
+
+type.value=route.query.type
 // 订单详情
+
+if (type.value=='A') {
+    HttpHelper.Post('order/orderdetail',{id:route.query.id}).then((res)=>{
+    pintrecorddetail.value=res
+})
+}else{
 HttpHelper.Post('pintrecord/pintrecorddetail',{id:route.query.id}).then((res)=>{
     pintrecorddetail.value=res
 })
+}
+
+
 
 // 标签列表
 HttpHelper.Post('biaoqian/biaoqianlist',{}).then((res)=>{
@@ -46,7 +58,29 @@ var fabu=()=>{
         Toast('请点评')
         return
     }
-    HttpHelper.Post('evaluate/addevaluate',{
+
+    if (type.value=='A') {
+            HttpHelper.Post('evaluate/addevaluate2',{
+        dianping:num.value,
+        neirong:miaoshu.value,
+        biaoqian_id:biaoqianlist.value[xzshow.value].id,
+        order_id:route.query.id
+
+    }).then((res)=>{
+        if (res.code==0) {
+             Toast('评论成功')
+             num.value=0
+             miaoshu.value=''
+             xzshow.value=0
+        }else{
+        Toast(res.return)
+//  Toast('评论失败')
+        }
+    
+})
+        
+    }else{
+            HttpHelper.Post('evaluate/addevaluate',{
         dianping:num.value,
         neirong:miaoshu.value,
         biaoqian_id:biaoqianlist.value[xzshow.value].id,
@@ -59,10 +93,14 @@ var fabu=()=>{
              miaoshu.value=''
              xzshow.value=0
         }else{
- Toast('评论失败')
+        Toast(res.return)
+//  Toast('评论失败')
         }
     
 })
+
+    }
+
 
 
 }
@@ -80,7 +118,7 @@ var fabu=()=>{
           }" style="background-size:100%;background-repeat: no-repeat"></div>
           <div class="margin-top-f200"></div>
           <!--  华语专业汽修-->
-          <div class="margin-top-20 margin-left-14 margin-right-14 bg-w border-radius-9 padding-15">
+          <div class="margin-top-20 margin-left-14 margin-right-14 bg-w border-radius-9 padding-15" v-if="type!='A'">
               <!-- <div class="f-14 c-2 bold ">{{pintrecorddetail.pointsmall_name}}</div> -->
               <div class="flex-row flex-center margin-top-10">
   <img :src="page.uploadpath + 'pointsmall/' + pintrecorddetail.pointsmall_img" class="icon-90 border-radius-9"/>
@@ -89,6 +127,21 @@ var fabu=()=>{
                     <div class="c-6 margin-top-10 f-10">{{pintrecorddetail.integral}}积分</div>
                     <!-- <div class="c-2 margin-top-10 f-10">数量：1</div>
                     <div class="c-2 margin-top-10 f-10">总价：¥23</div> -->
+                </div>
+        
+              </div>
+          </div>
+          <!--  -->
+              <!--  华语专业汽修-->
+          <div class="margin-top-20 margin-left-14 margin-right-14 bg-w border-radius-9 padding-15" v-else>
+              <div class="f-14 c-2 bold ">{{pintrecorddetail.store_name}}</div>
+              <div class="flex-row flex-center margin-top-10">
+  <img :src="page.uploadpath + 'store/' + pintrecorddetail.store_tupian" class="icon-90 border-radius-9"/>
+                <div class="margin-left-10">
+                    <div class="f-14 c-1 ">{{pintrecorddetail.service_name}}</div>
+                    <div class="c-2 margin-top-10 f-10">有效期至：{{pintrecorddetail.effective_time}}</div>
+                    <div class="c-2 margin-top-10 f-10">数量：{{pintrecorddetail.num}}</div>
+                    <div class="c-2 margin-top-10 f-10">总价：¥{{pintrecorddetail.totalamount}}</div>
                 </div>
         
               </div>

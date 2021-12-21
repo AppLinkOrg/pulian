@@ -131,10 +131,28 @@ var shanchu=()=>{
 
 }
 
+const onClickLeft = () => history.back();
 </script>
 
 <template>
   <div  v-if="page.Res!=null" class="h-m100">
+<van-nav-bar
+  title="编辑地址"
+  left-text="返回"
+  left-arrow
+  fixed
+  @click-left="onClickLeft"
+/>
+<div class="h-50"></div>
+<!-- <div v-show="false">
+         <van-nav-bar
+  title="地址管理"
+  left-text="返回"
+  left-arrow
+ 
+  @click-left="onClickLeft"
+/>
+</div> -->
 
       <div class="padding-left-14 padding-right-14 bg-w ">
           <div class="h-44 flex-row flex-center bd-6">

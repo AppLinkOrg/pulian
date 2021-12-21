@@ -47,13 +47,36 @@ var tijiao=()=>{
   
 })
 
+
 }
 
-
+  const onClickLeft = () => history.back();
 </script>
 
 <template>
   <div  v-if="page.Res!=null">
+      <van-nav-bar
+  title="申请售后"
+  left-text="返回"
+  left-arrow
+  fixed
+  @click-left="onClickLeft"
+/>
+
+<div class="h-50"></div>
+
+    <!-- <div v-show="false">
+     <van-nav-bar
+  title="申请售后"
+  left-text="返回"
+  left-arrow
+  @click-left="onClickLeft"
+/>
+    </div> -->
+
+  
+
+
 
         <div class="h-300 bg-7 "></div>
       <div class="margin-top-f300"></div>

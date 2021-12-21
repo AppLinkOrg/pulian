@@ -24,7 +24,18 @@ HttpHelper.Post("order/orderdetail", {id:route.query.id }).then((res) => {
 
  imgsrc.value  = Config.ApiUrl+'store/creatorqrcode?id='+route.query.id;
 
- 
+//  daohan 导航
+// 导航
+var daohang=()=>{
+  let latstor=storedetail.value.store_lat
+let lngstor=storedetail.value.store_lng
+let name =storedetail.store_address
+// alert(latstor)
+wx.miniProgram.navigateTo({url: '/pages/daohan/daohan?latstor='+latstor+'&lngstor='+lngstor+'&name='+name});
+
+
+
+}
 
 
 
@@ -95,6 +106,7 @@ HttpHelper.Post("order/orderdetail", {id:route.query.id }).then((res) => {
         />
         <div class="margin-left-20"></div>
         <img
+        @click="daohang"
           :src="page.uploadpath + 'resource/' + page.Res.	danhang"
           class="icon-12"
         />

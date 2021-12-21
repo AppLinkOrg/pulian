@@ -288,6 +288,7 @@ export class AppBase {
                 console.log(AppBase.UserInfo);
                 ApiConfig.SetToken(data.openid);
                 wx.setStorageSync('token',data.openid)
+                this.Base.setMyData({useropenid:data.openid})
                 console.log("goto update info");
                 //this.loadtabtype();
 
@@ -373,19 +374,23 @@ export class AppBase {
         memberinfo: info
       });
     });
-
+    
     this.Base.getAddress((res)=>{
       console.log("resssssss",res);
       this.addresscallback(res);
       //this.Base.setMyData({cityname:res.address_component.city})
       this.Base.setMyData({cityname:AppBase.CITYNAME})
+
+      this.Base.setMyData({lat:res.ad_info.location.lat,lng:res.ad_info.location.lng})
+      that.onMyShow();
     },(failres)=>{
+
       console.log("failres", failres);
     });
 
 
     
-    that.onMyShow();
+    // that.onMyShow();
 
   }
   loadtabtype() {

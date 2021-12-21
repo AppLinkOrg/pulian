@@ -11,7 +11,8 @@ let route = useRoute();
 let show=ref(false);
 let leixin=ref('');
 let pointsmallist=ref([]);
-
+let qiandaocha=ref({});
+let qiandaocha2=ref(0);
 
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
@@ -57,6 +58,102 @@ var jilu=()=>{
 }
 
 
+// 查询签到情况
+var qinakuan=()=>{
+    HttpHelper.Post('qiandao/qiandaocha',{}).then((res)=>{
+   qiandaocha.value=res
+})
+   HttpHelper.Post('qiandao/qiandaocha2',{}).then((res)=>{
+qiandaocha2.value=res
+})
+
+
+}
+qinakuan();
+
+// 点击签到
+var qiandao=()=>{
+  if (qiandaocha2.value==1) {
+    Toast('已签到')
+    return
+  }
+    HttpHelper.Post('qiandao/qiandaoadd',{}).then((res)=>{
+      if (res.code==0) {
+        PageHelper.LoginAuth(page, () => {});
+        qinakuan();
+        Toast('签到成功');
+      }else{
+         Toast('签到失败');
+      }
+   
+})
+}
+
+// 添加车辆信息
+var tianche=()=>{
+  if (page.value.Memberinfo.tianjiache=='B') {
+    HttpHelper.Post('pointsrecord/pointsrecordadd',{
+      type:'B',
+      num:'100',
+      jia:1,
+       jifenzhuan:'A'
+    }).then((res)=>{
+      if (res.code==0) {
+        PageHelper.LoginAuth(page, () => {});
+        Toast('领取成功')
+      }else{
+        Toast('领取失败')
+      }
+    
+})
+    return
+  }
+  if (page.value.Memberinfo.tianjiache=='C') {
+     Toast('已领取')
+    return
+  }
+
+  router.push('/addgarage')
+
+ 
+}
+
+// 完善车俩填写信息
+var quwan=()=>{
+  if (page.value.Memberinfo.tianjiache=='B'||page.value.Memberinfo.tianjiache=='C') {
+
+  }else{
+    Toast('请先添加车辆')
+    return
+  }
+  if (page.value.Memberinfo.wanche=='B') {
+      HttpHelper.Post('pointsrecord/pointsrecordadd',{
+      type:'C',
+      num:'100',
+      jia:1,
+      jifenzhuan:'A'
+    }).then((res)=>{
+      if (res.code==0) {
+        PageHelper.LoginAuth(page, () => {});
+        Toast('领取成功')
+      }else{
+        Toast('领取失败')
+      }
+    
+})
+
+ return;
+  }
+   if (page.value.Memberinfo.wanche=='C') {
+     Toast('已领取')
+     return;
+   }
+ router.push('/editvegicle')
+
+}
+
+
+
 </script>
 
 <template>
@@ -81,7 +178,7 @@ var jilu=()=>{
           <!--  -->
           <div class="flex-row flex-center margin-top-16">
             <img :src="page.uploadpath + 'resource/' + page.Res.xinxin" class="icon-26"/>
-            <div class="f-30 bold c-w margin-left-4 ">600</div>
+            <div class="f-30 bold c-w margin-left-4 " v-if="page.Memberinfo !=null">{{page.Memberinfo.jifen}}</div>
             <div class="flex-1"></div>
             <div class="h-25 padding-left-10 padding-right-10 line-height-25 f-12 c-6 bg-w border-radius-12" @click="chongzhi">积分充值</div>
           </div>
@@ -91,28 +188,29 @@ var jilu=()=>{
         <div class="margin-left-14 margin-right-14 border-radius-9 bg-w padding-15 margin-top-30">
           <div class="flex-row flex-center">
             <div class="c-2 f-15 bold">已连续签到</div>
-            <div class="c-6 f-15 ">1</div>
+            <div class="c-6 f-15 ">{{qiandaocha.return}}</div>
             <div class="c-2 f-15 bold">天</div>
             <div class="flex-1"></div>
             <div class="c-6 f-12 bold">积分规则</div>
           </div>
           <div class="margin-top-40 flex-row flex-center">
-            <div v-for="item in 6" :key="item">
+            <div v-for="(item,index) in qiandaocha.result" :key="index">
               <div class="margin-right-16" >
-                <div class="border-radius-50 icon-30 bg-1 line-height-30 f-12 c-8 bold center ">
+                <div class="border-radius-50 icon-30 bg-1 line-height-30 f-12 c-8 bold center "  v-if="item==0">
                   +10
                 </div>
-                <div class="margin-top-5 c-2 f-12 center">{{item}}天</div>
+                <img :src="page.uploadpath + 'resource/' + page.Res.xinxin" class="icon-30" v-else />
+                <div class="margin-top-5 c-2 f-12 center">{{index+1}}天</div>
               </div>
               
             </div>
-            <div class="margin-right-16" >
+            <!-- <div class="margin-right-16" >
                   <img :src="page.uploadpath + 'resource/' + page.Res.liwu" class="icon-30"/>
                 <div class="margin-top-5 c-2 f-12 center">2天</div>
-              </div>
+              </div> -->
           
           </div>
-          <div class="margin-left-20 margin-right-20 bg-5 center c-w f-16 h-40 line-height-40  margin-top-25 border-radius-20">已签到</div>
+          <div class="margin-left-20 margin-right-20 bg-5 center c-w f-16 h-40 line-height-40  margin-top-25 border-radius-20"  @click="qiandao">{{qiandaocha2==1?'已签到':'签到'}}</div>
 
 
         </div>
@@ -133,22 +231,22 @@ var jilu=()=>{
   <div class="margin-top-10 c-2 f-12  ">添加车牌车系</div>
 </div>
 <div class="flex-1"></div>
-<div class="f-12 c-6 padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bd-5  ">去完成</div>
-
+<div class="f-12 c-6 padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bd-5  "  :class="[page.Memberinfo.tianjiache=='B'|| page.Memberinfo.tianjiache=='C' ? 'sty1':'sty2']" v-if="page.Memberinfo!=null" 
+ @click="tianche()" >{{page.Memberinfo.tianjiache=='B'?'领取':page.Memberinfo.tianjiache=='C'?'已领取':'去完成'}}</div>
             </div>
 
                       <div class="flex-row flex-center margin-top-15">
-<img :src="page.uploadpath + 'resource/' + page.Res.che" class="icon-40"/>
+<img :src="page.uploadpath + 'resource/' + page.Res.zu" class="icon-40"/>
 <div class="margin-left-10">
   <div class="flex-row flex-center">
     <div class="f-14 c-2 ">完善车辆信息</div>
-    <img :src="page.uploadpath + 'resource/' + page.Res.zu" class="icon-14"/>
+    <img :src="page.uploadpath + 'resource/' + page.Res.xinxin" class="icon-14"/>
     <div class="c-6 bold f-14">+100</div>
   </div>
   <div class="margin-top-10 c-2 f-12  ">完善车辆信息</div>
 </div>
 <div class="flex-1"></div>
-<div class="f-12 c-6 padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bd-5  ">去完成</div>
+<div class="f-12 c-6 padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bd-5  " @click="quwan" :class="[page.Memberinfo.wanche=='B'|| page.Memberinfo.wanche=='C' ? 'sty1':'sty2']" v-if="page.Memberinfo!=null"  >{{page.Memberinfo.wanche=='B'?'领取':page.Memberinfo.wanche=='C'?'已领取':'去完成'}}</div>
 
             </div>
 
@@ -174,7 +272,8 @@ var jilu=()=>{
           <div class="margin-top-20 flex-row " style="display: flex;display: -webkit-flex;justify-content: space-between;flex-direction: row;flex-wrap: wrap;">
             <div class="bg-w border-radius-9 margin-bottom-14" v-for="(item,index) in pointsmallist" :key="index"  @click="xinqing(item)">
               <img :src="page.uploadpath + 'pointsmall/' + item.img" class="inimg"/>
-              <div class="margin-top-10 center f-14 c-2 ">{{item.name}}</div>
+            
+              <div class="margin-top-10 center f-14 c-2 w-110 margin-auto " style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{{item.name}}</div>
               <div class="margin-top-10 f-14 center c-6 ">{{item.point}}积分</div>
               <div class="flex-row ">
                 <div class="flex-1"></div>
@@ -227,5 +326,13 @@ var jilu=()=>{
 .inimg{
   width: 165px;
   height: 110px;
+}
+.sty1{
+background: linear-gradient(90deg, #409EFF 0%, #67B0FD 100%);
+color: #fff;
+}
+.sty2{
+ border: 1px solid #409EFF;
+color: #409EFF;
 }
 </style>
