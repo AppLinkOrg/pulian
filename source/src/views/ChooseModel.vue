@@ -10,32 +10,51 @@ let route = useRoute();
 let page = ref({});
 PageHelper.Init(page, () => {});
 
-var allbrandlist = ref({});
+var allcarmodel = ref({});
 
-// var abt = [];
-// for (var i = 0; i < 16; i++) {
-//   abt.push(String.fromCharCode(i + 65));
-// }
-// console.log(abt, "看看多少");
-// 门店详情
-HttpHelper.Post("carbrand/brandlist", {}).then((res) => {
-  allbrandlist.value = res;
+var brandinfo = ref({});
+ 
+HttpHelper.Post("carbrand/carmodel", {carseries_id:route.query.carseries_id}).then((res) => {
+  allcarmodel.value = res;
 });
 
-var toseries = () => {  
-  router.push("/chooseseries");
-};
+// HttpHelper.Post("carbrand/brandinfo", {id:route.query.brand_id}).then((res) => {
+//   brandinfo.value = res;
+// });
+
+var beforeRouteLeave = (carmodel_id) => {
+    // 通过地址查询是否带有跳转标示
+    console.log(router,'返回');
+      router.replace("/addgarage?carbrand_id="+route.query.carbrand_id+"&carseries_id="+route.query.carseries_id+"&carmodel_id="+carmodel_id); 
+  }
+
+ 
 
 </script>
 
 <template>
   <div class="" v-if="page.Res != null">
-    <div>车型</div>
+
+      <!-- <div class="flex-row flex-center bg-w">
+          <img class="brand_icon margin-left-10" :src="brandinfo.logo" />
+          <van-cell  :title="brandinfo.name"  style="padding-left:0"/>
+        </div> -->
+      
+    <van-list @load="onLoad"  >
+        <div  v-for="item in allcarmodel"  :key="item.id" >
+            <!-- <div class="bold c-b">{{item.factory_name}}</div> -->
+            <van-cell :title="item.caryear_name" class="bold c-b "  style="background:#F6F6F6;" />
+            <van-cell   :title="item2.name" v-for="item2 in item.model_list"  :key="item2.id" @click="beforeRouteLeave(item2.id)"/>
+        </div>
+            
+            
+    </van-list>
+    
   </div>
 </template>
 <style scoped>
 .brand_icon {
-  width: 40px;
-  height: 40px;
+  width: 30px;
+  height: 30px;
 }
 </style>

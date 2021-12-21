@@ -12,6 +12,8 @@ PageHelper.Init(page, () => {});
 
 var allbrandlist = ref({});
 
+
+
 // var abt = [];
 // for (var i = 0; i < 16; i++) {
 //   abt.push(String.fromCharCode(i + 65));
@@ -33,7 +35,7 @@ var toseries = (brand_id) => {
     <van-index-bar
       :index-list="allbrandlist.bfirstletter"
       style="background: white"
-    >
+    > 
       <van-index-anchor
         :index="item.bfirstletter"
         v-for="(item, index) in allbrandlist"

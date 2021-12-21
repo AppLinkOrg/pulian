@@ -11,11 +11,11 @@ let router = useRouter();
 
 PageHelper.Init(page, () => {});
 
-let vehiclelist=ref([]);
+let mycarlist=ref([]);
 
 //查询车库的数目
-   HttpHelper.Post("vehicle/vehiclelist",{}).then((res)=>{
-vehiclelist.value=res
+   HttpHelper.Post("member/mycarlist",{}).then((res)=>{
+mycarlist.value=res
 })
 
 // 添加爱车
@@ -27,13 +27,13 @@ router.push('/addgarage')
 
 <template>
   <div  v-if="page.Res!=null">
-      <div class="margin-top-10 margin-left-14 margin-right-14 bg-w border-radius-9 " v-for="(item,index) in vehiclelist" :key="index">
+      <div class="margin-top-10 margin-left-14 margin-right-14 bg-w border-radius-9 " v-for="(item,index) in mycarlist" :key="index">
           <div class="flex-row flex-center padding-20">
               <div class="flex-1">
-                  <div class="f-20 c-2 bold">{{item.plate}}{{item.platenumber}}</div>
+                  <div class="f-20 c-2 bold">{{item.plateno}}</div>
                   <div class="margin-top-14 c-1 f-13">{{item.carseries_id_name}}</div>
               </div>
-                <img :src="item.carseries_id_logo" class="icon-60"/>
+                <img :src="item.carbrand_logo" class="icon-60"/>
           </div>
 <div class="h-1 bg-1 "></div>
 <div class="flex-row flex-center padding-15">

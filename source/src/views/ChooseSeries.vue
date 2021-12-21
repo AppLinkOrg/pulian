@@ -27,8 +27,8 @@ HttpHelper.Post("carbrand/brandinfo", {id:route.query.brand_id}).then((res) => {
   brandinfo.value = res;
 });
 
-var toseries = () => {  
-  router.push("/chooseseries");
+var tomodel = (carseries_id) => {  
+  router.push("/choosemodel?carseries_id="+carseries_id+"&carbrand_id="+route.query.brand_id);
 };
 
 </script>
@@ -42,10 +42,10 @@ var toseries = () => {
         </div>
       
     <van-list @load="onLoad"  >
-        <div  v-for="item in allserieslist"  :key="item.id">
+        <div  v-for="item in allserieslist"  :key="item.id" >
             <!-- <div class="bold c-b">{{item.factory_name}}</div> -->
             <van-cell :title="item.factory_name" class="bold c-b "  style="background:#F6F6F6;" />
-            <van-cell   :title="item2.name" v-for="item2 in item.serieslist"  :key="item2.id"/>
+            <van-cell   :title="item2.name" v-for="item2 in item.serieslist"  :key="item2.id" @click="tomodel(item2.id)"/>
         </div>
             
             

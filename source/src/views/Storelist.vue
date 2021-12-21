@@ -165,8 +165,8 @@ var tostoredetail = (index) => {
 
 
 
-var tobrand = () => {  
-  router.push("/choosebrand");
+var addmycar = () => {  
+  router.push("/addgarage");
 };
  
  
@@ -176,7 +176,7 @@ var tobrand = () => {
   <div class="all_page" v-if="page.Res != null">
  
     <div class="top_blue">
-      <div class="c-w f-16 f-bold margin-left-24 padding-top-5" @click="tobrand()">
+      <div class="c-w f-16 f-bold margin-left-24 padding-top-5" @click="addmycar()">
         +添加我的爱车
       </div>
       <div class="radius_block"></div>
