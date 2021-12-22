@@ -25,7 +25,9 @@ HttpHelper.Post("carbrand/carmodel", {carseries_id:route.query.carseries_id}).th
 var beforeRouteLeave = (carmodel_id) => {
     // 通过地址查询是否带有跳转标示
     console.log(router,'返回');
-      router.replace("/addgarage?carbrand_id="+route.query.carbrand_id+"&carseries_id="+route.query.carseries_id+"&carmodel_id="+carmodel_id); 
+      // router.replace("/addgarage?carbrand_id="+route.query.carbrand_id+"&carseries_id="+route.query.carseries_id+"&carmodel_id="+carmodel_id); 
+      router.replace("/editvegicle?carbrand_id="+route.query.carbrand_id+"&carseries_id="+route.query.carseries_id+"&carmodel_id="+carmodel_id); 
+      
   }
 
  

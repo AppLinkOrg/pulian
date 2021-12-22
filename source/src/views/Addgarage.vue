@@ -9,21 +9,20 @@ let page = ref({});
 
 let router = useRouter();
 let route = useRoute();
-let pletnum = ref("");
+ 
 
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
 
 var list = ref({});
 
-
 var carbrand_id = ref("");
 var carseries_id = ref("");
 var carmodel_id = ref("");
 
-var brand_name =ref("");  
-var model_name =ref("");
-var series_name =ref("");
+var brand_name = ref("");
+var model_name = ref("");
+var series_name = ref("");
 
 if (
   route.query.carbrand_id != null &&
@@ -56,10 +55,9 @@ var pingpai = () => {
   router.push("/choosebrand");
 };
 
-
 var caridname = ref("");
 var caridname_input = (e) => {
-  caridname.value=e;
+  caridname.value = e;
   // console.log(e,'内容啊啊啊')
 };
 
@@ -75,47 +73,52 @@ var showpopup = (type) => {
   show.value = type;
 };
 
-
-
 var tishi = ref(false);
-var showmodel=(status)=>{
-  tishi.value=status;
-}
+var showmodel = (status) => {
+  tishi.value = status;
+};
 
 //提交表单
-var confrim =(e)=>{
+var confrim = (e) => {
   // Toast('请选择品牌车系');
- 
-  if(provinces_name.value==""){
-    Toast('请选择车牌归属地');
+
+  if (provinces_name.value == "") {
+    Toast("请选择车牌归属地");
     return;
   }
-  if(caridname.value==""){
-    Toast('请填写车牌号');
+  if (caridname.value == "") {
+    Toast("请填写车牌号");
     return;
   }
-  if(carbrand_id.value==""){
-    Toast('请选择品牌车系');
+  if (carbrand_id.value == "") {
+    Toast("请选择品牌车系");
     return;
   }
   // return;
-   HttpHelper.Post("member/addmycar", {
-     carbrand_id: carbrand_id.value,
+  HttpHelper.Post("member/addmycar", {
+    carbrand_id: carbrand_id.value,
     carseries_id: carseries_id.value,
     carmodel_id: carmodel_id.value,
-    plateno:provinces_name.value+'·'+caridname.value
-   }).then((res) => {
-  provinceslist.value = res;
-  tishi.value=false;
-  // router.go();
-  router.replace("/myselef")
-});
-}
-
+    plateno: provinces_name.value + "·" + caridname.value,
+  }).then((res) => {
+    provinceslist.value = res;
+    tishi.value = false;
+    // router.go();
+    router.replace("/myselef");
+  });
+};
 </script>
 
 <template>
   <div v-if="page.Res != null">
+    <van-nav-bar
+      title="添加车辆"
+      left-text="返回"
+      left-arrow
+      fixed
+      @click-left="onClickLeft"
+    />
+    <div class="h-50"></div>
 
     <div class="padding-15">
       <div class="padding-add bg-w border-radius-9">
@@ -139,16 +142,12 @@ var confrim =(e)=>{
               class="icon-8 margin-left-4"
             />
           </div>
-
-          <!-- <input
-            type="text"
-            placeholder="请输入完整车牌号"
-            class="f-14 c-2 flex-1"
-            v-model="pletnum"
-          /> -->
-
-          <van-field v-model="caridname"  @update:model-value="caridname_input"  placeholder="请输入用户名" />
-
+  
+          <van-field
+            v-model="caridname"
+            @update:model-value="caridname_input"
+            placeholder="请输入用户名"
+          />
         </div>
         <div class="h-1 bg-1"></div>
         <div
@@ -161,9 +160,7 @@ var confrim =(e)=>{
             placeholder="请选择您的品牌"
             class="f-14 c-2 flex-1"
             @click="pingpai()"
-            :value="
-              brand_name + ' ' + model_name + ' ' + series_name
-            "
+            :value="brand_name + ' ' + model_name + ' ' + series_name"
           />
           <img
             :src="page.uploadpath + 'resource/' + page.Res.youjian"
@@ -216,10 +213,8 @@ var confrim =(e)=>{
       class="text-center"
       @confirm="confrim"
       @cancel="showmodel(false)"
-    > 
+    >
     </van-dialog>
-
-
   </div>
 </template>
 <style scoped>
