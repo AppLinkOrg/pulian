@@ -18,6 +18,7 @@ let phone = ref('');
 // 服务价格设置详情
 HttpHelper.Post("serviceprice/servicepricelist", {id:route.query.id }).then((res) => {
   servicepricedetail.value = res;
+  youhuij();
 });
 
 // 数量加一
@@ -62,6 +63,40 @@ HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.qu
 
 }
 
+// 优惠卷详情
+let coupondetail=ref(null)
+var youhuij=()=>{
+  HttpHelper.Post('coupon/coupondetail',{id:route.query.couponlist_id}).then((res)=>{
+    coupondetail.value=res
+    zuihou()
+})
+}
+
+// 最后的价格
+let totle=ref(0);
+var zuihou=()=>{
+  var servicepricedetail_price=servicepricedetail.value.originalprice
+  var coupondetail_price=coupondetail.value.price
+ 
+  if(coupondetail.value.type='A'){
+// 立减券
+totle.value=servicepricedetail_price-coupondetail.value.jainshao+coupondetail_price
+  }
+   if(coupondetail.value.type='B'){
+    //  抵扣券
+    totle.value=servicepricedetail_price*coupondetail.value.zhekou*0.01+coupondetail_price
+  }
+    if(coupondetail.value.type='C'){
+      // 补给券
+      totle.value=coupondetail_price
+  }
+}
+
+
+
+
+
+
 
 
 
@@ -79,7 +114,7 @@ HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.qu
               <div class="f-9 c-2">¥</div>
               <div class="f-14 c-2">{{servicepricedetail.originalprice}}</div>
           </div>
-          <div class="flex-row flex-center margin-top-15" >
+          <div class="flex-row flex-center margin-top-15" v-if="coupondetail.type!='C'">
               <div class="c-2 f-14">数量</div>
               <div class="flex-1"></div>
               <img
@@ -102,7 +137,7 @@ HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.qu
               <div class=" f-15 c-2">使用券</div>
               <div class="flex-1"></div>
               <div class="c-3 f-9">-¥</div>
-              <div class="f-14 c-3">0</div>
+              <div class="f-14 c-3">{{coupondetail.type=='C'?servicepricedetail.originalprice:jianshao_price}}</div>
                  <img
           :src="page.uploadpath + 'resource/' + page.Res.youjian"
           class="icon-10"
@@ -113,7 +148,7 @@ HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.qu
               <div class="f-14 c-1 ">订单总价</div>
               <div class="flex-1"></div>
               <div class="f-9 c-2">¥</div>
-              <div class="f-14 c-2">{{servicepricedetail.originalprice*num}}</div>
+              <div class="f-14 c-2">{{totle}}</div>
           </div>
           <div class="flex-row flex-center margin-top-20">
               <div class="f-14 c-1 ">手机号码</div>
@@ -142,7 +177,7 @@ HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.qu
               <div>
                    <div class="flex-row flex-center">
                     <div class="f-12 c-5">¥</div>
-                <div class="f-24 c-5">{{servicepricedetail.originalprice*num}}</div>
+                <div class="f-24 c-5">{{totle}}</div>
                </div>
                <div class="margin-top-4 c-1 f-12">已优惠¥0</div>
               </div>

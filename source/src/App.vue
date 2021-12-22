@@ -1,23 +1,44 @@
 <script setup>
 import { PageHelper } from "./PageHelper";
-import { ref, watch } from "vue";
+import { ref, watch,createApp } from "vue";
 import Header from "./components/Header.vue";
 import Footer from "./components/Footer.vue";
 import BackToTop from "./components/BackToTop.vue";
-import { useRouter } from "vue-router";
+import { useRouter,useRoute,onBeforeRouteUpdate  } from "vue-router";
+import NavBar from "./components/NavBar.vue";
 
 
 let page = ref({});
+let pathname=ref('');
+let title=ref('');
 PageHelper.Init(page, () => {});
-watch(useRouter,(newValue,oldValue)=>{
-  console.log("count改变了");
+
+const route=useRoute()
+watch(()=>route.path,(e)=>{
+  pathname.value=e
+  title.value=route.meta.name
+  console.log('监听到变化',route)
 })
+console.log('监听到变化ssss',route.meta.name)
+
+createApp({}).component('nav-bar',{
+  // props:{
+  //   propA:{
+  //     type:String,
+  //     default:''
+  //   },
+  // }
+
+})
+
+
 
 
 </script>
 
 <template>
       <div id="app">
+        <nav-bar v-if="pathname!='/'&&pathname!='/integral'&&pathname!='/storelist'&&pathname!='/myselef'&&route.meta.name!=undefined  "  :title='title'></nav-bar>
     <router-view class="router-view" v-slot="{ Component }">
       <transition :name="transitionName">
         <component :is="Component" />
@@ -883,6 +904,11 @@ button {
   left: 0;
   top: 0;
   width: 100%;
+}
+.position-top2{
+  position: absolute;
+  right: 0;
+  top: 0;
 }
 input {
   /* text-align: right; */
