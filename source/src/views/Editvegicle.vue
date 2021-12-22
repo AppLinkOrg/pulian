@@ -168,12 +168,23 @@ var showmodel = (status) => {
     vin.value = allres.车辆识别代号.words;
     engineno.value = allres.发动机号码.words;
 
-    inspection_date.value = allres.发证日期.words;
-    register_date.value = allres.注册日期.words;
+    inspection_date.value = insertStr((allres.发证日期.words)); 
+    // inspection_date.value = insertStr((allres.发证日期.words),7,"-"); 
+
+        // register_date.value = insertStr((allres.注册日期.words),4,"-"); 
+    register_date.value = insertStr(allres.注册日期.words); 
+
+    console.log(register_date,'多少？')
+    // register_date.value = allres.注册日期.words;
 
     });
 
     }
+
+    var insertStr=(soure, start, newStr)=>{   
+
+   return soure.slice(0, 4) + '-' + soure.slice(4,6)+'-'+soure.slice(6,10);
+  }
 
 //提交表单
 var confrim = (e) => {
@@ -255,7 +266,7 @@ const checked = ref(true);
       <div class="bg-w border-radius-9">
         <div class="padding-15">
           <div class="padding-add bg-w border-radius-9">
-            <div class="flex-row flex-center padding-15" >
+            <div class="flex-row flex-center padding-15" @click="wokank">
               <div class="flex-1"></div>
               <img
                 :src="page.uploadpath + 'resource/' + page.Res.saomiao"
