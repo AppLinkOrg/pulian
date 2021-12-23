@@ -99,6 +99,7 @@ PageHelper.loadwechatconfig(()=>{
 var dianj=(e)=>{
 fwshow.value=e
 fuwu()
+daijin()
 
 }
 let fuwuxian=ref({})
@@ -120,6 +121,7 @@ var fuwu=()=>{
 
 // 代金卷  
 let couponlist=ref([]);
+let mycouponlist=ref([]);
 var daijin=()=>{
   var bigcategory_id=storedetail.value.bigcategorylist[fwshow.value].id
 var buji=storedetail.value.bigcategorylist[fwshow.value].buji
@@ -130,6 +132,14 @@ var buji=storedetail.value.bigcategorylist[fwshow.value].buji
        
      }
     couponlist.value=Res
+})
+
+  HttpHelper.Post('coupon/mycoupon',{store_id:route.query.id,bigcategory_id,buji}).then((Res)=>{
+     for (let index = 0; index < Res.length; index++) {
+        Res[index].show = false;
+       
+     }
+    mycouponlist.value=Res
 })
 }
 
@@ -467,7 +477,7 @@ fuwudetail_price=couponlist_item.value.price
   <div class="margin-top-9 margin-bottom-9">
       <div class="zhuan flex-row flex-center" :style="{
               backgroundImage:
-                'url(' + page.uploadpath + 'resource/' + page.Res.juan + ')',
+                'url(' + page.uploadpath + 'resource/' + page.Res.daijin + ')',
             }"  style="background-size:100% ; position: relative;"  v-for="(item,index) in couponlist" :key="index"  @click="xuanze(index)">
 
             <div class="position-top2 liji center c-w f-9 "  :style="{
@@ -476,7 +486,7 @@ fuwudetail_price=couponlist_item.value.price
             }" style="background-size:100%;background-repeat:no-repeat "   >立购可减</div>
 
              <div class="flex-1"></div>
-            <div v-if="fuwuxian.buji!='Y'">
+            <!-- <div >
               
               <div class="flex-row flex-center">
                 <div class="flex-1"></div>
@@ -486,11 +496,25 @@ fuwudetail_price=couponlist_item.value.price
               </div>
               <div class="margin-top-6 c-1 f-8">满30可用</div>
 
-            </div>
+            </div> -->
+           <div>
+               <div class="flex-row flex-center">
+                <div class="flex-1"></div>
+                <div class="f-16 c-3">{{item.price}}</div>
+                <div class="f-10 c-3">元</div>
+                <div class="c-3 f-12">×</div>
+                <div class="f-16 c-3">{{item.shangping}}</div>
+                <div class="f-10 c-3">张</div>
+                 <div class="flex-1"></div>
+              </div>
+              
+              <div class="margin-top-6 c-1 f-9"  v-if="item.type=='C'">无门槛</div>
+              <div class="margin-top-6 c-1 f-9" v-else>满{{item.manmoney}}减{{item.jainshao}}</div>
+           </div>
           
             <div class="margin-left-10">
               <div class="c-2 f-11 bold">{{item.name}}</div>
-              <div class="margin-top-6 c-1 f-9 ">至2{{item.youxiao_time}}到期</div>
+              <div class="margin-top-6 c-1 f-9 ">即购日启有效期{{item.youxiao}}天</div>
             </div>
         <div class="flex-1"></div>
  <img  :src="page.uploadpath + 'resource/' + page.Res.quan" class="icon-15 "  v-if="item.show==false" />

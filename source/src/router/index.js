@@ -36,6 +36,10 @@ import Integralorder from '../views/Integralorder.vue'
 import Aftersale from '../views/Aftersale.vue'
 import Interevalute from '../views/Interevalute.vue'
 import Storesx from '../views/Storesx.vue'
+import Physicalsupply from '../views/Physicalsupply.vue'
+import Vouchercenter from '../views/Vouchercenter.vue'
+import Couponbag from '../views/Couponbag.vue'
+import Myvoucher from '../views/Myvoucher.vue'
 
 
 const routes = [{
@@ -177,8 +181,38 @@ const routes = [{
   meta:{
     'name':'门店列表'
   }
+}, {
+  path: '/physicalsupply',
+  name: 'Physicalsupply',
+  component: Physicalsupply,
+  meta:{
+    'name':'实物补给'
+  }
+}, {
+  path: '/vouchercenter',
+  name: 'Vouchercenter',
+  component: Vouchercenter,
+  meta:{
+    'name':'领券中心'
+  }
+}, {
+  path: '/couponbag',
+  name: 'Couponbag',
+  component: Couponbag,
+  meta:{
+    'name':'券包详情'
+  }
+}, {
+  path: '/myvoucher',
+  name: 'Myvoucher',
+  component: Myvoucher,
+  meta:{
+    'name':'卡券'
+  }
 }
- 
+
+
+
 
 ]
 

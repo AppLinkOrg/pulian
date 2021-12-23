@@ -62,7 +62,19 @@ createApp({}).component('nav-bar',{
   min-height: 100vh;
 
 }
-
+.padding-ph{
+    padding:5px 10px 5px 5px;
+}
+.biao{
+    width: 31px;
+height: 90px;
+background: #ECF5FF;
+border-radius: 5px;
+}
+.juanbao{
+  width: 125px;
+height: 68px;
+}
 .slide-right-enter-active,
 .slide-right-leave-active,
 .slide-left-enter-active,
@@ -121,6 +133,9 @@ background:#F6F6F6;
 
 .w-100{
   width: 100vw;
+}
+.w-14{
+  width: 14px;
 }
 .w-110{
   width: 110px;
@@ -202,6 +217,9 @@ background:#F6F6F6;
 }
 .h-64{
   height: 64px;
+}
+.h-68{
+  height: 68px;
 }
 .h-93{
   height: 93px;
@@ -368,6 +386,9 @@ background:#F6F6F6;
 }
 .f-32{
   font-size: 32px;
+}
+.f-36{
+  font-size: 36px;
 }
 .f-40{
   font-size: 40px;
@@ -547,6 +568,9 @@ button {
 .padding-left-10{
   padding-left:10px;
 }
+.padding-left-12{
+  padding-left:12px;
+}
 .padding-left-14{
   padding-left:14px;
 }
@@ -564,6 +588,9 @@ button {
 }
 .padding-right-10{
   padding-right:10px;
+}
+.padding-right-12{
+  padding-right:12px;
 }
 .padding-right-14{
   padding-right:14px;
@@ -907,6 +934,7 @@ button {
 }
 .position-top2{
   position: absolute;
+ 
   right: 0;
   top: 0;
 }

@@ -49,14 +49,14 @@ var zhifu=()=>{
           return;
     }
 
-HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.query.id,num:num.value }).then((res) => {
+HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.query.id,num:num.value,couponlist_id:route.query.couponlist_id }).then((res) => {
     console.log(123)
     console.log(res);
   if (res.code==0) {
 
       router.push('/Paysuccess?id='+res.return);
   }else{
-      Toast('订单信息错误');
+      Toast(res.return);
   }
 });
 
@@ -70,6 +70,8 @@ var youhuij=()=>{
     coupondetail.value=res
     zuihou()
 })
+
+
 }
 
 // 最后的价格
@@ -78,15 +80,16 @@ var zuihou=()=>{
   var servicepricedetail_price=servicepricedetail.value.originalprice
   var coupondetail_price=coupondetail.value.price
  
-  if(coupondetail.value.type='A'){
+  if(coupondetail.value.type=='A'){
 // 立减券
-totle.value=servicepricedetail_price-coupondetail.value.jainshao+coupondetail_price
+totle.value=servicepricedetail_price*1-coupondetail.value.jainshao*1+coupondetail_price*1
+// console.log(servicepricedetail_price*1,coupondetail.value.jainshao*1,coupondetail_price*1);
   }
-   if(coupondetail.value.type='B'){
+   if(coupondetail.value.type=='B'){
     //  抵扣券
     totle.value=servicepricedetail_price*coupondetail.value.zhekou*0.01+coupondetail_price
   }
-    if(coupondetail.value.type='C'){
+    if(coupondetail.value.type=='C'){
       // 补给券
       totle.value=coupondetail_price
   }
@@ -103,7 +106,7 @@ totle.value=servicepricedetail_price-coupondetail.value.jainshao+coupondetail_pr
 </script>
 
 <template>
-  <div>
+  <div v-if="page.Res!=null">
       <div class="h-200 bg-5"></div> 
       <div style="margin-top:-115px"></div>
       <div class="margin-left-14 margin-right-14 bg-w border-radius-5 padding-15" >
@@ -114,7 +117,7 @@ totle.value=servicepricedetail_price-coupondetail.value.jainshao+coupondetail_pr
               <div class="f-9 c-2">¥</div>
               <div class="f-14 c-2">{{servicepricedetail.originalprice}}</div>
           </div>
-          <div class="flex-row flex-center margin-top-15" v-if="coupondetail.type!='C'">
+          <!-- <div class="flex-row flex-center margin-top-15" >
               <div class="c-2 f-14">数量</div>
               <div class="flex-1"></div>
               <img
@@ -129,15 +132,15 @@ totle.value=servicepricedetail_price-coupondetail.value.jainshao+coupondetail_pr
           class="icon-23"
           @click="jia"
         />
-          </div>
+          </div> -->
       </div>
       <div class="margin-top-10"></div>
 <div class="margin-left-14 margin-right-14 bg-w border-radius-5 padding-15" >
-         <div class="flex-row flex-center">
+         <div class="flex-row flex-center" v-if="coupondetail !=null" >
               <div class=" f-15 c-2">使用券</div>
               <div class="flex-1"></div>
               <div class="c-3 f-9">-¥</div>
-              <div class="f-14 c-3">{{coupondetail.type=='C'?servicepricedetail.originalprice:jianshao_price}}</div>
+              <div class="f-14 c-3">{{coupondetail.type=='C'?servicepricedetail.originalprice:coupondetail.jainshao}}</div>
                  <img
           :src="page.uploadpath + 'resource/' + page.Res.youjian"
           class="icon-10"
@@ -152,7 +155,7 @@ totle.value=servicepricedetail_price-coupondetail.value.jainshao+coupondetail_pr
           </div>
           <div class="flex-row flex-center margin-top-20">
               <div class="f-14 c-1 ">手机号码</div>
-              <input type="text" placeholder="请输入您的手机号码" class="right f-12 c-2 flex-1" v-model="phone">
+              <input type="text" placeholder="请输入您的手机号码" class="right f-12 c-2 flex-1" v-model="phone"  maxlength="11">
           </div>
       </div>
         <div class="margin-top-10"></div>

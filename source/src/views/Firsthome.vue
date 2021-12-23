@@ -6,6 +6,7 @@ import { Utils } from "../Utils";
 import { NModal } from "naive-ui";
 import { useRouter,useRoute } from "vue-router";
 import Tar from "../components/Tar.vue";
+import { Toast } from "vant";
 
 let router = useRouter();
 let route = useRoute();
@@ -77,6 +78,18 @@ var filtratestore = (id) => {
     storelist.value = res;
    });
 };
+
+// tiaozhaun 首页按钮跳转
+var tiaozhaun=(url)=>{
+  if (url=='') {
+    Toast('暂未开放')
+    return
+  }
+router.push(url)
+}
+
+
+
 
 </script>
 
@@ -162,6 +175,7 @@ var filtratestore = (id) => {
         v-for="(item, index) in anniulist"
         :key="index"
         class="margin-top-20 margin-right-30"
+        @click="tiaozhaun(item.url)"
       >
         <img
           :src="page.uploadpath + 'anniu/' + item.img"
