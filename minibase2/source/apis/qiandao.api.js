@@ -1,15 +1,15 @@
 /*******使用方法，下面两句复制到page的js文件的头部
 
 import { ApiConfig } from '../../apis/apiconfig';
-import { InstApi } from '../../apis/order.api';
+import { InstApi } from '../../apis/qiandao.api';
 
-var orderApi=new OrderApi();
+var qiandaoApi=new QiandaoApi();
 *******/
 import { ApiConfig } from 'apiconfig';
-export class OrderApi{
+export class QiandaoApi{
 
 
-    creatorder(json, callback, showLoading = true) {
+    qiandaoadd(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -18,7 +18,7 @@ export class OrderApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'order/creatorder',
+            url: ApiConfig.GetApiUrl() + 'qiandao/qiandaoadd',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -41,7 +41,7 @@ export class OrderApi{
         })
     }
 
-    orderdetail(json, callback, showLoading = true) {
+    qiandaocha(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -50,7 +50,7 @@ export class OrderApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'order/orderdetail',
+            url: ApiConfig.GetApiUrl() + 'qiandao/qiandaocha',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -73,7 +73,7 @@ export class OrderApi{
         })
     }
 
-    orderlist(json, callback, showLoading = true) {
+    qiandaocha2(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -82,7 +82,7 @@ export class OrderApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'order/orderlist',
+            url: ApiConfig.GetApiUrl() + 'qiandao/qiandaocha2',
             data: json,
             method: 'POST',
             dataType: 'json',

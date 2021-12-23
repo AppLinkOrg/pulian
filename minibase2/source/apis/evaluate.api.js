@@ -1,15 +1,15 @@
 /*******使用方法，下面两句复制到page的js文件的头部
 
 import { ApiConfig } from '../../apis/apiconfig';
-import { InstApi } from '../../apis/order.api';
+import { InstApi } from '../../apis/evaluate.api';
 
-var orderApi=new OrderApi();
+var evaluateApi=new EvaluateApi();
 *******/
 import { ApiConfig } from 'apiconfig';
-export class OrderApi{
+export class EvaluateApi{
 
 
-    creatorder(json, callback, showLoading = true) {
+    addevaluate(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -18,7 +18,7 @@ export class OrderApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'order/creatorder',
+            url: ApiConfig.GetApiUrl() + 'evaluate/addevaluate',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -41,7 +41,7 @@ export class OrderApi{
         })
     }
 
-    orderdetail(json, callback, showLoading = true) {
+    addevaluate2(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -50,7 +50,7 @@ export class OrderApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'order/orderdetail',
+            url: ApiConfig.GetApiUrl() + 'evaluate/addevaluate2',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -73,7 +73,7 @@ export class OrderApi{
         })
     }
 
-    orderlist(json, callback, showLoading = true) {
+    evaluatelist(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -82,7 +82,7 @@ export class OrderApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'order/orderlist',
+            url: ApiConfig.GetApiUrl() + 'evaluate/evaluatelist',
             data: json,
             method: 'POST',
             dataType: 'json',

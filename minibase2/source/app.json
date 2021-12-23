@@ -3,7 +3,8 @@
         "pages/home/home",
         "pages/login/login",
         "pages/daohan/daohan",
-        "pages/auth/auth"
+        "pages/auth/auth",
+        "pages/pay/pay"
     ],
     "permission": {
         "scope.userLocation": {

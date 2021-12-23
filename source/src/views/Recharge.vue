@@ -31,34 +31,23 @@ var amount_input=(e)=>{
 }
 var confrim=()=>{
 
+
   HttpHelper.Post("member/creatorder", {
     amount:amount.value,
     integral:1000
   }).then((res) => {
  
-      if (window.localStorage.getItem("openid") == null) {
-          PageHelper.loadwechat(page);
-          console.log("走这里了嘛？")
-       } 
-        var openid = window.localStorage.getItem("openid");
-
-        console.log(openid, 666666666666666666);
-
-        HttpHelper.Post("wechat/prepay", {
-          order_id: res.return,
-          openid: openid
-        }).then(prepay => {
-          window.WeixinJSBridge.invoke("getBrandWCPayRequest", prepay, res => {
-            if (res.err_msg == "get_brand_wcpay_request:ok") {
-              // this.routeto("/Myorder");
-              Toast("成功");
-            }
-          });
- 
-        });
+ if(res.code==0){
+ console.log("提交成功跳转支付");
+ wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return});
+ }
  
   }) 
  
+}
+
+var todetail=()=>{
+     router.push('/integraldetail') 
 }
 
 
@@ -97,6 +86,7 @@ var confrim=()=>{
             bg-w
             border-radius-12
           "
+          @click="todetail"
         >
           积分明细
         </div>

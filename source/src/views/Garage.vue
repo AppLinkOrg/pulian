@@ -19,7 +19,7 @@ HttpHelper.Post("member/mycarlist", {}).then((res) => {
 
 // 添加爱车
 var addche = () => {
-  router.push("/addgarage");
+  router.push("/editvegicle");
 };
 
 var toedit = (id) => {

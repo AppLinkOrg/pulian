@@ -36,7 +36,7 @@ var cheku = ()=>{
 
 // 点击添加车
 var addaiche=()=>{
-    console.log(111);
+   
     router.push('/editvegicle')
 }
 
