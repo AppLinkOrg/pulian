@@ -64,7 +64,7 @@ export class Utils{
         } else if (mile < 100) {
           return "100米内";
         } else {
-          return "" + (mile).toString() + "m";
+          return "" + mile + "m";
         }
       }
 }

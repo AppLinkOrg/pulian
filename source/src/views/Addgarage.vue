@@ -119,6 +119,7 @@ var confrim = (e) => {
       @click-left="onClickLeft"
     />
     <div class="h-50"></div>
+
     <div class="padding-15">
       <div class="padding-add bg-w border-radius-9">
         <div class="flex-row flex-center padding-15">

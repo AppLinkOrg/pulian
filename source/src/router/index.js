@@ -35,6 +35,7 @@ import Exchangerecord from '../views/Exchangerecord.vue'
 import Integralorder from '../views/Integralorder.vue'
 import Aftersale from '../views/Aftersale.vue'
 import Interevalute from '../views/Interevalute.vue'
+import Storesx from '../views/Storesx.vue'
 
 
 const routes = [{
@@ -61,7 +62,10 @@ const routes = [{
 }, {
   path: '/storedetail',
   name: 'Storedetail',
-  component: Storedetail
+  component: Storedetail,
+  meta:{
+    'name':'门店详情'
+  }
 }, {
   path: '/xzservice',
   name: 'Xzservice',
@@ -81,7 +85,10 @@ const routes = [{
 }, {
   path: '/myorder',
   name: 'Myorder',
-  component: Myorder
+  component: Myorder,
+  meta:{
+    'name':'订单'
+  }
 }, {
   path: '/evaluate',
   name: 'Evaluate',
@@ -167,7 +174,14 @@ const routes = [{
   path: '/recharge',
   name: 'Recharge',
   component: Recharge
-}
+},{
+  path: '/storesx',
+  name: 'Storesx',
+  component: Storesx,
+  meta:{
+    'name':'门店列表'
+  }
+ }
 
 
 ]

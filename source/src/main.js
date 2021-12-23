@@ -8,4 +8,5 @@ import 'vant/lib/index.css'
 import 'lib-flexible/flexible'
 
 
+
 createApp(App).use(router).use(Vant).mount('#app')

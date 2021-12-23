@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from "@vue/reactivity";
+import { Toast } from "vant";
 import { useRouter, useRoute } from "vue-router";
 import { HttpHelper } from "../HttpHelper";
 import { PageHelper } from "../PageHelper";
@@ -44,6 +45,7 @@ HttpHelper.Post("store/storedetail", { id: route.query.id,mylat,mylng }).then((r
   storedetail.value = res;
 
   fuwu();
+  daijin()
 });
 // 轮播图改变时间
 var onChange = (index) => {
@@ -56,12 +58,16 @@ var qiangou = (item) =>{
 
 
   show.value=true;
+
+  zuihou();
+
+
  
 }
 
 // 购买
 var goumia=()=>{
-   router.push('/Submitorder?id='+fuwudetail.value.id);
+   router.push('/Submitorder?id='+fuwudetail.value.id+'&couponlist_id='+couponlist_item.value.id);
     console.log('寄哪里了---',fuwudetail,fuwudetail.id);
 
 }
@@ -95,9 +101,11 @@ fwshow.value=e
 fuwu()
 
 }
+let fuwuxian=ref({})
 // 服务
 var fuwu=()=>{
   var bigcategory_id=storedetail.value.bigcategorylist[fwshow.value].id
+  fuwuxian.value=storedetail.value.bigcategorylist[fwshow.value]
 
   HttpHelper.Post('serviceprice/servicepricelist2',{store_id:route.query.id,bigcategory_id}).then((Res)=>{
     fuwulist.value=Res
@@ -110,9 +118,69 @@ var fuwu=()=>{
 })
 
 
+// 代金卷  
+let couponlist=ref([]);
+var daijin=()=>{
+  var bigcategory_id=storedetail.value.bigcategorylist[fwshow.value].id
+var buji=storedetail.value.bigcategorylist[fwshow.value].buji
 
-console.log(route.query.id, "router");
-const onClickLeft = () => history.back();
+   HttpHelper.Post('coupon/couponlist',{store_id:route.query.id,bigcategory_id,buji}).then((Res)=>{
+     for (let index = 0; index < Res.length; index++) {
+        Res[index].show = false;
+       
+     }
+    couponlist.value=Res
+})
+}
+
+// xuanze 选择那种优惠卷
+let couponlist_item=ref(null);
+var xuanze=(index)=>{
+  // var couponlistdd=couponlist.value[index]
+  
+  if (couponlist.value[index].show==false) {
+       for(let item of couponlist.value){
+item.show=false
+    }
+    couponlist.value[index].show=true
+    couponlist_item.value=couponlist.value[index]
+ 
+  }else{
+couponlist.value[index].show=false
+couponlist_item.value=null
+  }
+zuihou()
+}
+
+// 最后的价钱计算
+let totleprice=ref(0);
+var zuihou=()=>{
+  console.log('进来哦了',couponlist_item);
+  var fuwudetail_price=fuwudetail.value.originalprice;
+
+  if (couponlist_item.value!=null) {
+    if(couponlist_item.value.type=='A'){
+      // 立减券
+     fuwudetail_price=fuwudetail_price-couponlist_item.value.jainshao
+
+    }
+    if(couponlist_item.value.type=='B'){
+      // 抵扣券
+       fuwudetail_price=fuwudetail_price*zhekou*0.01
+
+    }
+    if(couponlist_item.value.type=='C'){
+fuwudetail_price=couponlist_item.value.price
+    }
+    
+  }
+  totleprice.value=fuwudetail_price;
+}
+
+
+
+
+
 
 
 </script>
@@ -122,18 +190,6 @@ const onClickLeft = () => history.back();
     class=""
     v-if="page.Res!=null"
   >
-  <!-- <NavBar></NavBar> -->
-
-  <!-- <van-nav-bar
-  title="门店详情"
-  left-text="返回"
-  left-arrow
-  fixed
-  @click-left="onClickLeft"
-/> -->
-
-
-    <!-- <div> -->
     <van-swipe
       :autoplay="3000"
       indicator-color="white"
@@ -404,17 +460,23 @@ const onClickLeft = () => history.back();
 </div>
 <div class="flex-1"></div>
   <img  :src="page.uploadpath + 'resource/' + page.Res.danhang" class="icon-11" />
-  <div class="margin-left-4 c-1 f-9">1.3km</div>
+  <div class="margin-left-4 c-1 f-9">{{storedetail.distance2}}</div>
   </div>
     <div class="h-1 bg-2"></div>
-    <div class=" f-15 bold c-2 margin-top-20">店铺券</div>
+    <div class=" f-15 bold c-2 margin-top-20">{{fuwuxian.buji=='Y'?'补给券':'代金券'}}</div>
   <div class="margin-top-9 margin-bottom-9">
       <div class="zhuan flex-row flex-center" :style="{
               backgroundImage:
                 'url(' + page.uploadpath + 'resource/' + page.Res.juan + ')',
-            }"  style="background-size:100% ">
+            }"  style="background-size:100% ; position: relative;"  v-for="(item,index) in couponlist" :key="index"  @click="xuanze(index)">
+
+            <div class="position-top2 liji center c-w f-9 "  :style="{
+              backgroundImage:
+                'url(' + page.uploadpath + 'resource/' + page.Res.ligou + ')',
+            }" style="background-size:100%;background-repeat:no-repeat "   >立购可减</div>
+
              <div class="flex-1"></div>
-            <div>
+            <div v-if="fuwuxian.buji!='Y'">
               
               <div class="flex-row flex-center">
                 <div class="flex-1"></div>
@@ -427,22 +489,24 @@ const onClickLeft = () => history.back();
             </div>
           
             <div class="margin-left-10">
-              <div class="c-2 f-11 bold">店铺红包</div>
-              <div class="margin-top-6 c-1 f-9 ">至2021.12.09到期</div>
+              <div class="c-2 f-11 bold">{{item.name}}</div>
+              <div class="margin-top-6 c-1 f-9 ">至2{{item.youxiao_time}}到期</div>
             </div>
         <div class="flex-1"></div>
- <img  :src="page.uploadpath + 'resource/' + page.Res.quan" class="icon-15 " />
+ <img  :src="page.uploadpath + 'resource/' + page.Res.quan" class="icon-15 "  v-if="item.show==false" />
+ <img  :src="page.uploadpath + 'resource/' + page.Res.wanchegn" class="icon-15 " v-else />
+ 
  <div class="flex-1"></div>
             </div>
   </div>
 
-  <div class=" f-15 bold c-2 margin-top-20">代金券</div>
+  <div class=" f-15 bold c-2 margin-top-20">我的券</div>
 
     <div class="margin-top-9 margin-bottom-9">
       <div class="zhuan flex-row flex-center" :style="{
               backgroundImage:
                 'url(' + page.uploadpath + 'resource/' + page.Res.daijin + ')',
-            }"  style="background-size:100% ">
+            }"  style="background-size:100%;background-repeat:no-repeat ">
              <div class="flex-1"></div>
             <div>
               
@@ -480,7 +544,7 @@ const onClickLeft = () => history.back();
     <div>
       <div class="flex-row flex-center">
         <div class="f-12 c-5 ">¥</div>
-        <div class="f-18 c-5">{{fuwudetail.originalprice}}</div>
+        <div class="f-18 c-5">{{totleprice}}</div>
       </div>
       <div class="c-1 f-12 margin-top-4">{{fuwudetail.service_name}}</div>
     </div>
@@ -534,5 +598,10 @@ margin:5px auto 0;
 .dianpu{
   width: 157px;
   height: 98px;
+}
+.liji{
+  /* width: 45px; */
+  padding: 5px;
+  /* height: 16px; */
 }
 </style>
