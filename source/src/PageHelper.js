@@ -138,4 +138,32 @@ export class PageHelper {
     });
   }
 
+  static loadwechat(page) {
+    let viewer = window.navigator.userAgent.toLowerCase();
+    console.log(viewer,'内容是什么')
+    if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+
+      page.inwechat = true;
+  
+      console.log("这里走不走啊啊嗷嗷啊a")
+      //直接调用微信支付
+      let code = PageHelper.getUrlKey("code"); //获取url参数code
+      console.log(code,'cccccccccccccc')
+      if (code) { //拿到code， code传递给后台接口换取opend
+        HttpHelper.Post("member/getwechatinfo", {
+          code
+        }).then((res) => {
+          console.log(res,'tttttttttttttttttttt')
+          if (res.errcode == undefined) {
+            localStorage.setItem("openid", res.openid);
+            PageHelper.loadwechatconfig(page);
+          }
+        });
+      } else {
+        console.log(PageHelper.Inst);
+        PageHelper.getCodeApi(PageHelper.Inst.appid);
+      }
+    }
+  }
+
 }

@@ -37,7 +37,7 @@ var cheku = ()=>{
 // 点击添加车
 var addaiche=()=>{
     console.log(111);
-    router.push('/addgarage')
+    router.push('/editvegicle')
 }
 
 // 点击地址

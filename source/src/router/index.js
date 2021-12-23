@@ -163,8 +163,12 @@ const routes = [{
   path: '/integraldetail',
   name: 'Integraldetail',
   component: Integraldetail
+}, {
+  path: '/recharge',
+  name: 'Recharge',
+  component: Recharge
 }
- 
+
 
 ]
 
