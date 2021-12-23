@@ -1,15 +1,15 @@
 /*******使用方法，下面两句复制到page的js文件的头部
 
 import { ApiConfig } from '../../apis/apiconfig';
-import { InstApi } from '../../apis/order.api';
+import { InstApi } from '../../apis/cardata.api';
 
-var orderApi=new OrderApi();
+var cardataApi=new CardataApi();
 *******/
 import { ApiConfig } from 'apiconfig';
-export class OrderApi{
+export class CardataApi{
 
 
-    creatorder(json, callback, showLoading = true) {
+    modellist(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -18,7 +18,7 @@ export class OrderApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'order/creatorder',
+            url: ApiConfig.GetApiUrl() + 'cardata/modellist',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -41,7 +41,7 @@ export class OrderApi{
         })
     }
 
-    orderdetail(json, callback, showLoading = true) {
+    serieslist(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -50,7 +50,7 @@ export class OrderApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'order/orderdetail',
+            url: ApiConfig.GetApiUrl() + 'cardata/serieslist',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -73,7 +73,7 @@ export class OrderApi{
         })
     }
 
-    orderlist(json, callback, showLoading = true) {
+    sync(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -82,7 +82,7 @@ export class OrderApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'order/orderlist',
+            url: ApiConfig.GetApiUrl() + 'cardata/sync',
             data: json,
             method: 'POST',
             dataType: 'json',

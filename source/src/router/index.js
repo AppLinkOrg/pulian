@@ -175,12 +175,17 @@ const routes = [{
   name: 'Integraldetail',
   component: Integraldetail
 }, {
+  path: '/recharge',
+  name: 'Recharge',
+  component: Recharge
+},{
   path: '/storesx',
   name: 'Storesx',
   component: Storesx,
   meta:{
     'name':'门店列表'
   }
+ }
 }, {
   path: '/physicalsupply',
   name: 'Physicalsupply',
@@ -211,9 +216,15 @@ const routes = [{
   }
 }
 
+<<<<<<< .mine
 
 
 
+=======
+
+
+
+>>>>>>> .theirs
 ]
 
 const router = createRouter({

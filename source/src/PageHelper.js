@@ -4,6 +4,7 @@ import {
 } from "./HttpHelper";
 import { Utils } from "./Utils";
 import { useRoute } from "vue-router";
+import { Toast } from "vant";
 
 
 
@@ -11,7 +12,7 @@ import { useRoute } from "vue-router";
 
 
 export class PageHelper {
-
+  static InWechat = false;
   static Res = null;
   static Inst = null;
   static Text = null;
@@ -104,18 +105,11 @@ export class PageHelper {
   }
   static wechatconfig=null;
   static loadwechatconfig(wxcallback) {
-    // if(PageHelper.wechatconfig!=null){
-    //   wx.ready(function () {
-    //     if(wxcallback!=undefined){
-    //       wxcallback();
-    //     }
-    //   });
-    //   return;
-    // }
+  
     HttpHelper.Post("wechat/gensign", {
       url: location.href.split('#')[0]
     }).then((config) => {
-      // alert(JSON.stringify(config))
+     
       var json = {
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: config.appid, // 必填，公众号的唯一标识
@@ -136,6 +130,46 @@ export class PageHelper {
 
 
     });
+  }
+
+  
+
+
+
+  static getUrlKey(name) { //获取url 参数
+    return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
+  }
+  static loadwechat(page) {
+    let viewer = window.navigator.userAgent.toLowerCase();
+    
+    console.log(viewer,'内容是什么',name)
+     
+    if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+    Toast("这里走不走啊");
+      page.inwechat = true;
+  
+      console.log("这里走不走啊啊嗷嗷啊a")
+      //直接调用微信支付
+      let code = PageHelper.getUrlKey("code"); //获取url参数code
+      Toast(code+"进这里没");
+      
+      console.log(code,'cccccccccccccc')
+      if (code) { //拿到code， code传递给后台接口换取opend
+        Toast("进这里没222");
+        HttpHelper.Post("member/getwechatinfo", {
+          code
+        }).then((res) => {
+          console.log(res,'tttttttttttttttttttt')
+          if (res.errcode == undefined) {
+            localStorage.setItem("openid", res.openid);
+            PageHelper.loadwechatconfig(page);
+          }
+        });
+      } else {
+        console.log(PageHelper.Inst);
+        PageHelper.getCodeApi(PageHelper.Inst.appid);
+      }
+    }
   }
 
 }

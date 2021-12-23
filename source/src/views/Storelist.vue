@@ -166,7 +166,7 @@ var tostoredetail = (index) => {
 
 
 var addmycar = () => {  
-  router.push("/addgarage");
+  router.push("/editvegicle");
 };
  
  
@@ -176,7 +176,7 @@ var addmycar = () => {
   <div class="all_page" v-if="page.Res != null">
  
     <div class="top_blue">
-      <div class="c-w f-16 f-bold margin-left-24 padding-top-5" @click="addmycar()">
+      <div class="c-w f-16 f-bold margin-left-24 padding-top-20" @click="addmycar()">
         +添加我的爱车
       </div>
       <div class="radius_block"></div>
@@ -421,7 +421,7 @@ var addmycar = () => {
   width: 100vw;
 }
 .top_blue {
-  height: 60px;
+  height: 100px;
   width: 100%;
   background: #409eff;
   position: relative;

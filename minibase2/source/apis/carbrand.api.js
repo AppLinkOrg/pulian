@@ -1,15 +1,15 @@
 /*******使用方法，下面两句复制到page的js文件的头部
 
 import { ApiConfig } from '../../apis/apiconfig';
-import { InstApi } from '../../apis/store.api';
+import { InstApi } from '../../apis/carbrand.api';
 
-var storeApi=new StoreApi();
+var carbrandApi=new CarbrandApi();
 *******/
 import { ApiConfig } from 'apiconfig';
-export class StoreApi{
+export class CarbrandApi{
 
 
-    allcategory(json, callback, showLoading = true) {
+    brandinfo(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -18,7 +18,7 @@ export class StoreApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'store/allcategory',
+            url: ApiConfig.GetApiUrl() + 'carbrand/brandinfo',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -41,7 +41,7 @@ export class StoreApi{
         })
     }
 
-    areaslist(json, callback, showLoading = true) {
+    brandlist(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -50,7 +50,7 @@ export class StoreApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'store/areaslist',
+            url: ApiConfig.GetApiUrl() + 'carbrand/brandlist',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -73,7 +73,7 @@ export class StoreApi{
         })
     }
 
-    creatorqrcode(json, callback, showLoading = true) {
+    carbrandlist(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -82,7 +82,7 @@ export class StoreApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'store/creatorqrcode',
+            url: ApiConfig.GetApiUrl() + 'carbrand/carbrandlist',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -105,7 +105,7 @@ export class StoreApi{
         })
     }
 
-    filtrate(json, callback, showLoading = true) {
+    carmodel(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -114,7 +114,7 @@ export class StoreApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'store/filtrate',
+            url: ApiConfig.GetApiUrl() + 'carbrand/carmodel',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -137,7 +137,7 @@ export class StoreApi{
         })
     }
 
-    provinceslist(json, callback, showLoading = true) {
+    modelinfo(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -146,7 +146,7 @@ export class StoreApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'store/provinceslist',
+            url: ApiConfig.GetApiUrl() + 'carbrand/modelinfo',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -169,7 +169,7 @@ export class StoreApi{
         })
     }
 
-    storedetail(json, callback, showLoading = true) {
+    selectcar(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -178,7 +178,7 @@ export class StoreApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'store/storedetail',
+            url: ApiConfig.GetApiUrl() + 'carbrand/selectcar',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -201,7 +201,7 @@ export class StoreApi{
         })
     }
 
-    storelist(json, callback, showLoading = true) {
+    seriesinfo(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -210,7 +210,7 @@ export class StoreApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'store/storelist',
+            url: ApiConfig.GetApiUrl() + 'carbrand/seriesinfo',
             data: json,
             method: 'POST',
             dataType: 'json',
@@ -233,7 +233,7 @@ export class StoreApi{
         })
     }
 
-    storelist2(json, callback, showLoading = true) {
+    serieslist(json, callback, showLoading = true) {
 
         if (showLoading)
             ApiConfig.ShowLoading();
@@ -242,7 +242,7 @@ export class StoreApi{
         console.log(header);
         console.log(json);
         wx.request({
-            url: ApiConfig.GetApiUrl() + 'store/storelist2',
+            url: ApiConfig.GetApiUrl() + 'carbrand/serieslist',
             data: json,
             method: 'POST',
             dataType: 'json',
