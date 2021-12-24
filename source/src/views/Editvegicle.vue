@@ -48,8 +48,16 @@ if (route.query.id != null) {
 
 
 
-
-    
+    HttpHelper.Post("carbrand/selectcar", {
+    carbrand_id: carbrand_id.value,
+    carseries_id: carseries_id.value,
+    carmodel_id: carmodel_id.value,
+  }).then((res) => {
+    brand_name.value = res.brand_name;
+    model_name.value = res.model_name;
+    series_name.value = res.series_name;
+  });
+ 
   });
 } else {
   provinces_name.value = "粤";
@@ -66,7 +74,9 @@ if (route.query.id != null) {
  
 }
 
-HttpHelper.Post("carbrand/selectcar", {
+
+
+      HttpHelper.Post("carbrand/selectcar", {
     carbrand_id: carbrand_id.value,
     carseries_id: carseries_id.value,
     carmodel_id: carmodel_id.value,
@@ -219,6 +229,7 @@ var confrim = (e) => {
 
 //判断编辑还是新增
   if (route.query.id != null) {
+    console.log("走的这边还是这边2222222？？？")
     HttpHelper.Post("member/editmycar", {
       id: route.query.id,
       carbrand_id: carbrand_id.value,
@@ -235,10 +246,15 @@ var confrim = (e) => {
       router.replace("/myselef");
     });
   } else {
+    console.log("走的这边还是这边11111？？？")
     HttpHelper.Post("member/addmycar", {
       carbrand_id: carbrand_id.value,
       carseries_id: carseries_id.value,
       carmodel_id: carmodel_id.value,
+      vin: vin.value,
+      engineno: engineno.value,
+      register_date: register_date.value,
+      inspection_date: inspection_date.value,
       plateno: provinces_name.value + "·" + caridname.value,
     }).then((res) => {
       provinceslist.value = res;
