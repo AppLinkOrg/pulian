@@ -192,7 +192,8 @@ var zuihou=()=>{
     }
     if(couponlist_item.value.type=='B'){
       // 抵扣券
-       fuwudetail_price=fuwudetail_price*couponlist_item.value.zhekou*0.01
+      //  fuwudetail_price=fuwudetail_price*couponlist_item.value.zhekou*0.01
+        fuwudetail_price=fuwudetail_price-couponlist_item.value.jainshao+couponlist_item.value.price*1
 
     }
     if(couponlist_item.value.type=='C'){
@@ -217,8 +218,8 @@ var zuihou2=()=>{
     }
     if(mycouponlist_item.value.type=='B'){
       // 抵扣券
-       fuwudetail_price=fuwudetail_price*mycouponlist_item.value.zhekou*0.01
-
+      //  fuwudetail_price=fuwudetail_price*mycouponlist_item.value.zhekou*0.01
+ fuwudetail_price=fuwudetail_price-mycouponlist_item.value.jainshao
     }
     if(mycouponlist_item.value.type=='C'){
 fuwudetail_price=0
@@ -537,16 +538,16 @@ zuihou2()
   </div>
     <div class="h-1 bg-2"></div>
     <div class=" f-15 bold c-2 margin-top-20">{{fuwuxian.buji=='Y'?'补给券':'代金券'}}</div>
-  <div class="margin-top-9 margin-bottom-9">
+  <div class="margin-top-9 margin-bottom-9 flex-row " style="overflow: scroll;">
       <div class="zhuan flex-row flex-center" :style="{
               backgroundImage:
                 'url(' + page.uploadpath + 'resource/' + page.Res.daijin + ')',
-            }"  style="background-size:100% ; position: relative;"  v-for="(item,index) in couponlist" :key="index"  @click="xuanze(index)">
+            }"  style="background-size:100% ; position: relative;flex:none"  v-for="(item,index) in couponlist" :key="index"  @click="xuanze(index)">
 
             <div class="position-top2 liji center c-w f-9 "  :style="{
               backgroundImage:
                 'url(' + page.uploadpath + 'resource/' + page.Res.ligou + ')',
-            }" style="background-size:100%;background-repeat:no-repeat "   >立购可减</div>
+            }" style="background-size:100%;background-repeat:no-repeat; "   >立购可减</div>
 
              <div class="flex-1"></div>
             <!-- <div >
@@ -610,14 +611,14 @@ zuihou2()
                 <div class="flex-1"></div>
                 
                 <div class="c-5 f-16"  v-if="item.type=='C'"> 兑换</div>
-                <div class="flex-row"  v-if="item.type=='A'">
+                <div class="flex-row"  v-else>
                   <div class="c-5 f-9">¥</div>
               <div class="c-5 f-16" >{{item.jainshao}}</div>
                 </div>
-                <div class="flex-row"  v-if="item.type=='B'">
+                <!-- <div class="flex-row"  v-else>
          
               <div class="c-5 f-16" >{{item.zhekou}}%</div>
-                </div>
+                </div> -->
                 
                  
                  <div class="flex-1"></div>

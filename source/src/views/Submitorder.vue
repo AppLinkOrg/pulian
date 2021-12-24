@@ -120,7 +120,8 @@ toto_price=servicepricedetail_price*1-coupondetail.value.jainshao*1+coupondetail
   }
    if(coupondetail.value.type=='B'){
     //  抵扣券
-    toto_price=servicepricedetail_price*coupondetail.value.zhekou*0.01+coupondetail_price*1
+    // toto_price=servicepricedetail_price*coupondetail.value.zhekou*0.01+coupondetail_price*1
+    toto_price=servicepricedetail_price*1-coupondetail.value.jainshao*1+coupondetail_price*1
   }
     if(coupondetail.value.type=='C'){
       // 补给券
@@ -151,8 +152,9 @@ toto_price=servicepricedetail_price*1-coupondetail.value.jainshao*1
   }
    if(coupondetail.value.type=='B'){
     //  抵扣券
-    toto_price=servicepricedetail_price*coupondetail.value.zhekou*0.01
-    zhekou_rice.value=(servicepricedetail_price-toto_price).toFixed(2)
+    // toto_price=servicepricedetail_price*coupondetail.value.zhekou*0.01
+    toto_price=servicepricedetail_price*1-coupondetail.value.jainshao*1
+    // zhekou_rice.value=(servicepricedetail_price-toto_price).toFixed(2)
   }
     if(coupondetail.value.type=='C'){
       // 补给券
@@ -206,7 +208,7 @@ toto_price=servicepricedetail_price*1-coupondetail.value.jainshao*1
               <div class="flex-1"></div>
               <div class="c-3 f-9">-¥</div>
               <!-- zhekou_rice -->
-              <div class="f-14 c-3">{{coupondetail.type=='C'?servicepricedetail.originalprice:coupondetail.type=='B'?zhekou_rice:coupondetail.jainshao}}</div>
+              <div class="f-14 c-3">{{coupondetail.type=='C'?servicepricedetail.originalprice:coupondetail.jainshao}}</div>
                  <img
           :src="page.uploadpath + 'resource/' + page.Res.youjian"
           class="icon-10"

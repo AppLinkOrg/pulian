@@ -81,11 +81,11 @@ yhlist();
           </div>
           <div  v-else>
               
-              <div class="flex-row flex-center " v-if="item.type=='B'">
-                 <!-- <div class="c-6 f-15 bold">¥</div> -->
+              <!-- <div class="flex-row flex-center " v-if="item.type=='B'">
+         
                  <div class="f-36 c-6 bold">{{item.zhekou}}%</div>
-              </div>
-              <div class="flex-row flex-center " v-else>
+              </div> -->
+              <div class="flex-row flex-center ">
                  <div class="c-6 f-15 bold">¥</div>
                  <div class="f-36 c-6 bold">{{item.jainshao}}</div>
               </div>

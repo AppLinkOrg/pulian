@@ -148,7 +148,7 @@ var quwan=()=>{
      Toast('已领取')
      return;
    }
- router.push('/editvegicle')
+ router.push('/garage')
 
 }
 

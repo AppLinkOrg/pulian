@@ -19,6 +19,12 @@ export class PageHelper {
   static Memberinfo = null;
   static kk="";
 
+
+  static kk(page) {
+    
+    PageHelper.kk = res;
+  }
+
   static Init(page) {
     let route = useRoute();
     if (route.query.openid != undefined && route.query.openid != '') {
@@ -131,6 +137,7 @@ export class PageHelper {
 
     });
   }
+ 
 
   
 
