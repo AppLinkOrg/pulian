@@ -309,6 +309,12 @@ background:#F6F6F6;
 .center {
   text-align: center;
 }
+.chaochu {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  word-break: break-all;
+}
 .right {
   text-align: right;
 }

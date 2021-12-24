@@ -50,15 +50,11 @@ var kazhuan=()=>{
     router.push('/myvoucher')
 }
 
-// jifen 点击积分
-var jifen=()=>{
-    router.push('/integraldetail')
-}
-
-// qiandao 点击签到
-var qiandao=()=>{
-    router.push('/integral')
-}
+let mycarlist = ref([]); 
+//查询车库的数目
+HttpHelper.Post("member/mycarlist", {}).then((res) => {
+  mycarlist.value = res;
+});
 
 
 </script>
@@ -145,8 +141,30 @@ var qiandao=()=>{
                <img :src="page.uploadpath + 'resource/' + page.Res.youjian" class="icon-12 margin-left-4"/>
            </div>
          </div>
-          <img :src="page.uploadpath + 'resource/' + page.Res.qiche" class="icon-50  displat-block margin-auto"  @click="addaiche()"/>
+         <div class="" v-if="mycarlist.length>0">
+
+
+    <div
+      class="margin-top-10 margin-left-14 margin-right-14 bg-w border-radius-9"
+    
+    >
+      <div class="flex-row flex-center padding-20">
+        <div class="flex-1">
+          <div class="f-20 c-2 bold">{{ mycarlist[0].plateno }}</div>
+          <div class="margin-top-14 c-1 f-13">{{  mycarlist[0].carseries_id_name }}</div>
+        </div>
+        <img :src=" mycarlist[0].carbrand_logo" class="icon-60" />
+      </div>
+      
+    </div>
+
+
+         </div>
+         <div v-if="mycarlist.length==0">
+ <img :src="page.uploadpath + 'resource/' + page.Res.qiche" class="icon-50  displat-block margin-auto"  @click="addaiche()"/>
           <div class="margin-top-4 c-1 f-14 center">添加爱车 享专属服务</div>
+         </div>
+         
 
      </div>
      <!-- 更多服务 -->

@@ -74,7 +74,7 @@ var todetail=()=>{
           :src="page.uploadpath + 'resource/' + page.Res.xinxin"
           class="icon-26"
         />
-        <div class="f-30 bold c-w margin-left-4">600</div>
+        <div class="f-30 bold c-w margin-left-4">{{page.Memberinfo.jifen}}</div>
         <div class="flex-1"></div>
         <div
           class="

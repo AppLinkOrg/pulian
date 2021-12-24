@@ -106,9 +106,10 @@ HttpHelper.Post("store/storelist", {}).then((res) => {
 
 
 // 选择门店类型
-var bigcategory_id=ref(0)
+  
 var choosestoretype = (index) => {
   // console.log("点击了",storetylelist.value[index].choose)
+   
    
   bigcategory_id.value=allcategory.value[index].id;
 
@@ -148,7 +149,28 @@ var filtratestore = () => {
    });
 };
 //大分类
-var bigcategory_id=ref("");
+  var bigcategory_id=ref(0);
+if(route.query.bigcategory_id!=null){ 
+ 
+  bigcategory_id.value=route.query.bigcategory_id;
+ 
+   wokestatus_type.value="";
+   seqid.value="";
+   service_id.value="";
+   area_id.value="";
+
+  HttpHelper.Post("store/filtrate", {
+   business:wokestatus_type.value,
+   seq:seqid.value,
+   service_id:service_id.value,
+   areas_id:area_id.value,
+   bigcategory_id:bigcategory_id.value
+   }).then((res) => {
+    storelist.value = res;
+   });
+   
+}
+ 
 var choosetype = (id) => {   
    bigcategory_id.value=id;
    wokestatus_type.value="";
@@ -158,6 +180,8 @@ var choosetype = (id) => {
 
     filtratestore();
 };
+
+
 
 var tostoredetail = (index) => { 
   router.push("/storedetail?id=" + index);
