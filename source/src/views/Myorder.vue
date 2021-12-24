@@ -50,7 +50,17 @@ router.push('/Interevalute?type=A&id='+e);
 
 <template>
   <div v-if="page.Res!=null">
-      <div class="position-top">
+        <van-sticky>
+           <div class="h-40 bg-w flex-row flex-center">
+          <div class="flex-1 f-14 c-1 center" :style="{'color':shownum==''?'#409EFF':''}" @click="cx('')">全部</div>
+          <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='A'?'#409EFF':''}" @click="cx('A')">待付款</div>
+          <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='B'?'#409EFF':''}" @click="cx('B')">可使用</div>
+          <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='daip'?'#409EFF':''}" @click="cx('daip')">待评价</div>
+          <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='er'?'#409EFF':''}" @click="cx('er')">退款/取消</div>
+      </div>   
+        </van-sticky>
+
+      <!-- <div class="position-top">
           <div class="h-40 bg-w flex-row flex-center">
           <div class="flex-1 f-14 c-1 center" :style="{'color':shownum==''?'#409EFF':''}" @click="cx('')">全部</div>
           <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='A'?'#409EFF':''}" @click="cx('A')">待付款</div>
@@ -58,8 +68,8 @@ router.push('/Interevalute?type=A&id='+e);
           <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='daip'?'#409EFF':''}" @click="cx('daip')">待评价</div>
           <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='er'?'#409EFF':''}" @click="cx('er')">退款/取消</div>
       </div>
-      </div>
-      <div class="h-40"></div>
+      </div> -->
+    
       <div class="margin-top-10 margin-left-14 margin-right-14 bg-w border-radius-9 padding-15"  v-for="(item,index) in orderlist" :key="index">
           <div class="flex-row flex-center">
               <div class="c-2 f-14 bold ">{{item.store_name}}</div>

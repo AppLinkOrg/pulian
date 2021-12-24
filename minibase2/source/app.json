@@ -4,6 +4,7 @@
         "pages/login/login",
         "pages/daohan/daohan",
         "pages/auth/auth",
+        "pages/fwpay/fwpay",
         "pages/pay/pay"
     ],
     "permission": {

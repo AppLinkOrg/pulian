@@ -8,7 +8,8 @@ import { Toast } from 'vant';
 let page = ref({});
 let router = useRouter();
 let route = useRoute();
-
+let type=ref('')
+type.value=route.query.type
 
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
@@ -65,14 +66,14 @@ var chakandianpu=()=>{
       </div>
 <!--  -->
            <div class="margin-left-14 margin-right-14 margin-top-14 bg-w border-radius-9 padding-15">
-               <div class="c-2 f-14 bold">购买须知</div>
+               <div class="c-2 f-14 bold">{{type=='A'?'使用规则':'购买须知'}}</div>
                <div class="c-1 f-12 padding-bottom-15 padding-top-15"  style="white-space: pre-wrap;">
-                       {{coupondetail.xuzhi}}
+                       {{type=='A'?coupondetail.guize:coupondetail.xuzhi}}
                </div>
            </div>
            <!--  -->
                             <!--  -->
-          <div class="position-bottom " style="bottom:20px">
+          <div class="position-bottom " style="bottom:20px" v-if="type!='A'">
               <div class="margin-left-14 margin-right-14 h-40 line-height-40 center f-16 c-w bold bg-5 border-radius-20" @click="goumia">
 <a class="c-w f-24">¥{{coupondetail.price}}</a><a class="c-w f-16">/{{coupondetail.shangping}}张</a><a class="c-w f-16 bold padding-left-14">立即购买</a>
               </div>

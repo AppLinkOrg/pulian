@@ -48,8 +48,9 @@ var zhifu=()=>{
          Toast('手机格式不正确');
           return;
     }
-
-HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.query.id,num:num.value,couponlist_id:route.query.couponlist_id }).then((res) => {
+// couponorder_id
+if (type.value=='A') {
+  HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.query.id,num:num.value,couponlist_id:route.query.couponlist_id,gou_type:type.value }).then((res) => {
     console.log(123)
     console.log(res);
   if (res.code==0) {
@@ -59,6 +60,19 @@ HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.qu
       Toast(res.return);
   }
 });
+}else{
+  HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.query.id,num:num.value,couponorder_id:route.query.couponlist_id,gou_type:type.value }).then((res) => {
+    console.log(123)
+    console.log(res);
+  if (res.code==0) {
+
+      router.push('/Paysuccess?id='+res.return);
+  }else{
+      Toast(res.return);
+  }
+});
+}
+
 
 
 }
@@ -75,9 +89,9 @@ var youhuij=()=>{
     zuihou()
 })
   }else{
-  HttpHelper.Post('coupon/coupondetail',{id:route.query.couponlist_id}).then((res)=>{
+  HttpHelper.Post('coupon/coupondetail2',{id:route.query.couponlist_id}).then((res)=>{
     coupondetail.value=res
-    zuihou()
+    zuihou2()
 })
   }
 
@@ -98,23 +112,55 @@ var zuihou=()=>{
 
 
   var coupondetail_price=coupondetail.value.price
+  var toto_price=0;
  
   if(coupondetail.value.type=='A'){
 // 立减券
-totle.value=servicepricedetail_price*1-coupondetail.value.jainshao*1+coupondetail_price*1
+toto_price=servicepricedetail_price*1-coupondetail.value.jainshao*1+coupondetail_price*1
+  }
+   if(coupondetail.value.type=='B'){
+    //  抵扣券
+    toto_price=servicepricedetail_price*coupondetail.value.zhekou*0.01+coupondetail_price*1
+  }
+    if(coupondetail.value.type=='C'){
+      // 补给券
+     toto_price=coupondetail_price
+  }
+toto_price=toto_price*1
+  totle.value=toto_price.toFixed(2)
+}
+
+let zhekou_rice=ref(0);
+
+var zuihou2=()=>{
+  var servicepricedetail_price=servicepricedetail.value.originalprice
+
+  if (route.query.couponlist_id==0) {
+    totle.value=servicepricedetail_price
+    return
+  }
+
+
+
+  var coupondetail_price=coupondetail.value.price
+  var toto_price=0;
+  if(coupondetail.value.type=='A'){
+// 立减券
+toto_price=servicepricedetail_price*1-coupondetail.value.jainshao*1
 // console.log(servicepricedetail_price*1,coupondetail.value.jainshao*1,coupondetail_price*1);
   }
    if(coupondetail.value.type=='B'){
     //  抵扣券
-    totle.value=servicepricedetail_price*coupondetail.value.zhekou*0.01+coupondetail_price*1
+    toto_price=servicepricedetail_price*coupondetail.value.zhekou*0.01
+    zhekou_rice.value=(servicepricedetail_price-toto_price).toFixed(2)
   }
     if(coupondetail.value.type=='C'){
       // 补给券
-      totle.value=coupondetail_price
+      toto_price=0
   }
+   toto_price=toto_price*1
+  totle.value=toto_price.toFixed(2)
 }
-
-
 
 
 
@@ -159,7 +205,8 @@ totle.value=servicepricedetail_price*1-coupondetail.value.jainshao*1+coupondetai
               <div class=" f-15 c-2">使用券</div>
               <div class="flex-1"></div>
               <div class="c-3 f-9">-¥</div>
-              <div class="f-14 c-3">{{coupondetail.type=='C'?servicepricedetail.originalprice:coupondetail.jainshao}}</div>
+              <!-- zhekou_rice -->
+              <div class="f-14 c-3">{{coupondetail.type=='C'?servicepricedetail.originalprice:coupondetail.type=='B'?zhekou_rice:coupondetail.jainshao}}</div>
                  <img
           :src="page.uploadpath + 'resource/' + page.Res.youjian"
           class="icon-10"
