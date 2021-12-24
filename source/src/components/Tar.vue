@@ -6,7 +6,7 @@ import { ref } from "vue";
 import { useRouter,useRoute } from "vue-router";
 
 let router = useRouter();
-let page = ref({});
+let page = ref({kk:'/'});
 
 
 var active=ref('firsthome')
@@ -48,7 +48,8 @@ pathname.value=props.pathname
   if (pathname.value=='/myselef'&&active.value!='/myselef') {
    active.value='myselef'
  }
-PageHelper.kk=page;
+
+ //
 
 var tz = (num) => {
   // PageHelper.kk.value.a="2";
@@ -79,8 +80,8 @@ var tz = (num) => {
 
 <template>
   <div>
-      <van-tabbar v-model="page.a">
-  <van-tabbar-item icon="home-o" @click="tz(1)" name="/">首页</van-tabbar-item>
+      <van-tabbar v-model="page.kk">
+  <van-tabbar-item icon="home-o" @click="tz(1)" name="/">首页{{page.kk}}</van-tabbar-item>
   <van-tabbar-item icon="points" @click="tz(2)" name="/integral">积分</van-tabbar-item>
   <van-tabbar-item icon="shop-o" @click="tz(3)" name="/storelist">门店</van-tabbar-item>
   <van-tabbar-item icon="manager-o" @click="tz(4)" name="/myselef">我的</van-tabbar-item>

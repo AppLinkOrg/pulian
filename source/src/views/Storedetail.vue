@@ -192,7 +192,8 @@ var zuihou=()=>{
     }
     if(couponlist_item.value.type=='B'){
       // 抵扣券
-       fuwudetail_price=fuwudetail_price*couponlist_item.value.zhekou*0.01
+      //  fuwudetail_price=fuwudetail_price*couponlist_item.value.zhekou*0.01
+        fuwudetail_price=fuwudetail_price-couponlist_item.value.jainshao+couponlist_item.value.price*1
 
     }
     if(couponlist_item.value.type=='C'){
@@ -217,8 +218,8 @@ var zuihou2=()=>{
     }
     if(mycouponlist_item.value.type=='B'){
       // 抵扣券
-       fuwudetail_price=fuwudetail_price*mycouponlist_item.value.zhekou*0.01
-
+      //  fuwudetail_price=fuwudetail_price*mycouponlist_item.value.zhekou*0.01
+ fuwudetail_price=fuwudetail_price-mycouponlist_item.value.jainshao
     }
     if(mycouponlist_item.value.type=='C'){
 fuwudetail_price=0
@@ -610,14 +611,14 @@ zuihou2()
                 <div class="flex-1"></div>
                 
                 <div class="c-5 f-16"  v-if="item.type=='C'"> 兑换</div>
-                <div class="flex-row"  v-if="item.type=='A'">
+                <div class="flex-row"  v-else>
                   <div class="c-5 f-9">¥</div>
               <div class="c-5 f-16" >{{item.jainshao}}</div>
                 </div>
-                <div class="flex-row"  v-if="item.type=='B'">
+                <!-- <div class="flex-row"  v-else>
          
               <div class="c-5 f-16" >{{item.zhekou}}%</div>
-                </div>
+                </div> -->
                 
                  
                  <div class="flex-1"></div>

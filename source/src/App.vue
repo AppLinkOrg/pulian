@@ -16,6 +16,7 @@ let page = ref({});
 let pathname=ref('');
 let title=ref('');
 PageHelper.Init(page, () => {});
+PageHelper.kk=pathname;
 
 const route=useRoute()
 watch(()=>route.path,(e)=>{
@@ -25,7 +26,7 @@ watch(()=>route.path,(e)=>{
   window.document.querySelector("title").text=title.value;
 
   // page.value.a=route.path;
-  PageHelper.kk.value.a=route.path;
+  PageHelper.kk.value=route.path;
 
   // PageHelper.kk.a=route.path;
 
@@ -33,7 +34,7 @@ watch(()=>route.path,(e)=>{
   //  console.log('监听到变化ggg',route.path)
  
 })
-console.log('监听到变化ssss',route.meta.name)
+console.log('监听到变化ssss',route.path)
 
 createApp({}).component('nav-bar',{
   // props:{
