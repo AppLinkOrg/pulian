@@ -1,10 +1,10 @@
 <script setup>
 import { PageHelper } from "../PageHelper";
 import { HttpHelper } from "../HttpHelper";
-import { ref } from "vue";
+import { ref, watch } from "vue";
 import { Utils } from "../Utils";
 import { NModal } from "naive-ui";
-import { useRouter } from "vue-router";
+import { useRouter,useRoute } from "vue-router";
 import Tar from '../components/Tar.vue';
 
 let router = useRouter();
@@ -12,6 +12,7 @@ let page = ref({});
 let data = ref({});
 let showVideo = ref(false);
 PageHelper.Init(page, () => {});
+ 
 
 var diaozhuan = (item) => {
   router.push(item);
@@ -39,13 +40,20 @@ PageHelper.loadwechatconfig(()=>{
         });
 });
 
+let route = useRoute();
+let pathname=ref('');
+watch(route,(newVal,oldVal)=>{
+  console.log('监听到变化dd8888d',newVal.path);
+
+})
+// console.log('监听到变化dd8888d');
 
 </script>
 
 <template>
  <div>
 <router-view />
-<Tar></Tar>
+<Tar :pathname="pathname"></Tar>
  </div>
 </template>
 

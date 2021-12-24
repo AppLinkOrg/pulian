@@ -34,8 +34,7 @@ jifenlist()
 
 <template>
   <div  v-if="page.Res!=null">
-
-       <div class="position-top">
+ <van-sticky>
           <div class="h-40 bg-w flex-row flex-center" >
           <div class="flex-1 f-14 c-1 center" :style="{'color':jifenzhuan=='A'?'#1890FE':'#333333'}"  @click="xuan('A')">收入</div>
           <div class="flex-1 f-14 c-1 center" :style="{'color':jifenzhuan=='B'?'#1890FE':'#333333'}"  @click="xuan('B')">支出</div>
@@ -48,9 +47,24 @@ jifenlist()
             <div class="hensty"  v-show="jifenzhuan=='B'"></div>
           </div>
       </div>
-      </div>
+ </van-sticky>
 
-      <div class="h-40"></div>
+       <!-- <div class="position-top">
+          <div class="h-40 bg-w flex-row flex-center" >
+          <div class="flex-1 f-14 c-1 center" :style="{'color':jifenzhuan=='A'?'#1890FE':'#333333'}"  @click="xuan('A')">收入</div>
+          <div class="flex-1 f-14 c-1 center" :style="{'color':jifenzhuan=='B'?'#1890FE':'#333333'}"  @click="xuan('B')">支出</div>
+      </div>
+       <div class=" flex-row flex-center" >
+          <div class="flex-1 f-14 c-1 center" >
+<div class="hensty" v-show="jifenzhuan=='A'"></div>
+          </div>
+          <div class="flex-1 f-14 c-1 center">
+            <div class="hensty"  v-show="jifenzhuan=='B'"></div>
+          </div>
+      </div>
+      </div> -->
+
+      <!-- <div class="h-40"></div> -->
 
       <div class="margin-left-14 margin-right-14 margin-top-14 bg-w border-radius-9 padding-15" v-for="(item,index) in pointsrecordlist.result" :key="index">
         <div class="f-15 c-2 bold ">{{item[0]['times']}}</div>

@@ -7,6 +7,7 @@ import 'vant/lib/index.css'
 // import './libs/rem.js';
 import 'lib-flexible/flexible'
 
+// import store from './store'
 
 
 createApp(App).use(router).use(Vant).mount('#app')

@@ -29,6 +29,25 @@ var yhlist=()=>{
 
 }
 
+// guize 规则显示
+let xzindex=ref(0)
+var guize=(e)=>{
+    if(xzindex.value==e+1){
+xzindex.value=0
+    }else{
+    xzindex.value=e+1    
+    }
+
+}
+
+// gouse 去使用
+var gouse=(index)=>{
+    
+
+    router.push('/couponbag?id='+couponorder.value[index].coupon_id+'&couponorder_id='+couponorder.value[index].id+'&type=A')
+
+}
+
 yhlist();
 </script>
 
@@ -53,7 +72,57 @@ yhlist();
       </div>
       </van-sticky>
 
-     <div v-for="(item,index) in couponorder " :key="index">
+
+     <div v-for="(item,index) in couponorder" :key="index" >
+             <div class="margin-left-14 margin-right-14 margin-top-14 styyan  flex-row flex-center padding-my" >
+          <div class="shu margin-right-20"></div>
+          <div v-if="item.type=='C'">
+              <div class="c-2 f-15">兑换</div>
+          </div>
+          <div  v-else>
+              
+              <div class="flex-row flex-center " v-if="item.type=='B'">
+                 <!-- <div class="c-6 f-15 bold">¥</div> -->
+                 <div class="f-36 c-6 bold">{{item.zhekou}}%</div>
+              </div>
+              <div class="flex-row flex-center " v-else>
+                 <div class="c-6 f-15 bold">¥</div>
+                 <div class="f-36 c-6 bold">{{item.jainshao}}</div>
+              </div>
+              <div class="margin-top-10 c-1 f-12 ">满{{item.manmoney}}可用</div>
+
+          </div>
+          <div class="margin-left-30"></div>
+         <div class="margin-right-14 flex-1">
+             <div class="flex-row">
+                 <div><div class="c-2 f-16 bold ">{{item.coupon_name}}</div>
+              <div class="f-12 c-1  margin-top-10">有效期至{{item.star_time_dateformat}}</div></div>
+              <div class="flex-1"></div>
+              <div class="f-12 c-w padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bg-6 " @click="gouse(index)">{{item.yhstadius=='A'?'去使用':item.yhstadius=='B'?'已使用':'失效'}}</div>
+             </div>
+             <div class="flex-row flex-center margin-top-26">
+                 <div class="c-1 f-12">使用规则</div>
+                 <div class="flex-1"></div>
+                 <img :src="page.uploadpath + 'resource/' + page.Res.xiajain" class="icon-12" @click="guize(index)" v-if="xzindex!=index+1"/>
+                 <img :src="page.uploadpath + 'resource/' + page.Res.shanjian" class="icon-12" @click="guize(index)" v-else />
+             </div>
+         </div>
+      </div>
+      <!--  -->
+      <div class="guize padding-15 bg-w margin-left-14 margin-right-14 margin-top-10" v-if="index+1==xzindex&&item.coupon_guize!=''">
+          <p v-html="item.coupon_guize"></p>
+
+      </div>
+
+     </div>
+
+
+
+
+
+
+     <div v-if="false">
+         <div v-for="(item,index) in couponorder " :key="index">
           <!-- 领劵中心 -->
         <div class="margin-left-14 margin-right-14 margin-top-14 bg-w border-radius-9 padding-ph flex-row" v-if="couponorder.type !='C'">
           <div class="biao center flex-row flex-center ">
@@ -64,7 +133,7 @@ yhlist();
                   <div class="c-2 f-16 bold ">{{item.shangping}}张×{{item.price}}元 {{item.name}}</div>
               <div class="margin-top-14 c-6 f-14 ">{{item.title}}</div>
               <div class="f-12 c-1 margin-top-14 ">满{{item.manmoney}}可用 每次仅使用一张</div>
-              <!-- <div class="f-12 c-1 margin-top-14 ">满{{item.manmoney}}可用</div> -->
+
            </div>
           </div>
           <div class="flex-1"></div>
@@ -100,34 +169,11 @@ yhlist();
           </div>
       </div>
      </div>
+     </div>
 
 
 
-      <!-- <div class="margin-left-14 margin-right-14 margin-top-14 styyan  flex-row flex-center padding-my" v-for="(item,index) in couponorder" :key="index" >
-          <div class="shu margin-right-20"></div>
-          <div>
-              <div class="flex-row flex-center ">
-                 <div class="c-6 f-15 bold">¥</div>
-                 <div class="f-36 c-6 bold">5</div>
-              </div>
-              <div class="margin-top-10 c-1 f-12 ">满20可用</div>
-
-          </div>
-          <div class="margin-left-30"></div>
-         <div class="margin-right-14 flex-1">
-             <div class="flex-row">
-                 <div><div class="c-2 f-16 bold ">满减券</div>
-              <div class="f-12 c-1  margin-top-10">有效期至2022.12.23</div></div>
-              <div class="flex-1"></div>
-              <div class="f-12 c-w padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bg-6 ">去使用</div>
-             </div>
-             <div class="flex-row flex-center margin-top-26">
-                 <div class="c-1 f-12">使用规则</div>
-                 <div class="flex-1"></div>
-                 <img :src="page.uploadpath + 'resource/' + page.Res.xiajain" class="icon-12"/>
-             </div>
-         </div>
-      </div> -->
+   
 
 
 
@@ -152,6 +198,10 @@ border-radius: 5px;
 height: 110px;
 background: #1890FE;
 border-radius: 2px 0px 0px 2px;
+}
+.guize{
+    box-shadow: 0px 2px 14px 0px rgba(24, 144, 254, 0.12);
+border-radius: 5px;
 }
 
 

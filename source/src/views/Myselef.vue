@@ -74,7 +74,7 @@ HttpHelper.Post("member/mycarlist", {}).then((res) => {
                <div class="margin-top-10 c-2 f-12">172****2314</div>
            </div>
            <div class="flex-1"></div>
-           <div class="h-30 padding-left-10 padding-right-10 mubo flex-row flex-center bd-2" >
+           <div class="h-30 padding-left-10 padding-right-10 mubo flex-row flex-center bd-2" @click="qiandao()">
  <img :src="page.uploadpath + 'resource/' + page.Res.qianbao" class="icon-20 border-radius-50"/>
  <div class="margin-left-4 c-6 f-12 ">签到</div>
            </div>
@@ -82,7 +82,7 @@ HttpHelper.Post("member/mycarlist", {}).then((res) => {
      <!--  -->
      <div class="flex-row flex-center margin-top-30">
          <div class="flex-1"></div>
-         <div>
+         <div @click="jifen()">
              <div class="c-6 bold f-20 center ">34</div>
              <div class="margin-top-10 c-2 f-12 center">积分</div>
          </div>

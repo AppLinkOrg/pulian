@@ -17,7 +17,7 @@ export class PageHelper {
   static Inst = null;
   static Text = null;
   static Memberinfo = null;
-
+  static kk="";
 
   static Init(page) {
     let route = useRoute();

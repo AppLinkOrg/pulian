@@ -8,7 +8,11 @@ import { useRouter,useRoute,onBeforeRouteUpdate  } from "vue-router";
 import NavBar from "./components/NavBar.vue";
 
 
+
 let page = ref({});
+
+
+
 let pathname=ref('');
 let title=ref('');
 PageHelper.Init(page, () => {});
@@ -18,6 +22,16 @@ watch(()=>route.path,(e)=>{
   pathname.value=e
   title.value=route.meta.name
   console.log('监听到变化',route)
+  window.document.querySelector("title").text=title.value;
+
+  // page.value.a=route.path;
+  PageHelper.kk.value.a=route.path;
+
+  // PageHelper.kk.a=route.path;
+
+
+  //  console.log('监听到变化ggg',route.path)
+ 
 })
 console.log('监听到变化ssss',route.meta.name)
 
@@ -31,7 +45,7 @@ createApp({}).component('nav-bar',{
 
 })
 
-
+// title
 
 
 </script>

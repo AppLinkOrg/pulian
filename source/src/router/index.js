@@ -77,15 +77,25 @@ const routes = [{
 }, {
   path: '/submitorder',
   name: 'Submitorder',
-  component: Submitorder
+  component: Submitorder,
+  meta: {
+    'name': '提交订单'
+  }
+
 }, {
   path: '/paysuccess',
   name: 'Paysuccess',
-  component: Paysuccess
+  component: Paysuccess,
+  meta: {
+    'name': '支付成功'
+  }
 }, {
   path: '/orderdetail',
   name: 'Orderdetail',
-  component: Orderdetail
+  component: Orderdetail,
+  meta: {
+    'name': '订单详情'
+  }
 }, {
   path: '/myorder',
   name: 'Myorder',
@@ -173,7 +183,10 @@ const routes = [{
 }, {
   path: '/integraldetail',
   name: 'Integraldetail',
-  component: Integraldetail
+  component: Integraldetail,
+  meta: {
+    'name': '积分明细'
+  }
 }, {
   path: '/recharge',
   name: 'Recharge',
