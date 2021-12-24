@@ -57,6 +57,12 @@ HttpHelper.Post("member/mycarlist", {}).then((res) => {
 });
 
 
+// qiandao 签到
+var qiandao=()=>{
+  router.push('/integral')
+}
+
+
 </script>
 
 <template>
