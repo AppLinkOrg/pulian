@@ -748,7 +748,8 @@ button {
   margin-left:23px
 }
 .margin-left-30{
-  margin-left:30px
+  margin-left:30px;
+  
 }
 .margin-left-32{
   margin-left:32px

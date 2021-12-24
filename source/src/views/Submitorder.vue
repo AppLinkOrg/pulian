@@ -63,13 +63,24 @@ HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.qu
 
 }
 
+let type=ref('');
+type.value=route.query.type
+
 // 优惠卷详情
 let coupondetail=ref(null)
 var youhuij=()=>{
+  if (type.value=='A') {
+      HttpHelper.Post('coupon/coupondetail',{id:route.query.couponlist_id}).then((res)=>{
+    coupondetail.value=res
+    zuihou()
+})
+  }else{
   HttpHelper.Post('coupon/coupondetail',{id:route.query.couponlist_id}).then((res)=>{
     coupondetail.value=res
     zuihou()
 })
+  }
+
 
 
 }
@@ -78,6 +89,14 @@ var youhuij=()=>{
 let totle=ref(0);
 var zuihou=()=>{
   var servicepricedetail_price=servicepricedetail.value.originalprice
+
+  if (route.query.couponlist_id==0) {
+    totle.value=servicepricedetail_price
+    return
+  }
+
+
+
   var coupondetail_price=coupondetail.value.price
  
   if(coupondetail.value.type=='A'){
@@ -87,7 +106,7 @@ totle.value=servicepricedetail_price*1-coupondetail.value.jainshao*1+coupondetai
   }
    if(coupondetail.value.type=='B'){
     //  抵扣券
-    totle.value=servicepricedetail_price*coupondetail.value.zhekou*0.01+coupondetail_price
+    totle.value=servicepricedetail_price*coupondetail.value.zhekou*0.01+coupondetail_price*1
   }
     if(coupondetail.value.type=='C'){
       // 补给券
