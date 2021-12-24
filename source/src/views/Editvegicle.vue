@@ -46,7 +46,10 @@ if (route.query.id != null) {
     inspection_date.value = res.inspection_date;
     register_date.value = res.register_date;
 
-    selectcar_name();
+
+
+
+    
   });
 } else {
   provinces_name.value = "粤";
@@ -60,9 +63,20 @@ if (route.query.id != null) {
     carseries_id.value = route.query.carseries_id;
     carmodel_id.value = route.query.carmodel_id;
   }
-
-  selectcar_name();
+ 
 }
+
+HttpHelper.Post("carbrand/selectcar", {
+    carbrand_id: carbrand_id.value,
+    carseries_id: carseries_id.value,
+    carmodel_id: carmodel_id.value,
+  }).then((res) => {
+    brand_name.value = res.brand_name;
+    model_name.value = res.model_name;
+    series_name.value = res.series_name;
+  });
+
+
 
 var selectcar_name = () => {
   HttpHelper.Post("carbrand/selectcar", {
