@@ -538,16 +538,16 @@ zuihou2()
   </div>
     <div class="h-1 bg-2"></div>
     <div class=" f-15 bold c-2 margin-top-20">{{fuwuxian.buji=='Y'?'补给券':'代金券'}}</div>
-  <div class="margin-top-9 margin-bottom-9">
+  <div class="margin-top-9 margin-bottom-9 flex-row " style="overflow: scroll;">
       <div class="zhuan flex-row flex-center" :style="{
               backgroundImage:
                 'url(' + page.uploadpath + 'resource/' + page.Res.daijin + ')',
-            }"  style="background-size:100% ; position: relative;"  v-for="(item,index) in couponlist" :key="index"  @click="xuanze(index)">
+            }"  style="background-size:100% ; position: relative;flex:none"  v-for="(item,index) in couponlist" :key="index"  @click="xuanze(index)">
 
             <div class="position-top2 liji center c-w f-9 "  :style="{
               backgroundImage:
                 'url(' + page.uploadpath + 'resource/' + page.Res.ligou + ')',
-            }" style="background-size:100%;background-repeat:no-repeat "   >立购可减</div>
+            }" style="background-size:100%;background-repeat:no-repeat; "   >立购可减</div>
 
              <div class="flex-1"></div>
             <!-- <div >

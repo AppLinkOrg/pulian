@@ -64,6 +64,8 @@ watch(route,(newVal,oldVal)=>{
 img {
   max-width: 100%;
   border-style: none;
+ 
+  
 }
 .firstcontent {
   width: 100%;
