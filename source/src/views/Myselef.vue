@@ -57,9 +57,14 @@ HttpHelper.Post("member/mycarlist", {}).then((res) => {
 });
 
 
-// qiandao 签到
+// jifen 点击积分
+var jifen=()=>{
+    router.push('/integraldetail')
+}
+
+// qiandao 点击签到
 var qiandao=()=>{
-  router.push('/integral')
+    router.push('/integral')
 }
 
 
