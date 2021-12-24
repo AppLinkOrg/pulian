@@ -40,6 +40,7 @@ import Physicalsupply from '../views/Physicalsupply.vue'
 import Vouchercenter from '../views/Vouchercenter.vue'
 import Couponbag from '../views/Couponbag.vue'
 import Myvoucher from '../views/Myvoucher.vue'
+import Myinfomation from '../views/Myinfomation.vue'
 
 
 const routes = [{
@@ -226,7 +227,17 @@ const routes = [{
   meta: {
     'name': '卡券'
   }
+},{
+  path: '/myinfomation',
+  name: 'Myinfomation',
+  component: Myinfomation,
+  meta: {
+    'name': '我的资料'
+  }
 }
+
+
+
 
 ]
 

@@ -218,7 +218,9 @@ var confrim = (e) => {
   }
 
 //判断编辑还是新增
+ console.log(route.query.id);
   if (route.query.id != null) {
+   
     HttpHelper.Post("member/editmycar", {
       id: route.query.id,
       carbrand_id: carbrand_id.value,
