@@ -67,7 +67,20 @@ var qiangou = (item) =>{
 
 // 购买
 var goumia=()=>{
-   router.push('/Submitorder?id='+fuwudetail.value.id+'&couponlist_id='+couponlist_item.value.id);
+  console.log(couponlist_item.value,'couponlist_id');
+
+  if (myselect.value==0) {
+     if (couponlist_item.value !=null) {
+      router.push('/Submitorder?id='+fuwudetail.value.id+'&couponlist_id='+couponlist_item.value.id+'&type=A');
+  }else{
+     router.push('/Submitorder?id='+fuwudetail.value.id+'&couponlist_id='+0+'&type=A');
+  }
+  }else{
+ 
+ router.push('/Submitorder?id='+fuwudetail.value.id+'&couponlist_id='+mycouponlist_item.value.id+'&type=B');
+  }
+ 
+ 
     console.log('寄哪里了---',fuwudetail,fuwudetail.id);
 
 }
@@ -99,6 +112,7 @@ PageHelper.loadwechatconfig(()=>{
 var dianj=(e)=>{
 fwshow.value=e
 fuwu()
+daijin()
 
 }
 let fuwuxian=ref({})
@@ -120,6 +134,7 @@ var fuwu=()=>{
 
 // 代金卷  
 let couponlist=ref([]);
+let mycouponlist=ref([]);
 var daijin=()=>{
   var bigcategory_id=storedetail.value.bigcategorylist[fwshow.value].id
 var buji=storedetail.value.bigcategorylist[fwshow.value].buji
@@ -130,6 +145,14 @@ var buji=storedetail.value.bigcategorylist[fwshow.value].buji
        
      }
     couponlist.value=Res
+})
+
+  HttpHelper.Post('coupon/mycoupon',{store_id:route.query.id,bigcategory_id,buji}).then((Res)=>{
+    //  for (let index = 0; index < Res.length; index++) {
+    //     Res[index].show = false;
+       
+    //  }
+    mycouponlist.value=Res
 })
 }
 
@@ -149,6 +172,7 @@ item.show=false
 couponlist.value[index].show=false
 couponlist_item.value=null
   }
+  myselect.value=0
 zuihou()
 }
 
@@ -161,12 +185,12 @@ var zuihou=()=>{
   if (couponlist_item.value!=null) {
     if(couponlist_item.value.type=='A'){
       // 立减券
-     fuwudetail_price=fuwudetail_price-couponlist_item.value.jainshao
+     fuwudetail_price=fuwudetail_price-couponlist_item.value.jainshao+couponlist_item.value.price*1
 
     }
     if(couponlist_item.value.type=='B'){
       // 抵扣券
-       fuwudetail_price=fuwudetail_price*zhekou*0.01
+       fuwudetail_price=fuwudetail_price*couponlist_item.value.zhekou*0.01
 
     }
     if(couponlist_item.value.type=='C'){
@@ -175,6 +199,48 @@ fuwudetail_price=couponlist_item.value.price
     
   }
   totleprice.value=fuwudetail_price;
+}
+// 最后的价钱计算2
+var zuihou2=()=>{
+  console.log('进来哦了',couponlist_item);
+  var fuwudetail_price=fuwudetail.value.originalprice;
+
+  if (mycouponlist_item.value!=null) {
+    if(mycouponlist_item.value.type=='A'){
+      // 立减券
+     fuwudetail_price=fuwudetail_price-mycouponlist_item.value.jainshao
+
+    }
+    if(mycouponlist_item.value.type=='B'){
+      // 抵扣券
+       fuwudetail_price=fuwudetail_price*mycouponlist_item.value.zhekou*0.01
+
+    }
+    if(mycouponlist_item.value.type=='C'){
+fuwudetail_price=0
+    }
+    
+  }
+  totleprice.value=fuwudetail_price;
+}
+// mydiandan 选择的自己购买的订单
+let myselect=ref(0)
+let mycouponlist_item=ref(0)
+var mydiandan=(e)=>{
+  for(let item of couponlist.value){
+    item.show=false
+  }
+  if (myselect.value==e+1) {
+     myselect.value=0
+  }else{
+    myselect.value=e+1
+  }
+  mycouponlist_item.value=mycouponlist.value[e]
+
+zuihou2()
+ 
+  
+
 }
 
 
@@ -467,7 +533,7 @@ fuwudetail_price=couponlist_item.value.price
   <div class="margin-top-9 margin-bottom-9">
       <div class="zhuan flex-row flex-center" :style="{
               backgroundImage:
-                'url(' + page.uploadpath + 'resource/' + page.Res.juan + ')',
+                'url(' + page.uploadpath + 'resource/' + page.Res.daijin + ')',
             }"  style="background-size:100% ; position: relative;"  v-for="(item,index) in couponlist" :key="index"  @click="xuanze(index)">
 
             <div class="position-top2 liji center c-w f-9 "  :style="{
@@ -476,7 +542,7 @@ fuwudetail_price=couponlist_item.value.price
             }" style="background-size:100%;background-repeat:no-repeat "   >立购可减</div>
 
              <div class="flex-1"></div>
-            <div v-if="fuwuxian.buji!='Y'">
+            <!-- <div >
               
               <div class="flex-row flex-center">
                 <div class="flex-1"></div>
@@ -486,11 +552,25 @@ fuwudetail_price=couponlist_item.value.price
               </div>
               <div class="margin-top-6 c-1 f-8">满30可用</div>
 
-            </div>
+            </div> -->
+           <div>
+               <div class="flex-row flex-center">
+                <div class="flex-1"></div>
+                <div class="f-16 c-3">{{item.price}}</div>
+                <div class="f-10 c-3">元</div>
+                <div class="c-3 f-12">×</div>
+                <div class="f-16 c-3">{{item.shangping}}</div>
+                <div class="f-10 c-3">张</div>
+                 <div class="flex-1"></div>
+              </div>
+              
+              <div class="margin-top-6 c-1 f-9"  v-if="item.type=='C'">无门槛</div>
+              <div class="margin-top-6 c-1 f-9" v-else>满{{item.manmoney}}减{{item.jainshao}}</div>
+           </div>
           
             <div class="margin-left-10">
               <div class="c-2 f-11 bold">{{item.name}}</div>
-              <div class="margin-top-6 c-1 f-9 ">至2{{item.youxiao_time}}到期</div>
+              <div class="margin-top-6 c-1 f-9 ">即购日启有效期{{item.youxiao}}天</div>
             </div>
         <div class="flex-1"></div>
  <img  :src="page.uploadpath + 'resource/' + page.Res.quan" class="icon-15 "  v-if="item.show==false" />
@@ -502,15 +582,15 @@ fuwudetail_price=couponlist_item.value.price
 
   <div class=" f-15 bold c-2 margin-top-20">我的券</div>
 
-    <div class="margin-top-9 margin-bottom-9">
+    <div class="margin-top-9 margin-bottom-9 flex-row "  style="overflow: scroll;">
       <div class="zhuan flex-row flex-center" :style="{
               backgroundImage:
-                'url(' + page.uploadpath + 'resource/' + page.Res.daijin + ')',
-            }"  style="background-size:100%;background-repeat:no-repeat ">
+                'url(' + page.uploadpath + 'resource/' + page.Res.juan + ')',
+            }"  style="background-size:100%;background-repeat:no-repeat "   v-for="(item,index) in mycouponlist"  :key="index" @click="mydiandan(index)">
              <div class="flex-1"></div>
             <div>
               
-              <div class="flex-row flex-center">
+              <!-- <div class="flex-row flex-center">
                 <div class="flex-1"></div>
                 <div class="f-16 c-3">7</div>
                 <div class="f-10 c-3">元</div>
@@ -518,21 +598,40 @@ fuwudetail_price=couponlist_item.value.price
                 <div class="f-16 c-3">2</div>
                 <div class="f-10 c-3">张</div>
                  <div class="flex-1"></div>
+              </div> -->
+              <div class="flex-row flex-center">
+                <div class="flex-1"></div>
+                
+                <div class="c-5 f-16"  v-if="item.type=='C'"> 兑换</div>
+                <div class="flex-row" v-else>
+                  <div class="c-5 f-9">¥</div>
+              <div class="c-5 f-16" >{{item.jainshao}}</div>
+                </div>
+                
+                 
+                 <div class="flex-1"></div>
               </div>
-              <div class="margin-top-6 c-1 f-9">无门槛</div>
+               <div class="margin-top-6 c-1 f-9" v-if="item.type=='C'">无门槛</div>
+              <div class="margin-top-6 c-1 f-9" v-else>满{{item.manmoney}}可用</div>
+             
 
             </div>
           
             <div class="margin-left-10">
-              <div class="c-2 f-11 bold">标准洗车券</div>
-              <div class="flex-row margin-top-9 flex-center">
+              <div class="c-2 f-11 bold">{{item.coupon_name}}</div>
+              <!-- <div class="flex-row margin-top-9 flex-center">
                 <div class="f-10 c-5 ">¥</div>
                 <div class="f-14 c-5">10</div>
-              </div>
+              </div> -->
+              <div class="c-1 f-10  margin-top-9">有效期至{{item.end_time_dateformat}}到期</div>
             </div>
+            <img  :src="page.uploadpath + 'resource/' + page.Res.quan" class="icon-15 "  v-if="index+1 !=myselect " />
+             <img  :src="page.uploadpath + 'resource/' + page.Res.wanchegn" class="icon-15 " v-else />
         <div class="flex-1"></div>
-<div class="h-19  padding-left-14 padding-right-14 c-w f-9 bg-5 border-radius-9  line-height-19" >抢购</div>
- <div class="flex-1"></div>
+
+ <!-- <img  :src="page.uploadpath + 'resource/' + page.Res.wanchegn" class="icon-15 " /> -->
+
+
             </div>
   </div>
 

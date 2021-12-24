@@ -45,6 +45,10 @@ var dizhi=()=>{
      router.push('/addressguan')
 }
 
+// kazhuan 点击卡券
+var kazhuan=()=>{
+    router.push('/myvoucher')
+}
 
 
 </script>
@@ -77,7 +81,7 @@ var dizhi=()=>{
              <div class="margin-top-10 c-2 f-12 center">积分</div>
          </div>
          <div class="flex-2"></div>
-         <div>
+         <div @click="kazhuan()">
              <div class="c-6 bold f-20 center ">20</div>
              <div class="margin-top-10 c-2 f-12 center">卡券</div>
          </div>

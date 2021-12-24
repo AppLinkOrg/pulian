@@ -28,8 +28,6 @@ PageHelper.loadwechatconfig(()=>{
  var longitude=res.longitude
  window.localStorage.setItem("latitude",latitude);
   window.localStorage.setItem("longitude",longitude);
-
-
           //  alert("success" + JSON.stringify(res));
           },
           fail: function (res) {
