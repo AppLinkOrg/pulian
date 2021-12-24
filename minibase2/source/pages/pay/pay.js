@@ -34,7 +34,7 @@ class Content extends AppBase {
 
       payret.complete = function (e) {
         if (e.errMsg == "requestPayment:ok") { 
-           
+
           that.Base.toast("支付成功");
 
           memberapi.addpointsrecord({
@@ -47,9 +47,12 @@ class Content extends AppBase {
            
         }else{
           that.Base.toast("支付失败");
-         
+          wx.navigateBack({
+            delta: 0,
+          })
         }
       }
+ 
       wx.requestPayment(payret)
     })
   }

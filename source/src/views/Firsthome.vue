@@ -42,7 +42,7 @@ HttpHelper.Post("service/servicelist", {}).then((res) => {
 HttpHelper.Post("store/storelist", {}).then((res) => {
   storelist.value = res;
 });
-
+ 
 console.log("进来了");
 console.log(indexbanner1);
 var diaozhuan = (item) => {
@@ -64,6 +64,12 @@ member_id.value=route.query.member_id
 if (route.query.openid!=undefined && route.query.openid!='') {
    window.localStorage.setItem("token",route.query.openid);
 }
+
+var allcategory=ref({})
+HttpHelper.Post("store/allcategory", {}).then((res) => { 
+  allcategory.value = res;
+});
+
   
  let memberinfo=ref({});
 PageHelper.LoginAuth(page, () => {});
@@ -82,13 +88,15 @@ var filtratestore = (id) => {
 // tiaozhaun 首页按钮跳转
 var tiaozhaun=(url)=>{
   if (url=='') {
-    Toast('暂未开放')
+    // Toast('暂未开放')
     return
   }
 router.push(url)
 }
 
-
+var tostorelist=(id)=>{ 
+router.push("/storelist?bigcategory_id="+id);
+}
 
 
 </script>
@@ -111,6 +119,7 @@ router.push(url)
         v-for="(image, index) in indexbanner1"
         :key="index"
         class="h-140"
+        @click="tiaozhaun(image.url)"
       >
         <img
           :src="page.uploadpath + 'indexbanner/' + image.img"
@@ -161,20 +170,33 @@ router.push(url)
       </div>
     </div>
     <!-- 按钮 -->
+        <div
+      class="flex-row flex-wrap "  
+    >
+      <div
+        v-for="(item, index) in allcategory"
+        :key="index"
+        style="width:25%"
+        class="margin-top-20  center "
+        @click="tostorelist(item.id)"
+      >
+        <img 
+          :src="page.uploadpath + 'bigcategory/' + item.icon"
+          class="icon-42 displat-block margin-auto"
+        />
+        <div class="c-2 f-2 margin-top-7">{{ item.name }}</div>
+      </div>
+    </div>
+
+
     <div
-      class="flex-row flex-center margin-left-23"
-      style="
-        display: flex;
-        display: -webkit-flex;
-        justify-content: space-between;
-        flex-direction: row;
-        flex-wrap: wrap;
-      "
+      class="flex-row flex-wrap "  
     >
       <div
         v-for="(item, index) in anniulist"
         :key="index"
-        class="margin-top-20 margin-right-30"
+        style="width:25%"
+        class="margin-top-20  center "
         @click="tiaozhaun(item.url)"
       >
         <img
@@ -186,9 +208,11 @@ router.push(url)
     </div>
     <!-- 新人礼包 -->
     <div class="margin-top-23 margin-left-14 margin-right-14">
+     
       <img
         :src="page.uploadpath + 'resource/' + page.Res.xinren"
-        class="h-93 wf-100"
+        class="h-93 wf-100" 
+        @click="tiaozhaun(page.Inst.url)"
       />
       <!-- 附近门店 -->
       <div class="flex-row flex-center margin-top-26">
@@ -239,12 +263,12 @@ router.push(url)
             <div class="margin-top-9 c-1 f-11">
               月售 {{ item.monthlysale }}单
             </div>
-            <div class="margin-top-9 flex-row flex-center">
+            <div class="margin-top-9 flex-row  ">
               <img
                 :src="page.uploadpath + 'resource/' + page.Res.dizhi"
                 class="icon-13"
               />
-              <div class="c-1 f-11 margin-left-4">{{ item.address }}</div>
+              <div class="c-1 f-11 margin-left-4 "  >{{ item.address }}</div>
               <div class="flex-1"></div>
               <div class="f-11 c-1">3.20km</div>
             </div>
@@ -253,7 +277,7 @@ router.push(url)
         <div class="bg-2 margin-top-15" style="height: 1px"></div>
         <div class="margin-top-15 margin-bottom-15">
           <div class="flex-row flex-center">
-            <div class="c-2 f-13 bold">标准洗车</div>
+            <div class="c-2 f-13 bold">{{item.service_name}}</div>
             <div class="flex-1"></div>
             <div
               class="
@@ -268,13 +292,13 @@ router.push(url)
               减免券¥10
             </div>
             <div class="c-4 f-9 margin-left-10">¥</div>
-            <div class="c-4 f-13">30</div>
+            <div class="c-4 f-13">{{item.presentprice}}</div>
           </div>
           <div class="flex-row margin-top-10 flex-center">
-            <div class="c-1 f-9">已售 229</div>
+            <div class="c-1 f-9">已售 {{item.sell}}</div>
             <div class="flex-1"></div>
             <div class="f-7 c-2" style="text-align: center">¥</div>
-            <div class="f-9 c-2" style="text-align: center">40</div>
+            <div class="f-9 c-2" style="text-align: center">{{item.originalprice}}</div>
           </div>
         </div>
       </div>
