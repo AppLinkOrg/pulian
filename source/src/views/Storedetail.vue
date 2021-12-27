@@ -251,6 +251,47 @@ zuihou2()
 
 }
 
+// 收藏列表
+let collectionpd=ref(0);
+var shoucan=()=>{
+  HttpHelper.Post('collection/collectionpd',{stoer_id:route.query.id}).then((Res)=>{
+    if (Res.code==0) {
+      collectionpd.value=Res.result
+    }else{
+      Toast('获取收藏信息失败')
+    }
+})
+}
+shoucan();
+
+// shocuan 点击收藏
+var shocuan=()=>{
+HttpHelper.Post('collection/collectionadd',{store_id:route.query.id}).then((res)=>{
+  if(res==1){
+Toast('收藏成功');
+
+
+  }else{
+Toast('取消收藏');
+  }
+  shoucan();
+    
+})
+}
+
+// dianhua 
+var dianhua=()=>{
+   var phoneNumber=storedetail.value.phone
+   if (phoneNumber.length>0) {
+      window.location.href = 'tel://' + phoneNumber
+    
+   }else{
+ Toast('门店联系方式不正确')
+   }
+    
+}
+
+
 
 
 
@@ -322,10 +363,12 @@ zuihou2()
         </div>
         <div class="flex-1"></div>
         <div>
-          <img
+          <!-- <img
           :src="page.uploadpath + 'resource/' + page.Res.shocaun"
           class="icon-21 "
-        />
+        /> -->
+        <van-icon name="like-o" color="#1989fa" size="20px" v-if="collectionpd==0"  @click="shocuan"/>
+        <van-icon name="like" color="red" size="20px" v-else  @click="shocuan"/>
         <div class="c-1 margin-top-4 f-9">收藏</div>
         </div>
       </div>
@@ -336,7 +379,7 @@ zuihou2()
           <div class="c-1 f-11 margin-top-9">距离您{{storedetail.distance2}}，驾车约12分钟</div>
         </div>
         <div class="flex-1"></div>
-        <div>
+        <div @click="dianhua">
           <img
             :src="page.uploadpath + 'resource/' + page.Res.dianhua"
             class="icon-15 "

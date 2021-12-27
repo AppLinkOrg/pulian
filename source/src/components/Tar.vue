@@ -87,6 +87,8 @@ var tz = (num) => {
   <van-tabbar-item icon="manager-o" @click="tz(4)" name="/myselef">我的</van-tabbar-item>
 </van-tabbar>
 
+
+
    
   </div>
 </template>

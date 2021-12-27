@@ -1,0 +1,20 @@
+<view class="zan-dialog {{ showDialog ? 'zan-dialog--show' : '' }}">
+  <!-- 如果想点击弹窗外不隐藏，取消bindtap点击事件即可 -->
+  <view class="zan-dialog__mask" bindtap="toggleDialog" />
+  <view class="zan-dialog__container">
+  <view class="text-center txt-bold margin-top-20">温馨提示</view>
+  <view class="c-1 margin-top text-center ">点击确定跳转到微信客服</view>
+  <view class="bd-1  margin-top"></view>
+  <view class="flex-row flex-center h-100 ">
+ 
+  <view class="flex-1 text-center txt-bold  " style="color: blue;" bindtap="quxiao">取消</view>
+  <view class="bd-2  h-100"></view>
+  <button open-type="contact" class="flex-1 clear-button" style="border:none">
+    <view class=" text-center txt-bold   " style="color: black;"  bindtap="queding">确定</view>
+  </button>
+
+  </view>
+
+   
+  </view>
+</view>

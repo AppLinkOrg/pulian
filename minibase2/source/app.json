@@ -5,6 +5,7 @@
         "pages/daohan/daohan",
         "pages/auth/auth",
         "pages/fwpay/fwpay",
+        "pages/kefu/kefu",
         "pages/pay/pay"
     ],
     "permission": {

@@ -18,7 +18,10 @@ const route=useRoute()
 watch(()=>route.path,(e)=>{
   pathname.value=e
   title.value=route.meta.name
-  console.log('监听到变化',route)
+  if (route.path=='/partnership' && route.query.type=='A') {
+    title.value='使用说明'
+  }
+  console.log('监听到变化',route.query.type)
 })
 console.log('监听到变化ssss',route.path)
 
@@ -61,7 +64,6 @@ createApp({}).component('nav-bar',{
   background: white;
   width: 100vw;
   min-height: 100vh;
-
 }
 .padding-ph{
     padding:5px 10px 5px 5px;
@@ -483,6 +485,9 @@ background:#F6F6F6;
 }
 .bd-5{
   border: 1px solid #409EFF ;
+}
+.bd-6{
+  border-bottom: 1px solid #CCCCCC ;
 }
 .btn-1{
   width: 90px;

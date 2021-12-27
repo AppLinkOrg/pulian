@@ -41,7 +41,11 @@ import Vouchercenter from '../views/Vouchercenter.vue'
 import Couponbag from '../views/Couponbag.vue'
 import Myvoucher from '../views/Myvoucher.vue'
 import Myinfomation from '../views/Myinfomation.vue'
-
+import Mycollection from '../views/Mycollection.vue'
+import Partnership from '../views/Partnership.vue'
+import Aboutus from '../views/Aboutus.vue'
+import Feedback from '../views/Feedback.vue'
+import Ceshi from '../views/Ceshi.vue'
 
 const routes = [{
   path: '/home',
@@ -234,7 +238,43 @@ const routes = [{
   meta: {
     'name': '我的资料'
   }
+},{
+  path: '/mycollection',
+  name: 'Mycollection',
+  component: Mycollection,
+  meta: {
+    'name': '我的收藏'
+  }
+},{
+    path: '/partnership',
+    name: 'Partnership',
+    component: Partnership,
+    meta: {
+      'name': '合伙加盟'
+    }
+},{
+  path: '/aboutus',
+  name: 'Aboutus',
+  component: Aboutus,
+  meta: {
+    'name': '关于我们'
+  }
+},{
+  path: '/feedback',
+  name: 'Feedback',
+  component: Feedback,
+  meta: {
+    'name': '意见反馈'
+  }
+},{
+  path: '/ceshi',
+  name: 'Ceshi',
+  component: Ceshi,
+  meta: {
+    'name': '测试'
+  }
 }
+
 
 
 

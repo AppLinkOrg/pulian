@@ -67,6 +67,43 @@ var qiandao=()=>{
     router.push('/integral')
 }
 
+// shoucan 点击收藏
+var shoucan=()=>{
+  router.push('/mycollection')
+}
+
+// hehuo 合伙
+var hehuo=()=>{
+  router.push('/partnership?type=B')
+}
+
+// Aboutus
+var guaunyu=()=>{
+ router.push('/aboutus')
+}
+
+// fankui 反馈
+var fankui=()=>{
+  router.push('/feedback')
+}
+
+// 使用说明
+var shiyong=()=>{
+  // router.push('/ceshi')
+  router.push('/partnership?type=A')
+}
+
+
+// lianxi 联系客服
+var lianxigg=()=>{
+  // alert(111)
+
+   wx.miniProgram.navigateTo({url: '/pages/kefu/kefu'});
+  //  wx.miniProgram.navigateTo({url: '/pages/kefu/kefu"'});
+ 
+}
+
+
 
 </script>
 
@@ -103,7 +140,7 @@ var qiandao=()=>{
              <div class="margin-top-10 c-2 f-12 center">卡券</div>
          </div>
           <div class="flex-2"></div>
-         <div>
+         <div  @click="shoucan">
              <div class="c-6 bold f-20 center ">34</div>
              <div class="margin-top-10 c-2 f-12 center">收藏</div>
          </div>
@@ -182,19 +219,19 @@ var qiandao=()=>{
       <div class="margin-left-14 margin-right-14 bg-w border-radius-9 padding-15 margin-top-10">
             <div class="f-15 bold c-2 ">更多服务</div>
              <div class="flex-row flex-center margin-top-20">
-             <div class="flex-1">
+             <div class="flex-1" @click="shiyong">
                    <img :src="page.uploadpath + 'resource/' + page.Res.shiyon" class="icon-28 displat-block margin-auto"/>
                    <div class="margin-top-10 c-1 f-12 center">使用说明</div>
              </div>
-              <div class="flex-1">
+              <div class="flex-1" @click="hehuo">
                    <img :src="page.uploadpath + 'resource/' + page.Res.hezuo" class="icon-28 displat-block margin-auto"/>
                    <div class="margin-top-10 c-1 f-12 center">合伙加盟</div>
              </div>
-              <div class="flex-1">
+              <div class="flex-1" @click="lianxigg">
                    <img :src="page.uploadpath + 'resource/' + page.Res.lainxi" class="icon-28 displat-block margin-auto"/>
                    <div class="margin-top-10 c-1 f-12 center">联系客服</div>
              </div>
-              <div class="flex-1">
+              <div class="flex-1" @click="guaunyu">
                    <img :src="page.uploadpath + 'resource/' + page.Res.guanyu" class="icon-28 displat-block margin-auto"/>
                    <div class="margin-top-10 c-1 f-12 center">关于我们</div>
              </div>
@@ -202,18 +239,23 @@ var qiandao=()=>{
          </div>
 
          <div class="flex-row flex-center margin-top-20">
-             <div class="flex-1"></div>
-             <div class="" @click="dizhi">
-                   <img :src="page.uploadpath + 'resource/' + page.Res.shiyon" class="icon-28 displat-block margin-auto"/>
-                   <div class="margin-top-10 c-1 f-12 center">地址</div>
+           
+             <div class="flex-1" @click="dizhi">
+                   <img :src="page.uploadpath + 'resource/' + page.Res.dizhiguanli" class="icon-28 displat-block margin-auto"/>
+                   <div class="margin-top-10 c-1 f-12 center">地址管理</div>
              </div>
+              <div class="flex-1" @click="fankui">
+                   <img :src="page.uploadpath + 'resource/' + page.Res.yijianfan" class="icon-28 displat-block margin-auto"/>
+                   <div class="margin-top-10 c-1 f-12 center">意见反馈</div>
+             </div>
+               <div class="flex-1"></div>
              <div class="flex-1"></div>
             
 
          </div>
       </div>
   
-
+<div class="h-50"></div>
 
 
 
