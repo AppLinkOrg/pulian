@@ -4,14 +4,22 @@ import { PageHelper } from "../PageHelper";
 import { HttpHelper } from "../HttpHelper";
 import { ref } from "vue";
 import { useRouter,useRoute } from "vue-router";
+import  store  from "../State";
+
+
+
 
 let router = useRouter();
+let route = useRoute();
 let page = ref({kk:'/'});
 
+console.log(route.path,'store.state.name');
+store.changeName(route.path)
 
 var active=ref('firsthome')
 
 PageHelper.Init(page, () => {});
+
 
 // console.log('监听到变化ddd');
 // const route=useRoute()
@@ -80,7 +88,7 @@ var tz = (num) => {
 
 <template>
   <div>
-      <van-tabbar v-model="page.kk">
+      <van-tabbar v-model="store.state.name">
   <van-tabbar-item icon="home-o" @click="tz(1)" name="/">首页</van-tabbar-item>
   <van-tabbar-item icon="points" @click="tz(2)" name="/integral">积分</van-tabbar-item>
   <van-tabbar-item icon="shop-o" @click="tz(3)" name="/storelist">门店</van-tabbar-item>

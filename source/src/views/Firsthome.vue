@@ -30,18 +30,44 @@ HttpHelper.Post("inst/indexbanner", {}).then((indexbanner) => {
   indexbanner1.value = indexbanner;
 });
 // 按钮图片
-HttpHelper.Post("anniu/anniulist", {}).then((res) => {
-  anniulist.value = res;
+// store/allcategory
+// anniu/anniulist
+var allcategory=ref({})
+HttpHelper.Post("store/allcategory", {}).then((res) => {
+    for(let items of res){
+items.type='B'
+    }
+ 
+
+
+  HttpHelper.Post("anniu/anniulist", {tuiguan:'Y'}).then((resss) => { 
+  // allcategory.value = res;
+
+  for(let item of resss){
+    item.type='A'
+res.push(item)
+  }
+
+   anniulist.value = res;
+
+
 });
+
+});
+
+
+
 // 服务列表
 HttpHelper.Post("service/servicelist", {}).then((res) => {
   servicelist.value = res;
+
+  filtratestore(0)
 });
 
 // 门店列表
-HttpHelper.Post("store/storelist", {}).then((res) => {
-  storelist.value = res;
-});
+// HttpHelper.Post("store/storelist", {}).then((res) => {
+//   storelist.value = res;
+// });
  
 console.log("进来了");
 console.log(indexbanner1);
@@ -65,17 +91,18 @@ if (route.query.openid!=undefined && route.query.openid!='') {
    window.localStorage.setItem("token",route.query.openid);
 }
 
-var allcategory=ref({})
-HttpHelper.Post("store/allcategory", {}).then((res) => { 
-  allcategory.value = res;
-});
+
 
   
  let memberinfo=ref({});
 PageHelper.LoginAuth(page, () => {});
 
 var service_id=ref("");
-var filtratestore = (id) => {  
+let showsele=ref(0);
+var filtratestore = (index) => {
+  var id=servicelist.value[index].id
+  showsele.value=index
+
   service_id.value=id; 
    HttpHelper.Post("store/filtrate", { 
    service_id:service_id.value
@@ -84,6 +111,7 @@ var filtratestore = (id) => {
     storelist.value = res;
    });
 };
+
 
 // tiaozhaun 首页按钮跳转
 var tiaozhaun=(url)=>{
@@ -98,6 +126,19 @@ var tostorelist=(id)=>{
 router.push("/storelist?bigcategory_id="+id);
 }
 
+
+var tiao=(index)=>{
+  var item=anniulist.value[index]
+  if (item.type=='B') {
+    router.push("/storelist?bigcategory_id="+item.id);
+  }
+
+   if (item.type=='A') {
+     
+router.push(item.url)
+   }
+
+}
 
 </script>
 
@@ -170,7 +211,7 @@ router.push("/storelist?bigcategory_id="+id);
       </div>
     </div>
     <!-- 按钮 -->
-        <div
+        <!-- <div
       class="flex-row flex-wrap "  
     >
       <div
@@ -186,9 +227,9 @@ router.push("/storelist?bigcategory_id="+id);
         />
         <div class="c-2 f-2 margin-top-7">{{ item.name }}</div>
       </div>
-    </div>
+    </div> -->
 
-
+ <!-- @click="tiaozhaun(item.url)" -->
     <div
       class="flex-row flex-wrap "  
     >
@@ -197,10 +238,16 @@ router.push("/storelist?bigcategory_id="+id);
         :key="index"
         style="width:25%"
         class="margin-top-20  center "
-        @click="tiaozhaun(item.url)"
+        @click="tiao(index)"
       >
         <img
+        v-if="item.type=='A'"
           :src="page.uploadpath + 'anniu/' + item.img"
+          class="icon-42 displat-block margin-auto"
+        />
+          <img 
+          v-else
+          :src="page.uploadpath + 'bigcategory/' + item.icon"
           class="icon-42 displat-block margin-auto"
         />
         <div class="c-2 f-2 margin-top-7">{{ item.name }}</div>
@@ -239,7 +286,9 @@ router.push("/storelist?bigcategory_id="+id);
           "
           v-for="(item, index) in servicelist"
           :key="index"
-          @click="filtratestore(item.id)"
+          @click="filtratestore(index)"
+          :style="{'color':index==showsele?'#409EFF':'','background':index==showsele?'rgba(64, 158, 255, 0.1)':''}"
+          
         >
           {{ item.name }}
         </div>
@@ -254,7 +303,7 @@ router.push("/storelist?bigcategory_id="+id);
       <div class="margin-top-15 margin-left-14 margin-right-14">
         <div class="flex-row">
           <img
-            :src="page.uploadpath + 'resource/' + page.Res.dianpu"
+            :src="page.uploadpath + 'store/' + item.tupian"
             class="icon-84"
           />
           <div class="margin-left-10">

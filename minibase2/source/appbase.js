@@ -294,13 +294,14 @@ export class AppBase {
 
 
                 that.onMyShow();
-                // memberapi.update(AppBase.UserInfo, () => {
-                //   console.log(AppBase.UserInfo);
-                //   that.Base.setMyData({
-                //     UserInfo: AppBase.UserInfo
-                //   });
-                //   that.checkPermission();
-                // });
+              
+                memberapi.update(AppBase.UserInfo, () => {
+                  console.log(AppBase.UserInfo);
+                  that.Base.setMyData({
+                    UserInfo: AppBase.UserInfo
+                  });
+                  that.checkPermission();
+                });
                 that.checkPermission();
                 //that.Base.getAddress();
               });
@@ -449,7 +450,7 @@ export class AppBase {
 
     e.detail.session_key = AppBase.UserInfo.session_key;
     e.detail.openid = AppBase.UserInfo.openid;
-
+    // e.detail.shoujisq='B'
  
 
     api.decrypteddata(e.detail, (ret) => {
@@ -1139,6 +1140,7 @@ export class AppBase {
         AppBase.UserInfo = userres.userInfo;
         AppBase.UserInfo.openid = openid;
         AppBase.UserInfo.session_key = session_key;
+        AppBase.UserInfo.touxiang='B'
         console.log("loginres4", userres);
         
         console.log(this.Base.getMyData().memberinfo, '11');

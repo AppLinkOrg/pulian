@@ -31,14 +31,16 @@ var amount_input=(e)=>{
 }
 var confrim=()=>{
 
-
+//  integral:1000
   HttpHelper.Post("member/creatorder", {
     amount:amount.value,
-    integral:1000
+   
   }).then((res) => {
  
  if(res.code==0){
  console.log("提交成功跳转支付");
+ ordr_id.value=res.return
+ wanchengt.value=false
  wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return});
  }
  
@@ -51,10 +53,46 @@ var todetail=()=>{
 }
 
 
+let ordr_id=ref(0);
+let wanchengt=ref(false);
+// 判断服务支付情况
+let timer = setInterval(() => {
+     //需要定时执行的代码
+     wancheng()
+},1000)
+
+
+
+var wancheng=()=>{
+  if (ordr_id.value>0) {
+
+
+  HttpHelper.Post('integral/integralorderdetail',{id:ordr_id.value}).then((Res)=>{
+    if (wanchengt.value!=false) {
+  clearInterval(timer)
+}
+    if (Res.orderstatus=='B' && wanchengt.value==false) {
+    
+      console.log('进来哦了');
+      wanchengt.value=true
+      ordr_id.value=0
+
+PageHelper.LoginAuth(page, () => {});
+    
+     
+}
+
+
+})
+
+}
+}
+
+
 </script>
 
 <template>
-  <div v-if="page.Res != null">
+  <div v-if="page.Res != null && page.Memberinfo!=null">
     <div
       class="h-160"
       :style="{
@@ -138,10 +176,15 @@ var todetail=()=>{
           <div class="f-14 bold c-2">其他金额</div>
            
           <!-- <input
-            type="text"
+            type="number"
             placeholder="请输入充值金额"
             class="f-14 c-1 flex-1"
+         v-model="amount"
           /> -->
+
+
+          <!-- type="digit" -->
+
            <van-field
             v-model="amount"
             @update:model-value="amount_input"
@@ -150,6 +193,7 @@ var todetail=()=>{
              type="digit"
             placeholder="请输入充值金额"
           />
+
         </div>
       </div>
     </div>

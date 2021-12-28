@@ -15,9 +15,24 @@ class Content extends AppBase {
     this.Base.Page = this;
     //options.id=5;
     super.onLoad(options);
+    this.Base.setMyData({
+      type:this.Base.options.type
+    })
   }
   onMyShow() {
     var that = this;
+
+    if(this.Base.options.type=='A'){
+      // 头像未授权
+
+    }
+
+    if(this.Base.options.type=='B'){
+      // 手机号未授权
+
+    }
+
+
   }
   getUserInfo2(e) {
     console.log('getUserInfo2')

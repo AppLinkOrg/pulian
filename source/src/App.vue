@@ -6,7 +6,7 @@ import Footer from "./components/Footer.vue";
 import BackToTop from "./components/BackToTop.vue";
 import { useRouter,useRoute,onBeforeRouteUpdate  } from "vue-router";
 import NavBar from "./components/NavBar.vue";
-
+import  store  from "./State";
 
 let page = ref({});
 let pathname=ref('');
@@ -18,12 +18,17 @@ const route=useRoute()
 watch(()=>route.path,(e)=>{
   pathname.value=e
   title.value=route.meta.name
+
+// PageHelper.kk.value=e;
+store.changeName(e)
+console.log(PageHelper.kk.value,'PageHelper');
+
   if (route.path=='/partnership' && route.query.type=='A') {
     title.value='使用说明'
   }
-  console.log('监听到变化',route.query.type)
+
 })
-console.log('监听到变化ssss',route.path)
+
 
 createApp({}).component('nav-bar',{
   // props:{
@@ -132,6 +137,9 @@ background:#F6F6F6;
 }
 .bg-8{
   background: #CCCCCC;
+}
+.bg-9{
+  background: rgba(64, 158, 255, 0.1);
 }
 
 .w-100{

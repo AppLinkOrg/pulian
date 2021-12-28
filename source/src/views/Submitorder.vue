@@ -14,6 +14,37 @@ let servicepricedetail=ref({});
 let num=ref(1);
 let phone = ref('');
 
+let ordr_id=ref(0);
+let wanchengt=ref(false);
+// 判断服务支付情况
+let timer = setInterval(() => {
+     //需要定时执行的代码
+     wancheng()
+},1000)
+
+
+
+var wancheng=()=>{
+  if (ordr_id.value>0) {
+
+
+  HttpHelper.Post('order/orderdetail',{id:ordr_id.value}).then((Res)=>{
+    if (wanchengt.value!=false) {
+  clearInterval(timer)
+}
+    if (Res.orderstatus=='B' && wanchengt.value==false) {
+    
+      console.log('进来哦了');
+      wanchengt.value=true
+      router.push('/Paysuccess?id='+ordr_id.value);
+     
+    }
+})
+
+}
+}
+
+
 
 // 服务价格设置详情
 HttpHelper.Post("serviceprice/servicepricelist", {id:route.query.id }).then((res) => {
@@ -54,8 +85,9 @@ if (type.value=='A') {
     console.log(123)
     console.log(res);
   if (res.code==0) {
-
-      router.push('/Paysuccess?id='+res.return);
+    ordr_id.value=res.return
+    wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return+'&type=A'});
+      // router.push('/Paysuccess?id='+res.return);
   }else{
       Toast(res.return);
   }
@@ -65,8 +97,10 @@ if (type.value=='A') {
     console.log(123)
     console.log(res);
   if (res.code==0) {
+    ordr_id.value=res.return
+wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return+'&type=A'});
 
-      router.push('/Paysuccess?id='+res.return);
+      // router.push('/Paysuccess?id='+res.return);
   }else{
       Toast(res.return);
   }

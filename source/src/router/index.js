@@ -120,7 +120,10 @@ const routes = [{
   , {
   path: '/garage',
   name: 'Garage',
-  component: Garage
+  component: Garage,
+  meta:{
+    'name':'我的车库'
+  }
 }, {
   path: '/addgarage',
   name: 'Addgarage',
@@ -195,7 +198,10 @@ const routes = [{
 }, {
   path: '/recharge',
   name: 'Recharge',
-  component: Recharge
+  component: Recharge,
+  meta: {
+    'name': '积分充值'
+  }
 }, {
   path: '/storesx',
   name: 'Storesx',

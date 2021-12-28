@@ -36,6 +36,8 @@ class Content extends AppBase {
   
 var str='http://localhost:3000/#/?openid='
 // var str='https://uat20.helpfooter.com?'+"rand="+(new Date()).getTime()+'/#/?openid='
+
+
 console.log('寄哪里了 啊   ');
     if (useropenid!=undefined&&useropenid!=null) {
       str=str+useropenid+'&lng='+lng+'&lat='+lat;

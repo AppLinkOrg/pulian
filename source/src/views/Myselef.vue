@@ -21,12 +21,41 @@ var dindan = ()=>{
 }
 // 授权页面点击
 var shouquan=()=>{
+  PageHelper.LoginAuth(page, () => {});
+
     
-    if (page.value.Memberinfo==null) {
-         wx.miniProgram.navigateTo({url: '/pages/login/login'});
+    if (page.value.Memberinfo.touxiang !='B') {
+      show.value=1
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
+}
+		// alert(page.value.Memberinfo.shoujisq)
+   if (page.value.Memberinfo.shoujisq !='B') {
+      show.value=2
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
 }
     }
 
+let show=ref(0)
+let timer = setInterval(() => {
+     //需要定时执行的代码
+     wancheng()
+},1000)
+
+var wancheng=()=>{
+  if (show.value==1 && page.value.Memberinfo.touxiang !='B') {
+      PageHelper.LoginAuth(page, () => {});
+  }
+
+ if (show.value==2&& page.value.Memberinfo.shoujisq !='B') {
+  PageHelper.LoginAuth(page, () => {});
+ }
+
+ if (page.value.Memberinfo.shoujisq =='B' && page.value.Memberinfo.touxiang =='B') {
+     clearInterval(timer)
+ }
+
+
+}
   
 
 // 点击车库  
@@ -105,10 +134,12 @@ var lianxigg=()=>{
 
 
 
+
+
 </script>
 
 <template>
-  <div  v-if="page.Res!=null">
+  <div  v-if="page.Res!=null && page.Memberinfo!=null">
       <div class="h-260"  :style="{
             backgroundImage:
               'url(' + page.uploadpath + 'resource/' + page.Res.mybg + ')',
@@ -116,10 +147,10 @@ var lianxigg=()=>{
 
      <div class="margin-top-f260"></div>
      <div class="flex-row flex-center margin-top-36" >
-           <img :src="page.uploadpath + 'resource/' + page.Res.dianpu" class="icon-55 border-radius-50 margin-left-14" @click="shouquan()" />
+           <img :src="page.Memberinfo.avatarUrl" class="icon-55 border-radius-50 margin-left-14" @click="shouquan()" />
            <div class="margin-left-14 ">
-               <div class="c-2 bold f-16">用户名{{member_id}}</div>
-               <div class="margin-top-10 c-2 f-12">172****2314</div>
+               <div class="c-2 bold f-16">{{page.Memberinfo.nickName}}</div>
+               <div class="margin-top-10 c-2 f-12">{{page.Memberinfo.mobile}}</div>
            </div>
            <div class="flex-1"></div>
            <div class="h-30 padding-left-10 padding-right-10 mubo flex-row flex-center bd-2" @click="qiandao()">
