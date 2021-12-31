@@ -6,11 +6,14 @@ const store = {
 
     state: reactive({
         name: '',
-        ios:false
+        title:'',
     }),
 
     changeName(value) {
         this.state.name = value
+    },
+    changeTitlt(value) {
+        this.state.title = value
     }
 }
 

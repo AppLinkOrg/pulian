@@ -88,7 +88,9 @@ var tz = (num) => {
 
 <template>
   <div>
+  
       <van-tabbar v-model="store.state.name">
+    
   <van-tabbar-item icon="home-o" @click="tz(1)" name="/">首页</van-tabbar-item>
   <van-tabbar-item icon="points" @click="tz(2)" name="/integral">积分</van-tabbar-item>
   <van-tabbar-item icon="shop-o" @click="tz(3)" name="/storelist">门店</van-tabbar-item>

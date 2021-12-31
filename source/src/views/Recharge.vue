@@ -30,9 +30,30 @@ var amount_input=(e)=>{
     amount.value=e;
 }
 var confrim=()=>{
+PageHelper.LoginAuth(page, () => {
+      if (page.value.Memberinfo.touxiang !='B') {
+       
+   
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
+         return
+}
+		// alert(page.value.Memberinfo.shoujisq)
+   if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B') {
+
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
+         return
+}
+dinfdan()
+
+});
+  
 
 //  integral:1000
-  HttpHelper.Post("member/creatorder", {
+
+ 
+}
+var dinfdan=()=>{
+    HttpHelper.Post("member/creatorder", {
     amount:amount.value,
    
   }).then((res) => {
@@ -45,7 +66,6 @@ var confrim=()=>{
  }
  
   }) 
- 
 }
 
 var todetail=()=>{

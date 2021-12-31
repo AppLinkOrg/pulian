@@ -173,12 +173,29 @@ var showmodel = (status) => {
 };
 
    //识别
-    
-    var wokank = ()=>{
-     console.log("走了吗")
-     HttpHelper.Post("member/ocr", {
 
+   
+    let imglist=ref('')
+    var wokank = ()=>{
+
+        HttpHelper.UploadImage("resource",(ret)=>{
+   imglist.value=ret.result
+  //  alert(JSON.stringify(imglist.value))
+   console.log("走了吗")
+   if (imglist.value=='') {
+     Toast('上传图片失败')
+     return
+   }
+     HttpHelper.Post("member/ocr", {
+imglist:imglist.value
     }).then((res) => {
+      // alert("进来了啊啊啊")
+      // alert(JSON.stringify(res))
+      if (res.error_code!=undefined) {
+        Toast('图片无法识别')
+        return
+        
+      }
        
        var allres=res.words_result;
       console.log(res.words_result.号牌号码.words)
@@ -202,6 +219,12 @@ var showmodel = (status) => {
     // register_date.value = allres.注册日期.words;
 
     });
+
+
+       })
+
+
+  
 
     }
 

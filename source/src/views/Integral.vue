@@ -153,6 +153,11 @@ var quwan=()=>{
 }
 
 
+// guize 规则
+var guize=()=>{
+  router.push('partnership?type=C')
+}
+
 
 </script>
 
@@ -191,7 +196,7 @@ var quwan=()=>{
             <div class="c-6 f-15 ">{{qiandaocha.return}}</div>
             <div class="c-2 f-15 bold">天</div>
             <div class="flex-1"></div>
-            <div class="c-6 f-12 bold">积分规则</div>
+            <div class="c-6 f-12 bold" @click="guize">积分规则</div>
           </div>
           <div class="margin-top-40 flex-row flex-center">
             <div v-for="(item,index) in qiandaocha.result" :key="index">

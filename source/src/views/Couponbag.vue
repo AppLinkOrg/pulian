@@ -23,14 +23,37 @@ HttpHelper.Post('coupon/coupondetail',{id:route.query.id}).then((res)=>{
 
 // goumia 购买优惠券
 var goumia=()=>{
-   HttpHelper.Post('youhuiorder/youhuiorderadd',{coupon_id:route.query.id}).then((res)=>{
+PageHelper.LoginAuth(page, () => {
+      if (page.value.Memberinfo.touxiang !='B') {
+       
+   
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
+         return
+}
+		// alert(page.value.Memberinfo.shoujisq)
+   if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B') {
+
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
+         return
+}
+goumai2();
+});
+
+
+}
+
+var goumai2=()=>{
+       HttpHelper.Post('youhuiorder/youhuiorderadd',{coupon_id:route.query.id}).then((res)=>{
     if (res.code==0) {
-        Toast('购买成功')
+order_id.value=res.return
+zhifushow.value=true
+ wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return+'&type=B'});
+        // Toast('购买成功')
+
     }else{
 Toast('购买失败')
     }
 })
-
 }
 
 // chakandianpu 查看店铺
@@ -38,6 +61,31 @@ var chakandianpu=()=>{
     router.push('/storesx?id='+route.query.id)
 
 }
+let zhifushow=ref(false)
+let order_id=ref(0)
+
+var wancheg=()=>{
+    if (zhifushow.value==true&&order_id.value>0) {
+        HttpHelper.Post("youhuiorder/youhuiorderdetail",{
+            id:order_id.value
+        }).then((res)=>{
+            if (res.orderstatus='B') {
+                Toast('购买成功')
+                zhifushow.value=false
+                order_id.value=0
+            }
+
+        })
+
+        
+    }
+}
+
+// 判断服务支付情况
+let timer = setInterval(() => {
+     //需要定时执行的代码
+     wancheg()
+},1000)
 
 
 

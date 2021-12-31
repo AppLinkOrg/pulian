@@ -26,17 +26,47 @@ HttpHelper.Post("order/orderdetail", {id:route.query.id }).then((res) => {
 
 //  daohan 导航
 // 导航
+// var daohang=()=>{
+//   let latstor=storedetail.value.store_lat
+// let lngstor=storedetail.value.store_lng
+// let name =storedetail.store_address
+// wx.miniProgram.navigateTo({url: '/pages/daohan/daohan?latstor='+latstor+'&lngstor='+lngstor+'&name='+name});
+// }
+
+
+// 导航
 var daohang=()=>{
-  let latstor=storedetail.value.store_lat
-let lngstor=storedetail.value.store_lng
-let name =storedetail.store_address
+  let latstor=orderdetail.value.store_lat
+let lngstor=orderdetail.value.store_lng
+let name=orderdetail.value.store_address
 // alert(latstor)
-wx.miniProgram.navigateTo({url: '/pages/daohan/daohan?latstor='+latstor+'&lngstor='+lngstor+'&name='+name});
-
-
-
+var json={latitude:latstor*1,
+            longitude:lngstor*1,
+            scale: 18,
+            name};
+           
+PageHelper.loadwechatconfig(()=>{
+  // alert("loadwechatconfig");
+  wx.openLocation(json);
+});
 }
 
+// dianhua 
+var dianhua=()=>{
+   var phoneNumber=orderdetail.value.store_phone
+   if (phoneNumber.length>0) {
+      window.location.href = 'tel://' + phoneNumber
+    
+   }
+
+   if (phoneNumber.length==0) {
+ 
+ Toast('门店未留联系方式')
+ 
+   }
+
+    
+}
 
 
 </script>
@@ -101,6 +131,7 @@ wx.miniProgram.navigateTo({url: '/pages/daohan/daohan?latstor='+latstor+'&lngsto
            </div>
            <div class="flex-1"></div>
            <img
+           @click="dianhua"
           :src="page.uploadpath + 'resource/' + page.Res.dianhua"
           class="icon-12"
         />
@@ -123,6 +154,11 @@ wx.miniProgram.navigateTo({url: '/pages/daohan/daohan?latstor='+latstor+'&lngsto
            <div class="c-2  f-12 ">手机号码：</div>
            <div class="c-1 f-12 ">{{orderdetail.mobile}}</div>
          </div>
+ <div class="flex-row flex-center margin-top-15">
+           <div class="c-2  f-12 ">下单时间：</div>
+           <div class="c-1 f-12 ">{{orderdetail.submit_time}}</div>
+         </div>
+         
           <div class="flex-row flex-center margin-top-15">
            <div class="c-2  f-12 ">付款时间：</div>
            <div class="c-1 f-12 ">{{orderdetail.pay_time}}</div>

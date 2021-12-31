@@ -33,10 +33,14 @@ var tijiao=()=>{
         Toast('请描述问题')
         return
     }
+    var imglis=imglist.value.toString
+    alert(imglis)
+    return
     HttpHelper.Post('aftersale/aftersaleadd',{
         pingjia:miaoshu.value,
         fuwu:leixin.value,
-        pintrecord_id:route.query.id
+        pintrecord_id:route.query.id,
+        imglist:imglis
     }).then((res)=>{
         if (res.code==0) {
           miaoshu.value=''  
@@ -51,6 +55,35 @@ var tijiao=()=>{
 }
 
   const onClickLeft = () => history.back();
+
+
+//   shangchuan 上传图片
+let imglist=ref([]);
+var shangchuan=()=>{
+
+//     var data = HttpHelper.UploadImage("resource")
+// alert('进来了------')
+// alert(JSON.stringify(data))
+
+
+    // HttpHelper.UploadImage("resource").then((ret) => {
+    //      alert(JSON.stringify('进来了------'))
+    //     imglist.value.push=ret.result
+        
+    //     alert(JSON.stringify(ret))
+
+    //   });
+
+
+       HttpHelper.UploadImage("img",(ret)=>{
+   imglist.value.push(ret.result)
+       })
+}
+
+
+
+
+
 </script>
 
 <template>
@@ -111,12 +144,22 @@ var tijiao=()=>{
                 <!--  -->
           <div class="margin-top-15  bg-1 border-radius-5 h-200  padding-15">
               <textarea class="flex-1  bg-1 h-100 f-12 c-2" style="border:none;width:100%" placeholder="请在此描述问题" v-model="miaoshu"></textarea>
-              <div class="bd-4 radius-5 icon-70 flex-row flex-column ">
+
+              <div class="flex-row flex-center"  style="display: flex;display: -webkit-flex;justify-content: space-between;flex-direction: row;flex-wrap: wrap;"> 
+ <img v-for="(item,index) in imglist" :key="index" :src="page.uploadpath + 'img/' + item" class="icon-70"/>
+           
+ <img  :src="page.uploadpath + 'resource/' +  page.Res.paizhao" class="icon-70" @click="shangchuan"/>
+
+              </div>
+
+
+
+              <!-- <div class="bd-4 radius-5 icon-70 flex-row flex-column " @click="shangchuan">
                   <div class="flex-1"></div>
                     <img :src="page.uploadpath + 'resource/' + page.Res.paizhao" class="icon-25"/>
                     <div class="margin-top-8  c-1 f-10">上传图片</div>
                      <div class="flex-1"></div>
-              </div>
+              </div> -->
           </div>
     
           </div>

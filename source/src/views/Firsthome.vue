@@ -33,14 +33,14 @@ HttpHelper.Post("inst/indexbanner", {}).then((indexbanner) => {
 // store/allcategory
 // anniu/anniulist
 var allcategory=ref({})
-HttpHelper.Post("store/allcategory", {}).then((res) => {
+HttpHelper.Post("store/allcategory", {tuiguan:'Y'}).then((res) => {
     for(let items of res){
 items.type='B'
     }
  
 
 
-  HttpHelper.Post("anniu/anniulist", {tuiguan:'Y'}).then((resss) => { 
+  HttpHelper.Post("anniu/anniulist", {}).then((resss) => { 
   // allcategory.value = res;
 
   for(let item of resss){
@@ -54,6 +54,13 @@ res.push(item)
 });
 
 });
+
+
+// 首页中部广告列表
+let guangaolist=ref([])
+HttpHelper.Post("guangao/guangaolist",{}).then((Res)=>{
+  guangaolist.value=Res
+})
 
 
 
@@ -80,7 +87,7 @@ var diaozhuan = (item) => {
 // 跳转店铺详情页
 var dianpu = (index) => {
   // '/storedetail?id=1'
-  router.push("/storedetail?id=" + index);
+  router.push("/storedetail?id=" + index+'&service_id='+service_id.value);
 };
 
 let member_id=ref(null)
@@ -104,9 +111,17 @@ var filtratestore = (index) => {
   showsele.value=index
 
   service_id.value=id; 
+
+  var mylat= window.localStorage.getItem("latitude");
+var mylng= window.localStorage.getItem("longitude");
+
    HttpHelper.Post("store/filtrate", { 
-   service_id:service_id.value
+   service_id:service_id.value,mylat,mylng
    }).then((res) => {
+     for(let item of res){
+       item.distance2=Utils.GetMileTxt(item.distance)
+
+     }
      
     storelist.value = res;
    });
@@ -140,6 +155,19 @@ router.push(item.url)
 
 }
 
+var chefu=()=>{
+  router.push('/ceshi')
+}
+
+// tiaozhaun 推广页跳转路径
+var newtiao=(index)=>{
+  var url=guangaolist.value[index].url
+  if (url=='') {
+    return
+  }
+  router.push(url)
+
+}
 </script>
 
 <template >
@@ -177,7 +205,7 @@ router.push(item.url)
           :src="page.uploadpath + 'resource/' + page.Res.fuwu2"
           class="icon-15"
         />
-        <div class="c-1 f-1 margin-left-4">车服中心</div>
+        <div class="c-1 f-1 margin-left-4" @click="chefu">车服中心</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
@@ -255,12 +283,17 @@ router.push(item.url)
     </div>
     <!-- 新人礼包 -->
     <div class="margin-top-23 margin-left-14 margin-right-14">
-     
-      <img
-        :src="page.uploadpath + 'resource/' + page.Res.xinren"
+     <!-- guangaolist -->
+     <van-swipe :autoplay="3000" lazy-render>
+  <van-swipe-item v-for="(image,index) in guangaolist" :key="index" @click="newtiao(index)">
+   <img
+        :src="page.uploadpath + 'guangao/' + image.img"
         class="h-93 wf-100" 
-        @click="tiaozhaun(page.Inst.url)"
       />
+  </van-swipe-item>
+</van-swipe>
+
+     
       <!-- 附近门店 -->
       <div class="flex-row flex-center margin-top-26">
         <div class="shu1"></div>
@@ -306,7 +339,7 @@ router.push(item.url)
             :src="page.uploadpath + 'store/' + item.tupian"
             class="icon-84"
           />
-          <div class="margin-left-10">
+          <div class="margin-left-10 flex-1" >
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
             <div class="margin-top-9 f-11 c-3">{{ item.score }}分</div>
             <div class="margin-top-9 c-1 f-11">
@@ -319,7 +352,7 @@ router.push(item.url)
               />
               <div class="c-1 f-11 margin-left-4 "  >{{ item.address }}</div>
               <div class="flex-1"></div>
-              <div class="f-11 c-1">3.20km</div>
+              <div class="f-11 c-1">{{item.distance2}}</div>
             </div>
           </div>
         </div>
@@ -328,7 +361,7 @@ router.push(item.url)
           <div class="flex-row flex-center">
             <div class="c-2 f-13 bold">{{item.service_name}}</div>
             <div class="flex-1"></div>
-            <div
+            <!-- <div
               class="
                 bd-1
                 border-radius-2
@@ -341,7 +374,7 @@ router.push(item.url)
               减免券¥10
             </div>
             <div class="c-4 f-9 margin-left-10">¥</div>
-            <div class="c-4 f-13">{{item.presentprice}}</div>
+            <div class="c-4 f-13">{{item.presentprice}}</div> -->
           </div>
           <div class="flex-row margin-top-10 flex-center">
             <div class="c-1 f-9">已售 {{item.sell}}</div>

@@ -49,13 +49,7 @@ const onClickLeft = () => history.back();
 
 <template>
   <div  v-if="page.Res!=null">
-    <van-nav-bar
-  title="兑换详情"
-  left-text="返回"
-  left-arrow
-  fixed
-  @click-left="onClickLeft"
-/>
+  
         <div class="padding-15">
           <div class="bg-w border-radius-9 ">
           <img :src="page.uploadpath + 'pointsmall/' + pointsmadetail.img" class="h-130 w-100f"/>
@@ -85,9 +79,9 @@ const onClickLeft = () => history.back();
         
 
          </div>
-   <div class="f-15 c-2 bold padding-top-15 padding-bottom-15 ">产品评价</div>
+   <!-- <div class="f-15 c-2 bold padding-top-15 padding-bottom-15 ">产品评价</div> -->
 <!--  -->
-   <div class=" bg-w border-radius-9" style="padding:18px 9px 0px ">
+   <!-- <div class=" bg-w border-radius-9" style="padding:18px 9px 0px ">
             <div class="flex-row margin-bottom-18">
               <img
           :src="page.uploadpath + 'resource/' + page.Res.touxian"
@@ -118,7 +112,7 @@ const onClickLeft = () => history.back();
             <div class="h-1 bg-2"></div>
             <div class="center h-44 line-height-44 f-11">查看全部评论（90）</div>
 
-          </div>
+          </div> -->
           <div class="h-100"></div>
 
                        <!--  -->

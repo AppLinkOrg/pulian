@@ -4,7 +4,10 @@
 <script setup>
 // import { inject } from "@vue/composition-api";
 
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
+import { useRouter,useRoute } from "vue-router";
+import  store  from "../State";
+
 
 const props = defineProps({ 
   title:String
@@ -13,15 +16,20 @@ const props = defineProps({
 let title=ref('');
 
 
-
+let route = useRoute();
 
   // title.value = inject("title");
 
- const onClickLeft = () => history.back();
+ const onClickLeft = () => 
+ {
+   history.back()
+ };
 title.value=props.title
  console.log(props.title,'可以拿到父组件的数据')
 
-
+watch(()=>route,(e)=>{
+console.log('可以拿到父组件的数据');
+})
 
 </script>
 
@@ -31,7 +39,7 @@ title.value=props.title
          <van-nav-bar
   left-text="返回"
   left-arrow
-  :title="title"
+  :title="store.state.title"
   fixed
   @click-left="onClickLeft"
 />

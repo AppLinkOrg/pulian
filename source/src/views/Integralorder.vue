@@ -28,8 +28,9 @@ var tuikuan=()=>{
 var quetui=()=>{
     HttpHelper.Post('pintrecord/uppintrecord',{id:route.query.id,type:'A'}).then((res)=>{
     if (res.code==0) {
-        Toast('退款成功')
-        router.go(-1)
+        router.push('/ordersucess?type=B')
+        // Toast('退款成功')
+        // router.go(-1)
     }else{
          Toast('退款失败')
 

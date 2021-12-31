@@ -20,8 +20,9 @@ let route = useRoute();
 
 let page = ref({});
 PageHelper.Init(page, () => {});
+PageHelper.LoginAuth(page, () => {});
 
-var storedetail = ref({});
+var storedetail = ref(null);
 
 var current = ref(0);
 
@@ -40,13 +41,17 @@ var mylng= window.localStorage.getItem("longitude");
 // storedetail.distance
 
 
-HttpHelper.Post("store/storedetail", { id: route.query.id,mylat,mylng }).then((res) => {
+var xqmendian=()=>{
+  HttpHelper.Post("store/storedetail", { id: route.query.id,mylat,mylng }).then((res) => {
   res.distance2=Utils.GetMileTxt(res.distance)
   storedetail.value = res;
 
   fuwu();
   daijin()
 });
+}
+
+xqmendian()
 // 轮播图改变时间
 var onChange = (index) => {
   current.value = index;
@@ -54,12 +59,33 @@ var onChange = (index) => {
 
 // 抢购
 var qiangou = (item) =>{
+  PageHelper.LoginAuth(page, () => {
+       // 判断用户是否授权微信
+  
+     if (page.value.Memberinfo.touxiang !='B') {
+       
+   
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
+         return
+}
+		// alert(page.value.Memberinfo.shoujisq)
+   if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B') {
+
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
+         return
+}
+
   fuwudetail.value=item
 
 
   show.value=true;
 
   zuihou();
+
+  });
+  
+
+
 
 
  
@@ -291,7 +317,62 @@ var dianhua=()=>{
     
 }
 
+// 附近更多
+var service_id=ref(0);
+let storelist=ref([])
 
+service_id.value=route.query.service_id
+
+var filtratestore = () => {
+
+
+  var mylat= window.localStorage.getItem("latitude");
+var mylng= window.localStorage.getItem("longitude");
+
+   HttpHelper.Post("store/filtrate2", { 
+   service_id:service_id.value,mylat,mylng,seq:4,storeid:route.query.id
+   }).then((res) => {
+     for(let item of res){
+       item.distance2=Utils.GetMileTxt(item.distance)
+       item.originalprice=parseFloat(item.originalprice)
+item.coupon_jainshao=parseFloat(item.coupon_jainshao)
+     }
+     
+    storelist.value = res;
+   });
+};
+filtratestore()
+
+
+// mendian 点击附近更多
+var mendian=(index)=>{
+
+  // let newUrl=router.resolve({
+  //   path:"/storedetail",
+  //   query:{
+  //     id:index,
+  //     service_id:route.query.service_id
+  //   }
+  // })
+
+  // window.open(newUrl.href,'_blank')
+ 
+// window.open("/storedetail?id="+index+'&service_id='+route.query.service_id)
+
+   router.push("/storedetail?id="+index+'&service_id='+route.query.service_id);
+  //    router.push("/storedetail?id="+index+'&service_id='+route.query.service_id);
+    
+
+    let timer = setTimeout(() => {
+     //需要定时执行的代码
+     router.go(0)
+    
+},100)
+
+
+  //  filtratestore()
+  //  xqmendian()
+}
 
 
 
@@ -303,7 +384,7 @@ var dianhua=()=>{
 <template>
   <div
     class=""
-    v-if="page.Res!=null"
+    v-if="storedetail!=null && page.Res!=null "
   >
     <van-swipe
       :autoplay="3000"
@@ -340,25 +421,35 @@ var dianhua=()=>{
               :key="item"
               class="margin-right-5 icon-13 "
             > -->
-              <img
-              v-for="item in 5"
-              :key="item"
+            <div class="icon-13 "  v-for="item in 5"
+              :key="item">
+              
+               <img
+             v-if="storedetail.score<item"
                 :src="page.uploadpath + 'resource/' + page.Res.star1"
                 class="icon-13 "
               />
-              <!-- <img
+              <img
+              v-else
               
                 :src="page.uploadpath + 'resource/' + page.Res.star2"
                 class="icon-13 "
-              /> -->
-            <!-- </div> -->
+              />
+         
+
+
+              </div>
+             
 
             <div class="f-13 bold c-3 margin-left-10">{{storedetail.score}}</div>
           </div>
           <div class="c-1 f-11 margin-top-10">{{storedetail.business_name}} {{storedetail.workinghours}}</div>
-          <div class="flex-row flex-center margin-top-14 margin-bottom-9 ">
-            <div class="h-17 padding-left-7 padding-right-7 bg-1 f-9 line-height-17">保养</div>
+   
+
+            <div class="flex-row flex-center margin-top-14 margin-bottom-9 " v-if="storedetail.biaoqianlist.length>0  ">
+            <div class="h-17 padding-left-7 padding-right-7 bg-1 f-9 line-height-17 margin-right-10" v-for="(item,index) in storedetail.biaoqianlist" :key="index">{{item}}</div>
           </div>
+    
 
         </div>
         <div class="flex-1"></div>
@@ -403,9 +494,9 @@ var dianhua=()=>{
     <div class="c-2 f-14 bold margin-top-20 margin-bottom-10 margin-left-14 ">门店服务</div>
     <!--  -->
     <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 7px 9px">
-      <div class="flex-row flex-center">
+      <div class="flex-row flex-center"  style="overflow: scroll;">
       
-        <div  v-for="(item,index) in storedetail.bigcategorylist" :key="index" class="margin-right-20"  @click="dianj(index)">
+        <div  v-for="(item,index) in storedetail.bigcategorylist" :key="index" class="margin-right-20"  @click="dianj(index)" style="flex:none">
           <div class="f-13 c-2 ">{{item.name}}</div>
           <div class="hen" :style="{'background':fwshow==index?'linear-gradient(-10deg, #409EFF, #67B0FD)':''}"></div>
         </div>
@@ -470,7 +561,7 @@ var dianhua=()=>{
          <!--门店评价  -->
           <div class="c-2 f-14 bold margin-top-20 margin-bottom-10 margin-left-14 ">门店评价</div>
           <!--  -->
-      <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px ">
+      <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px "  v-if="evaluatelist.length>0">
             <div   v-for="(item,index) in evaluatelist" :key="index">
             <div class="flex-row margin-bottom-18">
               <img
@@ -515,6 +606,10 @@ var dianhua=()=>{
   <div class="h-1 bg-2"></div>
             <div class="center h-44 line-height-44 f-11">查看全部评论（90）</div>
           </div>
+
+          <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px "  v-else>
+              <div class="center h-44 line-height-44 f-11">暂无评价</div>
+          </div>
    
           
          
@@ -526,24 +621,30 @@ var dianhua=()=>{
            <!--  -->
            <div class="margin-left-14 margin-right-14">
            <div class="flex-row " style="display: flex;display: -webkit-flex;justify-content: space-between;flex-direction: row;flex-wrap: wrap;">
-             <div class="bg-w border-radius-9">
+             <div class="bg-w border-radius-9  margin-bottom-20" v-for="(item,index) in storelist" :key="index"  @click="mendian(item.id)">
                <img
-          :src="page.uploadpath + 'resource/' + page.Res.dianpu"
-          class="dianpu"
+          :src="page.uploadpath + 'store/' + item.tupian"
+          class="dianpu img-border"
         />
         <div class="margin-left-10 margin-right-10 margin-bottom-10">
         <div class="flex-row flex-center margin-top-9  ">
-          <div class="bold c-2 f-12 ">商户名称</div>
+          <div class="bold c-2 f-12 w-100p"  style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{{item.name}}</div>
           <div class="flex-1"></div>
-          <div class="c-1 f-9">3.20km</div>
+          <div class="c-1 f-9">{{item.distance2}}</div>
         </div>
-        <div class="c-1 f-9 margin-top-9">标准洗车</div>
+        <div class="c-1 f-9 margin-top-9">{{item.service_name}}</div>
         <div class="flex-row flex-center margin-top-9" >
-          <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 ">减免券¥10</div>
-         <div class="c-4 f-9 margin-left-10">¥</div>
-      <div class="c-4 f-13 ">30</div> 
-      <div class="f-7 c-2 margin-left-10 " style="text-align: center;">¥</div>
-        <div class="f-9 c-2 " style="text-align: center;">40</div>
+            <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 " v-if="item.coupon_type=='C'" >减免券¥{{item.originalprice}}</div>
+             <div class="flex-1" v-if="item.coupon_type==''"></div>
+          <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 "  v-if="item.coupon_type!=''&&item.coupon_type!='C' ">减免券¥{{item.coupon_jainshao}}</div>
+         
+         <div class="c-4 f-9 margin-left-10" v-if="item.coupon_type!=''">¥</div>
+      <div class="c-4 f-13 " v-if="item.coupon_type=='C'">0</div> 
+      <div class="c-4 f-13 " v-if="item.coupon_type!='C'&& item.coupon_type!=''">{{item.originalprice-item.coupon_jainshao}}</div> 
+
+      <div class="flex-1"></div>
+      <div class="f-7 c-2 margin-left-10 "  :style="{'text-decoration':item.coupon_type!='line-through'?'':''}">¥</div>
+        <div class="f-9 c-2 " :style="{'text-decoration':item.coupon_type!='line-through'?'':''}">{{item.originalprice}}</div>
 
         </div>
 
@@ -731,6 +832,9 @@ var dianhua=()=>{
   padding: 2px 5px;
   font-size: 12px;
   background: rgba(0, 0, 0, 0.1);
+}
+.img-border{
+  border-radius: 9px 9px 0  0 ;
 }
 
 /deep/ .van-swipe__indicators {

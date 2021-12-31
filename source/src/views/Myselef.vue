@@ -29,7 +29,7 @@ var shouquan=()=>{
          wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
 }
 		// alert(page.value.Memberinfo.shoujisq)
-   if (page.value.Memberinfo.shoujisq !='B') {
+   if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B') {
       show.value=2
          wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
 }
@@ -133,6 +133,18 @@ var lianxigg=()=>{
 }
 
 
+// 查询 卡卷  收藏的数目
+let shumu=ref(null)
+var chaxun=()=>{
+  HttpHelper.Post("chaxun/shumu",{
+
+  }).then((Res)=>{
+shumu.value=Res
+  })
+
+}
+chaxun();
+
 
 
 
@@ -162,17 +174,17 @@ var lianxigg=()=>{
      <div class="flex-row flex-center margin-top-30">
          <div class="flex-1"></div>
          <div @click="jifen()">
-             <div class="c-6 bold f-20 center ">34</div>
+             <div class="c-6 bold f-20 center ">{{page.Memberinfo.jifen}}</div>
              <div class="margin-top-10 c-2 f-12 center">积分</div>
          </div>
          <div class="flex-2"></div>
          <div @click="kazhuan()">
-             <div class="c-6 bold f-20 center ">20</div>
+             <div class="c-6 bold f-20 center ">{{shumu.result.num}}</div>
              <div class="margin-top-10 c-2 f-12 center">卡券</div>
          </div>
           <div class="flex-2"></div>
          <div  @click="shoucan">
-             <div class="c-6 bold f-20 center ">34</div>
+             <div class="c-6 bold f-20 center ">{{shumu.result.num2}}</div>
              <div class="margin-top-10 c-2 f-12 center">收藏</div>
          </div>
          <div class="flex-1"></div>

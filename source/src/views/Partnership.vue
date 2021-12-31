@@ -22,11 +22,18 @@ if (route.query.type=='A') {
   HttpHelper.Post('neirong/neirongdetail',{id:3}).then((res)=>{
     neirongdetail.value=res
 })
-}else{
+}
+if (route.query.type=='B'){
   HttpHelper.Post('neirong/neirongdetail',{id:1}).then((res)=>{
     neirongdetail.value=res
 })
 }
+if (route.query.type=='C'){
+  HttpHelper.Post('neirong/neirongdetail',{id:4}).then((res)=>{
+    neirongdetail.value=res
+})
+}
+
 
 
 

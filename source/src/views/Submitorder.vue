@@ -7,12 +7,15 @@ import { Toast } from 'vant';
 
 let page = ref({});
 PageHelper.Init(page, () => {});
+PageHelper.LoginAuth(page, () => {});
 
 let router = useRouter();
 let route = useRoute();
 let servicepricedetail=ref({});
 let num=ref(1);
 let phone = ref('');
+let sqshow=ref(false);
+
 
 let ordr_id=ref(0);
 let wanchengt=ref(false);
@@ -33,7 +36,7 @@ var wancheng=()=>{
   clearInterval(timer)
 }
     if (Res.orderstatus=='B' && wanchengt.value==false) {
-    
+
       console.log('进来哦了');
       wanchengt.value=true
       router.push('/Paysuccess?id='+ordr_id.value);
@@ -70,6 +73,7 @@ var jian = () => {
 
 // 支付  提交订单
 var zhifu=()=>{
+  PageHelper.LoginAuth(page, () => {});
     if (phone.value.length==0) {
          Toast('请输入手机号');
          return;
@@ -79,12 +83,35 @@ var zhifu=()=>{
          Toast('手机格式不正确');
           return;
     }
+    // 判断用户是否授权微信
+//      if (page.value.Memberinfo.touxiang !='B' || page.value.Memberinfo.shoujisq !='B' ) {
+//        sqshow.value=true  
+//          return
+// }
+
+
 // couponorder_id
 if (type.value=='A') {
   HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.query.id,num:num.value,couponlist_id:route.query.couponlist_id,gou_type:type.value }).then((res) => {
     console.log(123)
     console.log(res);
   if (res.code==0) {
+    // 判断用户支付的价格是否等于  0 
+    if (totle.value==0) {
+      HttpHelper.Post("order/creatorder2",{id:res.return}).then((orderes)=>{
+  
+        if (orderes.code==0) {
+            ordr_id.value=res.return
+          
+        }else{
+          Toast(orderes.return)
+        }
+
+      })
+      return
+    }
+
+
     ordr_id.value=res.return
     wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return+'&type=A'});
       // router.push('/Paysuccess?id='+res.return);
@@ -97,6 +124,22 @@ if (type.value=='A') {
     console.log(123)
     console.log(res);
   if (res.code==0) {
+
+     // 判断用户支付的价格是否等于  0 
+    if (totle.value==0) {
+      HttpHelper.Post("order/creatorder2",{id:res.return}).then((orderes)=>{
+  
+        if (orderes.code==0) {
+            ordr_id.value=res.return
+          
+        }else{
+          Toast(orderes.return)
+        }
+
+      })
+      return
+    }
+
     ordr_id.value=res.return
 wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return+'&type=A'});
 
@@ -199,7 +242,27 @@ toto_price=servicepricedetail_price*1-coupondetail.value.jainshao*1
 }
 
 
+// confirm 确认时间
+var confirm=()=>{
+    // 判断用户是否授权微信
+     if (page.value.Memberinfo.touxiang !='B') {
+       
+   
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
+         return
+}
+		// alert(page.value.Memberinfo.shoujisq)
+   if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B') {
 
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
+         return
+}
+}
+
+// cancel 取消时间
+var cancel=()=>{
+  sqshow.value=false
+}
 
 
 
@@ -292,6 +355,12 @@ toto_price=servicepricedetail_price*1-coupondetail.value.jainshao*1
         </div>
 
         <!--  -->
+
+<van-dialog v-model:show="sqshow" title="授权" show-cancel-button @confirm="confirm" @cancel="cancel">
+  <div class="c-2 f-14 bold center padding-15"  v-if="page.Memberinfo.touxiang !='B'">前往授权头像昵称</div>
+<div class="c-2 f-14 bold center padding-15" v-if="page.Memberinfo.touxiang =='B'&& page.Memberinfo.shoujisq !='B'">前往授权手机号</div>
+
+</van-dialog>
 
 
   </div>

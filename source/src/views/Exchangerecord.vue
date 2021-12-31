@@ -40,7 +40,16 @@ var xianqing=(e)=>{
 
 <template>
   <div  v-if="page.Res!=null">
-        <div class="position-top">
+         <van-sticky>
+               <div class="h-40 bg-w flex-row flex-center">
+          <div class="flex-1 f-14 c-1 center"  :style="{'color':(leixin==''?'#409EFF':'')}" @click="dianji('')">全部</div>
+          <div class="flex-1 f-14 c-1 center" :style="{'color':(leixin=='A'?'#409EFF':'')}" @click="dianji('A')">待发货</div>
+          <div class="flex-1 f-14 c-1 center" :style="{'color':(leixin=='B'?'#409EFF':'')}" @click="dianji('B')">待收货</div>
+          <div class="flex-1 f-14 c-1 center" :style="{'color':(leixin=='C'?'#409EFF':'')}" @click="dianji('C')">待评价</div>
+          <div class="flex-1 f-14 c-1 center" :style="{'color':(leixin=='D'?'#409EFF':'')}" @click="dianji('D')">退款/取消</div>
+      </div>
+         </van-sticky>
+        <!-- <div class="position-top">
           <div class="h-40 bg-w flex-row flex-center">
           <div class="flex-1 f-14 c-1 center"  :style="{'color':(leixin==''?'#409EFF':'')}" @click="dianji('')">全部</div>
           <div class="flex-1 f-14 c-1 center" :style="{'color':(leixin=='A'?'#409EFF':'')}" @click="dianji('A')">待发货</div>
@@ -48,8 +57,8 @@ var xianqing=(e)=>{
           <div class="flex-1 f-14 c-1 center" :style="{'color':(leixin=='C'?'#409EFF':'')}" @click="dianji('C')">待评价</div>
           <div class="flex-1 f-14 c-1 center" :style="{'color':(leixin=='D'?'#409EFF':'')}" @click="dianji('D')">退款/取消</div>
       </div>
-      </div>
-      <div class="h-40"></div>
+      </div> -->
+      <!-- <div class="h-40"></div> -->
 
       <div class="margin-left-14 margin-right-14 margin-top-14 bg-w border-radius-9 padding-15 " v-for="(item,index) in pintrecordlist" :key="index" @click="xianqing(item.id)">
           <div class="flex-row ">

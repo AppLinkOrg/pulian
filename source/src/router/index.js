@@ -46,6 +46,8 @@ import Partnership from '../views/Partnership.vue'
 import Aboutus from '../views/Aboutus.vue'
 import Feedback from '../views/Feedback.vue'
 import Ceshi from '../views/Ceshi.vue'
+import Ordersucess from '../views/Ordersucess.vue'
+
 
 const routes = [{
   path: '/home',
@@ -159,7 +161,10 @@ const routes = [{
 }, {
   path: '/materialdetail',
   name: 'Materialdetail',
-  component: Materialdetail
+  component: Materialdetail,
+  meta:{
+    'name':'兑换详情'
+  }
 }, {
   path: '/submitintegral',
   name: 'Submitintegral',
@@ -175,11 +180,17 @@ const routes = [{
 }, {
   path: '/exchangerecord',
   name: 'Exchangerecord',
-  component: Exchangerecord
+  component: Exchangerecord,
+  meta:{
+    'name':'积分订单'
+  }
 }, {
   path: '/integralorder',
   name: 'Integralorder',
-  component: Integralorder
+  component: Integralorder,
+  meta:{
+    'name':'订单详情'
+  }
 }, {
   path: '/aftersale',
   name: 'Aftersale',
@@ -279,7 +290,16 @@ const routes = [{
   meta: {
     'name': '测试'
   }
+},{
+  path: '/ordersucess',
+  name: 'Ordersucess',
+  component: Ordersucess,
+  meta: {
+    'name': '支付成功'
+  }
 }
+
+
 
 
 

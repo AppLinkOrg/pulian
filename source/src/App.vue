@@ -18,13 +18,17 @@ const route=useRoute()
 watch(()=>route.path,(e)=>{
   pathname.value=e
   title.value=route.meta.name
+  store.changeTitlt(route.meta.name)
 
 // PageHelper.kk.value=e;
 store.changeName(e)
-console.log(PageHelper.kk.value,'PageHelper');
+console.log(title.value,'PageHelper');
 
   if (route.path=='/partnership' && route.query.type=='A') {
     title.value='使用说明'
+  }
+  if (route.path=='/partnership' && route.query.type=='C') {
+    title.value='积分规则'
   }
 
 })
@@ -48,11 +52,14 @@ createApp({}).component('nav-bar',{
 <template>
       <div id="app">
         <nav-bar v-if="pathname!='/'&&pathname!='/integral'&&pathname!='/storelist'&&pathname!='/myselef'&&route.meta.name!=undefined  "  :title='title'></nav-bar>
-    <router-view class="router-view" v-slot="{ Component }">
+        
+<router-view/>
+
+    <!-- <router-view class="router-view" v-slot="{ Component }">
       <transition :name="transitionName">
         <component :is="Component" />
       </transition>
-    </router-view>
+    </router-view> -->
     <van-number-keyboard safe-area-inset-bottom />
   </div>
 </template>
@@ -144,6 +151,9 @@ background:#F6F6F6;
 
 .w-100{
   width: 100vw;
+}
+.w-100p{
+  width: 100px;
 }
 .w-14{
   width: 14px;
@@ -259,6 +269,9 @@ background:#F6F6F6;
 }
 .h-260{
   height: 260px;
+}
+.h-240{
+  height: 240px;
 }
 .h-300{
   height: 300px;
@@ -701,6 +714,9 @@ button {
 .margin-top-40{
   margin-top: 40px;
 }
+.margin-top-60{
+  margin-top: 60px;
+}
 .margin-top-64{
   margin-top: 64px;
 }
@@ -865,6 +881,7 @@ button {
 .icon-21{
   width: 21px;
   height: 21px;
+  
 }
 .icon-23{
   width: 23px;

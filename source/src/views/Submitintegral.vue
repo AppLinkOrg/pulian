@@ -61,7 +61,8 @@ var tijiao=()=>{
         pointsmall_id:route.query.id,
         }).then((res)=>{
             if (res.code==0) {
-                Toast('兑换成功')
+                router.push('/ordersucess?type=A')
+                // Toast('兑换成功')
                 
             }else{
 Toast('兑换失败')

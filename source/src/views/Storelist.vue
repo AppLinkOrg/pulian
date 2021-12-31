@@ -3,6 +3,8 @@ import { ref } from "@vue/reactivity";
 import { useRouter, useRoute } from "vue-router";
 import { HttpHelper } from "../HttpHelper";
 import { PageHelper } from "../PageHelper";
+import { Utils } from "../Utils";
+
 
 let router = useRouter();
 let route = useRoute();
@@ -44,8 +46,16 @@ HttpHelper.Post("store/allcategory", {}).then((res) => {
   for(var i=0;i<res.length;i++){ 
        var servicelist=res[i].servicelist;
        
+       var json={
+         id:'',
+         name:'全部'+res[i].name
+       }
+
        var children=[];
     //  console.log(servicelist,'这个呢111')
+
+    servicelist.unshift(json)
+
        for(var j=0;j<servicelist.length;j++){
        children.push({text:servicelist[j].name,id:servicelist[j].id}); 
        }
@@ -54,9 +64,15 @@ HttpHelper.Post("store/allcategory", {}).then((res) => {
   console.log(allserverlist,'总服务列表')
   allcategory.value = res;
 });
+
+
 var chooseservice= (e) => { 
-   console.log(e,'总共');
+   console.log(e,'总共--',activeIndex);
    service_id.value=e.id;
+
+ bigcategory_id.value=allcategory.value[activeIndex.value]['id']
+
+
    service_name.value=e.text;
    service_dropdown.value.toggle();  
    filtratestore();
@@ -100,9 +116,9 @@ var allserverlist = [];
 
 
 //门店列表
-HttpHelper.Post("store/storelist", {}).then((res) => {
-  storelist.value = res;
-});
+// HttpHelper.Post("store/storelist", {}).then((res) => {
+//   storelist.value = res;
+// });
 
 
 // 选择门店类型
@@ -147,6 +163,7 @@ var filtratestore = () => {
    }).then((res) => {
     storelist.value = res;
    });
+
 };
 //大分类
   var bigcategory_id=ref(0);
@@ -171,8 +188,17 @@ if(route.query.bigcategory_id!=null){
    
 }
  
-var choosetype = (id) => {   
-   bigcategory_id.value=id;
+var choosetype = (index) => {  
+  var item= allcategory.value[index]
+  console.log(item,'item');
+
+  service_name.value=item.servicelist[0]['name']
+
+  //  service_id.value=item.servicelist[0]['id']
+
+
+   bigcategory_id.value=item.id;
+
    wokestatus_type.value="";
    seqid.value="";
    service_id.value="";
@@ -181,7 +207,7 @@ var choosetype = (id) => {
     filtratestore();
 };
 
-
+ 
 
 var tostoredetail = (index) => { 
   router.push("/storedetail?id=" + index);
@@ -192,7 +218,40 @@ var tostoredetail = (index) => {
 var addmycar = () => {  
   router.push("/editvegicle");
 };
+
+// 顶部退关图片
+let storelist3=ref([])
+var tuiguan=()=>{
+  var mylat= window.localStorage.getItem("latitude");
+var mylng= window.localStorage.getItem("longitude");
+  HttpHelper.Post("store/storelist3",{mylat,mylng}).then((res)=>{
+    res[0].distance2=Utils.GetMileTxt(res[0].distance)
+    storelist3.value=res
+console.log(2222);
+  })
+}
+tuiguan()
+
+
+// fuwudina 服务数据
+let serviceid=ref(0)
+var fuwudina=(index)=>{
+
+  var item=storelist3.value[0].servicepricelist[index];
+  var id=storelist3.value[0].id;
+  serviceid.value=item.service_id
+
+  router.push("/storedetail?id=" + id+'&service_id='+item.service_id);
+}
+
+// storexq 店铺详情
+var storexq=()=>{
+   var id=storelist3.value[0].id;
+  router.push("/storedetail?id=" + id);
+}
  
+
+  filtratestore();
  
 </script>
 
@@ -207,7 +266,7 @@ var addmycar = () => {
     </div>
 
     <div class="flex-row flex-wrap padding-top-10">
-      <div class="category" v-for="(item, index) in allcategory" :key="index" @click="choosetype(item.id)">
+      <div class="category" v-for="(item, index) in allcategory" :key="index" @click="choosetype(index)">
         <img
           class="icon_category"
           :src="page.uploadpath + 'bigcategory/' + item.icon"
@@ -224,40 +283,41 @@ var addmycar = () => {
           class="store_long_img"
           :src="page.uploadpath + 'resource/' + page.Res.dianpu"
         /> -->
-      <div class="flex-row">
+      <div class="flex-row" v-if="storelist3.length>0">
         <!-- 广告左侧大图 -->
         <div class="">
           <van-image
             width="90"
             height="206"
             fit="cover"
-            :src="page.uploadpath + 'resource/' + page.Res.dianpu"
+            :src="page.uploadpath + 'store/' + storelist3[0]['tupian']"
           />
         </div>
 
         <!-- 广告右侧店铺信息 -->
-        <div class="flex-1 margin-left-10" style="width: 56vw">
-          <div class="f-16 f-bold c-b">商户名称</div>
+        <div class="flex-1 margin-left-10" style="width: 56vw"  v-if="storelist3.length>0" @click="storexq">
+          <div class="f-16 f-bold c-b">{{storelist3[0]['name']}}</div>
           <div class="flex-row flex-center margin-top-5">
-            <div class="f-12 c-3">5.0分</div>
-            <div class="f-12 c-7 margin-left-10">月售1234单</div>
+            <div class="f-12 c-3">{{storelist3[0]['score']}}分</div>
+            <div class="f-12 c-7 margin-left-10">月售{{storelist3[0]['monthlysale']}}单</div>
             <div class="flex-1"></div>
-            <div class="f-12 c-7">2.0km</div>
+            <div class="f-12 c-7">{{storelist3[0]['distance2']}}</div>
           </div>
           <div class="flex-row flex-wrap">
-            <div class="label_bg margin-right-5 margin-top-5 c-3 f-10">
-              热情老板
+            <div class="label_bg margin-right-5 margin-top-5 c-3 f-10" v-for="(item,index) in storelist3[0]['biaoqianlist']" :key="index">
+              {{item}}
             </div>
-            <div class="label_bg margin-right-5 margin-top-5 c-3 f-10">
+            <!-- <div class="label_bg margin-right-5 margin-top-5 c-3 f-10">
               热情老a萨达阿斯达板
-            </div>
+            </div> -->
           </div>
           <div class="flex-row flex-wrap margin-top-10">
             <van-image
+            style="flex:none"
               class="zuobiao margin-right-5"
               :src="page.uploadpath + 'resource/' + page.Res.zuobiao"
             />
-            <div class="f-12 c-7">阿斯达苏打水</div>
+            <div class="f-12 c-7 flex-1">{{storelist3[0]['address']}}</div>
           </div>
 
           <!-- 广告店铺服务列表滚动区域 -->
@@ -266,46 +326,21 @@ var addmycar = () => {
             class="flex-row margin-top-5"
             style="overflow: scroll; width: 100%"
           >
-            <div class="margin-right-5">
+            <div class="margin-right-5" v-for="(item,index) in storelist3[0]['servicepricelist']" :key="index"  @click.stop="fuwudina(index)">
               <van-image
                 class="fuwu_img margin-right-5"
-                :src="page.uploadpath + 'resource/' + page.Res.dianpu"
+                :src="page.uploadpath + 'serviceprice/' + item.img"
               />
-              <div class="margin-top-5">标准洗车</div>
+              <div class="margin-top-5">{{item.service_id_name}}</div>
               <div class="flex-row flex-bottom">
-                <div class="f-14 c-5 margin-right-5">¥50</div>
-                <div class="f-10" style="text-decoration: line-through">
+                <div class="f-14 c-5 margin-right-5">¥{{item.originalprice}}</div>
+                <!-- <div class="f-10" style="text-decoration: line-through">
                   ¥50
-                </div>
-              </div>
-            </div>
-            <div class="margin-right-5">
-              <van-image
-                class="fuwu_img margin-right-5"
-                :src="page.uploadpath + 'resource/' + page.Res.dianpu"
-              />
-              <div class="margin-top-5">标准洗车</div>
-              <div class="flex-row flex-bottom">
-                <div class="f-14 c-5 margin-right-5">¥50</div>
-                <div class="f-10" style="text-decoration: line-through">
-                  ¥50
-                </div>
-              </div>
-            </div>
-            <div class="margin-right-5">
-              <van-image
-                class="fuwu_img margin-right-5"
-                :src="page.uploadpath + 'resource/' + page.Res.dianpu"
-              />
-              <div class="margin-top-5">标准洗车</div>
-              <div class="flex-row flex-bottom">
-                <div class="f-14 c-5 margin-right-5">¥50</div>
-                <div class="f-10" style="text-decoration: line-through">
-                  ¥50
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
+
         </div>
       </div>
 
@@ -382,11 +417,11 @@ var addmycar = () => {
     </van-sticky>
 
     <!-- 门店列表 -->
-    <div v-for="(item, index) in storelist" :key="index" @click="tostoredetail(item.id)">
-      <div class="margin-top-15 margin-left-14 margin-right-14">
+    <div v-for="(item, index) in storelist" :key="index" @click="tostoredetail(item.id)"  >
+      <div class="margin-top-15 margin-left-14 margin-right-14 bg-w padding-10 border-radius-9">
         <div class="flex-row">
           <img
-            :src="page.uploadpath + 'resource/' + page.Res.dianpu"
+            :src="page.uploadpath + 'store/' + item.tupian"
             class="icon-84"
           />
           <div class="margin-left-10">
@@ -407,11 +442,12 @@ var addmycar = () => {
           </div>
         </div>
         <div class="bg-2 margin-top-15" style="height: 1px"></div>
-        <div class="margin-top-15 margin-bottom-15">
+        <!-- @click.stop="fuwustodetail()" -->
+        <div class="margin-top-15 margin-bottom-15" v-for="(items,indexs) in item.servicepricelist" :key="indexs"  >
           <div class="flex-row flex-center">
-            <div class="c-2 f-13 bold">标准洗车</div>
+            <div class="c-2 f-13 bold">{{items.service_name}}</div>
             <div class="flex-1"></div>
-            <div
+            <!-- <div
               class="
                 bd-1
                 border-radius-2
@@ -424,18 +460,20 @@ var addmycar = () => {
               减免券¥10
             </div>
             <div class="c-4 f-9 margin-left-10">¥</div>
-            <div class="c-4 f-13">30</div>
+            <div class="c-4 f-13">30</div> -->
           </div>
           <div class="flex-row margin-top-10 flex-center">
-            <div class="c-1 f-9">已售 229</div>
+            <div class="c-1 f-9">已售 {{items.sell}}</div>
             <div class="flex-1"></div>
             <div class="f-7 c-2" style="text-align: center">¥</div>
-            <div class="f-9 c-2" style="text-align: center">40</div>
+            <div class="f-9 c-2" style="text-align: center">{{items.originalprice}}</div>
           </div>
         </div>
       </div>
       <div class="bg-1 h-4"></div>
     </div>
+
+          <div class="h-50"></div>
   </div>
 </template>
 <style scoped>
