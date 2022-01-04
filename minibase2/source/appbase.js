@@ -199,13 +199,26 @@ export class AppBase {
     ApiConfig.SetUnicode(this.Base.unicode);
 
 
-
+    this.Base.setMyData({
+      StatusBar: getApp().globalData.StatusBar,
+      CustomBar: getApp().globalData.CustomBar,
+      Custom: getApp().globalData.Custom,
+    });
 
 
   }
 
   addresscallback(res){
     console.log("addresscallback",res);
+
+  
+
+
+
+    // 改变用户的地理位置
+
+    // res.ad_info.city
+    // adcode
   }
 
   gotoOpenUserInfoSetting() {
@@ -1140,7 +1153,10 @@ export class AppBase {
         AppBase.UserInfo = userres.userInfo;
         AppBase.UserInfo.openid = openid;
         AppBase.UserInfo.session_key = session_key;
+
         AppBase.UserInfo.touxiang='B'
+        AppBase.UserInfo.type='A'
+
         console.log("loginres4", userres);
         
         console.log(this.Base.getMyData().memberinfo, '11');

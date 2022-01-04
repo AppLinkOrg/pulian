@@ -178,16 +178,19 @@ var showmodel = (status) => {
     let imglist=ref('')
     var wokank = ()=>{
 
-        HttpHelper.UploadImage("resource",(ret)=>{
-   imglist.value=ret.result
-  //  alert(JSON.stringify(imglist.value))
-   console.log("走了吗")
-   if (imglist.value=='') {
-     Toast('上传图片失败')
-     return
-   }
+        HttpHelper.Getimage("resource",(ret)=>{
+          // alert(ret)
+
+         
+  //  imglist.value=ret.result
+  // //  alert(JSON.stringify(imglist.value))
+  //  console.log("走了吗")
+  //  if (imglist.value=='') {
+  //    Toast('上传图片失败')
+  //    return
+  //  }
      HttpHelper.Post("member/ocr", {
-imglist:imglist.value
+imglist:ret
     }).then((res) => {
       // alert("进来了啊啊啊")
       // alert(JSON.stringify(res))

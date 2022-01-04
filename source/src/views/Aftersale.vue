@@ -33,18 +33,22 @@ var tijiao=()=>{
         Toast('请描述问题')
         return
     }
-    var imglis=imglist.value.toString
-    alert(imglis)
-    return
+    var imglis=imglist.value
+    var a=imglis.toString();
+    // alert(JSON.stringify(imglis))
+
+    // return
     HttpHelper.Post('aftersale/aftersaleadd',{
         pingjia:miaoshu.value,
         fuwu:leixin.value,
         pintrecord_id:route.query.id,
-        imglist:imglis
+        imglist:a
     }).then((res)=>{
         if (res.code==0) {
           miaoshu.value=''  
             Toast('提交成功')
+        }else if (res.code==-2) {
+            Toast(res.return)
         }else{
  Toast('提交失败')
         }
@@ -146,20 +150,23 @@ var shangchuan=()=>{
               <textarea class="flex-1  bg-1 h-100 f-12 c-2" style="border:none;width:100%" placeholder="请在此描述问题" v-model="miaoshu"></textarea>
 
               <div class="flex-row flex-center"  style="display: flex;display: -webkit-flex;justify-content: space-between;flex-direction: row;flex-wrap: wrap;"> 
- <img v-for="(item,index) in imglist" :key="index" :src="page.uploadpath + 'img/' + item" class="icon-70"/>
-           
- <img  :src="page.uploadpath + 'resource/' +  page.Res.paizhao" class="icon-70" @click="shangchuan"/>
+ <img v-for="(item,index) in imglist" :key="index" :src="page.uploadpath + 'img/' + item" class="icon-70 margin-right-10"/>
+ <div class="flex-1" style="visibility: hidden" v-if="imglist.length>0"></div>
+             <div class="bd-4 radius-5 icon-70 flex-row flex-column " @click="shangchuan">
+                  <div class="flex-1"></div>
+                    <img :src="page.uploadpath + 'resource/' + page.Res.paizhao" class="icon-25"/>
+                    <div class="margin-top-8  c-1 f-10">上传图片</div>
+                     <div class="flex-1"></div>
+              </div>
+          
+ <!-- <img  :src="page.uploadpath + 'resource/' +  page.Res.paizhao" class="icon-70" @click="shangchuan"/> -->
 
               </div>
 
 
 
-              <!-- <div class="bd-4 radius-5 icon-70 flex-row flex-column " @click="shangchuan">
-                  <div class="flex-1"></div>
-                    <img :src="page.uploadpath + 'resource/' + page.Res.paizhao" class="icon-25"/>
-                    <div class="margin-top-8  c-1 f-10">上传图片</div>
-                     <div class="flex-1"></div>
-              </div> -->
+            
+
           </div>
     
           </div>

@@ -1,5 +1,7 @@
 /**app.wxss**/
 @import "wxParse/wxParse.wxss";
+@import "colorui/main.wxss";
+@import "colorui/icon.wxss";
 
 page{
   background: white;
@@ -102,6 +104,9 @@ view,navigator,input,text,textarea{
 }
 .c-1{
   color: #999;
+}
+.c-2{
+  color: #333;
 }
 .bg-4{
   background: #B56C5E;
@@ -388,6 +393,9 @@ button[disabled][type=primary] {
 }
 .margin-right-40{
   margin-right:40rpx;
+}
+.margin-right-50{
+  margin-right:50rpx;
 }
 .margin-left-15{
   margin-left:15rpx;

@@ -22,7 +22,12 @@ class Content extends AppBase {
 
     if (this.Base.options.type=='A') {
      this.pay2()
-    }else{
+    }else
+    if (this.Base.options.type=='B') {
+      this.pay3()
+     }
+    
+    else{
       this.pay();
     }
     
@@ -68,7 +73,34 @@ class Content extends AppBase {
       wx.requestPayment(payret)
     })
   }
+  pay3(){
+    // 优惠券支付
+    var that =this;
+    var wechatapi=new WechatApi(); 
+    var memberapi=new MemberApi(); 
+    wechatapi.prepay3({id:this.Base.options.id},(payret)=>{
+      console.log(payret,'支付回调');
 
+      payret.complete = function (e) {
+        if (e.errMsg == "requestPayment:ok") { 
+
+          that.Base.toast("支付成功");
+          wx.navigateBack({
+            delta: 0,
+          })
+         
+           
+        }else{
+          that.Base.toast("支付失败");
+          wx.navigateBack({
+            delta: 0,
+          })
+        }
+      }
+ 
+      wx.requestPayment(payret)
+    })
+  }
   pay2(){
     // 服务支付
     var that =this;
@@ -106,4 +138,5 @@ body.onMyShow = content.onMyShow;
 
 body.pay = content.pay;
 body.pay2 = content.pay2;
+body.pay3 = content.pay3;
 Page(body)

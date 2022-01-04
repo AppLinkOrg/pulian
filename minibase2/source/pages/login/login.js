@@ -83,6 +83,13 @@ class Content extends AppBase {
       }
     })
   }
+
+  backGo(){
+    wx.navigateBack({
+      delta: -1,
+    })
+  }
+
 }
 var content = new Content();
 var body = content.generateBodyJson();
@@ -90,4 +97,6 @@ body.onLoad = content.onLoad;
 body.onMyShow = content.onMyShow;
 
 body.getUserInfo2 = content.getUserInfo2;
+body.backGo = content.backGo;
+
 Page(body)
