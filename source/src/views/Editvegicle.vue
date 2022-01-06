@@ -46,6 +46,12 @@ if (route.query.id != null) {
     inspection_date.value = res.inspection_date;
     register_date.value = res.register_date;
 
+    if(res.isdefault_value=='Y'){
+checked.value=true
+    }
+
+    
+
 
 
     HttpHelper.Post("carbrand/selectcar", {
@@ -252,6 +258,12 @@ var confrim = (e) => {
     Toast("请选择品牌车系");
     return;
   }
+var isdefault='N'
+  if (checked.value==true) {
+    isdefault='Y'
+  }else{
+isdefault='N'
+  }
 
 //判断编辑还是新增
  console.log(route.query.id);
@@ -267,10 +279,12 @@ var confrim = (e) => {
       register_date: register_date.value,
       inspection_date: inspection_date.value,
       plateno: provinces_name.value + "·" + caridname.value,
+      isdefault
     }).then((res) => {
       provinceslist.value = res;
       tishi.value = false;
-      router.replace("/myselef");
+      router.go(-1);
+      // router.replace("/myselef");
     });
   } else {
     console.log("走的这边还是这边11111？？？")
@@ -283,10 +297,12 @@ var confrim = (e) => {
       register_date: register_date.value,
       inspection_date: inspection_date.value,
       plateno: provinces_name.value + "·" + caridname.value,
+      isdefault
     }).then((res) => {
       provinceslist.value = res;
       tishi.value = false;
-      router.replace("/myselef");
+      router.go(-1);
+      // router.replace("/myselef");
     });
   }
 
@@ -314,7 +330,9 @@ var confrim = (e) => {
 
 };
 
-const checked = ref(true);
+const checked = ref(false);
+
+
 </script>
 
 <template>
@@ -329,7 +347,7 @@ const checked = ref(true);
                 :src="page.uploadpath + 'resource/' + page.Res.saomiao"
                 class="icon-18"
               />
-              <div class="bold f-14 c-6 margin-left-4"   >扫描驾驶证自动填写</div>
+              <div class="bold f-14 c-6 margin-left-4"   >扫描行驶证自动填写</div>
               <div class="flex-1"></div>
             </div>
  

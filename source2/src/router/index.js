@@ -8,6 +8,11 @@ import Login from '../views/Login.vue'
 import Management from '../views/Management.vue'
 import Password from '../views/Password.vue'
 import Storeinfo from '../views/Storeinfo.vue'
+import About from '../views/About.vue'
+import Service from '../views/Service.vue'
+import Order from '../views/Order.vue'
+import Writeoff from '../views/Writeoff.vue'
+import Orderdetail from '../views/Orderdetail.vue'
 
 const routes = [{
   path: '/',
@@ -38,7 +43,44 @@ const routes = [{
   meta:{
     'name':'门店信息'
   }
+},{
+  path: '/about',
+  name: 'About',
+  component: About,
+  meta:{
+    'name':'关于我们'
+  }
+},{
+  path: '/service',
+  name: 'Service',
+  component: Service,
+  meta:{
+    'name':'服务信息'
+  }
+},{
+  path: '/order',
+  name: 'Order',
+  component: Order,
+  meta:{
+    'name':'订单管理'
+  }
+},{
+  path: '/writeoff',
+  name: 'Writeoff',
+  component: Writeoff,
+  meta:{
+    'name':'服务核销'
+  }
+},{
+  path: '/orderdetail',
+  name: 'Orderdetail',
+  component: Orderdetail,
+  meta:{
+    'name':'订单详情'
+  }
 }
+
+
 ]
 
 const router = createRouter({

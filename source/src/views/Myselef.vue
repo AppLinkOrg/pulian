@@ -29,7 +29,7 @@ var shouquan=()=>{
          wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
 }
 		// alert(page.value.Memberinfo.shoujisq)
-   if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B') {
+   if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B' ) {
       show.value=2
          wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
 }

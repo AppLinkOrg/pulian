@@ -13,9 +13,12 @@ PageHelper.Init(page, () => {});
 let mycarlist = ref([]);
 
 //查询车库的数目
-HttpHelper.Post("member/mycarlist", {}).then((res) => {
+var shumu=()=>{
+  HttpHelper.Post("member/mycarlist", {}).then((res) => {
   mycarlist.value = res;
 });
+}
+shumu();
 
 // 添加爱车
 var addche = () => {
@@ -25,6 +28,39 @@ var addche = () => {
 var toedit = (id) => {
   router.push("/editvegicle?id="+id);
 };
+
+
+var detele=(id)=>{
+  HttpHelper.Post("mycar/detele",{
+    type:'A',
+    id:id
+    }).then((res)=>{
+      if (res.code==0) {
+        shumu();
+        Toast('删除成功')
+      }else{
+        Toast('删除失败')
+      }
+
+  })
+}
+
+var morder=(id)=>{
+
+ HttpHelper.Post("mycar/detele",{
+    type:'B',
+    id:id,
+    }).then((res)=>{
+      if (res.code==0) {
+        shumu();
+
+      }else{
+  
+      }
+
+  })
+
+}
 </script>
 
 <template>
@@ -43,20 +79,23 @@ var toedit = (id) => {
       </div>
       <div class="h-1 bg-1"></div>
       <div class="flex-row flex-center padding-15">
-        <div
-          class="icon-18 border-radius-50 bd-3"
-          v-if="item.efault_value != 'Y'"
-        ></div>
+        
 
-        <img
+       <div class="flex-row flex-center" @click="morder(item.id)">
+         <div
+          class="icon-18 border-radius-50 bd-3"
+          v-if="item.isdefault_value != 'Y'"
+        ></div>
+          <img
           :src="page.uploadpath + 'resource/' + page.Res.wanchegn"
           class="icon-18"
           v-else
         />
         <div class="c-1 f-12 padding-left-10">设为默认车</div>
+       </div>
 
         <div class="flex-1"></div>
-        <div class="c-1 f-12">删除</div>
+        <div class="c-1 f-12" @click="detele(item.id)">删除</div>
         <div class="c-1 f-12 margin-left-10" @click="toedit(item.id)">编辑</div>
       </div>
     </div>

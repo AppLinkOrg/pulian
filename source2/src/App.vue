@@ -456,6 +456,9 @@ background:#F6F6F6;
 .border-radius-14{
   border-radius: 14px;
 }
+.border-radius-15{
+  border-radius: 15px;
+}
 .border-radius-19{
   border-radius: 19px;
 }
@@ -991,6 +994,10 @@ button {
 .icon-110{
   width: 110px;
   height: 110px;
+}
+.icon-150{
+  width: 150px;
+  height: 150px;
 }
 .icon-190{
   width: 190px;

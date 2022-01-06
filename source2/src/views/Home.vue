@@ -32,10 +32,26 @@ var zhanghao=()=>{
   router.push('/management')
 }
 
+var about=(e)=>{
+  if (e==1) {
+    router.push('/service')
+    return
+  }
+  if (e==2) {
+    router.push('/order')
+    return
+  }
+  if (e==3) {
+    router.push('/writeoff')
+    return
+  }
+  router.push('/about')
+}
+
 </script>
 
 <template>
-  <div  v-if="page.Res!=null" class="big-bg">
+  <div  v-if="page.Res!=null && page.Memberinfo!=null" class="big-bg">
    <div :style="{
             backgroundImage:
               'url(' + page.uploadpath + 'resource/' + page.Res.home + ')',
@@ -43,7 +59,7 @@ var zhanghao=()=>{
 <div class="padding-top-40 margin-left-40 margin-right-14 flex-row flex-center">
  <div>
                 <div class="f-24 c-w bold ">欢迎您</div>
-<div class="f-20 c-w margin-top-20 ">xxxx商户名称</div>
+<div class="f-20 c-w margin-top-20 ">{{page.Memberinfo.store_name}}</div>
  </div>
  <div class="flex-1"></div>
  <div class="h-30 flex-row flex-center padding-left-10 padding-right-10 border-radius-14 bd-8" @click="zhanghao">
@@ -57,17 +73,17 @@ var zhanghao=()=>{
           <!--  -->
           <div class="margin-top-50 flex-row flex-center">
             <div class="flex-1"></div>
-            <div>
+            <div @click="about(3)">
               <img :src="page.uploadpath + 'resource/' + page.Res.hexiao" class="icon-33 displat-block margin-auto" />
               <div class="center c-2 f-14 margin-top-15">服务核销</div>
             </div>
             <div class="flex-1"></div>
-            <div>
+            <div @click="about(1)">
               <img :src="page.uploadpath + 'resource/' + page.Res.fuwuinfo" class="icon-33 displat-block margin-auto" />
               <div class="center c-2 f-14 margin-top-15">服务信息</div>
             </div>
             <div class="flex-1"></div>
-            <div>
+            <div @click="about(2)" >
               <img :src="page.uploadpath + 'resource/' + page.Res.didna" class="icon-33 displat-block margin-auto" />
               <div class="center c-2 f-14 margin-top-15">订单管理</div>
             </div>
@@ -81,7 +97,7 @@ var zhanghao=()=>{
               <div class="center c-2 f-14 margin-top-15">评价管理</div>
             </div>
             <div class="flex-1"></div>
-            <div>
+            <div @click="about">
               <img :src="page.uploadpath + 'resource/' + page.Res.aboutr" class="icon-33 displat-block margin-auto" />
               <div class="center c-2 f-14 margin-top-15">关于我们</div>
             </div>
