@@ -7,6 +7,14 @@ const store = {
     state: reactive({
         name: '',
         title:'',
+        carbrand_id:0,
+        carseries_id:0,
+        carmodel_id:0,
+        first:0
+
+
+
+
     }),
 
     changeName(value) {
@@ -14,7 +22,20 @@ const store = {
     },
     changeTitlt(value) {
         this.state.title = value
-    }
+    },
+    changecarbrand_id(value) {
+        this.state.carbrand_id = value
+    },
+    changecarseries_id(value) {
+        this.state.carseries_id = value
+    },
+    changecarmodel_id(value) {
+        this.state.carmodel_id = value
+    },
+    changefirst(value) {
+        this.state.first = value
+    },
+
 }
 
 export default store

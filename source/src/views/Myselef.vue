@@ -81,7 +81,9 @@ var kazhuan=()=>{
 
 let mycarlist = ref([]); 
 //查询车库的数目
-HttpHelper.Post("member/mycarlist", {}).then((res) => {
+HttpHelper.Post("member/mycarlist", {
+  isdefault:'Y'
+}).then((res) => {
   mycarlist.value = res;
 });
 
@@ -179,7 +181,8 @@ chaxun();
          </div>
          <div class="flex-2"></div>
          <div @click="kazhuan()">
-             <div class="c-6 bold f-20 center ">{{shumu.result.num}}</div>
+           
+             <div class="c-6 bold f-20 center "  >{{shumu.result.num}}</div>
              <div class="margin-top-10 c-2 f-12 center">卡券</div>
          </div>
           <div class="flex-2"></div>

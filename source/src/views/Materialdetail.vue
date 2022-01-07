@@ -44,7 +44,12 @@ var duihaun=()=>{
 
 }
 
-const onClickLeft = () => history.back();
+var chakandianpu=()=>{
+    router.push('/storesx?id='+pointsmadetail.value.coupon_id)
+
+}
+
+
 </script>
 
 <template>
@@ -61,7 +66,10 @@ const onClickLeft = () => history.back();
 
           </div>
 
-
+<div v-if="pointsmadetail.type=='A'">
+  <div class="bg-4 h-40 border-radius-20 line-height-40 center c-6 f-14 bold margin-top-26  margin-left-14 margin-right-14" @click="chakandianpu">查看可用门店</div>
+          <div class="padding-bottom-15"></div>
+</div>
       </div>
 
          <div class="bg-w border-radius-9 margin-top-10 padding-15">

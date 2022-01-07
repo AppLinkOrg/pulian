@@ -4,6 +4,8 @@ import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
 import { Toast } from "vant";
+import  store  from "../State";
+
 
 let page = ref({});
 let router = useRouter();
@@ -22,10 +24,16 @@ shumu();
 
 // 添加爱车
 var addche = () => {
+   store.changecarbrand_id(0);
+    store.changecarseries_id(0);
+    store.changecarmodel_id(0);
   router.push("/editvegicle");
 };
 
 var toedit = (id) => {
+    store.changecarbrand_id(0);
+    store.changecarseries_id(0);
+    store.changecarmodel_id(0);
   router.push("/editvegicle?id="+id);
 };
 

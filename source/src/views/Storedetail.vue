@@ -155,7 +155,7 @@ var fuwu=()=>{
 }
 
 // 门店评价
- HttpHelper.Post('evaluate/evaluatelist',{store_id:route.query.id,limit:"0,3"}).then((Res)=>{
+ HttpHelper.Post('evaluate/evaluatelist',{store_id:route.query.id,limit:"0,3",srouce:'A'}).then((Res)=>{
     evaluatelist.value=Res
 })
 
@@ -376,7 +376,11 @@ var mendian=(index)=>{
 
 
 
-
+// chakanall 查看全部评价
+var chakanall=()=>{
+  // console.log(route.query.id,'id');
+  router.push('/genneralevalut?id='+route.query.id);
+}
 
 
 </script>
@@ -591,8 +595,9 @@ var mendian=(index)=>{
               <div class="margin-top-9 c-1 f-11">{{item.neirong==''?'没评价':item.neirong}}</div>
               <div class="margin-top-9"></div>
                <img
-                :src="page.uploadpath + 'resource/' + page.Res.dianpu"
-                class="icon-78 "
+               v-for="(items,indexs) in item.imglist" :key="indexs"
+                :src="page.uploadpath + 'picture/' + items.img"
+                class="icon-78 margin-right-10"
               />
               <div class="c-1 f-8 margin-top-9">{{item.service_name}}</div>
 
@@ -604,7 +609,7 @@ var mendian=(index)=>{
       </div>
           
   <div class="h-1 bg-2"></div>
-            <div class="center h-44 line-height-44 f-11">查看全部评论（90）</div>
+            <div class="center h-44 line-height-44 f-11" @click="chakanall">查看全部评论（90）</div>
           </div>
 
           <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px "  v-else>

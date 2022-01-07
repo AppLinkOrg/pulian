@@ -47,7 +47,8 @@ import Aboutus from '../views/Aboutus.vue'
 import Feedback from '../views/Feedback.vue'
 import Ceshi from '../views/Ceshi.vue'
 import Ordersucess from '../views/Ordersucess.vue'
-
+import Genneralevalut from '../views/Genneralevalut.vue'
+import Myorderdetail from '../views/Myorderdetail.vue'
 
 const routes = [{
   path: '/home',
@@ -137,7 +138,10 @@ const routes = [{
 }, {
   path: '/editvegicle',
   name: 'Editvegicle',
-  component: Editvegicle
+  component: Editvegicle,
+  meta:{
+    'name':'添加车辆'
+  }
 }, {
   path: '/addmycar',
   name: 'AddMyCar',
@@ -198,7 +202,10 @@ const routes = [{
 }, {
   path: '/interevalute',
   name: 'Interevalute',
-  component: Interevalute
+  component: Interevalute,
+  meta: {
+    'name': '发布评价'
+  }
 }, {
   path: '/integraldetail',
   name: 'Integraldetail',
@@ -297,7 +304,26 @@ const routes = [{
   meta: {
     'name': '支付成功'
   }
+},{
+  path: '/genneralevalut',
+  name: 'Genneralevalut',
+  component: Genneralevalut,
+  meta: {
+    'name': '评价管理'
+  }
+},{
+  path: '/myorderdetail',
+  name: 'Myorderdetail',
+  component: Myorderdetail,
+  meta: {
+    'name': '订单详情'
+  }
 }
+
+
+
+
+
 
 
 

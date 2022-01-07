@@ -45,6 +45,10 @@ var pingjia=(e)=>{
 router.push('/Interevalute?type=A&id='+e);
 }
 
+var xqdetail=(id)=>{
+    router.push('/myorderdetail?id='+id)
+}
+
 
 </script>
 
@@ -70,14 +74,14 @@ router.push('/Interevalute?type=A&id='+e);
       </div>
       </div> -->
     
-      <div class="margin-top-10 margin-left-14 margin-right-14 bg-w border-radius-9 padding-15"  v-for="(item,index) in orderlist" :key="index">
+      <div class="margin-top-10 margin-left-14 margin-right-14 bg-w border-radius-9 padding-15"  v-for="(item,index) in orderlist" :key="index"  @click="xqdetail(item.id)">
           <div class="flex-row flex-center">
               <div class="c-2 f-14 bold ">{{item.store_name}}</div>
               <div class="flex-1"></div>
               <div class="f-12 c-6 bold ">{{item.orderstatus_name}}</div>
           </div>
           <div class="flex-row margin-top-15">
-                <img :src="page.uploadpath + 'resource/' + page.Res.dianpu" class="icon-90 border-radius-5 "/>
+                <img :src="page.uploadpath + 'store/' + item.store_tupian" class="icon-90 border-radius-5 "/>
                 <div class="margin-left-10">
                     <div class="f-14 c-1 ">{{item.service_name}}</div>
                     <div class="c-2 margin-top-10 f-10">有效期至：{{item.effective_time}}</div>
@@ -88,8 +92,9 @@ router.push('/Interevalute?type=A&id='+e);
           <div class="flex-row flex-center margin-top-16">
               <div class="flex-1"></div>
               <div class="bd-3 btn-1 f-12 border-radius-13 line-height-26 center " v-if="item.orderstatus=='B'">退款</div>
-              <div class="bg-6  btn-1 c-w f-12 border-radius-13 line-height-26 center margin-left-10" v-if="item.orderstatus=='B'" @click="chakan(item.id)">查看券码</div>
-               <div class="bg-6  btn-1 c-w f-12 border-radius-13 line-height-26 center margin-left-10" v-if="item.yiping=='B'" @click="pingjia(item.id)">评价</div>
+              <div class="bg-6  btn-1 c-w f-12 border-radius-13 line-height-26 center margin-left-10" v-if="item.orderstatus=='B'" @click.stop="chakan(item.id)">查看券码</div>
+               <!-- <div class="bg-6  btn-1 c-w f-12 border-radius-13 line-height-26 center margin-left-10" v-if="item.yiping=='B'" @click.stop="pingjia(item.id)">评价</div> -->
+               <div class="bg-6  btn-1 c-w f-12 border-radius-13 line-height-26 center margin-left-10" v-if="item.orderstatus=='C'" @click.stop="pingjia(item.id)">评价</div>
           </div>
 
       </div>

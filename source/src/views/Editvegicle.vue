@@ -4,6 +4,8 @@ import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
 import { Toast } from "vant";
+import  store  from "../State";
+
 
 let page = ref({});
 let router = useRouter();
@@ -13,6 +15,16 @@ PageHelper.LoginAuth(page, () => {});
 
 var list = ref({});
 var carinfo = ref({});
+
+
+if(store.state.first==0){
+store.changecarbrand_id(0);
+store.changecarseries_id(0);
+store.changecarmodel_id(0);
+store.changefirst(store.state.first+1);
+}
+
+console.log(store.state.first,'dddd');
 
 var carbrand_id = ref("");
 var carseries_id = ref("");
@@ -68,15 +80,29 @@ checked.value=true
 } else {
   provinces_name.value = "粤";
   // 判断是否已选择车系
-  if (
-    route.query.carbrand_id != null &&
-    route.query.carseries_id != null &&
-    route.query.carmodel_id != null
+  // store.state.carbrand_id
+  // if (
+  //   route.query.carbrand_id != null &&
+  //   route.query.carseries_id != null &&
+  //   route.query.carmodel_id != null
+  // ) {
+  //   carbrand_id.value = route.query.carbrand_id;
+  //   carseries_id.value = route.query.carseries_id;
+  //   carmodel_id.value = route.query.carmodel_id;
+  // }
+
+
+    if (
+    store.state.carbrand_id != 0 &&
+    store.state.carseries_id != 0 &&
+    store.state.carmodel_id != 0
   ) {
-    carbrand_id.value = route.query.carbrand_id;
-    carseries_id.value = route.query.carseries_id;
-    carmodel_id.value = route.query.carmodel_id;
+    carbrand_id.value = store.state.carbrand_id;
+    carseries_id.value = store.state.carseries_id;
+    carmodel_id.value = store.state.carmodel_id;
   }
+
+
  
 }
 
@@ -218,7 +244,7 @@ imglist:ret
     vin.value = allres.车辆识别代号.words;
     engineno.value = allres.发动机号码.words;
 
-    inspection_date.value = insertStr((allres.发证日期.words)); 
+    // inspection_date.value = insertStr((allres.发证日期.words)); 
     // inspection_date.value = insertStr((allres.发证日期.words),7,"-"); 
 
         // register_date.value = insertStr((allres.注册日期.words),4,"-"); 

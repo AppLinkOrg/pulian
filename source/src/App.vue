@@ -431,6 +431,7 @@ background:#F6F6F6;
 }
 .border-radius-9{
   border-radius: 9px;
+  
 }
 .border-radius-10{
   border-radius: 10px;
@@ -443,6 +444,9 @@ background:#F6F6F6;
 }
 .border-radius-13{
   border-radius: 13px;
+}
+.border-radius-15{
+  border-radius: 15px;
 }
 .border-radius-19{
   border-radius: 19px;
