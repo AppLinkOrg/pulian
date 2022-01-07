@@ -177,7 +177,7 @@ var newtiao=(index)=>{
       :src="page.uploadpath + 'resource/' + page.Res.sybg"
       style="width: 100%"
     />
-    <div style="margin-top: -90px"></div>
+    <div class="margin-top-f90"></div>
     <!-- 轮播图 -->
     <van-swipe
       class="my-swipe indexbanner"

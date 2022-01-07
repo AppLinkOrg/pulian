@@ -627,10 +627,15 @@ var chakanall=()=>{
            <div class="margin-left-14 margin-right-14">
            <div class="flex-row " style="display: flex;display: -webkit-flex;justify-content: space-between;flex-direction: row;flex-wrap: wrap;">
              <div class="bg-w border-radius-9  margin-bottom-20" v-for="(item,index) in storelist" :key="index"  @click="mendian(item.id)">
-               <img
+               <van-image
+  fit="cover"
+ :src="page.uploadpath + 'store/' + item.tupian"
+    class="dianpu img-border"
+/>
+               <!-- <img
           :src="page.uploadpath + 'store/' + item.tupian"
           class="dianpu img-border"
-        />
+        /> -->
         <div class="margin-left-10 margin-right-10 margin-bottom-10">
         <div class="flex-row flex-center margin-top-9  ">
           <div class="bold c-2 f-12 w-100p"  style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{{item.name}}</div>
@@ -639,13 +644,13 @@ var chakanall=()=>{
         </div>
         <div class="c-1 f-9 margin-top-9">{{item.service_name}}</div>
         <div class="flex-row flex-center margin-top-9" >
-            <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 " v-if="item.coupon_type=='C'" >减免券¥{{item.originalprice}}</div>
+            <!-- <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 " v-if="item.coupon_type=='C'" >减免券¥{{item.originalprice}}</div>
              <div class="flex-1" v-if="item.coupon_type==''"></div>
           <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 "  v-if="item.coupon_type!=''&&item.coupon_type!='C' ">减免券¥{{item.coupon_jainshao}}</div>
          
          <div class="c-4 f-9 margin-left-10" v-if="item.coupon_type!=''">¥</div>
       <div class="c-4 f-13 " v-if="item.coupon_type=='C'">0</div> 
-      <div class="c-4 f-13 " v-if="item.coupon_type!='C'&& item.coupon_type!=''">{{item.originalprice-item.coupon_jainshao}}</div> 
+      <div class="c-4 f-13 " v-if="item.coupon_type!='C'&& item.coupon_type!=''">{{item.originalprice-item.coupon_jainshao}}</div>  -->
 
       <div class="flex-1"></div>
       <div class="f-7 c-2 margin-left-10 "  :style="{'text-decoration':item.coupon_type!='line-through'?'':''}">¥</div>
@@ -859,8 +864,11 @@ border-radius: 2px;
 margin:5px auto 0;
 }
 .dianpu{
-  width: 157px;
+  width: 167px;
   height: 98px;
+}
+/deep/ .dianpu img{
+    border-radius: 9px 9px 0  0 ;
 }
 .liji{
   /* width: 45px; */
