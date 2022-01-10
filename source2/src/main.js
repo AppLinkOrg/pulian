@@ -7,6 +7,8 @@ import 'vant/lib/index.css'
 // import './libs/rem.js';
 import 'lib-flexible/flexible'
 
+import wx from "weixin-jsapi";  
+
 // import store from './store'
 
 

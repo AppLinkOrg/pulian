@@ -112,7 +112,6 @@ export class PageHelper {
   }
   static wechatconfig=null;
   static loadwechatconfig(wxcallback) {
-  
     HttpHelper.Post("wechat/gensign", {
       url: location.href.split('#')[0]
     }).then((config) => {

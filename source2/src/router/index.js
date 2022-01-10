@@ -13,6 +13,7 @@ import Service from '../views/Service.vue'
 import Order from '../views/Order.vue'
 import Writeoff from '../views/Writeoff.vue'
 import Orderdetail from '../views/Orderdetail.vue'
+import Content from '../views/Content.vue'
 
 const routes = [{
   path: '/',
@@ -77,6 +78,13 @@ const routes = [{
   component: Orderdetail,
   meta:{
     'name':'订单详情'
+  }
+},{
+  path: '/content',
+  name: 'Content',
+  component: Content,
+  meta:{
+    'name':'内容'
   }
 }
 

@@ -1,0 +1,42 @@
+{
+    "setting": {},
+    "condition": {
+        "plugin": {
+            "list": []
+        },
+        "game": {
+            "list": []
+        },
+        "gamePlugin": {
+            "list": []
+        },
+        "miniprogram": {
+            "list": [
+                {
+                    "name": "pages/login/login",
+                    "pathName": "pages/login/login",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/pay/pay",
+                    "pathName": "pages/pay/pay",
+                    "query": "id=33",
+                    "scene": null
+                },
+                {
+                    "name": "pages/fwpay/fwpay",
+                    "pathName": "pages/fwpay/fwpay",
+                    "query": "",
+                    "scene": null
+                },
+                {
+                    "name": "pages/kefu/kefu",
+                    "pathName": "pages/kefu/kefu",
+                    "query": "",
+                    "scene": null
+                }
+            ]
+        }
+    }
+}
