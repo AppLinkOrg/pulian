@@ -32,6 +32,7 @@ PageHelper.loadwechatconfig(()=>{
           //  alert("success" + JSON.stringify(res));
           },
           fail: function (res) {
+              // alert("fail" + JSON.stringify(res));
             console.log("getLocation","fail" + JSON.stringify(res));
           },
           complete: function (res) {

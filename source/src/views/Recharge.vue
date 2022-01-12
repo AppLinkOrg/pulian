@@ -182,6 +182,11 @@ PageHelper.LoginAuth(page, () => {});
             </div>
             <div class="margin-top-10 f-12">{{ item.integral }}积分</div>
           </div>
+
+<div  style="width: 30%;visibility: hidden"></div>
+
+          
+
         </div>
         <div
           class="

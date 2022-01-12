@@ -112,6 +112,7 @@ export class PageHelper {
   }
   static wechatconfig=null;
   static loadwechatconfig(wxcallback) {
+    // alert(location.href.split('#')[0])
     HttpHelper.Post("wechat/gensign", {
       url: location.href.split('#')[0]
     }).then((config) => {
@@ -124,6 +125,7 @@ export class PageHelper {
         signature: config.signature, // 必填，签名，见附录1
         jsApiList: ['getLocation','openLocation','chooseImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       };
+      // alert(JSON.stringify(config))
       console.log("wxconfig", config, json);
       wx.config(json);
       PageHelper.wechatconfig=json;

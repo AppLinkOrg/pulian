@@ -59,8 +59,8 @@ export class HttpHelper {
 
        
 
-            HttpHelper.UploadBase64(module, imageBase64).then((ret) => {
-            
+            HttpHelper.UploadBase64(module,imageBase64).then((ret) => {
+            // alert(module)
 
               completecallback(ret)
 

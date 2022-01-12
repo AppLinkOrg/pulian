@@ -209,7 +209,22 @@ export class AppBase {
   }
 
   addresscallback(res){
-    console.log("addresscallback",res);
+    // city_code   city
+    var memberapi = new MemberApi();
+    var that = this;
+
+    memberapi.updatelocation({
+      city_id:res.ad_info.city
+    }, (res) => {
+      // this.Base.setMyData({
+      //   memberinfo: info
+      // });
+    });
+
+
+
+
+    console.log("addresscallback",res,res.ad_info.city_code);
 
   
 

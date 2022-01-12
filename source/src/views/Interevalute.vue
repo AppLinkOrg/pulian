@@ -59,19 +59,31 @@ var fabu=()=>{
         return
     }
 
+    var imglistarr=""
+    if (imglist.value.length>0) {
+        imglistarr=imglist.value.join(",")
+    }else{
+imglistarr=''
+    }
+
+
+// console.log(imglistarr);
+// alert(imglistarr)
+// return
     if (type.value=='A') {
             HttpHelper.Post('evaluate/addevaluate2',{
         dianping:num.value,
         neirong:miaoshu.value,
         biaoqian_id:biaoqianlist.value[xzshow.value].id,
-        order_id:route.query.id
-
+        order_id:route.query.id,
+        imglist:imglistarr
     }).then((res)=>{
         if (res.code==0) {
              Toast('评论成功')
              num.value=0
              miaoshu.value=''
              xzshow.value=0
+             imglist.value=[]
         }else{
         Toast(res.return)
 //  Toast('评论失败')
@@ -84,7 +96,8 @@ var fabu=()=>{
         dianping:num.value,
         neirong:miaoshu.value,
         biaoqian_id:biaoqianlist.value[xzshow.value].id,
-        pintrecord_id:route.query.id
+        pintrecord_id:route.query.id,
+        imglist:imglistarr
 
     }).then((res)=>{
         if (res.code==0) {
@@ -92,6 +105,7 @@ var fabu=()=>{
              num.value=0
              miaoshu.value=''
              xzshow.value=0
+             imglist.value=[]
         }else{
         Toast(res.return)
 //  Toast('评论失败')
@@ -103,6 +117,17 @@ var fabu=()=>{
 
 
 
+}
+
+// shanchaun 上传图片
+let imglist=ref([]);
+var shanchaun=()=>{
+    HttpHelper.UploadImage("picture",(Res)=>{
+        imglist.value.push(Res.result)
+
+     
+
+    })
 }
 
 
@@ -168,11 +193,21 @@ var fabu=()=>{
           <div class="margin-top-15 margin-left-14 margin-right-14 bg-1 border-radius-5 h-200  padding-15">
               <textarea class="flex-1  bg-1 h-100 f-12 c-2" style="border:none;width:100%" placeholder="效果如何，服务是否周到，环境怎么样？" v-model="miaoshu">
               </textarea>
-              <div class="bd-4 radius-5 icon-70 flex-row flex-column ">
+
+              <div class="flex-row ">
+         
+ <img :src="page.uploadpath+'picture/'+item" class="icon-70 margin-left-10" v-for="(item,index) in imglist" :key="index" />
+
+
+           
+                  
+
+                  <div class="bd-4 radius-5 icon-70 flex-row flex-column "  @click="shanchaun">
                   <div class="flex-1"></div>
                     <img :src="page.uploadpath + 'resource/' + page.Res.paizhao" class="icon-25"/>
                     <div class="margin-top-8  c-1 f-10">上传图片</div>
                      <div class="flex-1"></div>
+              </div>
               </div>
           </div>
           <!--  -->

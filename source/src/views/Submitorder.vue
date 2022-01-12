@@ -74,15 +74,15 @@ var jian = () => {
 // 支付  提交订单
 var zhifu=()=>{
   PageHelper.LoginAuth(page, () => {});
-    if (phone.value.length==0) {
-         Toast('请输入手机号');
-         return;
-    }
+    // if (phone.value.length==0) {
+    //      Toast('请输入手机号');
+    //      return;
+    // }
  
-    if (phone.value.length!=11) {
-         Toast('手机格式不正确');
-          return;
-    }
+    // if (phone.value.length!=11) {
+    //      Toast('手机格式不正确');
+    //       return;
+    // }
     // 判断用户是否授权微信
 //      if (page.value.Memberinfo.touxiang !='B' || page.value.Memberinfo.shoujisq !='B' ) {
 //        sqshow.value=true  
@@ -91,8 +91,9 @@ var zhifu=()=>{
 
 
 // couponorder_id
+// mobile:phone.value
 if (type.value=='A') {
-  HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.query.id,num:num.value,couponlist_id:route.query.couponlist_id,gou_type:type.value }).then((res) => {
+  HttpHelper.Post("order/creatorder", {mobile:page.value.Memberinfo.mobile,serviceprice_id:route.query.id,num:num.value,couponlist_id:route.query.couponlist_id,gou_type:type.value }).then((res) => {
     console.log(123)
     console.log(res);
   if (res.code==0) {
@@ -318,10 +319,10 @@ var cancel=()=>{
               <div class="f-9 c-2">¥</div>
               <div class="f-14 c-2">{{totle}}</div>
           </div>
-          <div class="flex-row flex-center margin-top-20">
+          <!-- <div class="flex-row flex-center margin-top-20">
               <div class="f-14 c-1 ">手机号码</div>
               <input type="text" placeholder="请输入您的手机号码" class="right f-12 c-2 flex-1" v-model="phone"  maxlength="11">
-          </div>
+          </div> -->
       </div>
         <div class="margin-top-10"></div>
         <div class="margin-left-14 margin-right-14 bg-w border-radius-5 padding-15" >
@@ -347,7 +348,10 @@ var cancel=()=>{
                     <div class="f-12 c-5">¥</div>
                 <div class="f-24 c-5">{{totle}}</div>
                </div>
-               <div class="margin-top-4 c-1 f-12">已优惠¥0</div>
+              
+  <div class="margin-top-4 c-1 f-12" v-if="coupondetail!=null">已优惠¥{{coupondetail.type=='C'?servicepricedetail.originalprice:coupondetail.jainshao}}</div>
+ <div class="margin-top-4 c-1 f-12" v-else>已优惠¥0</div>
+
               </div>
               <div class="flex-1"></div>
               <div class="h-38 line-height-38 c-w bold f-14 bg-3 " style="padding:0 48px;border-radius: 5px 15px 5px 15px;" @click="zhifu">立即支付</div>

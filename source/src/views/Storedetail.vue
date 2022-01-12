@@ -155,7 +155,7 @@ var fuwu=()=>{
 }
 
 // 门店评价
- HttpHelper.Post('evaluate/evaluatelist',{store_id:route.query.id,limit:"0,3"}).then((Res)=>{
+ HttpHelper.Post('evaluate/evaluatelist',{store_id:route.query.id,limit:"0,3",srouce:'A'}).then((Res)=>{
     evaluatelist.value=Res
 })
 
@@ -376,7 +376,11 @@ var mendian=(index)=>{
 
 
 
-
+// chakanall 查看全部评价
+var chakanall=()=>{
+  // console.log(route.query.id,'id');
+  router.push('/genneralevalut?id='+route.query.id);
+}
 
 
 </script>
@@ -591,8 +595,9 @@ var mendian=(index)=>{
               <div class="margin-top-9 c-1 f-11">{{item.neirong==''?'没评价':item.neirong}}</div>
               <div class="margin-top-9"></div>
                <img
-                :src="page.uploadpath + 'resource/' + page.Res.dianpu"
-                class="icon-78 "
+               v-for="(items,indexs) in item.imglist" :key="indexs"
+                :src="page.uploadpath + 'picture/' + items.img"
+                class="icon-78 margin-right-10"
               />
               <div class="c-1 f-8 margin-top-9">{{item.service_name}}</div>
 
@@ -604,7 +609,7 @@ var mendian=(index)=>{
       </div>
           
   <div class="h-1 bg-2"></div>
-            <div class="center h-44 line-height-44 f-11">查看全部评论（90）</div>
+            <div class="center h-44 line-height-44 f-11" @click="chakanall">查看全部评论（90）</div>
           </div>
 
           <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px "  v-else>
@@ -622,10 +627,15 @@ var mendian=(index)=>{
            <div class="margin-left-14 margin-right-14">
            <div class="flex-row " style="display: flex;display: -webkit-flex;justify-content: space-between;flex-direction: row;flex-wrap: wrap;">
              <div class="bg-w border-radius-9  margin-bottom-20" v-for="(item,index) in storelist" :key="index"  @click="mendian(item.id)">
-               <img
+               <van-image
+  fit="cover"
+ :src="page.uploadpath + 'store/' + item.tupian"
+    class="dianpu img-border"
+/>
+               <!-- <img
           :src="page.uploadpath + 'store/' + item.tupian"
           class="dianpu img-border"
-        />
+        /> -->
         <div class="margin-left-10 margin-right-10 margin-bottom-10">
         <div class="flex-row flex-center margin-top-9  ">
           <div class="bold c-2 f-12 w-100p"  style="white-space: nowrap;text-overflow: ellipsis;overflow: hidden;">{{item.name}}</div>
@@ -634,13 +644,13 @@ var mendian=(index)=>{
         </div>
         <div class="c-1 f-9 margin-top-9">{{item.service_name}}</div>
         <div class="flex-row flex-center margin-top-9" >
-            <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 " v-if="item.coupon_type=='C'" >减免券¥{{item.originalprice}}</div>
+            <!-- <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 " v-if="item.coupon_type=='C'" >减免券¥{{item.originalprice}}</div>
              <div class="flex-1" v-if="item.coupon_type==''"></div>
           <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 "  v-if="item.coupon_type!=''&&item.coupon_type!='C' ">减免券¥{{item.coupon_jainshao}}</div>
          
          <div class="c-4 f-9 margin-left-10" v-if="item.coupon_type!=''">¥</div>
       <div class="c-4 f-13 " v-if="item.coupon_type=='C'">0</div> 
-      <div class="c-4 f-13 " v-if="item.coupon_type!='C'&& item.coupon_type!=''">{{item.originalprice-item.coupon_jainshao}}</div> 
+      <div class="c-4 f-13 " v-if="item.coupon_type!='C'&& item.coupon_type!=''">{{item.originalprice-item.coupon_jainshao}}</div>  -->
 
       <div class="flex-1"></div>
       <div class="f-7 c-2 margin-left-10 "  :style="{'text-decoration':item.coupon_type!='line-through'?'':''}">¥</div>
@@ -854,8 +864,11 @@ border-radius: 2px;
 margin:5px auto 0;
 }
 .dianpu{
-  width: 157px;
+  width: 167px;
   height: 98px;
+}
+/deep/ .dianpu img{
+    border-radius: 9px 9px 0  0 ;
 }
 .liji{
   /* width: 45px; */

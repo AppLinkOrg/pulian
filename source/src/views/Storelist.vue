@@ -33,7 +33,14 @@ var chooseareas= (id,area) => {
    filtratestore();
 }; 
 HttpHelper.Post("store/areaslist", {}).then((res) => {
+  var json={
+         id:'',
+         area:'全城区',
+         areaid:''
+       }
+        res.unshift(json)
   areaslist.value = res;
+  console.log(res,'111drerr1');
 });
 
 //选择服务类型,门店全部分类
@@ -124,6 +131,11 @@ var allserverlist = [];
 // 选择门店类型
   
 var choosestoretype = (index) => {
+  if ( bigcategory_id.value==allcategory.value[index].id) {
+    // 点击取消
+bigcategory_id.value="";
+return
+  }
   // console.log("点击了",storetylelist.value[index].choose)
    
    
@@ -136,6 +148,10 @@ var choosestoretype = (index) => {
 // 选择门店营业状态
 var wokestatus_type=ref("");
 var choosewokestatus = (index) => { 
+  if (wokestatus_type.value==wokestatus.value[index].type) {
+    wokestatus_type.value=""
+    return
+  }
  
     wokestatus_type.value=wokestatus.value[index].type;
 
@@ -151,6 +167,11 @@ var confirm =()=>{
 }
 
 //调用筛选接口返回门店列表数据
+
+  var mylat= window.localStorage.getItem("latitude");
+var mylng= window.localStorage.getItem("longitude");
+
+
 var filtratestore = () => {  
  console.log(wokestatus_type.value,'有吗');
    
@@ -159,9 +180,18 @@ var filtratestore = () => {
    seq:seqid.value,
    service_id:service_id.value,
    areas_id:area_id.value,
-   bigcategory_id:bigcategory_id.value
+   bigcategory_id:bigcategory_id.value,
+   mylat,mylng
+
    }).then((res) => {
+        for(let item of res){
+       item.distance2=Utils.GetMileTxt(item.distance)
+
+     }
+
     storelist.value = res;
+
+
    });
 
 };
@@ -252,18 +282,57 @@ var storexq=()=>{
  
 
   filtratestore();
+
+
+  // 设置默认车辆
+  let mycarlist=ref(null)
+HttpHelper.Post("member/mycarlist",{isdefault:'Y'}).then((res)=>{
+if(res.length>0){
+mycarlist.value=res[0]
+}
+})
+
+
+var che=()=>{
+  router.push('/garage')
+}
+
+
+var chopngzhi=()=>{
+  bigcategory_id.value=""
+wokestatus_type.value=""
+
+}
+
+
  
 </script>
 
 <template >
   <div class="all_page" v-if="page.Res != null">
  
-    <div class="top_blue">
+    <div class="top_blue" v-if="mycarlist==null">
       <div class="c-w f-16 f-bold margin-left-24 padding-top-20" @click="addmycar()">
         +添加我的爱车
       </div>
       <div class="radius_block"></div>
     </div>
+<div class="top_blue" v-else>
+  <div class="flex-row flex-center margin-left-24 padding-top-20" @click="che">
+    <img :src="mycarlist.carbrand_logo" class="icon-35" />
+    <div class="margin-left-10">
+      <div class="flex-row">
+        <div class="f-14 bold c-w">{{mycarlist.plateno}}</div>
+         <!-- <img :src="page.uploadpath + 'resource/' + page.Res.	xiala" class="icon-12 margin-left-10" /> -->
+      </div>
+      <div class="c-w f-12 margin-top-5">{{mycarlist.carseries_name}}</div>
+    </div>
+
+
+  </div>
+      <div class="radius_block"></div>
+</div>
+
 
     <div class="flex-row flex-wrap padding-top-10">
       <div class="category" v-for="(item, index) in allcategory" :key="index" @click="choosetype(index)">
@@ -344,16 +413,15 @@ var storexq=()=>{
         </div>
       </div>
 
-      <van-image
+      <!-- <van-image
         fit="cover"
         class="label_img"
         :src="page.uploadpath + 'resource/' + page.Res.ls"
-      />
-      <!-- <img
-          class="label_img"
-          :src="page.uploadpath + 'resource/' + page.Res.ls"
-        /> -->
+      /> -->
+    <img  class="label_img" :src="page.uploadpath + 'resource/' + page.Res.ls"/>
+    
     </div>
+     
 
     <van-sticky>
       <van-dropdown-menu>
@@ -406,7 +474,7 @@ var storexq=()=>{
             </div>
 
             <div class="flex-row  margin-top-20 margin-bottom-10">
-                <div class="btn flex-1 btn_reset">重置</div> 
+                <div class="btn flex-1 btn_reset" @click="chopngzhi">重置</div> 
                 <div style="width:10px"></div>
                 <div class="btn flex-1 btn_confirm" @click="confirm">确定</div> 
             </div>
@@ -424,7 +492,7 @@ var storexq=()=>{
             :src="page.uploadpath + 'store/' + item.tupian"
             class="icon-84"
           />
-          <div class="margin-left-10">
+          <div class="margin-left-10 flex-1">
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
             <div class="margin-top-9 f-11 c-3">{{ item.score }}分</div>
             <div class="margin-top-9 c-1 f-11">
@@ -435,9 +503,9 @@ var storexq=()=>{
                 :src="page.uploadpath + 'resource/' + page.Res.dizhi"
                 class="icon-13"
               />
-              <div class="c-1 f-11 margin-left-4">{{ item.address }}</div>
+              <div class="c-1  f-11 margin-left-4">{{ item.address }}</div>
               <div class="flex-1"></div>
-              <div class="f-11 c-1">3.20km</div>
+              <div class="f-11 c-1">{{item.distance2}}</div>
             </div>
           </div>
         </div>
@@ -472,6 +540,8 @@ var storexq=()=>{
       </div>
       <div class="bg-1 h-4"></div>
     </div>
+
+    <div class="margin-top-30 c-1 bold f-14 center " v-if="storelist.length==0">没有找到相关门店</div>
 
           <div class="h-50"></div>
   </div>
@@ -517,7 +587,7 @@ var storexq=()=>{
   position: relative;
 }
 .label_img {
-  width: 45px;
+  /* width: 45px; */
   height: 20px;
   position: absolute;
   right: 0;
