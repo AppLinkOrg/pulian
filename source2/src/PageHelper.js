@@ -118,25 +118,31 @@ export class PageHelper {
   }
   static wechatconfig=null;
   static loadwechatconfig(wxcallback) {
-  
+    // console.log("进来？")
+    // console.log('-----',location.href.split('#')[0],'----')
     HttpHelper.Post("wechat/gensign", {
       url: location.href.split('#')[0]
     }).then((config) => {
-     
+       console.log(config,'多少')
       var json = {
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: config.appid, // 必填，公众号的唯一标识
         timestamp: config.timestamp, // 必填，生成签名的时间戳
         nonceStr: config.nonceStr, // 必填，生成签名的随机串
         signature: config.signature, // 必填，签名，见附录1
-        jsApiList: ['getLocation','openLocation','chooseImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        jsApiList: ['getLocation','openLocation','chooseImage','scanQRCode'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       };
       console.log("wxconfig", config, json);
       wx.config(json);
       PageHelper.wechatconfig=json;
 
+      // console.log("走不走22222？")
+      // alert("555555555")
+
       wx.ready(function () {
+          // alert("999999")
         if(wxcallback!=undefined){
+         
           wxcallback();
         }
       });
@@ -145,11 +151,6 @@ export class PageHelper {
     });
   }
  
-
-  
-
-
-
   static getUrlKey(name) { //获取url 参数
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
   }

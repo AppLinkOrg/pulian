@@ -1,0 +1,9 @@
+
+
+<!-- <web-view src="{{url}}"></web-view> -->
+
+<web-view src="https://uat14.helpfooter.com/#/login"></web-view>
+<!-- <web-view src="http://localhost:3000/#/writeoff"></web-view> -->
+
+<!-- <web-view src="https://uat20.helpfooter.com/#/?member_id={{memberinfo.id}}&openid={{memberinfo.openid}}"></web-view> -->
+<!-- https://uat20.helpfooter.com -->

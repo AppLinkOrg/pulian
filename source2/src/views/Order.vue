@@ -3,82 +3,87 @@ import { PageHelper } from "../PageHelper";
 import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
-import { Toast } from 'vant';
+import { Toast } from "vant";
 
 let page = ref({});
 let router = useRouter();
 let route = useRoute();
 
-
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
 
 var orderstatus = ref([
-  { name: "全部", leix: 'A'},
-  { name: "待核销", leix: 'B'}, 
-  { name: "已核销", leix: 'C'}, 
-  { name: "退款/取消", leix: 'D'}, 
+  { name: "全部", leix: "A" },
+  { name: "待核销", leix: "B" },
+  { name: "已核销", leix: "C" },
+  { name: "退款/取消", leix: "D" },
 ]);
 
-let orderlist2=ref([])
-let leix=ref('A')
+let orderlist2 = ref([]);
+let leix = ref("A");
 
-
-var dinfan=()=>{
-    HttpHelper.Post("order/orderlist2",{leix:leix.value}).then((Res)=>{
-        if (Res!=null) {
-      orderlist2.value=Res      
-        }
-
-    })
-}
+var dinfan = () => {
+  HttpHelper.Post("order/orderlist2", { leix: leix.value }).then((Res) => {
+    if (Res != null) {
+      orderlist2.value = Res;
+    }
+  });
+};
 dinfan();
 
-
-var change=(e)=>{
-leix.value=orderstatus.value[e].leix
-dinfan();
-}
-
+var change = (e) => {
+  console.log(e.name,'???');
+  // return;
+  leix.value = orderstatus.value[e.name].leix;
+  dinfan();
+};
 </script>
 
 <template>
-  <div  v-if="page.Res!=null">
-<van-sticky>
-  <van-tabs v-model:active="active" title-inactive-color="#999" color="#1890FE"  title-active-color="#1890FE" @change="change"  >
-  <van-tab v-for="(item,index) in orderstatus" :title="item.name" :key="index"  >
-  </van-tab>
-</van-tabs>
- </van-sticky>
+  <div v-if="page.Res != null">
+    <van-sticky>
+      <van-tabs
+        v-model:active="active"
+        @click-tab="change"
+        title-inactive-color="#999"
+        color="#1890FE"
+        title-active-color="#1890FE" 
+      >
+        <van-tab
+          v-for="(item, index) in orderstatus"
+          :title="item.name"
+          :key="index"
+        
+        >
+        </van-tab>
+      </van-tabs>
+    </van-sticky>
 
-<div class="padding-15">
-    <div class="bg-w border-radius-9 padding-15 margin-bottom-14" v-for="(item,index) in orderlist2" :key="index" >
+    <div class="padding-15">
+      <div
+        class="bg-w border-radius-9 padding-15 margin-bottom-14"
+        v-for="(item, index) in orderlist2"
+        :key="index"
+      >
         <div class="flex-row flex-center">
-            <div class="c-2 f-14 ">{{item.service_name}}</div>
-            <div class="flex-1"></div>
-            <div class="f-14 " style="color:#DE2F24">{{item.orderstatus=='B'?'待核销':item.orderstatus=='C'?'已核销':item.orderstatus=='E'?'退款':'取消'}}</div>
+          <div class="c-2 f-14">{{ item.service_name }}</div>
+          <div class="flex-1"></div>
+          <div class="f-14" style="color: #de2f24">{{ item.hexiao_name }}</div>
         </div>
         <div class="margin-top-14 flex-row flex-center c-1 f-12">
-用户手机：121435235213
+          用户手机：{{ item.mobile }}
         </div>
-            <div class="margin-top-14 flex-row flex-center c-1 f-12">
-订单编号：213235436546564
+        <div class="margin-top-14 flex-row flex-center c-1 f-12">
+          订单编号：{{ item.orderno }}
         </div>
-                   <div class="margin-top-14 flex-row flex-center c-2 f-12">
-<div class="c-2 f-14 ">支付金额：</div>
-<div class="c-2 f-9 ">¥</div>
-<div class="c-2 f-14 ">50元</div>
-        </div> 
+        <div class="margin-top-14 flex-row flex-center c-2 f-12">
+          <div class="c-2 f-14">支付金额：</div>
+          <div class="c-2 f-9">¥</div>
+          <div class="c-2 f-14">{{ item.totalamount }}元</div>
+        </div>
+      </div>
     </div>
-</div>
-
-
-
-
-
-
   </div>
 </template>
 <style scoped>
-
 </style>

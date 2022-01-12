@@ -35,6 +35,7 @@ var fuwu=()=>{
 
 // 获取这个门店的服务
 HttpHelper.Post("store/fuwulist",{}).then((res)=>{
+    console.log(res,'数据')
     if (res.code==0) {
 
         fuwulist.value=res.result
