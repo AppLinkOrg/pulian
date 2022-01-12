@@ -9,6 +9,7 @@ import { Toast } from 'vant';
 
 let page = ref({});
 let router = useRouter();
+let route = useRoute();
 PageHelper.Init(page, () => {});
 
 
@@ -32,7 +33,7 @@ var orerliebiao=()=>{
 
 }
 
-orerliebiao()
+
 
 // 查看券码
 var chakan=(e)=>{
@@ -47,6 +48,15 @@ router.push('/Interevalute?type=A&id='+e);
 
 var xqdetail=(id)=>{
     router.push('/myorderdetail?id='+id)
+}
+
+
+
+if (route.query.type !=undefined) {
+    shownum.value=route.query.type
+orerliebiao()
+}else{
+    orerliebiao()
 }
 
 

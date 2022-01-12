@@ -10,7 +10,9 @@ const store = {
         carbrand_id:0,
         carseries_id:0,
         carmodel_id:0,
-        first:0
+        first:0,
+        cityid:0,
+        cityname:''
 
 
 
@@ -34,6 +36,12 @@ const store = {
     },
     changefirst(value) {
         this.state.first = value
+    },
+    changecityid(value) {
+        this.state.cityid = value
+    },
+    changecityname(value) {
+        this.state.cityname = value
     },
 
 }

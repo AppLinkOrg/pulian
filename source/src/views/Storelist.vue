@@ -167,6 +167,11 @@ var confirm =()=>{
 }
 
 //调用筛选接口返回门店列表数据
+
+  var mylat= window.localStorage.getItem("latitude");
+var mylng= window.localStorage.getItem("longitude");
+
+
 var filtratestore = () => {  
  console.log(wokestatus_type.value,'有吗');
    
@@ -175,9 +180,18 @@ var filtratestore = () => {
    seq:seqid.value,
    service_id:service_id.value,
    areas_id:area_id.value,
-   bigcategory_id:bigcategory_id.value
+   bigcategory_id:bigcategory_id.value,
+   mylat,mylng
+
    }).then((res) => {
+        for(let item of res){
+       item.distance2=Utils.GetMileTxt(item.distance)
+
+     }
+
     storelist.value = res;
+
+
    });
 
 };
@@ -478,7 +492,7 @@ wokestatus_type.value=""
             :src="page.uploadpath + 'store/' + item.tupian"
             class="icon-84"
           />
-          <div class="margin-left-10">
+          <div class="margin-left-10 flex-1">
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
             <div class="margin-top-9 f-11 c-3">{{ item.score }}分</div>
             <div class="margin-top-9 c-1 f-11">
@@ -489,9 +503,9 @@ wokestatus_type.value=""
                 :src="page.uploadpath + 'resource/' + page.Res.dizhi"
                 class="icon-13"
               />
-              <div class="c-1 f-11 margin-left-4">{{ item.address }}</div>
+              <div class="c-1  f-11 margin-left-4">{{ item.address }}</div>
               <div class="flex-1"></div>
-              <div class="f-11 c-1">3.20km</div>
+              <div class="f-11 c-1">{{item.distance2}}</div>
             </div>
           </div>
         </div>

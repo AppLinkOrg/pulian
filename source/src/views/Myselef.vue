@@ -149,6 +149,12 @@ chaxun();
 
 
 
+var daifu=(e)=>{
+ 
+  router.push('/myorder?type='+e)
+}
+
+
 
 </script>
 
@@ -182,16 +188,16 @@ chaxun();
          <div class="flex-2"></div>
          <div @click="kazhuan()">
            
-             <div class="c-6 bold f-20 center "  >{{shumu.result.num}}</div>
+             <div class="c-6 bold f-20 center "  >{{shumu==null?0:shumu.result.num}}</div>
              <div class="margin-top-10 c-2 f-12 center">卡券</div>
          </div>
           <div class="flex-2"></div>
          <div  @click="shoucan">
-             <div class="c-6 bold f-20 center ">{{shumu.result.num2}}</div>
+             <div class="c-6 bold f-20 center ">{{shumu==null?0:shumu.result.num2}}</div>
              <div class="margin-top-10 c-2 f-12 center">收藏</div>
          </div>
          <div class="flex-1"></div>
-     </div>
+     </div> 
      <!-- 我的订单 -->
      <div class="margin-left-14 margin-right-14 bg-w border-radius-9 padding-15 margin-top-20">
          <div class="flex-row flex-center">
@@ -204,21 +210,21 @@ chaxun();
            </div>
          </div>
          <div class="flex-row flex-center margin-top-20">
-             <div class="flex-1">
+             <div class="flex-1  "  @click="daifu('A')">
                    <img :src="page.uploadpath + 'resource/' + page.Res.daiful" class="icon-28 displat-block margin-auto"/>
-                   <div class="margin-top-10 c-1 f-12 center">待付款</div>
+                   <div class="margin-top-10 c-1 f-12 center" >待付款</div>
              </div>
-              <div class="flex-1">
+              <div class="flex-1"  @click="daifu('B')">
                    <img :src="page.uploadpath + 'resource/' + page.Res.kehsi" class="icon-28 displat-block margin-auto"/>
-                   <div class="margin-top-10 c-1 f-12 center">可使用</div>
+                   <div class="margin-top-10 c-1 f-12 center" >可使用</div>
              </div>
-              <div class="flex-1">
+              <div class="flex-1"  @click="daifu('daip')">
                    <img :src="page.uploadpath + 'resource/' + page.Res.pinjia" class="icon-28 displat-block margin-auto"/>
-                   <div class="margin-top-10 c-1 f-12 center">待评价</div>
+                   <div class="margin-top-10 c-1 f-12 center" >待评价</div>
              </div>
-              <div class="flex-1">
+              <div class="flex-1"  @click="daifu('er')">
                    <img :src="page.uploadpath + 'resource/' + page.Res.tuikuan" class="icon-28 displat-block margin-auto"/>
-                   <div class="margin-top-10 c-1 f-12 center">退款/取消</div>
+                   <div class="margin-top-10 c-1 f-12 center" >退款/取消</div>
              </div>
 
          </div>

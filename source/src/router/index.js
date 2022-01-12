@@ -49,6 +49,7 @@ import Ceshi from '../views/Ceshi.vue'
 import Ordersucess from '../views/Ordersucess.vue'
 import Genneralevalut from '../views/Genneralevalut.vue'
 import Myorderdetail from '../views/Myorderdetail.vue'
+import City from '../views/City.vue'
 
 const routes = [{
   path: '/home',
@@ -317,6 +318,13 @@ const routes = [{
   component: Myorderdetail,
   meta: {
     'name': '订单详情'
+  }
+},{
+  path: '/city',
+  name: 'City',
+  component: City,
+  meta: {
+    'name': '城市'
   }
 }
 

@@ -148,7 +148,12 @@ background:#F6F6F6;
 .bg-9{
   background: rgba(64, 158, 255, 0.1);
 }
-
+.bg-10{
+  background: #F7F7F8;
+}
+.w-35{
+  width: 35px;
+}
 .w-100{
   width: 100vw;
 }
@@ -242,6 +247,9 @@ background:#F6F6F6;
 .h-68{
   height: 68px;
 }
+.h-70{
+  height: 70px;
+}
 .h-93{
   height: 93px;
   
@@ -260,6 +268,9 @@ background:#F6F6F6;
 }
 .h-160{
   height: 160px;
+}
+.h-170{
+  height: 170px;
 }
 .h-200{
   height: 200px;
@@ -742,6 +753,9 @@ button {
 .margin-top-f260{
   margin-top: -260px;
 }
+.margin-top-f70{
+  margin-top: -70px;
+}
 .margin-top-f90{
   margin-top: -140px;
 }
@@ -945,6 +959,10 @@ button {
 .icon-84{
   width: 84px;
   height: 84px;
+}
+.icon-84-32{
+  width: 90px;
+  height: 60px;
 }
 .icon-90{
   width: 90px;

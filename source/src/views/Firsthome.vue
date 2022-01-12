@@ -7,6 +7,8 @@ import { NModal } from "naive-ui";
 import { useRouter,useRoute } from "vue-router";
 import Tar from "../components/Tar.vue";
 import { Toast } from "vant";
+import  store  from "../State";
+
 
 let router = useRouter();
 let route = useRoute();
@@ -114,9 +116,10 @@ var filtratestore = (index) => {
 
   var mylat= window.localStorage.getItem("latitude");
 var mylng= window.localStorage.getItem("longitude");
+var cityid=store.state.cityid
 
    HttpHelper.Post("store/filtrate", { 
-   service_id:service_id.value,mylat,mylng
+   service_id:service_id.value,mylat,mylng,cityid
    }).then((res) => {
      for(let item of res){
        item.distance2=Utils.GetMileTxt(item.distance)
@@ -168,16 +171,61 @@ var newtiao=(index)=>{
   router.push(url)
 
 }
+
+ // 设置默认车辆
+  let mycarlist=ref(null)
+HttpHelper.Post("member/mycarlist",{isdefault:'Y'}).then((res)=>{
+if(res.length>0){
+mycarlist.value=res[0]
+}
+})
+
+// chengshi 城市跳转
+var chengshi=()=>{
+  router.push('/city')
+}
+
+
 </script>
 
 <template >
   <div v-if="page.Res != null" class="big-bg">
     <!--  -->
-    <img
+    <!-- <img
       :src="page.uploadpath + 'resource/' + page.Res.sybg"
       style="width: 100%"
+    /> -->
+    <div class="h-170" :style="{'background-image':'url'+'('+page.uploadpath+'resource/'+page.Res.sybg+')'}" style="background-size:100% 100%; ">
+    <div class="flex-row flex-center margin-left-14 margin-right-14 h-70">
+<div class="flex-row flex-center" @click="chengshi()" >
+
+<div class="c-w f-15 bold  " v-if="page.Memberinfo ==null&& store.state.cityname=='' ">未获取到位置</div>
+  <div class="c-w f-15 bold " v-else>{{store.state.cityname==''? page.Memberinfo.city_id_name:store.state.cityname}}</div>
+ <img
+      :src="page.uploadpath + 'resource/' + page.Res.	xiala"
+      class="icon-12 margin-left-4"
     />
-    <div class="margin-top-f90"></div>
+</div>
+      <div class="flex-1"></div>
+
+      <div style="flex:none"  v-if="mycarlist!=null">
+         <div class="flex-row flex-center margin-left-24 padding-top-20" >
+    <img :src="mycarlist.carbrand_logo" class="w-35" />
+    <div class="margin-left-10">
+      <div class="flex-row">
+        <div class="f-14 bold c-w">{{mycarlist.plateno}}</div>
+       
+      </div>
+      <div class="c-w f-12 margin-top-5">{{mycarlist.carseries_name}}</div>
+    </div>
+
+
+  </div>
+      </div>
+    </div>
+    </div>
+    <div class="margin-top-f70"></div>
+    
     <!-- 轮播图 -->
     <van-swipe
       class="my-swipe indexbanner"
@@ -205,7 +253,7 @@ var newtiao=(index)=>{
           :src="page.uploadpath + 'resource/' + page.Res.fuwu2"
           class="icon-15"
         />
-        <div class="c-1 f-1 margin-left-4" @click="chefu">车服中心</div>
+        <div class="c-1 f-13 margin-left-4" @click="chefu">车服中心</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
@@ -215,7 +263,7 @@ var newtiao=(index)=>{
           :src="page.uploadpath + 'resource/' + page.Res.zhuce"
           class="icon-15"
         />
-        <div class="c-1 f-1 margin-left-4">全国网点</div>
+        <div class="c-1 f-13 margin-left-4">全国网点</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
@@ -225,7 +273,7 @@ var newtiao=(index)=>{
           :src="page.uploadpath + 'resource/' + page.Res.koubai"
           class="icon-15"
         />
-        <div class="c-1 f-1 margin-left-4">专业服务</div>
+        <div class="c-1 f-13 margin-left-4">专业服务</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
@@ -235,7 +283,7 @@ var newtiao=(index)=>{
           :src="page.uploadpath + 'resource/' + page.Res.fuwu"
           class="icon-15"
         />
-        <div class="c-1 f-1 margin-left-4">省心贴心</div>
+        <div class="c-1 f-13 margin-left-4">省心贴心</div>
       </div>
     </div>
     <!-- 按钮 -->
@@ -337,7 +385,7 @@ var newtiao=(index)=>{
         <div class="flex-row">
           <img
             :src="page.uploadpath + 'store/' + item.tupian"
-            class="icon-84"
+            class="icon-84-32"
           />
           <div class="margin-left-10 flex-1" >
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
