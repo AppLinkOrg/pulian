@@ -43,7 +43,7 @@ var tapToSearch = (e) => {
     select();
   }
 };
-
+// OR2022011100001912
 var select = () =>{
      HttpHelper.Post("member/info2", {}).then((res2) => {
     HttpHelper.Post("order/selectmyorder", { orderno: orderno.value,store_id:res2.store_id }).then((Res) => {

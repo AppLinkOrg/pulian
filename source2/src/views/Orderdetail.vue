@@ -83,11 +83,21 @@ var save = (e) => {
           <div class="c-2 f-14">{{ orderinfo.danjia }}</div>
           <div></div>
         </div>
+
+
         <div class="flex-row flex-center margin-top-20">
-          <div class="c-2 f-14">优惠券</div>
+          <div class="c-2 f-14">购买优惠券</div>
+          <div class="flex-1"></div>
+          <div class="f-9 c-2">¥</div> 
+          <div class="c-2 f-14">{{orderinfo.jaige }}</div> 
+          <div></div>
+        </div>
+        <div class="flex-row flex-center margin-top-20" >
+          <div class="c-2 f-14">优惠券抵扣</div>
           <div class="flex-1"></div>
           <div class="f-9 c-2">- ¥</div>
-          <div class="c-2 f-14">{{ orderinfo.coupon_price }}</div>
+          <div v-if="orderinfo.type!='C'" class="c-2 f-14">{{orderinfo.yhsrouce=='C'?0:orderinfo.youhui }}</div>
+          <div v-if="orderinfo.type=='C'" class="c-2 f-14">{{orderinfo.danjia }}</div> 
           <div></div>
         </div>
       </div>
@@ -112,7 +122,7 @@ var save = (e) => {
         </div>
         <div class="flex-row flex-center margin-top-14">
           <div class="c-2 f-12">支付金额：</div>
-          <div class="c-1 f-12">¥{{ orderinfo.amount }}</div>
+          <div class="c-1 f-12">¥{{ orderinfo.type=='C'?orderinfo.jaige:orderinfo.totalamount }}</div>
         </div>
         <div class="flex-row flex-center margin-top-14">
           <div class="c-2 f-12">用户手机：</div>

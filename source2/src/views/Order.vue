@@ -32,7 +32,9 @@ var dinfan = () => {
 dinfan();
 
 var change = (e) => {
-  leix.value = orderstatus.value[e].leix;
+  console.log(e.name,'???');
+  // return;
+  leix.value = orderstatus.value[e.name].leix;
   dinfan();
 };
 </script>
@@ -42,15 +44,16 @@ var change = (e) => {
     <van-sticky>
       <van-tabs
         v-model:active="active"
+        @click-tab="change"
         title-inactive-color="#999"
         color="#1890FE"
-        title-active-color="#1890FE"
-        @change="change"
+        title-active-color="#1890FE" 
       >
         <van-tab
           v-for="(item, index) in orderstatus"
           :title="item.name"
           :key="index"
+        
         >
         </van-tab>
       </van-tabs>
@@ -76,7 +79,7 @@ var change = (e) => {
         <div class="margin-top-14 flex-row flex-center c-2 f-12">
           <div class="c-2 f-14">支付金额：</div>
           <div class="c-2 f-9">¥</div>
-          <div class="c-2 f-14">{{ item.amount }}元</div>
+          <div class="c-2 f-14">{{ item.totalamount }}元</div>
         </div>
       </div>
     </div>
