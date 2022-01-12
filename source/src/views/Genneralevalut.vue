@@ -17,6 +17,28 @@ let evaluatelist=ref([]);
 
 var piangjia=()=>{
 // 门店评价
+
+if (route.query.type=='A') {
+ HttpHelper.Post('evaluate/evaluatelist2',{
+   pointsmall_id:route.query.id,
+    biaoqian_id:biaoqianid.value,
+ srouce:'B'}).then((Res)=>{
+    evaluatelist.value=Res
+})
+
+
+  return
+}
+
+if (biaoqianid.value==0) {
+   HttpHelper.Post('evaluate/evaluatelist',{
+     store_id:route.query.id,
+
+ srouce:'A'}).then((Res)=>{
+    evaluatelist.value=Res
+})
+return
+}
  HttpHelper.Post('evaluate/evaluatelist',{
      store_id:route.query.id,
  biaoqian_id:biaoqianid.value,
@@ -30,6 +52,13 @@ var piangjia=()=>{
 let biaoqianlist=ref([]);
 let biaoqianid=ref(0);
 HttpHelper.Post('biaoqian/biaoqianlist',{}).then((res)=>{
+  var json={
+    id:0,
+    name:'全部评论'
+  }
+res.unshift(json)
+
+
     biaoqianlist.value=res
     biaoqianid.value=res[0].id
     piangjia();
@@ -90,9 +119,15 @@ biaoqian.value=index
        
               <div class="margin-top-9 c-1 f-11">{{item.neirong==''?'没评价':item.neirong}}</div>
               <div class="margin-top-9"></div>
-               <img
+               <!-- <img
                 :src="page.uploadpath + 'resource/' + page.Res.dianpu"
                 class="icon-78 "
+              /> -->
+
+              <img
+               v-for="(items,indexs) in item.imglist" :key="indexs"
+                :src="page.uploadpath + 'picture/' + items.img"
+                class="icon-78 margin-right-10"
               />
               <div class="c-1 f-8 margin-top-9">{{item.service_name}}</div>
 

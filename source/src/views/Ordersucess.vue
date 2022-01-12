@@ -16,13 +16,17 @@ PageHelper.LoginAuth(page, () => {});
 let type=ref('')
 type.value=route.query.type
 
-
+console.log(type.value,'hhhh');
 
 var chakan=()=>{
-// if (type.value=='A') {
-       router.push('/exchangerecord')
-    
-// }
+if (type.value=='B') {
+       
+    router.push('/myvoucher')
+
+    return
+}
+router.push('/exchangerecord')
+
 }
 
 var shouyw=()=>{

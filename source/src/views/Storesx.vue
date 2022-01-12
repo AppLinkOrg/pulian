@@ -116,7 +116,7 @@ var mendian=(e)=>{
 
 
 <div class="margin-left-14 margin-right-14 margin-top-14 bg-w border-radius-9 padding-10 flex-row flex-center" v-for="(item,index) in storelist2" :key="index"  @click="mendian(item.id)">
-<img :src="page.uploadpath + 'resource/' + page.Res.dianpu" class="icon-70"/>
+<img :src="page.uploadpath + 'store/' + item.tupian" class="icon-90-32"/>
 <div class="margin-left-14 flex-1">
     <div class="c-2 f-14 bold ">{{item.name}}</div>
 <div class="flex-row flex-center">

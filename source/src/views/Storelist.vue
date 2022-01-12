@@ -4,6 +4,9 @@ import { useRouter, useRoute } from "vue-router";
 import { HttpHelper } from "../HttpHelper";
 import { PageHelper } from "../PageHelper";
 import { Utils } from "../Utils";
+import  store  from "../State";
+
+
 
 
 let router = useRouter();
@@ -70,12 +73,17 @@ HttpHelper.Post("store/allcategory", {}).then((res) => {
   }
   console.log(allserverlist,'总服务列表')
   allcategory.value = res;
+
+dalei()
 });
 
 
 var chooseservice= (e) => { 
-   console.log(e,'总共--',activeIndex);
+   console.log('总共--',activeIndex.value);
+console.log('总共--',activeId.value);
+
    service_id.value=e.id;
+
 
  bigcategory_id.value=allcategory.value[activeIndex.value]['id']
 
@@ -171,6 +179,7 @@ var confirm =()=>{
   var mylat= window.localStorage.getItem("latitude");
 var mylng= window.localStorage.getItem("longitude");
 
+var cityid=store.state.cityid
 
 var filtratestore = () => {  
  console.log(wokestatus_type.value,'有吗');
@@ -181,7 +190,8 @@ var filtratestore = () => {
    service_id:service_id.value,
    areas_id:area_id.value,
    bigcategory_id:bigcategory_id.value,
-   mylat,mylng
+   mylat,mylng,cityid
+   
 
    }).then((res) => {
         for(let item of res){
@@ -197,9 +207,24 @@ var filtratestore = () => {
 };
 //大分类
   var bigcategory_id=ref(0);
-if(route.query.bigcategory_id!=null){ 
+var dalei =()=>{
+  if(route.query.bigcategory_id!=null){ 
+  var allca=allcategory.value;
+  var allindex=0;
+
+  for (let index = 0; index < allca.length; index++) {
+    if(allca[index]['id']==route.query.bigcategory_id){
+allindex=index
+    }
+    
+  }
+
+    activeIndex.value=allindex
+  activeId.value=''
  
   bigcategory_id.value=route.query.bigcategory_id;
+service_name.value='全部'+route.query.bigcategory_name;
+  // bigcategory_name
  
    wokestatus_type.value="";
    seqid.value="";
@@ -217,10 +242,16 @@ if(route.query.bigcategory_id!=null){
    });
    
 }
+}
  
 var choosetype = (index) => {  
   var item= allcategory.value[index]
   console.log(item,'item');
+
+  activeIndex.value=index
+  activeId.value=''
+
+  
 
   service_name.value=item.servicelist[0]['name']
 

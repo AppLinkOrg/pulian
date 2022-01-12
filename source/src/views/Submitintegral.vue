@@ -61,7 +61,16 @@ var tijiao=()=>{
         pointsmall_id:route.query.id,
         }).then((res)=>{
             if (res.code==0) {
-                router.push('/ordersucess?type=A')
+
+                if (pointsmadetail.value.type=='A') {
+                    router.push('/ordersucess?type=B')
+                }else{
+                    router.push('/ordersucess?type=A')
+                }
+
+
+                
+
                 // Toast('兑换成功')
                 
             }else{

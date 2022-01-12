@@ -33,6 +33,23 @@ router.push('/Interevalute?type=A&id='+route.query.id);
 // tuikuan 退款
 var tuikuan=()=>{
 
+HttpHelper.Post("wechat/refund",{
+  id:route.query.id
+}).then((Res)=>{
+  if (Res.code==0) {
+
+    Toast('退款成功')
+
+orderxq()
+
+
+  }else{
+    Toast('退款失败')
+  }
+
+})
+
+
 }
 
 var zhifu=()=>{
@@ -148,11 +165,11 @@ orderxq();
     <div class="c-2 f-12">提交时间：</div>
     <div class="c-1 f-12 ">{{orderdetail.submit_time}}</div>
 </div>
-<div class="flex-row flex-center margin-top-14">
+<div class="flex-row flex-center margin-top-14" v-if="orderdetail.orderstatus!='A'">
     <div class="c-2 f-12">支付时间：</div>
     <div class="c-1 f-12 ">{{orderdetail.pay_time}}</div>
 </div>
-<div class="flex-row flex-center margin-top-14">
+<div class="flex-row flex-center margin-top-14"   v-if="orderdetail.orderstatus=='C'|| orderdetail.orderstatus=='G'">
     <div class="c-2 f-12">完成时间：</div>
     <div class="c-1 f-12 ">{{orderdetail.use_time}}</div>
 </div>

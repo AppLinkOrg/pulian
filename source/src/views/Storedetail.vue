@@ -609,7 +609,7 @@ var chakanall=()=>{
       </div>
           
   <div class="h-1 bg-2"></div>
-            <div class="center h-44 line-height-44 f-11" @click="chakanall">查看全部评论（90）</div>
+            <div class="center h-44 line-height-44 f-11" @click="chakanall">查看全部评论</div>
           </div>
 
           <div class="margin-left-14 margin-right-14 bg-w border-radius-9" style="padding:18px 9px 0px "  v-else>

@@ -944,10 +944,15 @@ button {
   width: 60px;
   height: 60px;
 }
+.icon-90-32{
+  width: 90px;
+  height: 60px;
+}
 .icon-70{
   width: 70px;
   height: 70px;
 }
+
 .icon-78{
   width: 78px;
   height: 78px;

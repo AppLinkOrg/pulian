@@ -148,7 +148,7 @@ router.push("/storelist?bigcategory_id="+id);
 var tiao=(index)=>{
   var item=anniulist.value[index]
   if (item.type=='B') {
-    router.push("/storelist?bigcategory_id="+item.id);
+    router.push("/storelist?bigcategory_id="+item.id+'&bigcategory_name='+item.name);
   }
 
    if (item.type=='A') {
@@ -199,8 +199,10 @@ var chengshi=()=>{
     <div class="flex-row flex-center margin-left-14 margin-right-14 h-70">
 <div class="flex-row flex-center" @click="chengshi()" >
 
-<div class="c-w f-15 bold  " v-if="page.Memberinfo ==null&& store.state.cityname=='' ">未获取到位置</div>
-  <div class="c-w f-15 bold " v-else>{{store.state.cityname==''? page.Memberinfo.city_id_name:store.state.cityname}}</div>
+<!-- <div class="c-w f-15 bold  " v-if="page.Memberinfo ==null&& store.state.cityname==''&& page.Inst.cities_city=='' ">未获取到位置</div> -->
+  <!-- <div class="c-w f-15 bold " v-else>{{store.state.cityname==''? page.Memberinfo.city_id_name:store.state.cityname}}</div> -->
+
+  <div class="c-w f-15 bold " v-if="page.Memberinfo !=null && page.Inst !=null">{{store.state.cityname!=''? store.state.cityname:page.Memberinfo.city_id_name==''? page.Inst.cities_city:page.Memberinfo.city_id_name}}</div>
  <img
       :src="page.uploadpath + 'resource/' + page.Res.	xiala"
       class="icon-12 margin-left-4"
