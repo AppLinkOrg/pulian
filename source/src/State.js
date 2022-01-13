@@ -12,7 +12,9 @@ const store = {
         carmodel_id:0,
         first:0,
         cityid:0,
-        cityname:''
+        cityname:'',
+        biaoindex:0
+
 
 
 
@@ -42,6 +44,9 @@ const store = {
     },
     changecityname(value) {
         this.state.cityname = value
+    },
+    changebiaoindex(value) {
+        this.state.biaoindex = value
     },
 
 }

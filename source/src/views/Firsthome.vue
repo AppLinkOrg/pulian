@@ -70,7 +70,7 @@ HttpHelper.Post("guangao/guangaolist",{}).then((Res)=>{
 HttpHelper.Post("service/servicelist", {}).then((res) => {
   servicelist.value = res;
 
-  filtratestore(0)
+  filtratestore(store.state.biaoindex)
 });
 
 // 门店列表
@@ -109,6 +109,8 @@ PageHelper.LoginAuth(page, () => {});
 var service_id=ref("");
 let showsele=ref(0);
 var filtratestore = (index) => {
+  store.changebiaoindex(index)
+
   var id=servicelist.value[index].id
   showsele.value=index
 
