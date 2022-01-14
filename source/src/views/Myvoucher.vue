@@ -96,7 +96,7 @@ yhlist();
          <div class="margin-right-14 flex-1">
              <div class="flex-row">
                  <div><div class="c-2 f-16 bold ">{{item.coupon_name}}</div>
-              <div class="f-12 c-1  margin-top-10">有效期至{{item.star_time_dateformat}}</div></div>
+              <div class="f-12 c-1  margin-top-10">有效期至{{item.end_time_dateformat}}</div></div>
               <div class="flex-1"></div>
               <div class="f-12 c-w padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bg-6 " @click="gouse(index)">{{item.yhstadius=='A'?'去使用':item.yhstadius=='B'?'已使用':'失效'}}</div>
              </div>

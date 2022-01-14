@@ -19,8 +19,8 @@ type.value=route.query.type
 console.log(type.value,'hhhh');
 
 var chakan=()=>{
-if (type.value=='B') {
-       
+if (type.value=='C') {
+    //   router.replace('/myvoucher')
     router.push('/myvoucher')
 
     return

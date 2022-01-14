@@ -188,6 +188,10 @@ var chengshi=()=>{
 }
 
 
+var che=()=>{
+  router.push('/garage')
+}
+
 </script>
 
 <template >
@@ -212,7 +216,7 @@ var chengshi=()=>{
 </div>
       <div class="flex-1"></div>
 
-      <div style="flex:none"  v-if="mycarlist!=null">
+      <div style="flex:none"  v-if="mycarlist!=null"  @click="che">
          <div class="flex-row flex-center margin-left-24 padding-top-20" >
     <img :src="mycarlist.carbrand_logo" class="w-35" />
     <div class="margin-left-10">

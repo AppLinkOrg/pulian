@@ -100,10 +100,10 @@ var chakanall=()=>{
 
          </div>
 
-         <div class="f-14 c-2 bold margin-top-20">产品评价</div>
+         <div class="f-14 c-2 bold margin-top-20"  v-if="evaluatelist.length>0 && pointsmadetail.type!='A' ">产品评价</div>
 
 
-  <div class=" bg-w border-radius-9 margin-top-10 padding-15" style="padding:18px 9px 0px "  v-if="evaluatelist.length>0">
+  <div class=" bg-w border-radius-9 margin-top-10 padding-15" style="padding:18px 9px 0px "  v-if="evaluatelist.length>0 && pointsmadetail.type!='A' ">
             <div   v-for="(item,index) in evaluatelist" :key="index">
             <div class="flex-row margin-bottom-18">
               <img

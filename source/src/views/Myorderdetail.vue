@@ -76,6 +76,41 @@ orderxq();
 }
 
 
+// dianhua 
+var dianhua=()=>{
+   var phoneNumber=orderdetail.value.store_phone
+   if (phoneNumber.length>0) {
+      window.location.href = 'tel://' + phoneNumber
+    
+   }else{
+ Toast('门店联系方式不正确')
+   }
+    
+}
+
+// 导航
+var daohang=()=>{
+  let latstor=orderdetail.value.store_lat
+let lngstor=orderdetail.value.store_lng
+let name=orderdetail.value.store_address
+// alert(latstor)
+var json={latitude:latstor*1,
+            longitude:lngstor*1,
+            scale: 18,
+            name};
+           
+PageHelper.loadwechatconfig(()=>{
+  // alert("loadwechatconfig");
+  wx.openLocation(json);
+});
+
+
+// wx.miniProgram.navigateTo({url: '/pages/daohan/daohan?latstor='+latstor+'&lngstor='+lngstor+'&name='+name});
+
+
+
+}
+
 </script>
 
 <template>
