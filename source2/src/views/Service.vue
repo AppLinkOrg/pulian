@@ -53,9 +53,11 @@ HttpHelper.Post("store/fuwulist",{}).then((res)=>{
 
 
 var change=(e)=>{
-    bigcategory_id.value=fuwulist.value[e].id
+    // console.log(e,'ee');
+    // return
+    bigcategory_id.value=fuwulist.value[e.name].id
      fuwu()  
-    console.log(e,'ee');
+    
 
 }
 
@@ -65,7 +67,7 @@ var change=(e)=>{
 <template>
   <div  v-if="page.Res!=null">
  <van-sticky>
-  <van-tabs v-model:active="active" title-inactive-color="#999" color="#1890FE"  title-active-color="#1890FE" @change="change"  >
+  <van-tabs v-model:active="active" title-inactive-color="#999" color="#1890FE"  title-active-color="#1890FE" @click-tab="change"  >
   <van-tab v-for="(item,index) in fuwulist" :title="item.name" :key="index"  >
   </van-tab>
 </van-tabs>

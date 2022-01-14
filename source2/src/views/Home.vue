@@ -45,6 +45,10 @@ var about=(e)=>{
     router.push('/writeoff')
     return
   }
+   if (e==4) {
+    router.push('/genneralevalut')
+    return
+  }
   router.push('/about')
 }
 
@@ -92,7 +96,7 @@ var about=(e)=>{
 
           <div class="margin-top-50 flex-row flex-center">
             <div class="flex-1"></div>
-            <div>
+            <div @click="about(4)">
               <img :src="page.uploadpath + 'resource/' + page.Res.pingjia" class="icon-33 displat-block margin-auto" />
               <div class="center c-2 f-14 margin-top-15">评价管理</div>
             </div>

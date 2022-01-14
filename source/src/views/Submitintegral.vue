@@ -64,6 +64,8 @@ var tijiao=()=>{
 
                 if (pointsmadetail.value.type=='A') {
                     router.push('/ordersucess?type=C')
+
+                    
                 }else{
                     router.push('/ordersucess?type=A')
                 }
