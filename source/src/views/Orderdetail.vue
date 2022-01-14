@@ -4,6 +4,8 @@ import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
 import Config from "../Config";
+import { Toast } from 'vant';
+
 
 let page = ref({});
 PageHelper.Init(page, () => {});
@@ -74,7 +76,7 @@ var dianhua=()=>{
 <template>
   <div v-if="page.Res!=null">
       <div class="h-200 bg-5"></div> 
-       <div style="margin-top:-115px"></div>
+       <div class="margin-top-f160"></div>
        <div class="flex-row flex-center margin-left-26 margin-right-26">
          <div class="bold f-16 c-w ">待消费</div>
          <div class="flex-1"></div>

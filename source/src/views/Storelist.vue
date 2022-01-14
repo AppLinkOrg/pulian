@@ -35,7 +35,11 @@ var chooseareas= (id,area) => {
    area_dropdown.value.toggle(); 
    filtratestore();
 }; 
-HttpHelper.Post("store/areaslist", {}).then((res) => {
+
+var cityids=store.state.cityid
+HttpHelper.Post("store/areaslist", {
+  cityids
+}).then((res) => {
   var json={
          id:'',
          area:'全城区',

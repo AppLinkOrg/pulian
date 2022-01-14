@@ -37,7 +37,8 @@ var buti=(e)=>{
           </div>
           <div class="margin-left-10 flex-row flex-center">
            <div>
-                  <div class="c-2 f-16 bold ">{{item.shangping}}张×{{item.price}}元 {{item.name}}</div>
+               <!-- ×{{item.price}}元 -->
+                  <div class="c-2 f-16 bold ">{{item.shangping}}张 {{item.name}}</div>
               <div class="margin-top-14 c-6 f-14 ">{{item.title}}</div>
               <div class="f-12 c-1 margin-top-14 ">无门槛</div>
               <!-- <div class="f-12 c-1 margin-top-14 ">满{{item.manmoney}}可用</div> -->

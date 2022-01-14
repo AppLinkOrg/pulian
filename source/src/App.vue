@@ -751,6 +751,9 @@ button {
 .margin-top-f120{
   margin-top: -120px;
 }
+.margin-top-fdai{
+  margin-top: -160px;
+}
 .margin-top-f160{
   margin-top: -160px;
 }

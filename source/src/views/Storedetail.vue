@@ -80,6 +80,8 @@ var qiangou = (item) =>{
 
   show.value=true;
 
+yhlist(item);
+
   zuihou();
 
   });
@@ -89,6 +91,36 @@ var qiangou = (item) =>{
 
 
  
+}
+
+// 优惠券列表
+
+var yhlist=(item)=>{
+  var bigcategory_id=storedetail.value.bigcategorylist[fwshow.value].id
+var buji=storedetail.value.bigcategorylist[fwshow.value].buji
+if (buji=='Y') {
+  var serviceitem_id=item.service_id
+}
+
+   HttpHelper.Post('coupon/couponlist',{store_id:route.query.id,bigcategory_id,buji,service_id:serviceitem_id}).then((Res)=>{
+     for (let index = 0; index < Res.length; index++) {
+        Res[index].show = false;
+       
+     }
+    couponlist.value=Res
+})
+
+
+ HttpHelper.Post('coupon/mycoupon',{store_id:route.query.id,bigcategory_id,buji,service_id:serviceitem_id}).then((Res)=>{
+    //  for (let index = 0; index < Res.length; index++) {
+    //     Res[index].show = false;
+       
+    //  }
+    mycouponlist.value=Res
+})
+
+
+
 }
 
 // 购买
@@ -182,6 +214,7 @@ var buji=storedetail.value.bigcategorylist[fwshow.value].buji
     //  }
     mycouponlist.value=Res
 })
+
 }
 
 // xuanze 选择那种优惠卷
@@ -719,17 +752,22 @@ var chakanall=()=>{
            <div>
                <div class="flex-row flex-center">
                 <div class="flex-1"></div>
-                <div class="f-16 c-3">{{item.jainshao}}</div>
-                <div class="f-10 c-3">元</div>
-                <div class="c-3 f-12">×</div>
+                <div class="f-16 c-3"  v-if="item.jainshao>0">{{item.jainshao}}</div>
+                <div class="f-10 c-3" v-if="item.jainshao>0">元</div>
+                <div class="c-3 f-12" v-if="item.jainshao>0">×</div>
+               
                 <div class="f-16 c-3">{{item.shangping}}</div>
                 <div class="f-10 c-3">张</div>
                  <div class="flex-1"></div>
               </div>
+
+              
               
               <div class="margin-top-6 c-1 f-9"  v-if="item.type=='C'">无门槛</div>
               <div class="margin-top-6 c-1 f-9" v-else>满{{item.manmoney}}减{{item.jainshao}}</div>
            </div>
+            <div class="margin-left-10" v-if="item.jainshao==0"></div>
+            
            <div class="margin-left-10"></div>
             <div class="margin-left-10">
               <div class="c-2 f-11 bold">{{item.name}}</div>

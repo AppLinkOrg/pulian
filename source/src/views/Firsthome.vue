@@ -261,7 +261,8 @@ var che=()=>{
           :src="page.uploadpath + 'resource/' + page.Res.fuwu2"
           class="icon-15"
         />
-        <div class="c-1 f-13 margin-left-4" @click="chefu">车服中心</div>
+        <!-- @click="chefu" -->
+        <div class="c-1 f-13 margin-left-4" >车服中心</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
