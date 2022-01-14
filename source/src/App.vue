@@ -22,14 +22,21 @@ watch(()=>route.path,(e)=>{
 
 // PageHelper.kk.value=e;
 store.changeName(e)
-console.log(title.value,'PageHelper');
+console.log('route',route.path=='/partnership',route.query.type=='A');
+
+
 
   if (route.path=='/partnership' && route.query.type=='A') {
     title.value='使用说明'
+    store.changeTitlt('使用说明')
   }
   if (route.path=='/partnership' && route.query.type=='C') {
     title.value='积分规则'
+    store.changeTitlt('积分规则')
   }
+
+
+
 
 })
 
@@ -759,6 +766,10 @@ button {
 .margin-top-f90{
   margin-top: -140px;
 }
+.margin-top-f95{
+  margin-top: -95px;
+}
+
 .margin-top-f300{
   margin-top: -300px;
 }
@@ -944,10 +955,15 @@ button {
   width: 60px;
   height: 60px;
 }
+.icon-90-32{
+  width: 90px;
+  height: 60px;
+}
 .icon-70{
   width: 70px;
   height: 70px;
 }
+
 .icon-78{
   width: 78px;
   height: 78px;
@@ -975,6 +991,10 @@ button {
 .icon-190{
   width: 190px;
   height: 190px;
+}
+.icon-220{
+  width: 220px;
+  height: 220px;
 }
 .displat-block{
   display: block;

@@ -67,7 +67,7 @@ var xianqing=(e)=>{
           </div>
           <div class="flex-row flex-center">
               
-<img :src="page.uploadpath + 'pointsmall/' + item.pointsmall_img" class="icon-90"/>
+<img :src="page.uploadpath + 'pointsmall/' + item.pointsmall_img" class="icon-90-32"/>
 <div class="margin-left-10 ">
     <div class="c-2 f-15 bold">{{item.pointsmall_id_name}}</div>
     <div class="margin-top-15 flex-row ">

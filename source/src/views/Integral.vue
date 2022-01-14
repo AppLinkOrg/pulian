@@ -205,7 +205,7 @@ var guize=()=>{
                   +10
                 </div>
                 <img :src="page.uploadpath + 'resource/' + page.Res.xinxin" class="icon-30" v-else />
-                <div class="margin-top-5 c-2 f-12 center">{{index+1}}天</div>
+                <div class="margin-top-5 c-2 f-9 center" style="white-space: nowrap;">周{{index==0?'一':index==1?'二':index==2?'三':index==3?'四':index==4?'五':index==5?'六':'日'}}</div>
               </div>
               
             </div>
@@ -329,8 +329,11 @@ var guize=()=>{
 </template>
 <style scoped>
 .inimg{
-  width: 165px;
-  height: 110px;
+  /* width: 165px;
+  height: 110px; */
+
+  width: 160px;
+  height: 106px;
 }
 .sty1{
 background: linear-gradient(90deg, #409EFF 0%, #67B0FD 100%);

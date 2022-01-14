@@ -121,7 +121,7 @@ if (type.value=='A') {
   }
 });
 }else{
-  HttpHelper.Post("order/creatorder", {mobile:phone.value,serviceprice_id:route.query.id,num:num.value,couponorder_id:route.query.couponlist_id,gou_type:type.value }).then((res) => {
+  HttpHelper.Post("order/creatorder", {mobile:page.value.Memberinfo.mobile,serviceprice_id:route.query.id,num:num.value,couponorder_id:route.query.couponlist_id,gou_type:type.value }).then((res) => {
     console.log(123)
     console.log(res);
   if (res.code==0) {

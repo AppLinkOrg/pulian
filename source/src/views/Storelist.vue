@@ -4,6 +4,9 @@ import { useRouter, useRoute } from "vue-router";
 import { HttpHelper } from "../HttpHelper";
 import { PageHelper } from "../PageHelper";
 import { Utils } from "../Utils";
+import  store  from "../State";
+
+
 
 
 let router = useRouter();
@@ -70,12 +73,17 @@ HttpHelper.Post("store/allcategory", {}).then((res) => {
   }
   console.log(allserverlist,'总服务列表')
   allcategory.value = res;
+
+dalei()
 });
 
 
 var chooseservice= (e) => { 
-   console.log(e,'总共--',activeIndex);
+   console.log('总共--',activeIndex.value);
+console.log('总共--',activeId.value);
+
    service_id.value=e.id;
+
 
  bigcategory_id.value=allcategory.value[activeIndex.value]['id']
 
@@ -171,6 +179,7 @@ var confirm =()=>{
   var mylat= window.localStorage.getItem("latitude");
 var mylng= window.localStorage.getItem("longitude");
 
+var cityid=store.state.cityid
 
 var filtratestore = () => {  
  console.log(wokestatus_type.value,'有吗');
@@ -181,7 +190,8 @@ var filtratestore = () => {
    service_id:service_id.value,
    areas_id:area_id.value,
    bigcategory_id:bigcategory_id.value,
-   mylat,mylng
+   mylat,mylng,cityid
+   
 
    }).then((res) => {
         for(let item of res){
@@ -197,9 +207,24 @@ var filtratestore = () => {
 };
 //大分类
   var bigcategory_id=ref(0);
-if(route.query.bigcategory_id!=null){ 
+var dalei =()=>{
+  if(route.query.bigcategory_id!=null){ 
+  var allca=allcategory.value;
+  var allindex=0;
+
+  for (let index = 0; index < allca.length; index++) {
+    if(allca[index]['id']==route.query.bigcategory_id){
+allindex=index
+    }
+    
+  }
+
+    activeIndex.value=allindex
+  activeId.value=''
  
   bigcategory_id.value=route.query.bigcategory_id;
+service_name.value='全部'+route.query.bigcategory_name;
+  // bigcategory_name
  
    wokestatus_type.value="";
    seqid.value="";
@@ -217,10 +242,16 @@ if(route.query.bigcategory_id!=null){
    });
    
 }
+}
  
 var choosetype = (index) => {  
   var item= allcategory.value[index]
   console.log(item,'item');
+
+  activeIndex.value=index
+  activeId.value=''
+
+  
 
   service_name.value=item.servicelist[0]['name']
 
@@ -254,7 +285,12 @@ let storelist3=ref([])
 var tuiguan=()=>{
   var mylat= window.localStorage.getItem("latitude");
 var mylng= window.localStorage.getItem("longitude");
-  HttpHelper.Post("store/storelist3",{mylat,mylng}).then((res)=>{
+
+var cityid=store.state.cityid
+
+  HttpHelper.Post("store/storelist3",{
+    mylat,mylng,cityid
+    }).then((res)=>{
     res[0].distance2=Utils.GetMileTxt(res[0].distance)
     storelist3.value=res
 console.log(2222);
@@ -355,11 +391,18 @@ wokestatus_type.value=""
       <div class="flex-row" v-if="storelist3.length>0">
         <!-- 广告左侧大图 -->
         <div class="">
-          <van-image
+          <!-- <van-image
             width="90"
             height="206"
             fit="cover"
             :src="page.uploadpath + 'store/' + storelist3[0]['tupian']"
+          /> -->
+
+           <van-image
+            width="90"
+            height="206"
+            fit="cover"
+            :src="page.uploadpath + 'storetui/' + storelist3[0]['storetui_img']"
           />
         </div>
 
@@ -418,7 +461,7 @@ wokestatus_type.value=""
         class="label_img"
         :src="page.uploadpath + 'resource/' + page.Res.ls"
       /> -->
-    <img  class="label_img" :src="page.uploadpath + 'resource/' + page.Res.ls"/>
+    <img  class="label_img" :src="page.uploadpath + 'resource/' + page.Res.ls"  v-if="storelist3.length>0"/>
     
     </div>
      
@@ -490,7 +533,7 @@ wokestatus_type.value=""
         <div class="flex-row">
           <img
             :src="page.uploadpath + 'store/' + item.tupian"
-            class="icon-84"
+            class="icon-84-32"
           />
           <div class="margin-left-10 flex-1">
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
@@ -603,9 +646,11 @@ wokestatus_type.value=""
   height: 12px;
 }
 .fuwu_img {
-  width: 85px;
-  height: 70px;
+  /* width: 85px;
+  height: 70px; */
   border-radius: 5px;
+   width: 90px;
+  height: 60px;
 }
 .van_cell {
   color: rgb(248, 81, 52) !important;

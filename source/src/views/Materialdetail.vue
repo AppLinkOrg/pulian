@@ -49,6 +49,18 @@ var chakandianpu=()=>{
 
 }
 
+// 门店评价
+let evaluatelist=ref([])
+ HttpHelper.Post('evaluate/evaluatelist2',{pointsmall_id:route.query.id,limit:"0,3",srouce:'B'}).then((Res)=>{
+    evaluatelist.value=Res
+})
+
+// chakanall 查看全部评价
+var chakanall=()=>{
+  // console.log(route.query.id,'id');
+  router.push('/genneralevalut?id='+route.query.id+'&type=A');
+}
+
 
 </script>
 
@@ -57,7 +69,7 @@ var chakandianpu=()=>{
   
         <div class="padding-15">
           <div class="bg-w border-radius-9 ">
-          <img :src="page.uploadpath + 'pointsmall/' + pointsmadetail.img" class="h-130 w-100f"/>
+          <img :src="page.uploadpath + 'pointsmall/' + pointsmadetail.img" class="h-130 displat-block margin-auto "/>
           <div class="flex-row flex-center padding-15">
               <div class="c-1 bold f-16 ">{{pointsmadetail.name}}</div>
               <div class="flex-1"></div>
@@ -87,6 +99,65 @@ var chakandianpu=()=>{
         
 
          </div>
+
+         <div class="f-14 c-2 bold margin-top-20"  v-if="evaluatelist.length>0 && pointsmadetail.type!='A' ">产品评价</div>
+
+
+  <div class=" bg-w border-radius-9 margin-top-10 padding-15" style="padding:18px 9px 0px "  v-if="evaluatelist.length>0 && pointsmadetail.type!='A' ">
+            <div   v-for="(item,index) in evaluatelist" :key="index">
+            <div class="flex-row margin-bottom-18">
+              <img
+          :src="item.member_avatarUrl"
+          class="icon-28 border-radius-50"
+        />
+        <div class="margin-left-6">
+          <div class="f-11 c-2">{{item.member_nickName}}</div>
+          <div class="margin-top-4"></div>
+    <div class="flex-row ">
+            <div   v-for="items in 5" :key="items"  class="icon-13 " >
+   <img
+            v-if="item.dianping*1>=items"
+              
+                :src="page.uploadpath + 'resource/' + page.Res.star2"
+                class="icon-13 "
+              />
+                 <img
+          v-else
+        
+                :src="page.uploadpath + 'resource/' + page.Res.star1"
+                class="icon-13 "
+              />
+          </div>
+    </div>
+       
+              <div class="margin-top-9 c-1 f-11">{{item.neirong==''?'没评价':item.neirong}}</div>
+              <div class="margin-top-9"></div>
+               <img
+               v-for="(items,indexs) in item.imglist" :key="indexs"
+                :src="page.uploadpath + 'picture/' + items.img"
+                class="icon-78 margin-right-10"
+              />
+              <div class="c-1 f-8 margin-top-9">{{item.service_name}}</div>
+
+        </div>
+        <div class="flex-1"></div>
+        <div class="c-1 f-9">{{item.time}}</div>
+              
+            </div>
+      </div>
+          
+  <div class="h-1 bg-2"></div>
+            <div class="center h-44 line-height-44 f-11" @click="chakanall">查看全部评论</div>
+          </div>
+     
+
+
+
+
+         
+
+
+
    <!-- <div class="f-15 c-2 bold padding-top-15 padding-bottom-15 ">产品评价</div> -->
 <!--  -->
    <!-- <div class=" bg-w border-radius-9" style="padding:18px 9px 0px ">
@@ -124,8 +195,8 @@ var chakandianpu=()=>{
           <div class="h-100"></div>
 
                        <!--  -->
-          <div class="position-bottom " style="bottom:20px">
-              <div class="margin-left-14 margin-right-14 h-40 line-height-40 center f-16 c-w bold bg-5 border-radius-20" @click="duihaun()">
+          <div class="position-bottom " style="bottom:0px">
+              <div class=" h-40 line-height-40 center f-16 c-w bold bg-5 " @click="duihaun()">
 立即兑换
               </div>
 

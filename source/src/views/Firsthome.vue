@@ -70,7 +70,7 @@ HttpHelper.Post("guangao/guangaolist",{}).then((Res)=>{
 HttpHelper.Post("service/servicelist", {}).then((res) => {
   servicelist.value = res;
 
-  filtratestore(0)
+  filtratestore(store.state.biaoindex)
 });
 
 // 门店列表
@@ -109,6 +109,8 @@ PageHelper.LoginAuth(page, () => {});
 var service_id=ref("");
 let showsele=ref(0);
 var filtratestore = (index) => {
+  store.changebiaoindex(index)
+
   var id=servicelist.value[index].id
   showsele.value=index
 
@@ -148,7 +150,7 @@ router.push("/storelist?bigcategory_id="+id);
 var tiao=(index)=>{
   var item=anniulist.value[index]
   if (item.type=='B') {
-    router.push("/storelist?bigcategory_id="+item.id);
+    router.push("/storelist?bigcategory_id="+item.id+'&bigcategory_name='+item.name);
   }
 
    if (item.type=='A') {
@@ -186,6 +188,10 @@ var chengshi=()=>{
 }
 
 
+var che=()=>{
+  router.push('/garage')
+}
+
 </script>
 
 <template >
@@ -199,8 +205,10 @@ var chengshi=()=>{
     <div class="flex-row flex-center margin-left-14 margin-right-14 h-70">
 <div class="flex-row flex-center" @click="chengshi()" >
 
-<div class="c-w f-15 bold  " v-if="page.Memberinfo ==null&& store.state.cityname=='' ">未获取到位置</div>
-  <div class="c-w f-15 bold " v-else>{{store.state.cityname==''? page.Memberinfo.city_id_name:store.state.cityname}}</div>
+<!-- <div class="c-w f-15 bold  " v-if="page.Memberinfo ==null&& store.state.cityname==''&& page.Inst.cities_city=='' ">未获取到位置</div> -->
+  <!-- <div class="c-w f-15 bold " v-else>{{store.state.cityname==''? page.Memberinfo.city_id_name:store.state.cityname}}</div> -->
+
+  <div class="c-w f-15 bold " v-if="page.Memberinfo !=null && page.Inst !=null">{{store.state.cityname!=''? store.state.cityname:page.Memberinfo.city_id_name==''? page.Inst.cities_city:page.Memberinfo.city_id_name}}</div>
  <img
       :src="page.uploadpath + 'resource/' + page.Res.	xiala"
       class="icon-12 margin-left-4"
@@ -208,7 +216,7 @@ var chengshi=()=>{
 </div>
       <div class="flex-1"></div>
 
-      <div style="flex:none"  v-if="mycarlist!=null">
+      <div style="flex:none"  v-if="mycarlist!=null"  @click="che">
          <div class="flex-row flex-center margin-left-24 padding-top-20" >
     <img :src="mycarlist.carbrand_logo" class="w-35" />
     <div class="margin-left-10">
@@ -224,7 +232,7 @@ var chengshi=()=>{
       </div>
     </div>
     </div>
-    <div class="margin-top-f70"></div>
+    <div class="margin-top-f95"></div>
     
     <!-- 轮播图 -->
     <van-swipe

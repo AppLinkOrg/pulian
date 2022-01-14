@@ -124,10 +124,14 @@ var shiyong=()=>{
   router.push('/partnership?type=A')
 }
 
+let kfshow=ref(false)
 
 // lianxi 联系客服
 var lianxigg=()=>{
   // alert(111)
+
+  kfshow.value=true;
+  return
 
    wx.miniProgram.navigateTo({url: '/pages/kefu/kefu'});
   //  wx.miniProgram.navigateTo({url: '/pages/kefu/kefu"'});
@@ -154,7 +158,13 @@ var daifu=(e)=>{
   router.push('/myorder?type='+e)
 }
 
+var guanbi=()=>{
+  kfshow.value=false
+}
 
+var fuzhi=(str)=>{
+  PageHelper.Copy(str);
+}
 
 </script>
 
@@ -309,7 +319,31 @@ var daifu=(e)=>{
   
 <div class="h-50"></div>
 
+<van-overlay :show="kfshow" @click="kfshow = false">
+  <div class="wrapper" @click.stop>
+    <div class="block" >
 
+   <div >
+      <div class="flex-row ">
+        <div class="flex-1"></div>
+        <img :src="page.uploadpath + 'resource/' + page.Res.guianboi" class="icon-25" @click="guanbi"/>
+
+      </div>
+      <img :src="page.uploadpath + 'inst/' + page.Inst.arcode" class="icon-220 margin-top-10 margin-left-26  margin-right-26 " />
+      <div class="flex-row margin-top-20">
+        <div class="flex-1"></div>
+        <div class="f-18 bold c-2 f-18">客服微信:{{page.Inst.wxhao}}</div>
+        <div class="margin-left-10 f-16 c-6 " @click="fuzhi(page.Inst.wxhao)">复制</div>
+         <div class="flex-1"></div>
+      </div>
+
+
+    </div>
+    </div>
+ 
+    
+  </div>
+</van-overlay>
 
 
   </div>
@@ -318,6 +352,11 @@ var daifu=(e)=>{
 .mubo{
   border-radius: 29px 0px 0px 29px
 }
-
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
 
 </style>

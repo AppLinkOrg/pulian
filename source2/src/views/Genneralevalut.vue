@@ -10,29 +10,20 @@ let router = useRouter();
 let route = useRoute();
 
 
-PageHelper.Init(page, () => {});
-PageHelper.LoginAuth(page, () => {});
+PageHelper.Init(page, () => {
+
+});
+PageHelper.LoginAuth(page, () => {
+    biaoq()
+});
 
 let evaluatelist=ref([]);
 
 var piangjia=()=>{
 // 门店评价
-
-if (route.query.type=='A') {
- HttpHelper.Post('evaluate/evaluatelist2',{
-   pointsmall_id:route.query.id,
-    biaoqian_id:biaoqianid.value,
- srouce:'B'}).then((Res)=>{
-    evaluatelist.value=Res
-})
-
-
-  return
-}
-
 if (biaoqianid.value==0) {
    HttpHelper.Post('evaluate/evaluatelist',{
-     store_id:route.query.id,
+     store_id:page.value.Memberinfo.store_id,
 
  srouce:'A'}).then((Res)=>{
     evaluatelist.value=Res
@@ -40,7 +31,7 @@ if (biaoqianid.value==0) {
 return
 }
  HttpHelper.Post('evaluate/evaluatelist',{
-     store_id:route.query.id,
+     store_id:page.value.Memberinfo.store_id,
  biaoqian_id:biaoqianid.value,
  srouce:'A'}).then((Res)=>{
     evaluatelist.value=Res
@@ -51,7 +42,8 @@ return
 // 标签列表
 let biaoqianlist=ref([]);
 let biaoqianid=ref(0);
-HttpHelper.Post('biaoqian/biaoqianlist',{}).then((res)=>{
+var biaoq=()=>{
+    HttpHelper.Post('biaoqian/biaoqianlist',{}).then((res)=>{
   var json={
     id:0,
     name:'全部评论'
@@ -63,6 +55,7 @@ res.unshift(json)
     biaoqianid.value=res[0].id
     piangjia();
 })
+}
 
 // 评价点击
 let biaoqian =ref(0)

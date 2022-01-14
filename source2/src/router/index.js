@@ -14,6 +14,7 @@ import Order from '../views/Order.vue'
 import Writeoff from '../views/Writeoff.vue'
 import Orderdetail from '../views/Orderdetail.vue'
 import Content from '../views/Content.vue'
+import Genneralevalut from '../views/Genneralevalut.vue'
 
 const routes = [{
   path: '/',
@@ -85,6 +86,13 @@ const routes = [{
   component: Content,
   meta:{
     'name':'内容'
+  }
+},{
+  path: '/genneralevalut',
+  name: 'Genneralevalut',
+  component: Genneralevalut,
+  meta:{
+    'name':'评价管理'
   }
 }
 

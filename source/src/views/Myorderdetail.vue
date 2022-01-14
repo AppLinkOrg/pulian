@@ -33,6 +33,23 @@ router.push('/Interevalute?type=A&id='+route.query.id);
 // tuikuan 退款
 var tuikuan=()=>{
 
+HttpHelper.Post("wechat/refund",{
+  id:route.query.id
+}).then((Res)=>{
+  if (Res.code==0) {
+
+    Toast('退款成功')
+
+orderxq()
+
+
+  }else{
+    Toast('退款失败')
+  }
+
+})
+
+
 }
 
 var zhifu=()=>{
@@ -58,6 +75,41 @@ orderxq();
 
 }
 
+
+// dianhua 
+var dianhua=()=>{
+   var phoneNumber=orderdetail.value.store_phone
+   if (phoneNumber.length>0) {
+      window.location.href = 'tel://' + phoneNumber
+    
+   }else{
+ Toast('门店联系方式不正确')
+   }
+    
+}
+
+// 导航
+var daohang=()=>{
+  let latstor=orderdetail.value.store_lat
+let lngstor=orderdetail.value.store_lng
+let name=orderdetail.value.store_address
+// alert(latstor)
+var json={latitude:latstor*1,
+            longitude:lngstor*1,
+            scale: 18,
+            name};
+           
+PageHelper.loadwechatconfig(()=>{
+  // alert("loadwechatconfig");
+  wx.openLocation(json);
+});
+
+
+// wx.miniProgram.navigateTo({url: '/pages/daohan/daohan?latstor='+latstor+'&lngstor='+lngstor+'&name='+name});
+
+
+
+}
 
 </script>
 
@@ -148,11 +200,11 @@ orderxq();
     <div class="c-2 f-12">提交时间：</div>
     <div class="c-1 f-12 ">{{orderdetail.submit_time}}</div>
 </div>
-<div class="flex-row flex-center margin-top-14">
+<div class="flex-row flex-center margin-top-14" v-if="orderdetail.orderstatus!='A'">
     <div class="c-2 f-12">支付时间：</div>
     <div class="c-1 f-12 ">{{orderdetail.pay_time}}</div>
 </div>
-<div class="flex-row flex-center margin-top-14">
+<div class="flex-row flex-center margin-top-14"   v-if="orderdetail.orderstatus=='C'|| orderdetail.orderstatus=='G'">
     <div class="c-2 f-12">完成时间：</div>
     <div class="c-1 f-12 ">{{orderdetail.use_time}}</div>
 </div>

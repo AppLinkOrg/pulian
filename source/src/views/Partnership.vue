@@ -42,7 +42,7 @@ if (route.query.type=='C'){
 
 <template>
   <div  v-if="page.Res!=null && neirongdetail!=null">
-      <div class="htmlimg" v-html="Utils.HtmlDecode(neirongdetail.neirong)"></div>
+      <div class="htmlimg padding-15" v-html="Utils.HtmlDecode(neirongdetail.neirong)"></div>
 
 
   </div>

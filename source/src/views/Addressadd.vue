@@ -60,6 +60,7 @@ var cancel=(e)=>{
  console.log(e,'eee33');
 }
 var confirm=(e)=>{
+    str.value=''
      for (let index = 0; index < e.length; index++) {
         str.value= str.value+e[index].name
         
@@ -107,6 +108,7 @@ HttpHelper.Post('address/addressadd',{
 }).then((res)=>{
     if (res.code) {
          Toast('保存成功');
+         router.go(-1)
     }else{
          Toast('保存失败');
     }
