@@ -119,7 +119,7 @@ var pingjia=()=>{
        <div class="margin-left-14 margin-right-14">
   <div class="padding-15 bg-w border-radius-9 margin-top-10">
              <div class="flex-row ">
-                  <img :src="page.uploadpath + 'pointsmall/' + pintrecorddetail.pointsmall_img" class="icon-80"/>
+                  <img :src="page.uploadpath + 'pointsmall/' + pintrecorddetail.pointsmall_img" class="icon-90-32"/>
                   <div class="margin-left-10 flex-row flex-column" style="width:100%">
                       <div class="f-14 c-2 bold " style="width:100%">{{pintrecorddetail.pointsmall_name}}</div>
                       <div class="flex-1"></div>
@@ -149,21 +149,21 @@ var pingjia=()=>{
                   <div class="flex-1"></div>
                   <div class="f-14 c-1">{{pintrecorddetail.time}}</div>
               </div>
-                <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.orderstatus!='A'&&pintrecorddetail.orderstatus!='D'">
+                <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.fahuo!=''">
                      <div class="f-14 c-1 ">发货时间</div>
                   <div class="flex-1"></div>
                   <div class="f-14 c-1">{{pintrecorddetail.fahuo}}</div>
               </div>
-                <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.orderstatus!='A'&&pintrecorddetail.orderstatus!='D'">
+                <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.danhao!='' ">
                      <div class="f-14 c-1 ">快递单号</div>
                   <div class="flex-1"></div>
                   <div class="c-6 f-12 ">复制</div>
                   <div class="f-14 c-1 margin-left-10">{{pintrecorddetail.danhao}}</div>
               </div>
-                <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.orderstatus!='A'&&pintrecorddetail.orderstatus!='D'&&pintrecorddetail.orderstatus!='B'">
+                <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.cehngjiao!=''">
                      <div class="f-14 c-1 ">成交时间</div>
                   <div class="flex-1"></div>
-                  <div class="f-14 c-1">2021-09-23 23:34:35</div>
+                  <div class="f-14 c-1">{{pintrecorddetail.cehngjiao}}</div>
               </div>
           </div>
 
@@ -173,7 +173,7 @@ var pingjia=()=>{
             <div class="flex-row flex-center h-50 margin-left-14 margin-right-14">
                 <div class="flex-1"></div>
              <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='A'" @click="tuikuan()">退款</div>
-             <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='D'||pintrecorddetail.orderstatus=='F'" @click="shanchu()">删除订单</div>
+             <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='D'|| pintrecorddetail.orderstatus=='F' || pintrecorddetail.orderstatus=='E'  " @click="shanchu()">删除订单</div>
                <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 " v-if="pintrecorddetail.orderstatus=='B'" @click="shouhuo()">确认收货</div>
                  <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='C'" @click="shouhou()">申请售后</div>
                  <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 "  v-if="pintrecorddetail.orderstatus=='C'" @click="pingjia()">评价</div>

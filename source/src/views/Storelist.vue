@@ -285,7 +285,12 @@ let storelist3=ref([])
 var tuiguan=()=>{
   var mylat= window.localStorage.getItem("latitude");
 var mylng= window.localStorage.getItem("longitude");
-  HttpHelper.Post("store/storelist3",{mylat,mylng}).then((res)=>{
+
+var cityid=store.state.cityid
+
+  HttpHelper.Post("store/storelist3",{
+    mylat,mylng,cityid
+    }).then((res)=>{
     res[0].distance2=Utils.GetMileTxt(res[0].distance)
     storelist3.value=res
 console.log(2222);
@@ -386,11 +391,18 @@ wokestatus_type.value=""
       <div class="flex-row" v-if="storelist3.length>0">
         <!-- 广告左侧大图 -->
         <div class="">
-          <van-image
+          <!-- <van-image
             width="90"
             height="206"
             fit="cover"
             :src="page.uploadpath + 'store/' + storelist3[0]['tupian']"
+          /> -->
+
+           <van-image
+            width="90"
+            height="206"
+            fit="cover"
+            :src="page.uploadpath + 'storetui/' + storelist3[0]['storetui_img']"
           />
         </div>
 
@@ -449,7 +461,7 @@ wokestatus_type.value=""
         class="label_img"
         :src="page.uploadpath + 'resource/' + page.Res.ls"
       /> -->
-    <img  class="label_img" :src="page.uploadpath + 'resource/' + page.Res.ls"/>
+    <img  class="label_img" :src="page.uploadpath + 'resource/' + page.Res.ls"  v-if="storelist3.length>0"/>
     
     </div>
      

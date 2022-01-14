@@ -232,7 +232,7 @@ var che=()=>{
       </div>
     </div>
     </div>
-    <div class="margin-top-f70"></div>
+    <div class="margin-top-f95"></div>
     
     <!-- 轮播图 -->
     <van-swipe

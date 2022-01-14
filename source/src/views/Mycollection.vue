@@ -59,7 +59,7 @@ collect();
      <img :src="page.uploadpath + 'resource/' + page.Res.cha" class="icon-10 dinwei" @click="quxiao(item.store_id)"/>
         <div class="flex-row flex-center" @click="mendian(item.store_id)">
        
-<img :src="page.uploadpath + 'store/' + item.store_tupian" class="icon-70"/>
+<img :src="page.uploadpath + 'store/' + item.store_tupian" class="icon-90-32"/>
 <div class="margin-left-14 flex-1">
     <div class="c-2 f-14 bold ">{{item.store_id_name}}</div>
 <div class="flex-row flex-center">

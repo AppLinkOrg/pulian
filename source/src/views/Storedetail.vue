@@ -703,7 +703,8 @@ var chakanall=()=>{
                 'url(' + page.uploadpath + 'resource/' + page.Res.ligou + ')',
             }" style="background-size:100%;background-repeat:no-repeat; "   >立购可减</div>
 
-             <div class="flex-1"></div>
+             <!-- <div class="flex-1"></div> -->
+              <div class="margin-left-10"></div>
             <!-- <div >
               
               <div class="flex-row flex-center">
@@ -718,7 +719,7 @@ var chakanall=()=>{
            <div>
                <div class="flex-row flex-center">
                 <div class="flex-1"></div>
-                <div class="f-16 c-3">{{item.price}}</div>
+                <div class="f-16 c-3">{{item.jainshao}}</div>
                 <div class="f-10 c-3">元</div>
                 <div class="c-3 f-12">×</div>
                 <div class="f-16 c-3">{{item.shangping}}</div>
@@ -729,7 +730,7 @@ var chakanall=()=>{
               <div class="margin-top-6 c-1 f-9"  v-if="item.type=='C'">无门槛</div>
               <div class="margin-top-6 c-1 f-9" v-else>满{{item.manmoney}}减{{item.jainshao}}</div>
            </div>
-          
+           <div class="margin-left-10"></div>
             <div class="margin-left-10">
               <div class="c-2 f-11 bold">{{item.name}}</div>
               <div class="margin-top-6 c-1 f-9 ">即购日启有效期{{item.youxiao}}天</div>
