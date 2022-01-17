@@ -267,7 +267,7 @@ var che=()=>{
       </div>
       <div class="shu"></div>
       <div class="flex-1 flex-row flex-center">
-        <div class="flex-1"></div>
+        <div class="flex-1"></div> 
         <img
           :src="page.uploadpath + 'resource/' + page.Res.zhuce"
           class="icon-15"
@@ -394,7 +394,7 @@ var che=()=>{
         <div class="flex-row">
           <img
             :src="page.uploadpath + 'store/' + item.tupian"
-            class="icon-84-32"
+            class="icon-84"
           />
           <div class="margin-left-10 flex-1" >
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
