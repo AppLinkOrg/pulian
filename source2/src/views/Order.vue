@@ -37,6 +37,11 @@ var change = (e) => {
   leix.value = orderstatus.value[e.name].leix;
   dinfan();
 };
+
+
+var xqclick=(order)=>{
+  router.push('/orderdetail?orderno='+order+'&type=A')
+}
 </script>
 
 <template>
@@ -64,11 +69,13 @@ var change = (e) => {
         class="bg-w border-radius-9 padding-15 margin-bottom-14"
         v-for="(item, index) in orderlist2"
         :key="index"
+        @click="xqclick(item.orderno)"
       >
         <div class="flex-row flex-center">
           <div class="c-2 f-14">{{ item.service_name }}</div>
           <div class="flex-1"></div>
-          <div class="f-14" style="color: #de2f24">{{ item.hexiao_name }}</div>
+          <div class="f-14" style="color: #de2f24"  v-if="item.orderstatus!='E'&& item.orderstatus!='F' ">{{ item.hexiao_name }}</div>
+          <div class="f-14" style="color: #de2f24"  v-else>{{ item.orderstatus_name }}</div>
         </div>
         <div class="margin-top-14 flex-row flex-center c-1 f-12">
           用户手机：{{ item.mobile }}

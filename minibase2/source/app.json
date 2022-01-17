@@ -16,7 +16,7 @@
     "window": {
         "backgroundTextStyle": "light",
         "enablePullDownRefresh": true,
-        "navigationBarBackgroundColor": "#ffffff",
+        "navigationBarBackgroundColor": "#409EFF",
         "navigationBarTextStyle": "black",
         "navigationStyle": "custom"
     },

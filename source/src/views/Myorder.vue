@@ -91,7 +91,7 @@ orerliebiao()
               <div class="f-12 c-6 bold ">{{item.orderstatus_name}}</div>
           </div>
           <div class="flex-row margin-top-15">
-                <img :src="page.uploadpath + 'store/' + item.store_tupian" class="icon-90-32 border-radius-5 "/>
+                <img :src="page.uploadpath + 'store/' + item.store_tupian" class="icon-90 border-radius-5 "/>
                 <div class="margin-left-10">
                     <div class="f-14 c-1 ">{{item.service_name}}</div>
                     <div class="c-2 margin-top-10 f-10">有效期至：{{item.effective_time}}</div>

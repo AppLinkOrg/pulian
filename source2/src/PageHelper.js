@@ -81,7 +81,7 @@ export class PageHelper {
   }
 
   static LoginAuth(page, callback) {
-
+    let router = useRouter();
     var token = window.localStorage.getItem("token");
     console.log(token==null,'token',);
 
@@ -91,7 +91,9 @@ export class PageHelper {
       HttpHelper.Post("member/info2", {}).then((res) => {
         if (res == null) {
           page.value.Memberinfo = null;
+          router.push('/login');
           callback(null);
+        
         } else {
           page.value.Memberinfo = res;
           // if(callback!=undefined){

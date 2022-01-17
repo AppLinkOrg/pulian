@@ -537,7 +537,7 @@ wokestatus_type.value=""
         <div class="flex-row">
           <img
             :src="page.uploadpath + 'store/' + item.tupian"
-            class="icon-84-32"
+            class="icon-84"
           />
           <div class="margin-left-10 flex-1">
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
@@ -650,11 +650,12 @@ wokestatus_type.value=""
   height: 12px;
 }
 .fuwu_img {
-  /* width: 85px;
-  height: 70px; */
+  width: 85px;
+  height: 70px;
+   /* height: 70px; */
   border-radius: 5px;
-   width: 90px;
-  height: 60px;
+   /* width: 90px;
+  height: 60px; */
 }
 .van_cell {
   color: rgb(248, 81, 52) !important;

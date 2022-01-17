@@ -191,7 +191,9 @@ var chengshi=()=>{
 var che=()=>{
   router.push('/garage')
 }
-
+var addmycar = () => {  
+  router.push("/editvegicle");
+};
 </script>
 
 <template >
@@ -230,6 +232,12 @@ var che=()=>{
 
   </div>
       </div>
+      <div class="top_blue" v-else>
+      <div class="c-w f-16 f-bold margin-left-24 " @click="addmycar()">
+        +添加我的爱车
+      </div>
+      <div class="radius_block"></div>
+    </div>
     </div>
     </div>
     <div class="margin-top-f95"></div>

@@ -35,18 +35,16 @@ class Content extends AppBase {
     console.log(useropenid,'useropenid');
   
 var str='http://localhost:3000/#/?openid='
-// var str='https://uat20.helpfooter.com?'+"rand="+(new Date()).getTime()+'/#/?openid='
+// var str='https://uat14.helpfooter.com?'+"rand="+(new Date()).getTime()+'/#/'
 
 
 console.log('寄哪里了 啊   ');
-    if (useropenid!=undefined&&useropenid!=null) {
-      str=str+useropenid+'&lng='+lng+'&lat='+lat;
-var url=this.Base.getMyData().url
-      if (url=='') {
+
+
         this.Base.setMyData({url:str})
-      }
+  
      
-    }
+
 
     
   }

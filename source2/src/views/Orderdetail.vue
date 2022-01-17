@@ -56,6 +56,13 @@ var save = (e) => {
   });
 };
 //  OR2022010600000295
+
+
+let type=ref('');
+type.value=route.query.type
+
+
+
 </script>
 
 
@@ -64,8 +71,11 @@ var save = (e) => {
   <div v-if="page.Res != null">
     <div class="h-100 bg-5">
       <div class="h-30"></div>
-      <div class="c-w f-16 bold margin-left-26">
+      <div class="c-w f-16 bold margin-left-26" v-if="type!='A'">
         {{ orderinfo.hexiao == "A" ? "待核销" : "已核销" }}
+      </div>
+      <div class="c-w f-16 bold margin-left-26" v-else>
+        {{ orderinfo.orderstatus == "B" ? "待核销" :orderinfo.orderstatus == "E"?"退款":orderinfo.orderstatus == "F"?"取消": "已核销" }}
       </div>
       <div
         class="
@@ -134,7 +144,7 @@ var save = (e) => {
       <div
         class="position-bottom"
         style="bottom: 20px"
-        v-if="orderinfo.hexiao == 'A'"
+        v-if="orderinfo.hexiao == 'A' && type!='A'"
       >
         <div
           class="

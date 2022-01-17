@@ -42,6 +42,10 @@ let timer = setInterval(() => {
 },1000)
 
 var wancheng=()=>{
+  if (page.value.Memberinfo==null) {
+    PageHelper.LoginAuth(page, () => {});
+    return
+  }
   if (show.value==1 && page.value.Memberinfo.touxiang !='B') {
       PageHelper.LoginAuth(page, () => {});
   }
