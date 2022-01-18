@@ -74,7 +74,7 @@ jifenlist()
            
           <div class="flex-row flex-center ">
             <div>
-               <div class="f-14 c-2 ">{{items.type=='A'?'签到':items.type=='B'?'添加车辆':items.type=='C'?'完善信息':items.type=='D'?'积分兑换':items.type=='E'?'购买积分':'积分退款'}}</div>
+               <div class="f-14 c-2 ">{{items.type=='A'?'签到':items.type=='B'?'添加车辆':items.type=='C'?'完善信息':items.type=='D'?'积分兑换':items.type=='E'?'购买积分':items.type=='F'?'积分退款':'积分退货'}}</div>
                  <div class="c-1 f-12 margin-top-10">{{items.time}}</div>
             </div>
           

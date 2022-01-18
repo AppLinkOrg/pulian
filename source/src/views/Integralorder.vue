@@ -15,11 +15,23 @@ let pintrecorddetail=ref({});
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
 
-// 订单详情
+
+let danhao=ref('')
+let gongsi=ref('')
+
+
+var ddxq=()=>{
+    // 订单详情
 HttpHelper.Post('pintrecord/pintrecorddetail',{id:route.query.id}).then((res)=>{
     pintrecorddetail.value=res
-})
+    if(res.aftersale_shstadius!=''){
+danhao.value=res.aftersalelist.wldanhao
+gongsi.value=res.aftersalelist.gongsi
+    }
 
+})
+}
+ddxq()
 // 退款
 var tuikuan=()=>{
     show.value=true
@@ -76,6 +88,38 @@ var pingjia=()=>{
 
 
 
+
+// tijiao 
+var tijiao=()=>{
+    if (danhao.value=='') {
+       Toast('请填写物流单号') 
+       return
+    }
+    if (gongsi.value=='') {
+       Toast('请填写物流公司') 
+       return
+    }
+    var id=pintrecorddetail.value.id
+    HttpHelper.Post("aftersale/update",{
+        danhao:danhao.value,
+        gongsi:gongsi.value,
+        id,
+        type:'A'
+    }).then((res)=>{
+        if (res.code==0) {
+           Toast('提交成功')  
+ddxq()
+        }else{
+Toast('提交失败') 
+        }
+
+    })
+
+
+
+
+}
+
 </script>
 
 <template>
@@ -83,11 +127,22 @@ var pingjia=()=>{
 
       <div class="h-300 bg-7 "></div>
       <div class="margin-top-f300"></div>
-<div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.orderstatus=='D'">交易已关闭</div>
+
+       <div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.aftersale_shstadius=='C' && pintrecorddetail.orderstatus=='G' || pintrecorddetail.orderstatus=='H'">{{pintrecorddetail.orderstatus_name}}</div>
+
+   <div v-else>
+          <div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D' ">{{pintrecorddetail.aftersale_shstadius=='A'?'审核中':pintrecorddetail.aftersale_shstadius=='B'?'审核失败':pintrecorddetail.aftersale_shstadius=='C'?'审核成功':'审核撤销'}}</div>
+   
+<div v-else>
+    <div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.orderstatus=='D'">交易已关闭</div>
 <div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.orderstatus=='B'">运输中</div>
 <div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.orderstatus=='C'">交易成功</div>
 
       <div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.orderstatus!='D'&&pintrecorddetail.orderstatus!='B'&&pintrecorddetail.orderstatus!='C'">{{pintrecorddetail.orderstatus_name}}</div>
+</div>
+   </div>
+
+<div class="c-w f-14 margin-top-10 margin-left-14 margin-right-14" v-if="pintrecorddetail.aftersale_shstadius=='B' " >拒绝原因：{{pintrecorddetail.aftersalelist.srouce}}</div>
 
 
        <div class="margin-left-14 margin-right-14">
@@ -167,16 +222,91 @@ var pingjia=()=>{
               </div>
           </div>
 
+          <!--  -->
+           <div class="padding-15 bg-w border-radius-9 margin-top-10" v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D' " >
+               <div class="flex-row flex-center">
+                  <div class="f-14 c-1 ">换货原因</div>
+                  <div class="flex-1"></div>
+                  <div class="f-14 c-1">{{pintrecorddetail.aftersalelist.pingjia}}</div>
+              </div>
+              <div class="margin-top-20 flex-row flex-center">
+                     <div class="f-14 c-1 ">申请时间</div>
+                  <div class="flex-1"></div>
+                  <div class="f-14 c-1">{{pintrecorddetail.aftersalelist.time}}</div>
+              </div>
+           </div>
+
+           <!--  平台地址-->
+           <div class="padding-15 bg-w border-radius-9 margin-top-10" v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D'&&  pintrecorddetail.aftersale_shstadius!='A'&&  pintrecorddetail.aftersale_shstadius!='B' ">
+               <div class="f-14 c-2 bold">平台地址</div>
+               <div class="c-1 margin-top-10 f-14 ">地址：{{page.Inst.shdizhi}}</div>
+<div class="c-1 margin-top-10 f-14 ">收货人: {{page.Inst.shname}}</div>
+<div class="c-1 margin-top-10 f-14 ">手机号：{{page.Inst.shphone}}</div>
+           </div>
+           
+           <!--物流信息  -->
+
+            <div class="padding-15 bg-w border-radius-9 margin-top-10"  v-if="pintrecorddetail.aftersale_shstadius=='C' && pintrecorddetail.orderstatus=='G' || pintrecorddetail.orderstatus=='H'" >
+             
+                  <div class="f-14 c-2 bold">物流信息</div>
+               <div class="flex-row margin-top-20 flex-center">
+                  <div class="f-14 c-1 ">物流单号</div>
+                  <div class="flex-1"></div>
+                  <div class="f-14 c-1">{{pintrecorddetail.danhao}}</div>
+              </div>
+              <div class="margin-top-20 flex-row flex-center">
+                     <div class="f-14 c-1 ">物流公司</div>
+                  <div class="flex-1"></div>
+                  <div class="f-14 c-1">{{pintrecorddetail.gongsi}}</div>
+              </div>
+           </div>
+           <!-- 填写单号 -->
+         <div v-else>
+               <div class=" bg-w border-radius-9 margin-top-10" v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D' &&  pintrecorddetail.aftersale_shstadius!='A'&&  pintrecorddetail.aftersale_shstadius!='B'" >
+               <div class="padding-15">
+                    <div class="f-14 c-2 bold">填写单号</div>
+                 <div class="margin-top-20 flex-row flex-center">
+                     <div class="f-14 c-1 ">物流单号</div>
+             
+                  <input placeholder="请填写物流单号" class="f-14 c-1 right flex-1" v-model="danhao"/>
+                
+              </div>
+               <div class="margin-top-20 flex-row flex-center">
+                     <div class="f-14 c-1 ">物流公司</div>
+              
+                   <input placeholder="请填写物流公司" class="f-14 c-1 right flex-1" v-model="gongsi"/>
+                  <div class="f-14 c-1"></div>
+              </div>
+               </div>
+              <div class="bd-6 margin-top-10"></div>
+              <div class="padding-15 ">
+                  <div class="h-40  center bg-6 c-w f-15 bold line-height-40 border-radius-20" style="width:100%"  @click="tijiao">提交</div>
+              </div>
+           </div>
+         </div>
+
+
+
        </div>
+       <div class="h-100"></div>
         <!--  -->
    <div class="position-bottom bg-w">
             <div class="flex-row flex-center h-50 margin-left-14 margin-right-14">
                 <div class="flex-1"></div>
-             <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='A'" @click="tuikuan()">退款</div>
+                <div v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D' "  class="flex-row ">
+ <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.aftersale_shstadius!=''" >联系客服</div>
+ <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12 margin-left-10 " v-if="pintrecorddetail.aftersale_shstadius!=''&&pintrecorddetail.aftersale_shstadius!='B' &&pintrecorddetail.aftersale_shstadius!='C'" >撤销申请</div>
+ <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12 margin-left-10 " v-if="pintrecorddetail.aftersale_shstadius=='B' " >重新申请</div>
+                </div>
+
+                <div v-else class="flex-row ">
+ <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='A'" @click="tuikuan()">退款</div>
              <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='D'|| pintrecorddetail.orderstatus=='F' || pintrecorddetail.orderstatus=='E'  " @click="shanchu()">删除订单</div>
                <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 " v-if="pintrecorddetail.orderstatus=='B'" @click="shouhuo()">确认收货</div>
                  <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='C'" @click="shouhou()">申请售后</div>
                  <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 "  v-if="pintrecorddetail.orderstatus=='C'" @click="pingjia()">评价</div>
+                </div>
+            
             </div>
         </div>
 
