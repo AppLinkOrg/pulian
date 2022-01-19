@@ -312,6 +312,15 @@ background:#F6F6F6;
 .flex-2 {
   flex: 2;
 }
+.mubo{
+  border-radius: 29px 0px 0px 29px
+}
+.wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+  }
 
 .flex-wrap {
   flex-wrap: wrap;

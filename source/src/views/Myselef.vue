@@ -353,14 +353,6 @@ var fuzhi=(str)=>{
   </div>
 </template>
 <style scoped>
-.mubo{
-  border-radius: 29px 0px 0px 29px
-}
-.wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-  }
+
 
 </style>

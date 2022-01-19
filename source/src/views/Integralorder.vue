@@ -119,6 +119,51 @@ Toast('提交失败')
 
 
 }
+var fuzhi=(str)=>{
+  PageHelper.Copy(str);
+}
+
+let kfshow=ref(false)
+var guanbi=()=>{
+  kfshow.value=false
+}
+
+// lianxi 联系客服
+var lianxigg=()=>{
+  // alert(111)
+
+  kfshow.value=true;
+  return
+
+   wx.miniProgram.navigateTo({url: '/pages/kefu/kefu'});
+  //  wx.miniProgram.navigateTo({url: '/pages/kefu/kefu"'});
+ 
+}
+
+
+var chexiao=()=>{
+    var id=pintrecorddetail.value.id
+    HttpHelper.Post("aftersale/update",{
+        type:'B',
+
+id
+    }).then((res)=>{
+
+        if (res.code==0) {
+            Toast('撤销成功')
+            ddxq()
+        }else{
+Toast('撤销失败')
+        }
+
+    })
+
+
+}
+
+var chognxin=()=>{
+    router.push('/aftersale?id='+route.query.id+'&leixin=A')
+}
 
 </script>
 
@@ -212,7 +257,7 @@ Toast('提交失败')
                 <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.danhao!='' ">
                      <div class="f-14 c-1 ">快递单号</div>
                   <div class="flex-1"></div>
-                  <div class="c-6 f-12 ">复制</div>
+                  <div class="c-6 f-12 " @click="fuzhi(pintrecorddetail.danhao)">复制</div>
                   <div class="f-14 c-1 margin-left-10">{{pintrecorddetail.danhao}}</div>
               </div>
                 <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.cehngjiao!=''">
@@ -294,9 +339,9 @@ Toast('提交失败')
             <div class="flex-row flex-center h-50 margin-left-14 margin-right-14">
                 <div class="flex-1"></div>
                 <div v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D' "  class="flex-row ">
- <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.aftersale_shstadius!=''" >联系客服</div>
- <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12 margin-left-10 " v-if="pintrecorddetail.aftersale_shstadius!=''&&pintrecorddetail.aftersale_shstadius!='B' &&pintrecorddetail.aftersale_shstadius!='C'" >撤销申请</div>
- <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12 margin-left-10 " v-if="pintrecorddetail.aftersale_shstadius=='B' " >重新申请</div>
+ <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.aftersale_shstadius!=''" @click="lianxigg">联系客服</div>
+ <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12 margin-left-10 " v-if="pintrecorddetail.aftersale_shstadius!=''&&pintrecorddetail.aftersale_shstadius!='B' &&pintrecorddetail.aftersale_shstadius!='C'"  @click="chexiao">撤销申请</div>
+ <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12 margin-left-10 " v-if="pintrecorddetail.aftersale_shstadius=='B' " @click="chognxin">重新申请</div>
                 </div>
 
                 <div v-else class="flex-row ">
@@ -332,6 +377,32 @@ Toast('提交失败')
 </van-overlay>
 
 
+
+<van-overlay :show="kfshow" @click="kfshow = false">
+  <div class="wrapper" @click.stop>
+    <div class="block" >
+
+   <div >
+      <div class="flex-row ">
+        <div class="flex-1"></div>
+        <img :src="page.uploadpath + 'resource/' + page.Res.guianboi" class="icon-25" @click="guanbi"/>
+
+      </div>
+      <img :src="page.uploadpath + 'inst/' + page.Inst.arcode" class="icon-220 margin-top-10 margin-left-26  margin-right-26 " />
+      <div class="flex-row margin-top-20">
+        <div class="flex-1"></div>
+        <div class="f-18 bold c-2 f-18">客服微信:{{page.Inst.wxhao}}</div>
+        <div class="margin-left-10 f-16 c-6 " @click="fuzhi(page.Inst.wxhao)">复制</div>
+         <div class="flex-1"></div>
+      </div>
+
+
+    </div>
+    </div>
+ 
+    
+  </div>
+</van-overlay>
 
   </div>
 </template>
