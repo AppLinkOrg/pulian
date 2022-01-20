@@ -38,11 +38,13 @@ var tijiao=()=>{
     // alert(JSON.stringify(imglis))
 
     // return
+    var type=route.query.leixin
     HttpHelper.Post('aftersale/aftersaleadd',{
         pingjia:miaoshu.value,
         fuwu:leixin.value,
         pintrecord_id:route.query.id,
-        imglist:a
+        imglist:a,
+        leixin:type
     }).then((res)=>{
         if (res.code==0) {
           miaoshu.value='' 
@@ -80,7 +82,7 @@ var shangchuan=()=>{
     //   });
 
 
-       HttpHelper.UploadImage("img",(ret)=>{
+       HttpHelper.UploadImage("picture",(ret)=>{
    imglist.value.push(ret.result)
        })
 }
@@ -151,7 +153,7 @@ var shangchuan=()=>{
               <textarea class="flex-1  bg-1 h-100 f-12 c-2" style="border:none;width:100%" placeholder="请在此描述问题" v-model="miaoshu"></textarea>
 
               <div class="flex-row flex-center"  style="display: flex;display: -webkit-flex;justify-content: space-between;flex-direction: row;flex-wrap: wrap;"> 
- <img v-for="(item,index) in imglist" :key="index" :src="page.uploadpath + 'img/' + item" class="icon-70 margin-right-10"/>
+ <img v-for="(item,index) in imglist" :key="index" :src="page.uploadpath + 'picture/' + item" class="icon-70 margin-right-10"/>
  
 
              <div class="bd-4 radius-5 icon-70 flex-row flex-column " @click="shangchuan">

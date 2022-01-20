@@ -729,7 +729,7 @@ var chakanall=()=>{
       <div class="zhuan flex-row flex-center" :style="{
               backgroundImage:
                 'url(' + page.uploadpath + 'resource/' + page.Res.daijin + ')',
-            }"  style="background-size:100% ; position: relative;flex:none"  v-for="(item,index) in couponlist" :key="index"  @click="xuanze(index)">
+            }"  style="background-size:100% ; position: relative;flex:none;background-repeat:no-repeat"  v-for="(item,index) in couponlist" :key="index"  @click="xuanze(index)">
 
             <div class="position-top2 liji center c-w f-9 "  :style="{
               backgroundImage:
@@ -767,10 +767,14 @@ var chakanall=()=>{
               <div class="margin-top-6 c-1 f-9" v-else>满{{item.manmoney}}减{{item.jainshao}}</div>
            </div>
             <div class="margin-left-10" v-if="item.jainshao==0"></div>
-            
+             <div class="margin-left-10" v-if="item.jainshao==0"></div>
            <div class="margin-left-10"></div>
             <div class="margin-left-10">
               <div class="c-2 f-11 bold">{{item.name}}</div>
+              <div class="f-14 c-5">
+                <a class="f-9 c-5">¥</a>
+                {{item.price}}
+              </div>
               <div class="margin-top-6 c-1 f-9 ">即购日启有效期{{item.youxiao}}天</div>
             </div>
         <div class="flex-1"></div>
@@ -870,7 +874,7 @@ var chakanall=()=>{
 <style scoped>
 .zhuan{
   width: 218px;
-  height: 63px;
+  height: 70px;
   
 }
 .custom-indicator {

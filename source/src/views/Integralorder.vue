@@ -165,6 +165,30 @@ var chognxin=()=>{
     router.push('/aftersale?id='+route.query.id+'&leixin=A')
 }
 
+
+var shshouhuo=()=>{
+    var id=pintrecorddetail.value.id
+
+HttpHelper.Post("aftersale/update",{
+    id,
+    type:'C'
+}).then((res)=>{
+    if (res.code==0) {
+
+        Toast('确认收货成功')
+      ddxq()  
+    }else{
+Toast('确认收货失败')
+    }
+
+})
+
+
+
+
+}
+
+
 </script>
 
 <template>
@@ -291,23 +315,33 @@ var chognxin=()=>{
            
            <!--物流信息  -->
 
-            <div class="padding-15 bg-w border-radius-9 margin-top-10"  v-if="pintrecorddetail.aftersale_shstadius=='C' && pintrecorddetail.orderstatus=='G' || pintrecorddetail.orderstatus=='H'" >
+            <div class="padding-15 bg-w border-radius-9 margin-top-10"  v-if="pintrecorddetail.aftersale_shstadius=='C' && pintrecorddetail.orderstatus=='G' || pintrecorddetail.orderstatus=='H' ||  pintrecorddetail.orderstatus=='I'||  pintrecorddetail.orderstatus=='J'" >
              
                   <div class="f-14 c-2 bold">物流信息</div>
                <div class="flex-row margin-top-20 flex-center">
                   <div class="f-14 c-1 ">物流单号</div>
                   <div class="flex-1"></div>
-                  <div class="f-14 c-1">{{pintrecorddetail.danhao}}</div>
+                  <div class="f-14 c-1">{{pintrecorddetail.wldanhao}}</div>
               </div>
               <div class="margin-top-20 flex-row flex-center">
                      <div class="f-14 c-1 ">物流公司</div>
                   <div class="flex-1"></div>
                   <div class="f-14 c-1">{{pintrecorddetail.gongsi}}</div>
               </div>
+               <div class="flex-row margin-top-20 flex-center"  v-if="pintrecorddetail.orderstatus=='I' || pintrecorddetail.orderstatus=='J'">
+                  <div class="f-14 c-1 ">平台发货物流单号</div>
+                  <div class="flex-1"></div>
+                  <div class="f-14 c-1">{{pintrecorddetail.ptwuliu}}</div>
+              </div>
+               <div class="margin-top-20 flex-row flex-center"  v-if="pintrecorddetail.orderstatus=='I'|| pintrecorddetail.orderstatus=='J'">
+                     <div class="f-14 c-1 ">平台发货物流公司</div>
+                  <div class="flex-1"></div>
+                  <div class="f-14 c-1">{{pintrecorddetail.ptgognsi}}</div>
+              </div>
            </div>
            <!-- 填写单号 -->
          <div v-else>
-               <div class=" bg-w border-radius-9 margin-top-10" v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D' &&  pintrecorddetail.aftersale_shstadius!='A'&&  pintrecorddetail.aftersale_shstadius!='B'" >
+               <div class=" bg-w border-radius-9 margin-top-10" v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D' &&  pintrecorddetail.aftersale_shstadius!='A'&&  pintrecorddetail.aftersale_shstadius!='B' &&  pintrecorddetail.orderstatus!='I'&&  pintrecorddetail.orderstatus!='J' " >
                <div class="padding-15">
                     <div class="f-14 c-2 bold">填写单号</div>
                  <div class="margin-top-20 flex-row flex-center">
@@ -330,6 +364,8 @@ var chognxin=()=>{
            </div>
          </div>
 
+         <!-- 确认收货 -->
+
 
 
        </div>
@@ -339,9 +375,13 @@ var chognxin=()=>{
             <div class="flex-row flex-center h-50 margin-left-14 margin-right-14">
                 <div class="flex-1"></div>
                 <div v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D' "  class="flex-row ">
- <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.aftersale_shstadius!=''" @click="lianxigg">联系客服</div>
+ <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.aftersale_shstadius!='' && pintrecorddetail.orderstatus!='J'" @click="lianxigg">联系客服</div>
  <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12 margin-left-10 " v-if="pintrecorddetail.aftersale_shstadius!=''&&pintrecorddetail.aftersale_shstadius!='B' &&pintrecorddetail.aftersale_shstadius!='C'"  @click="chexiao">撤销申请</div>
  <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12 margin-left-10 " v-if="pintrecorddetail.aftersale_shstadius=='B' " @click="chognxin">重新申请</div>
+  <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12 margin-left-10 " v-if="pintrecorddetail.orderstatus=='I' " @click="shshouhuo">确认收货</div>
+   <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='J'  " @click="shanchu()">删除订单</div>
+                   <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 "  v-if="pintrecorddetail.orderstatus=='J'" @click="pingjia()">评价</div>
+                               
                 </div>
 
                 <div v-else class="flex-row ">
@@ -349,7 +389,7 @@ var chognxin=()=>{
              <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='D'|| pintrecorddetail.orderstatus=='F' || pintrecorddetail.orderstatus=='E'  " @click="shanchu()">删除订单</div>
                <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 " v-if="pintrecorddetail.orderstatus=='B'" @click="shouhuo()">确认收货</div>
                  <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='C'" @click="shouhou()">申请售后</div>
-                 <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 "  v-if="pintrecorddetail.orderstatus=='C'" @click="pingjia()">评价</div>
+                 <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 "  v-if="pintrecorddetail.orderstatus=='C' " @click="pingjia()">评价</div>
                 </div>
             
             </div>
