@@ -197,7 +197,7 @@ Toast('确认收货失败')
       <div class="h-300 bg-7 "></div>
       <div class="margin-top-f300"></div>
 
-       <div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.aftersale_shstadius=='C' && pintrecorddetail.orderstatus=='G' || pintrecorddetail.orderstatus=='H'">{{pintrecorddetail.orderstatus_name}}</div>
+       <div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.aftersale_shstadius=='C' && pintrecorddetail.orderstatus=='G' || pintrecorddetail.orderstatus=='H' ||  pintrecorddetail.orderstatus=='F'">{{pintrecorddetail.orderstatus_name}}</div>
 
    <div v-else>
           <div class="margin-top-20 c-w f-20 bold margin-left-14" v-if="pintrecorddetail.aftersale_shstadius!='' &&  pintrecorddetail.aftersale_shstadius!='D' ">{{pintrecorddetail.aftersale_shstadius=='A'?'审核中':pintrecorddetail.aftersale_shstadius=='B'?'审核失败':pintrecorddetail.aftersale_shstadius=='C'?'审核成功':'审核撤销'}}</div>
@@ -216,7 +216,7 @@ Toast('确认收货失败')
 
        <div class="margin-left-14 margin-right-14">
           <div class="margin-top-15 bg-w border-radius-9  padding-15">
-<div v-if="pintrecorddetail.orderstatus!='A'&&pintrecorddetail.orderstatus!='D'">
+<!-- <div v-if="pintrecorddetail.orderstatus!='A'&&pintrecorddetail.orderstatus!='D'">
                        <div  class="flex-row flex-center ">
 <img :src="page.uploadpath + 'resource/' + page.Res.chesds" class="icon-40"/>
 <div class="margin-left-10">
@@ -225,7 +225,7 @@ Toast('确认收货失败')
 </div>
                    </div>
                         <div class="h-1  bd-6 margin-top-10  margin-bottom-20  "></div>
-</div>
+</div> -->
               <div  class="flex-row flex-center">
          
                <div>
@@ -312,10 +312,11 @@ Toast('确认收货失败')
 <div class="c-1 margin-top-10 f-14 ">收货人: {{page.Inst.shname}}</div>
 <div class="c-1 margin-top-10 f-14 ">手机号：{{page.Inst.shphone}}</div>
            </div>
+         
            
            <!--物流信息  -->
 
-            <div class="padding-15 bg-w border-radius-9 margin-top-10"  v-if="pintrecorddetail.aftersale_shstadius=='C' && pintrecorddetail.orderstatus=='G' || pintrecorddetail.orderstatus=='H' ||  pintrecorddetail.orderstatus=='I'||  pintrecorddetail.orderstatus=='J'" >
+            <div class="padding-15 bg-w border-radius-9 margin-top-10"  v-if="pintrecorddetail.aftersale_shstadius=='C' && pintrecorddetail.orderstatus=='G' || pintrecorddetail.orderstatus=='H' ||  pintrecorddetail.orderstatus=='I'||  pintrecorddetail.orderstatus=='J' || pintrecorddetail.orderstatus=='F'  " >
              
                   <div class="f-14 c-2 bold">物流信息</div>
                <div class="flex-row margin-top-20 flex-center">
@@ -328,12 +329,12 @@ Toast('确认收货失败')
                   <div class="flex-1"></div>
                   <div class="f-14 c-1">{{pintrecorddetail.gongsi}}</div>
               </div>
-               <div class="flex-row margin-top-20 flex-center"  v-if="pintrecorddetail.orderstatus=='I' || pintrecorddetail.orderstatus=='J'">
+               <div class="flex-row margin-top-20 flex-center"  v-if="pintrecorddetail.orderstatus=='I' || pintrecorddetail.orderstatus=='J'|| pintrecorddetail.orderstatus=='F'">
                   <div class="f-14 c-1 ">平台发货物流单号</div>
                   <div class="flex-1"></div>
                   <div class="f-14 c-1">{{pintrecorddetail.ptwuliu}}</div>
               </div>
-               <div class="margin-top-20 flex-row flex-center"  v-if="pintrecorddetail.orderstatus=='I'|| pintrecorddetail.orderstatus=='J'">
+               <div class="margin-top-20 flex-row flex-center"  v-if="pintrecorddetail.orderstatus=='I'|| pintrecorddetail.orderstatus=='J' ||  pintrecorddetail.orderstatus=='F'">
                      <div class="f-14 c-1 ">平台发货物流公司</div>
                   <div class="flex-1"></div>
                   <div class="f-14 c-1">{{pintrecorddetail.ptgognsi}}</div>
