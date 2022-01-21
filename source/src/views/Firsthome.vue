@@ -204,7 +204,7 @@ var addmycar = () => {
       style="width: 100%"
     /> -->
     <div class="h-170" :style="{'background-image':'url'+'('+page.uploadpath+'resource/'+page.Res.sybg+')'}" style="background-size:100% 100%; ">
-    <div class="flex-row flex-center margin-left-14 margin-right-14 h-70">
+    <div class="flex-row flex-center margin-left-14 margin-right-14 h-50">
 <div class="flex-row flex-center" @click="chengshi()" >
 
 <!-- <div class="c-w f-15 bold  " v-if="page.Memberinfo ==null&& store.state.cityname==''&& page.Inst.cities_city=='' ">未获取到位置</div> -->
@@ -367,7 +367,7 @@ var addmycar = () => {
       <!-- 分类 -->
 
       <div
-        class="flex-row flex-center margin-top-14 margin-bottom-14"
+        class="flex-row flex-center margin-top-14 margin-bottom-30"
         style="overflow: scroll"
       >
         <div

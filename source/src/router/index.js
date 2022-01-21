@@ -88,7 +88,7 @@ const routes = [{
   name: 'Submitorder',
   component: Submitorder,
   meta: {
-    'name': '提交订单'
+    'name': '订单信息'
   }
 
 }, {
@@ -103,7 +103,7 @@ const routes = [{
   name: 'Orderdetail',
   component: Orderdetail,
   meta: {
-    'name': '订单详情'
+    'name': '二维码核销'
   }
 }, {
   path: '/myorder',
@@ -126,7 +126,7 @@ const routes = [{
   name: 'Garage',
   component: Garage,
   meta:{
-    'name':'我的车库'
+    'name':'车辆信息'
   }
 }, {
   path: '/addgarage',
@@ -141,7 +141,7 @@ const routes = [{
   name: 'Editvegicle',
   component: Editvegicle,
   meta:{
-    'name':'添加车辆'
+    'name':'爱车入会'
   }
 }, {
   path: '/addmycar',
@@ -168,7 +168,7 @@ const routes = [{
   name: 'Materialdetail',
   component: Materialdetail,
   meta:{
-    'name':'兑换详情'
+    'name':'商品详情'
   }
 }, {
   path: '/submitintegral',
@@ -187,14 +187,14 @@ const routes = [{
   name: 'Exchangerecord',
   component: Exchangerecord,
   meta:{
-    'name':'积分订单'
+    'name':'订单状态'
   }
 }, {
   path: '/integralorder',
   name: 'Integralorder',
   component: Integralorder,
   meta:{
-    'name':'订单详情'
+    'name':'状态跟踪'
   }
 }, {
   path: '/aftersale',
@@ -212,7 +212,7 @@ const routes = [{
   name: 'Integraldetail',
   component: Integraldetail,
   meta: {
-    'name': '积分明细'
+    'name': '收支明细'
   }
 }, {
   path: '/recharge',
@@ -226,7 +226,7 @@ const routes = [{
   name: 'Storesx',
   component: Storesx,
   meta: {
-    'name': '门店列表'
+    'name': '更所选择'
   }
 }, {
   path: '/physicalsupply',
@@ -247,14 +247,14 @@ const routes = [{
   name: 'Couponbag',
   component: Couponbag,
   meta: {
-    'name': '券包详情'
+    'name': '优惠给力'
   }
 }, {
   path: '/myvoucher',
   name: 'Myvoucher',
   component: Myvoucher,
   meta: {
-    'name': '卡券'
+    'name': '优惠多多'
   }
 },{
   path: '/myinfomation',
@@ -302,9 +302,9 @@ const routes = [{
   path: '/ordersucess',
   name: 'Ordersucess',
   component: Ordersucess,
-  meta: {
-    'name': '支付成功'
-  }
+  // meta: {
+  //   'name': '支付成功'
+  // }
 },{
   path: '/genneralevalut',
   name: 'Genneralevalut',

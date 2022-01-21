@@ -262,7 +262,7 @@ var guize=()=>{
           <div class="flex-row flex-center">
              <div class="f-15 bold  c-2 padding-top-15 padding-bottom-15 ">积分兑换</div>
              <div class="flex-1"></div>
-             <div class="c-6 f-12 bold " @click="jilu()">兑换记录</div>
+             <div class="c-6 f-12 bold " @click="jilu()">兑换订单</div>
              <img :src="page.uploadpath + 'resource/' + page.Res.youjian" class="icon-10 margin-left-4"/>
           </div>
           <!--  -->
