@@ -62,11 +62,6 @@ export class PageHelper {
         res.footerstate = Utils.HtmlDecode(res.footerstate);
         page.value.Inst = res;
         PageHelper.Inst = res;
-<<<<<<< .mine
-
-=======
-        //PageHelper.loadwechat();
->>>>>>> .theirs
         PageHelper.loadwechat()
       });
     } else {
@@ -159,6 +154,8 @@ export class PageHelper {
   static getUrlKey(name) { //获取url 参数
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
   }
+
+
   static loadwechat() {
     let viewer = window.navigator.userAgent.toLowerCase();
     
@@ -183,16 +180,14 @@ export class PageHelper {
       let code = PageHelper.getUrlKey("code"); //获取url参数code
       //Toast(code+"进这里没");
       
-          console.log("这里走不走啊啊嗷嗷啊a")
-          //直接调用微信支付
-          let code = PageHelper.getUrlKey("code"); //获取url参数code
           Toast(code+"进这里没");
           
           console.log(code,'cccccccccccccc')
           if (code) { //拿到code， code传递给后台接口换取opend
             Toast("进这里没222");
             HttpHelper.Post("member/getwechatinfo", {
-              code
+              code,
+              ismp:1
             }).then((res) => {
               console.log(res,'tttttttttttttttttttt')
               if (res.errcode == undefined) {
@@ -200,56 +195,23 @@ export class PageHelper {
                 PageHelper.loadwechatconfig(page);
               }
             });
-          } else {
-          // if (PageHelper.Inst==null) {
-          //   PageHelper.loadwechat()
-          //   return
-          // }else{
-          //   console.log(PageHelper.Inst,'kkkkk');
-          //   PageHelper.getCodeApi(PageHelper.Inst.appid);
-          // }
-    
-          console.log(PageHelper.Inst,'kkkkk');
-          PageHelper.getCodeApi(PageHelper.Inst.mpappid);
-      console.log(code,'cccccccccccccc')
-      if (code) { //拿到code， code传递给后台接口换取opend
-        //Toast("进这里没222");
-        HttpHelper.Post("member/getwechatinfo", {
-          code,ismp:"1"
-        }).then((res) => {
-          console.log(res,'tttttttttttttttttttt')
-          if (res.errcode == undefined) {
-            localStorage.setItem("openid", res.openid);
-<<<<<<< .mine
-          
-=======
-
->>>>>>> .theirs
-          }
-
-
-          return
-        }
-      })
-        });
-      } else {
+          }  else {
         console.log(PageHelper.Inst);
         PageHelper.getCodeApi(PageHelper.Inst.mpappid);
       }
-<<<<<<< .mine
-
-
- 
-=======
-
-
-
->>>>>>> .theirs
-    }else{
-      console.log('在微信外');
-      return 
+    
     }
+  })
+}
   }
+
+
+    // else{
+    //   console.log('在微信外');
+    //   return 
+    // }
+  
+
 
   static Copy (str) {
     var _input = document.createElement("input"); // 直接构建input
