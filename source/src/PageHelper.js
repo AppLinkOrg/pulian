@@ -62,7 +62,11 @@ export class PageHelper {
         res.footerstate = Utils.HtmlDecode(res.footerstate);
         page.value.Inst = res;
         PageHelper.Inst = res;
+<<<<<<< .mine
 
+=======
+        //PageHelper.loadwechat();
+>>>>>>> .theirs
         PageHelper.loadwechat()
       });
     } else {
@@ -155,7 +159,7 @@ export class PageHelper {
   static getUrlKey(name) { //获取url 参数
     return decodeURIComponent((new RegExp('[?|&]' + name + '=' + '([^&;]+?)(&|#|;|$)').exec(location.href) || [, ""])[1].replace(/\+/g, '%20')) || null;
   }
-  static loadwechat(page) {
+  static loadwechat() {
     let viewer = window.navigator.userAgent.toLowerCase();
     
     console.log(viewer,'内容是什么',name)
@@ -172,6 +176,12 @@ export class PageHelper {
           Toast("这里走不走啊");
           // page.inwechat = true;
           PageHelper.inwechat=true
+    //Toast("这里走不走啊");
+  
+      console.log("这里走不走啊啊嗷嗷啊a")
+      //直接调用微信支付
+      let code = PageHelper.getUrlKey("code"); //获取url参数code
+      //Toast(code+"进这里没");
       
           console.log("这里走不走啊啊嗷嗷啊a")
           //直接调用微信支付
@@ -201,16 +211,40 @@ export class PageHelper {
     
           console.log(PageHelper.Inst,'kkkkk');
           PageHelper.getCodeApi(PageHelper.Inst.mpappid);
+      console.log(code,'cccccccccccccc')
+      if (code) { //拿到code， code传递给后台接口换取opend
+        //Toast("进这里没222");
+        HttpHelper.Post("member/getwechatinfo", {
+          code,ismp:"1"
+        }).then((res) => {
+          console.log(res,'tttttttttttttttttttt')
+          if (res.errcode == undefined) {
+            localStorage.setItem("openid", res.openid);
+<<<<<<< .mine
           
+=======
+
+>>>>>>> .theirs
           }
 
 
           return
         }
       })
+        });
+      } else {
+        console.log(PageHelper.Inst);
+        PageHelper.getCodeApi(PageHelper.Inst.mpappid);
+      }
+<<<<<<< .mine
 
 
  
+=======
+
+
+
+>>>>>>> .theirs
     }else{
       console.log('在微信外');
       return 
@@ -236,5 +270,17 @@ export class PageHelper {
 
     window.location.href = url;
   }
+
+  static getCodeApi(appid) { //获取code   
+    let urlNow = encodeURIComponent(window.location.href);
+    let scope = 'snsapi_userinfo'; //snsapi_userinfo   //静默授权 用户无感知
+    //let appid='wx4cc5d5c123123123';
+    let state = "123";
+    let url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${urlNow}&response_type=code&scope=${scope}&state=${state}#wechat_redirect`;
+    //alert(url);
+    window.location.href = url;
+  }
+
+  
 
 }
