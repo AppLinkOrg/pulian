@@ -200,7 +200,7 @@ export class PageHelper {
           // }
     
           console.log(PageHelper.Inst,'kkkkk');
-          PageHelper.getCodeApi(PageHelper.Inst.appid);
+          PageHelper.getCodeApi(PageHelper.Inst.mpappid);
           
           }
 
