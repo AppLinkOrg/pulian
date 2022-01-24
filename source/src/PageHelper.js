@@ -18,12 +18,12 @@ export class PageHelper {
   static Inst = null;
   static Text = null;
   static Memberinfo = null;
-  static kk="";
+  static kk = "";
   // static getCodeApi=null;
 
 
   static kk(page) {
-    
+
     PageHelper.kk = res;
   }
 
@@ -62,7 +62,11 @@ export class PageHelper {
         res.footerstate = Utils.HtmlDecode(res.footerstate);
         page.value.Inst = res;
         PageHelper.Inst = res;
-        PageHelper.loadwechat()
+
+        if (page.value.Memberinfo==null) {
+          PageHelper.loadwechat()
+        }
+        
       });
     } else {
       page.value.Inst = PageHelper.Inst;
@@ -78,17 +82,18 @@ export class PageHelper {
     //     page.value.Text = PageHelper.Text;
     // }
 
-    
+
   }
 
   static LoginAuth(page, callback) {
-
+    console.log('resddddd1');
     var token = window.localStorage.getItem("token");
-
+    console.log(token, 'resddddd1');
     if (token != null) {
       // alert(token+'token')
 
       HttpHelper.Post("member/info", {}).then((res) => {
+        console.log(res, 'resddddd');
         if (res == null) {
           page.value.Memberinfo = null;
           callback(null);
@@ -102,8 +107,9 @@ export class PageHelper {
           // }
 
           // callback(memberinfo);
-         
-         
+
+
+
         }
 
       });
@@ -114,30 +120,30 @@ export class PageHelper {
     //  else {
     //   page.routeto('login');
     // }
-    
+
   }
-  static wechatconfig=null;
+  static wechatconfig = null;
   static loadwechatconfig(wxcallback) {
     // alert(location.href.split('#')[0])
     HttpHelper.Post("wechat/gensign", {
       url: location.href.split('#')[0]
     }).then((config) => {
-     
+
       var json = {
         debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
         appId: config.appid, // 必填，公众号的唯一标识
         timestamp: config.timestamp, // 必填，生成签名的时间戳
         nonceStr: config.nonceStr, // 必填，生成签名的随机串
         signature: config.signature, // 必填，签名，见附录1
-        jsApiList: ['getLocation','openLocation','chooseImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+        jsApiList: ['getLocation', 'openLocation', 'chooseImage'] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
       };
       // alert(JSON.stringify(config))
       console.log("wxconfig", config, json);
       wx.config(json);
-      PageHelper.wechatconfig=json;
+      PageHelper.wechatconfig = json;
 
       wx.ready(function () {
-        if(wxcallback!=undefined){
+        if (wxcallback != undefined) {
           wxcallback();
         }
       });
@@ -145,9 +151,9 @@ export class PageHelper {
 
     });
   }
- 
 
-  
+
+
 
 
 
@@ -158,62 +164,112 @@ export class PageHelper {
 
   static loadwechat() {
     let viewer = window.navigator.userAgent.toLowerCase();
-    
-    console.log(viewer,'内容是什么',name)
-     
+
+    console.log(viewer, '内容是什么', name)
+
     if (viewer.match(/MicroMessenger/i) == "micromessenger") {
-      wx.miniProgram.getEnv((res)=>{
-        if (res.miniProgram) {
-          console.log('小程序内');
+      wx.miniProgram.getEnv((res) => {
+        // alert(JSON.stringify(res))
+        if (res.miniprogram) {
+          console.log('小程序内', res);
+          // Toast('小程序内')
+
+
           return
-          
-        }else{
+
+        } else {
           console.log('在微信内，但是不在小程序内');
 
           Toast("这里走不走啊");
           // page.inwechat = true;
-          PageHelper.inwechat=true
-    //Toast("这里走不走啊");
-  
-      console.log("这里走不走啊啊嗷嗷啊a")
-      //直接调用微信支付
-      let code = PageHelper.getUrlKey("code"); //获取url参数code
-      //Toast(code+"进这里没");
-      
-          Toast(code+"进这里没");
-          
-          console.log(code,'cccccccccccccc')
+          PageHelper.inwechat = true
+          //Toast("这里走不走啊");
+
+          console.log("这里走不走啊啊嗷嗷啊a")
+          //直接调用微信支付
+          let code = PageHelper.getUrlKey("code"); //获取url参数code
+          //Toast(code+"进这里没");
+
+          // Toast(code + "进这里没");
+
+          console.log(code, 'cccccccccccccc')
           if (code) { //拿到code， code传递给后台接口换取opend
             Toast("进这里没222");
             HttpHelper.Post("member/getwechatinfo", {
               code,
-              ismp:1
+              ismp: '1'
             }).then((res) => {
-              console.log(res,'tttttttttttttttttttt')
+
               if (res.errcode == undefined) {
-                localStorage.setItem("openid", res.openid);
-                PageHelper.loadwechatconfig(page);
+
+                // localStorage.setItem("openid", res.openid);
+                // PageHelper.loadwechatconfig(page);
+
+
+                localStorage.setItem("token", res.unionid);
+
+// var json={}
+// json.unionid:res.unionid
+// json.avatarUrl:res.avatarUrl
+// json.nickName=res.nickName
+// json.appid2=res.openid
+// json.type='B'
+
+
+// var json2=JSON.stringify(json)
+
+//                 // 跟新用户信息
+
+
+if (res.unionid!='') {
+   HttpHelper.Post("member/update",{
+                  unionid:res.unionid,
+                  avatarUrl:res.avatarUrl,
+                  nickName:res.nickName,
+                  appid2:res.openid,
+                  type:'B'
+                }).then((res)=>{
+                  PageHelper.LoginAuth();
+                })
+}
+
+               
+
+
+// HttpHelper.Post("inst/resources", {}).then((res) => {
+//   page.value.Res = res;
+//   PageHelper.Res = res;
+// });
+               
+
+                console.log(res, 'tttttttttttttttttttt')
+
+                 
+
+
               }
             });
-          }  else {
-        console.log(PageHelper.Inst);
-        PageHelper.getCodeApi(PageHelper.Inst.mpappid);
-      }
-    
+          } else {
+            console.log(PageHelper.Inst);
+            PageHelper.getCodeApi(PageHelper.Inst.mpappid);
+          }
+
+        }
+
+
+      })
     }
-  })
-}
   }
 
 
-    // else{
-    //   console.log('在微信外');
-    //   return 
-    // }
-  
+  // else{
+  //   console.log('在微信外');
+  //   return 
+  // }
 
 
-  static Copy (str) {
+
+  static Copy(str) {
     var _input = document.createElement("input"); // 直接构建input
     _input.value = str; // 设置内容
     document.body.appendChild(_input); // 添加临时实例
@@ -243,6 +299,6 @@ export class PageHelper {
     window.location.href = url;
   }
 
-  
+
 
 }

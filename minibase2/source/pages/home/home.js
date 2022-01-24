@@ -28,19 +28,20 @@ class Content extends AppBase {
     // },1000)
 
     var useropenid=this.Base.getMyData().useropenid
+    var userunionid=this.Base.getMyData().userunionid
     console.log(useropenid,'useropenid3333');
     var useropenid=this.Base.getMyData().useropenid
     var lat=this.Base.getMyData().lat
     var lng=this.Base.getMyData().lng
     console.log(useropenid,'useropenid');
   
-var str='http://localhost:3000/#/?openid='
-// var str='https://uat20.helpfooter.com?'+"rand="+(new Date()).getTime()+'/#/?openid='
+// var str='http://localhost:3000/#/?openid='
+var str='https://uat20.helpfooter.com?'+"rand="+(new Date()).getTime()+'/#/?openid='
 
 
 console.log('寄哪里了 啊   ');
     if (useropenid!=undefined&&useropenid!=null) {
-      str=str+useropenid+'&lng='+lng+'&lat='+lat;
+      str=str+userunionid+'&lng='+lng+'&lat='+lat;
 var url=this.Base.getMyData().url
       if (url=='') {
         this.Base.setMyData({url:str})

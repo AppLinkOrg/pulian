@@ -316,8 +316,15 @@ export class AppBase {
                 AppBase.UserInfo.unionid = data.unionid;
                 console.log(AppBase.UserInfo);
                 ApiConfig.SetToken(data.openid);
-                wx.setStorageSync('token',data.openid)
+                // wx.setStorageSync('token',data.openid)
+                
+                wx.setStorageSync('token',data.unionid)
+
+
                 this.Base.setMyData({useropenid:data.openid})
+                this.Base.setMyData({userunionid:data.unionid})
+
+
                 console.log("goto update info");
                 //this.loadtabtype();
 
@@ -1172,6 +1179,9 @@ export class AppBase {
 
         AppBase.UserInfo.touxiang='B'
         AppBase.UserInfo.type='A'
+        // AppBase.UserInfo.unionid = data.unionid;
+        // AppBase.UserInfo.unionid = this.Base.getMyData().userunionid;
+        
 
         console.log("loginres4", userres);
         
