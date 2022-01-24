@@ -315,9 +315,9 @@ export class AppBase {
                 AppBase.UserInfo.session_key = data.session_key;
                 AppBase.UserInfo.unionid = data.unionid;
                 console.log(AppBase.UserInfo);
-                ApiConfig.SetToken(data.openid);
+                // ApiConfig.SetToken(data.openid);
                 // wx.setStorageSync('token',data.openid)
-                
+                ApiConfig.SetToken(data.unionid);
                 wx.setStorageSync('token',data.unionid)
 
 
