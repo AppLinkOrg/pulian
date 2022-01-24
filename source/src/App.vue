@@ -35,6 +35,16 @@ console.log('route',route.path=='/partnership',route.query.type=='A');
     store.changeTitlt('积分规则')
   }
 
+// window.document.querySelector("title").text=route.meta.name;
+
+// window.document.title=route.meta.name;
+
+// window.document.querySelector("title").text=route.meta.name;
+
+
+// console.log(e,'querySelector');
+
+
 
 
 
@@ -60,7 +70,7 @@ createApp({}).component('nav-bar',{
       <div id="app">
         <nav-bar v-if="pathname!='/'&&pathname!='/integral'&&pathname!='/storelist'&&pathname!='/myselef'&&route.meta.name!=undefined  "  :title='title'></nav-bar>
         
-<router-view/>
+<router-view v-wechat-title='route.meta.name'  />
 
     <!-- <router-view class="router-view" v-slot="{ Component }">
       <transition :name="transitionName">
@@ -802,6 +812,9 @@ button {
 }
 .margin-bottom-20{
   margin-bottom: 20px;
+}
+.margin-bottom-30{
+  margin-bottom: 30px;
 }
 .margin-left-4{
   margin-left:4px

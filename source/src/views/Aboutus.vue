@@ -21,13 +21,13 @@ HttpHelper.Post('neirong/neirongdetail',{id:2}).then((res)=>{
     neirongdetail.value=res
 }) 
 
-
-
+// document.querySelectorAll("title").
+// document.querySelector("title").text="123";
 
 </script>
 
 <template>
-  <div  v-if="page.Res!=null" >
+  <div  v-if="page.Res!=null && page.Inst!=null" >
 
      <div class="h-25"></div>
            <img :src="page.uploadpath + 'resource/' + page.Res.logoicon" class="icon-150 displat-block margin-auto" />

@@ -352,7 +352,7 @@ wokestatus_type.value=""
   <div class="all_page" v-if="page.Res != null">
  
     <div class="top_blue" v-if="mycarlist==null">
-      <div class="c-w f-16 f-bold margin-left-24 padding-top-20" @click="addmycar()">
+      <div class="c-w f-16 f-bold margin-left-24 padding-top-10" @click="addmycar()">
         +添加我的爱车
       </div>
       <div class="radius_block"></div>
