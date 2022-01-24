@@ -48,7 +48,13 @@ var url=this.Base.getMyData().url
      
     }
 
+
+
     
+  }
+
+  handleGetMessage(){
+    console.log(e.target.data,'进来了')
   }
  
 }
@@ -56,5 +62,6 @@ var content = new Content();
 var body = content.generateBodyJson();
 body.onLoad = content.onLoad;
 body.onMyShow = content.onMyShow;
+body.handleGetMessage = content.handleGetMessage;
 
 Page(body)

@@ -23,7 +23,7 @@ HttpHelper.Post('neirong/neirongdetail',{id:2}).then((res)=>{
 
 // document.querySelectorAll("title").
 // document.querySelector("title").text="123";
-
+// document.title = '需要设置的值'; 
 </script>
 
 <template>

@@ -5,6 +5,7 @@ import {
 import { Utils } from "./Utils";
 import { useRoute } from "vue-router";
 import { Toast } from "vant";
+import wx from "weixin-jsapi";
 
 
 
@@ -18,6 +19,7 @@ export class PageHelper {
   static Text = null;
   static Memberinfo = null;
   static kk="";
+  // static getCodeApi=null;
 
 
   static kk(page) {
@@ -60,6 +62,8 @@ export class PageHelper {
         res.footerstate = Utils.HtmlDecode(res.footerstate);
         page.value.Inst = res;
         PageHelper.Inst = res;
+
+        PageHelper.loadwechat()
       });
     } else {
       page.value.Inst = PageHelper.Inst;
@@ -74,6 +78,8 @@ export class PageHelper {
     // } else {
     //     page.value.Text = PageHelper.Text;
     // }
+
+    
   }
 
   static LoginAuth(page, callback) {
@@ -97,7 +103,8 @@ export class PageHelper {
           // }
 
           // callback(memberinfo);
-          callback(null);
+         
+         
         }
 
       });
@@ -108,7 +115,7 @@ export class PageHelper {
     //  else {
     //   page.routeto('login');
     // }
-
+    
   }
   static wechatconfig=null;
   static loadwechatconfig(wxcallback) {
@@ -154,30 +161,59 @@ export class PageHelper {
     console.log(viewer,'内容是什么',name)
      
     if (viewer.match(/MicroMessenger/i) == "micromessenger") {
-    Toast("这里走不走啊");
-      page.inwechat = true;
-  
-      console.log("这里走不走啊啊嗷嗷啊a")
-      //直接调用微信支付
-      let code = PageHelper.getUrlKey("code"); //获取url参数code
-      Toast(code+"进这里没");
+      wx.miniProgram.getEnv((res)=>{
+        if (res.miniProgram) {
+          console.log('小程序内');
+          return
+          
+        }else{
+          console.log('在微信内，但是不在小程序内');
+
+          Toast("这里走不走啊");
+          // page.inwechat = true;
+          PageHelper.inwechat=true
       
-      console.log(code,'cccccccccccccc')
-      if (code) { //拿到code， code传递给后台接口换取opend
-        Toast("进这里没222");
-        HttpHelper.Post("member/getwechatinfo", {
-          code
-        }).then((res) => {
-          console.log(res,'tttttttttttttttttttt')
-          if (res.errcode == undefined) {
-            localStorage.setItem("openid", res.openid);
-            PageHelper.loadwechatconfig(page);
+          console.log("这里走不走啊啊嗷嗷啊a")
+          //直接调用微信支付
+          let code = PageHelper.getUrlKey("code"); //获取url参数code
+          Toast(code+"进这里没");
+          
+          console.log(code,'cccccccccccccc')
+          if (code) { //拿到code， code传递给后台接口换取opend
+            Toast("进这里没222");
+            HttpHelper.Post("member/getwechatinfo", {
+              code
+            }).then((res) => {
+              console.log(res,'tttttttttttttttttttt')
+              if (res.errcode == undefined) {
+                localStorage.setItem("openid", res.openid);
+                PageHelper.loadwechatconfig(page);
+              }
+            });
+          } else {
+          // if (PageHelper.Inst==null) {
+          //   PageHelper.loadwechat()
+          //   return
+          // }else{
+          //   console.log(PageHelper.Inst,'kkkkk');
+          //   PageHelper.getCodeApi(PageHelper.Inst.appid);
+          // }
+    
+          console.log(PageHelper.Inst,'kkkkk');
+          PageHelper.getCodeApi(PageHelper.Inst.appid);
+          
           }
-        });
-      } else {
-        console.log(PageHelper.Inst);
-        PageHelper.getCodeApi(PageHelper.Inst.appid);
-      }
+
+
+          return
+        }
+      })
+
+
+ 
+    }else{
+      console.log('在微信外');
+      return 
     }
   }
 
@@ -189,6 +225,16 @@ export class PageHelper {
     document.execCommand("Copy"); // 执行复制
     document.body.removeChild(_input); // 删除临时实例
     Toast("复制成功");
+  }
+
+  static getCodeApi(appid) { //获取code   
+    let urlNow = encodeURIComponent(window.location.href);
+    let scope = 'snsapi_base'; //snsapi_userinfo   //静默授权 用户无感知
+    //let appid='wx4cc5d5c123123123';
+    let state = "123";
+    let url = `https://open.weixin.qq.com/connect/oauth2/authorize?appid=${appid}&redirect_uri=${urlNow}&response_type=code&scope=${scope}&state=${state}#wechat_redirect`;
+
+    window.location.href = url;
   }
 
 }

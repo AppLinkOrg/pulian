@@ -37,9 +37,12 @@ console.log('route',route.path=='/partnership',route.query.type=='A');
 
 // window.document.querySelector("title").text=route.meta.name;
 
+
 // window.document.title=route.meta.name;
 
 // window.document.querySelector("title").text=route.meta.name;
+
+
 
 
 // console.log(e,'querySelector');
