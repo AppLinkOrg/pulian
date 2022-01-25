@@ -58,12 +58,52 @@ var dinfdan=()=>{
    
   }).then((res) => {
  
- if(res.code==0){
- console.log("提交成功跳转支付");
- ordr_id.value=res.return
+ 
+
+let viewer = window.navigator.userAgent.toLowerCase();
+
+if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+  wx.miniProgram.getEnv((resrnv) => {
+     ordr_id.value=res.return
  wanchengt.value=false
+    if (resrnv.miniprogram) {
+      // 小程序内部
+if(res.code==0){
+ console.log("提交成功跳转支付");
+//  ordr_id.value=res.return
+//  wanchengt.value=false
  wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return});
  }
+    }else{
+      // 微信浏览器
+         HttpHelper.Post("wechat/prepay5",{
+            id:res.return,
+            types:'A'
+        }).then((payret)=>{
+            console.log(payret,'payret');
+
+ WeixinJSBridge.invoke("getBrandWCPayRequest", payret, ress => {
+    //  alert(JSON.stringify(ress))
+                  if (ress.err_msg == "get_brand_wcpay_request:ok") {
+
+                    Toast('支付成功')
+                    // router.go(-1)
+
+
+                  }
+                });
+
+        })
+
+
+
+    }
+  })
+}
+
+
+
+
  
   }) 
 }

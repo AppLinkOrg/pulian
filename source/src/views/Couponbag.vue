@@ -23,19 +23,25 @@ HttpHelper.Post('coupon/coupondetail',{id:route.query.id}).then((res)=>{
 
 // goumia 购买优惠券
 var goumia=()=>{
+    console.log('进来了');
 PageHelper.LoginAuth(page, () => {
+
+  console.log('进来了111');
+
       if (page.value.Memberinfo.touxiang !='B') {
        
-   
+ 
          wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
          return
 }
 		// alert(page.value.Memberinfo.shoujisq)
    if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B') {
-
+console.log('进来了333');
          wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
          return
 }
+
+console.log('进来了');
 goumai2();
 });
 
@@ -43,12 +49,45 @@ goumai2();
 }
 
 var goumai2=()=>{
+    console.log('进来了11');
        HttpHelper.Post('youhuiorder/youhuiorderadd',{coupon_id:route.query.id}).then((res)=>{
     if (res.code==0) {
+
+        // Toast('购买成功')
+
+         let viewer = window.navigator.userAgent.toLowerCase();
+
+         if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+wx.miniProgram.getEnv((resrnv) => {
+    if (resrnv.miniprogram) {
+
 order_id.value=res.return
 zhifushow.value=true
  wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return+'&type=B'});
-        // Toast('购买成功')
+    }else{
+        HttpHelper.Post("wechat/prepay4",{
+            id:res.return,
+            types:'A'
+        }).then((payret)=>{
+            console.log(payret,'payret');
+
+ WeixinJSBridge.invoke("getBrandWCPayRequest", payret, ress => {
+    //  alert(JSON.stringify(ress))
+                  if (ress.err_msg == "get_brand_wcpay_request:ok") {
+
+                    Toast('支付成功')
+                    // router.go(-1)
+
+
+                  }
+                });
+
+        })
+
+
+    }
+})
+         }
 
     }else{
 Toast('购买失败')

@@ -600,7 +600,7 @@ wokestatus_type.value=""
   width: 100vw;
 }
 .top_blue {
-  height: 100px;
+  height: 80px;
   width: 100%;
   background: #409eff;
   position: relative;

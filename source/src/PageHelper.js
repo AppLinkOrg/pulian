@@ -99,6 +99,7 @@ export class PageHelper {
           callback(null);
         } else {
           page.value.Memberinfo = res;
+          callback(null);
           // if(callback!=undefined){
           //   page.value.Memberinfo = res;
 
@@ -180,7 +181,7 @@ export class PageHelper {
         } else {
           console.log('在微信内，但是不在小程序内');
 
-          Toast("这里走不走啊");
+          // Toast("这里走不走啊");
           // page.inwechat = true;
           PageHelper.inwechat = true
           //Toast("这里走不走啊");
@@ -194,7 +195,7 @@ export class PageHelper {
 
           console.log(code, 'cccccccccccccc')
           if (code) { //拿到code， code传递给后台接口换取opend
-            Toast("进这里没222");
+            // Toast("进这里没222");
             HttpHelper.Post("member/getwechatinfo", {
               code,
               ismp: '1'

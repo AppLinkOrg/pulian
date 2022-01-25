@@ -26,6 +26,10 @@ store.changefirst(store.state.first+1);
 
 console.log(store.state.first,'dddd');
 
+
+
+
+// if(store.state.first==0){
 var carbrand_id = ref("");
 var carseries_id = ref("");
 var carmodel_id = ref("");
@@ -39,6 +43,10 @@ var vin = ref("");
 var engineno = ref("");
 var inspection_date = ref("");
 var register_date = ref("");
+
+
+// }
+
 
 if (route.query.id != null) {
   console.log("不走吗？？？");

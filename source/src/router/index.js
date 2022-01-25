@@ -58,26 +58,40 @@ const routes = [{
   children: [{
     path: '/integral',
     name: 'Integral',
-    component: Integral
+    component: Integral,
+    meta: {
+      'name2': '积分商城'
+    }
   }, {
     path: '/',
     name: 'Firsthome',
-    component: Firsthome
+    component: Firsthome,
+    meta: {
+      'name2': '车服中心'
+    }
   }, {
     path: '/storelist',
     name: 'Storelist',
-    component: Storelist
+    component: Storelist,
+    meta: {
+      'name2': '门店列表'
+    }
   }, {
     path: '/myselef',
     name: 'Myselef',
-    component: Myselef
+    component: Myselef,
+    meta: {
+      'name2': '个人中心'
+    }
   }]
 }, {
   path: '/storedetail',
   name: 'Storedetail',
   component: Storedetail,
   meta: {
-    'name': '门店详情'
+    'name': '门店详情',
+    'name2': '商家服务介绍'
+
   }
 }, {
   path: '/xzservice',
@@ -88,7 +102,8 @@ const routes = [{
   name: 'Submitorder',
   component: Submitorder,
   meta: {
-    'name': '订单信息'
+    'name': '订单信息',
+    'name2': '提交订单',
   }
 
 }, {
@@ -96,21 +111,24 @@ const routes = [{
   name: 'Paysuccess',
   component: Paysuccess,
   meta: {
-    'name': '支付成功'
+    'name': '支付成功',
+    'name2': '支付成功',
   }
 }, {
   path: '/orderdetail',
   name: 'Orderdetail',
   component: Orderdetail,
   meta: {
-    'name': '二维码核销'
+    'name': '二维码核销',
+    'name2': '订单详情',
   }
 }, {
   path: '/myorder',
   name: 'Myorder',
   component: Myorder,
   meta: {
-    'name': '订单'
+    'name': '订单',
+    'name2': '我的订单',
   }
 }, {
   path: '/evaluate',
@@ -126,7 +144,8 @@ const routes = [{
   name: 'Garage',
   component: Garage,
   meta:{
-    'name':'车辆信息'
+    'name':'车辆信息',
+    'name2':'我的车库',
   }
 }, {
   path: '/addgarage',
@@ -141,7 +160,8 @@ const routes = [{
   name: 'Editvegicle',
   component: Editvegicle,
   meta:{
-    'name':'爱车入会'
+    'name':'爱车入会',
+    'name2':'添加车辆',
   }
 }, {
   path: '/addmycar',
@@ -150,15 +170,25 @@ const routes = [{
 }, {
   path: '/choosebrand',
   name: 'ChooseBrand',
-  component: ChooseBrand
+  component: ChooseBrand,
+  meta:{
+    'name2':'品牌选择',
+  }
+
 }, {
   path: '/choosemodel',
   name: 'ChooseModel',
-  component: ChooseModel
+  component: ChooseModel,
+  meta:{
+    'name2':'品牌选择',
+  }
 }, {
   path: '/chooseseries',
   name: 'ChooseSeries',
-  component: ChooseSeries
+  component: ChooseSeries,
+  meta:{
+    'name2':'品牌选择',
+  }
 }, {
   path: '/couponsdetail',
   name: 'Couponsdetail',
@@ -168,7 +198,8 @@ const routes = [{
   name: 'Materialdetail',
   component: Materialdetail,
   meta:{
-    'name':'商品详情'
+    'name':'商品详情',
+    'name2':'积分兑换'
   }
 }, {
   path: '/submitintegral',
@@ -187,14 +218,16 @@ const routes = [{
   name: 'Exchangerecord',
   component: Exchangerecord,
   meta:{
-    'name':'订单状态'
+    'name':'订单状态',
+    'name2':'我的积分订单',
   }
 }, {
   path: '/integralorder',
   name: 'Integralorder',
   component: Integralorder,
   meta:{
-    'name':'状态跟踪'
+    'name':'状态跟踪',
+    'name2':'订单详情',
   }
 }, {
   path: '/aftersale',
@@ -212,21 +245,24 @@ const routes = [{
   name: 'Integraldetail',
   component: Integraldetail,
   meta: {
-    'name': '收支明细'
+    'name': '收支明细',
+    'name2': '积分列表'
   }
 }, {
   path: '/recharge',
   name: 'Recharge',
   component: Recharge,
   meta: {
-    'name': '积分充值'
+    'name': '积分充值',
+    'name2': '积分充值',
   }
 }, {
   path: '/storesx',
   name: 'Storesx',
   component: Storesx,
   meta: {
-    'name': '更所选择'
+    'name': '更所选择',
+    'name2': '卡券使用门店',
   }
 }, {
   path: '/physicalsupply',
@@ -240,21 +276,24 @@ const routes = [{
   name: 'Vouchercenter',
   component: Vouchercenter,
   meta: {
-    'name': '领券中心'
+    'name': '领券中心',
+    'name2': '领券中心'
   }
 }, {
   path: '/couponbag',
   name: 'Couponbag',
   component: Couponbag,
   meta: {
-    'name': '优惠给力'
+    'name': '优惠给力',
+    'name2': '卡券详情',
   }
 }, {
   path: '/myvoucher',
   name: 'Myvoucher',
   component: Myvoucher,
   meta: {
-    'name': '优惠多多'
+    'name': '优惠多多',
+    'name2': '我的卡券包',
   }
 },{
   path: '/myinfomation',
@@ -268,7 +307,8 @@ const routes = [{
   name: 'Mycollection',
   component: Mycollection,
   meta: {
-    'name': '我的收藏'
+    'name': '我的收藏',
+    'name2': '我的收藏',
   }
 },{
     path: '/partnership',
@@ -317,7 +357,8 @@ const routes = [{
   name: 'Myorderdetail',
   component: Myorderdetail,
   meta: {
-    'name': '订单详情'
+    'name': '订单详情',
+    'name2': '订单详情',
   }
 },{
   path: '/city',

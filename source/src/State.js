@@ -6,6 +6,7 @@ const store = {
 
     state: reactive({
         name: '',
+        name2: '',
         title:'',
         carbrand_id:0,
         carseries_id:0,
@@ -23,6 +24,9 @@ const store = {
 
     changeName(value) {
         this.state.name = value
+    },
+    changeName2(value) {
+        this.state.name2 = value
     },
     changeTitlt(value) {
         this.state.title = value

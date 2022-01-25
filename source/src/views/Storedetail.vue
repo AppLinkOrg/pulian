@@ -61,7 +61,12 @@ var onChange = (index) => {
 var qiangou = (item) =>{
   PageHelper.LoginAuth(page, () => {
        // 判断用户是否授权微信
-  
+  let viewer = window.navigator.userAgent.toLowerCase();
+
+if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+  wx.miniProgram.getEnv((resrnv) => {
+
+      if (resrnv.miniprogram) {
      if (page.value.Memberinfo.touxiang !='B') {
        
    
@@ -74,6 +79,18 @@ var qiangou = (item) =>{
          wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
          return
 }
+      }else{
+
+      }
+
+
+  })
+  
+  
+  }
+
+
+
 
   fuwudetail.value=item
 

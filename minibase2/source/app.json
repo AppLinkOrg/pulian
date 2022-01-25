@@ -17,7 +17,7 @@
         "backgroundTextStyle": "light",
         "enablePullDownRefresh": true,
         "navigationBarBackgroundColor": "#409EFF",
-        "navigationBarTextStyle": "black",
+        "navigationBarTextStyle": "white",
         "navigationStyle": "custom"
     },
     "sitemapLocation": "sitemap.json"

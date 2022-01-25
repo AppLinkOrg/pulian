@@ -22,6 +22,11 @@ watch(()=>route.path,(e)=>{
 
 // PageHelper.kk.value=e;
 store.changeName(e)
+
+store.changeName2(route.meta.name2)
+console.log(route.meta.name,'route.meta.name');
+
+
 console.log('route',route.path=='/partnership',route.query.type=='A');
 
 
@@ -33,6 +38,7 @@ console.log('route',route.path=='/partnership',route.query.type=='A');
   if (route.path=='/partnership' && route.query.type=='C') {
     title.value='积分规则'
     store.changeTitlt('积分规则')
+    route.meta.name2='用户协议'
   }
 
 // window.document.querySelector("title").text=route.meta.name;
@@ -71,9 +77,9 @@ createApp({}).component('nav-bar',{
 
 <template>
       <div id="app">
-        <nav-bar v-if="pathname!='/'&&pathname!='/integral'&&pathname!='/storelist'&&pathname!='/myselef'&&route.meta.name!=undefined  "  :title='title'></nav-bar>
+        <nav-bar v-if="pathname!='/'&&pathname!='/integral'&&pathname!='/storelist'&&pathname!='/myselef'&&route.meta.name!=undefined  "   :title='title'></nav-bar>
         
-<router-view v-wechat-title='route.meta.name'  />
+<router-view v-wechat-title='route.meta.name2'  />
 
     <!-- <router-view class="router-view" v-slot="{ Component }">
       <transition :name="transitionName">
@@ -84,9 +90,27 @@ createApp({}).component('nav-bar',{
   </div>
 </template>
 
+<style  scoped>
+/deep/ .van-nav-bar{
+  background: #409EFF !important;
+}
+/deep/ .van-nav-bar__text {
+		color: #fff !important;
+	}
+
+/deep/  .van-nav-bar .van-icon{
+		color: #fff !important;
+	}
+ /deep/ .van-nav-bar__title{
+    color: #fff !important;
+  }
+</style>
+
 <style>
 #app { 
 }
+
+
 .mainbody {
   width: 100vw;
   max-width: 1920px;
@@ -791,10 +815,15 @@ button {
 .margin-top-f90{
   margin-top: -140px;
 }
+.margin-top-f120{
+  margin-top: -120px;
+}
 .margin-top-f95{
   margin-top: -95px;
 }
-
+.margin-top-f110{
+  margin-top: -180px;
+}
 .margin-top-f300{
   margin-top: -300px;
 }
