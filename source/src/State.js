@@ -14,8 +14,16 @@ const store = {
         first:0,
         cityid:0,
         cityname:'',
-        biaoindex:0
+        biaoindex:0,
 
+        brand_name:'',
+        model_name:'',
+        series_name:'',
+        provinces_name:'',
+        vin:'',
+        engineno:'',
+        inspection_date:'',
+        register_date:''
 
 
 
@@ -51,6 +59,17 @@ const store = {
     },
     changebiaoindex(value) {
         this.state.biaoindex = value
+    },
+    changebrand_name(value,value2,value3,value4,value5,value6,value7,value8) {
+        this.state.brand_name = value
+        this.state.model_name = value2
+        this.state.series_name = value3
+        this.state.provinces_name = value4
+        this.state.vin = value5
+        this.state.engineno = value6
+        this.state.inspection_date = value7
+        this.state.register_date = value8
+        
     },
 
 }

@@ -27,7 +27,13 @@ var addche = () => {
    store.changecarbrand_id(0);
     store.changecarseries_id(0);
     store.changecarmodel_id(0);
-  router.push("/editvegicle");
+
+    if (mycarlist.value.length>0) {
+      router.push("/editvegicle?first=A");
+    }else{
+router.push("/editvegicle?first=B");
+    }
+  
 };
 
 var toedit = (id) => {

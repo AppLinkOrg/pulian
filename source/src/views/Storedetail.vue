@@ -238,6 +238,14 @@ var buji=storedetail.value.bigcategorylist[fwshow.value].buji
 let couponlist_item=ref(null);
 var xuanze=(index)=>{
   // var couponlistdd=couponlist.value[index]
+
+  // 判断满减数目是否达标
+  if (couponlist.value[index].manmoney>fuwudetail.value.originalprice) {
+    Toast('满减价格为满足')
+    return
+  }else{
+
+  }
   
   if (couponlist.value[index].show==false) {
        for(let item of couponlist.value){
@@ -277,9 +285,24 @@ fuwudetail_price=couponlist_item.value.price
     }
     
   }
-    console.log(fuwudetail_price,'fuwudetail_price');
-    fuwudetail_price=fuwudetail_price*1
-  totleprice.value=fuwudetail_price.toFixed(2);
+   
+ 
+ fuwudetail_price=fuwudetail_price*1
+
+
+//  if (fuwudetail_price.value>=0) {
+    
+//  }else{
+
+//  }
+
+totleprice.value=fuwudetail_price.toFixed(2);
+ 
+
+
+ console.log(fuwudetail_price,'fuwudetail_price');
+
+
 }
 // 最后的价钱计算2
 var zuihou2=()=>{
@@ -303,12 +326,24 @@ fuwudetail_price=0
     
   }
  fuwudetail_price=fuwudetail_price*1
+
   totleprice.value=fuwudetail_price.toFixed(2);
+
 }
 // mydiandan 选择的自己购买的订单
 let myselect=ref(0)
 let mycouponlist_item=ref(0)
 var mydiandan=(e)=>{
+
+  // 判断满减数目是否达标
+  if (mycouponlist.value[e].manmoney>fuwudetail.value.originalprice) {
+    Toast('满减价格为满足')
+    return
+  }else{
+
+  }
+
+
   for(let item of couponlist.value){
     item.show=false
   }

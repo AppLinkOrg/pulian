@@ -31,7 +31,13 @@ var amount_input=(e)=>{
 }
 var confrim=()=>{
 PageHelper.LoginAuth(page, () => {
-      if (page.value.Memberinfo.touxiang !='B') {
+
+let viewer = window.navigator.userAgent.toLowerCase();
+
+if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+  wx.miniProgram.getEnv((resrnv) => {
+    if (resrnv.miniprogram) {
+     if (page.value.Memberinfo.touxiang !='B') {
        
    
          wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
@@ -44,6 +50,16 @@ PageHelper.LoginAuth(page, () => {
          return
 }
 dinfdan()
+    }else{
+      dinfdan()
+
+    }
+
+  })
+}
+
+ 
+
 
 });
   
@@ -76,6 +92,7 @@ if(res.code==0){
  }
     }else{
       // 微信浏览器
+     
          HttpHelper.Post("wechat/prepay5",{
             id:res.return,
             types:'A'
@@ -144,6 +161,8 @@ PageHelper.LoginAuth(page, () => {});
 
 
 })
+
+
 
 }
 }

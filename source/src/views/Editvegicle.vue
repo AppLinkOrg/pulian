@@ -17,19 +17,11 @@ var list = ref({});
 var carinfo = ref({});
 
 
-if(store.state.first==0){
-store.changecarbrand_id(0);
-store.changecarseries_id(0);
-store.changecarmodel_id(0);
-store.changefirst(store.state.first+1);
-}
-
-console.log(store.state.first,'dddd');
 
 
 
 
-// if(store.state.first==0){
+
 var carbrand_id = ref("");
 var carseries_id = ref("");
 var carmodel_id = ref("");
@@ -45,7 +37,37 @@ var inspection_date = ref("");
 var register_date = ref("");
 
 
+// if(store.state.first==0){
 // }
+
+
+if(store.state.first==0){
+store.changecarbrand_id(0);
+store.changecarseries_id(0);
+store.changecarmodel_id(0);
+store.changefirst(store.state.first+1);
+
+
+
+
+}else{
+  brand_name.value=store.state.brand_name
+  model_name.value=store.state.model_name
+  series_name.value=store.state.series_name
+  provinces_name.value=store.state.provinces_name
+  vin.value=store.state.vin
+  engineno.value=store.state.engineno
+  register_date.value=store.state.register_date
+
+  
+
+}
+
+
+
+
+console.log(store.state.first,'dddd');
+
 
 
 if (route.query.id != null) {
@@ -147,6 +169,8 @@ HttpHelper.Post("store/provinceslist", {}).then((res) => {
 
 // 选择品牌车系
 var pingpai = () => {
+  store.changebrand_name(brand_name.value,model_name.value,series_name.value,provinces_name.value,vin.value,engineno.value,inspection_date.value,register_date.value)
+  
   router.push("/choosebrand");
 };
 
@@ -366,7 +390,11 @@ isdefault='N'
 
 const checked = ref(false);
 
+if (route.query.first=='B') {
+  checked.value=true
+}
 
+// checked
 </script>
 
 <template>
