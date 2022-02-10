@@ -23,7 +23,8 @@ const store = {
         vin:'',
         engineno:'',
         inspection_date:'',
-        register_date:''
+        register_date:'',
+        caridname:'',
 
 
 
@@ -60,7 +61,7 @@ const store = {
     changebiaoindex(value) {
         this.state.biaoindex = value
     },
-    changebrand_name(value,value2,value3,value4,value5,value6,value7,value8) {
+    changebrand_name(value,value2,value3,value4,value5,value6,value7,value8,value9) {
         this.state.brand_name = value
         this.state.model_name = value2
         this.state.series_name = value3
@@ -69,6 +70,7 @@ const store = {
         this.state.engineno = value6
         this.state.inspection_date = value7
         this.state.register_date = value8
+        this.state.caridname=value9
         
     },
 

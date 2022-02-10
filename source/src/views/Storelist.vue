@@ -407,6 +407,8 @@ wokestatus_type.value=""
             height="206"
             fit="cover"
             :src="page.uploadpath + 'storetui/' + storelist3[0]['storetui_img']"
+            class="border-radius-9"
+            
           />
         </div>
 
@@ -444,7 +446,7 @@ wokestatus_type.value=""
           >
             <div class="margin-right-5" v-for="(item,index) in storelist3[0]['servicepricelist']" :key="index"  @click.stop="fuwudina(index)">
               <van-image
-                class="fuwu_img margin-right-5"
+                class="fuwu_img margin-right-5  "
                 :src="page.uploadpath + 'serviceprice/' + item.img"
               />
               <div class="margin-top-5">{{item.service_id_name}}</div>
@@ -537,7 +539,7 @@ wokestatus_type.value=""
         <div class="flex-row">
           <img
             :src="page.uploadpath + 'store/' + item.tupian"
-            class="icon-84"
+            class="icon-84 border-radius-9"
           />
           <div class="margin-left-10 flex-1">
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
@@ -594,6 +596,10 @@ wokestatus_type.value=""
   </div>
 </template>
 <style scoped>
+/deep/ .van-image__img{
+  border-radius:9px !important;
+}
+
 .all_page {
   background: linear-gradient(180deg, #ffffff 0%, #f6f6f6 100%);
   height: 100vh;

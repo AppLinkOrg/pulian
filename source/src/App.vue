@@ -92,7 +92,9 @@ createApp({}).component('nav-bar',{
 
 <style  scoped>
 /deep/ .van-nav-bar{
+  
   background: #409EFF !important;
+
 }
 /deep/ .van-nav-bar__text {
 		color: #fff !important;
@@ -104,10 +106,15 @@ createApp({}).component('nav-bar',{
  /deep/ .van-nav-bar__title{
     color: #fff !important;
   }
+  /deep/ .van-hairline--bottom::after{
+border-bottom-width: 0 !important;
+  }
 </style>
 
 <style>
 #app { 
+padding: 0;
+margin: 0;
 }
 
 
@@ -178,7 +185,10 @@ background:#F6F6F6;
   background:#ECF5FF;
 }
 .bg-5{
-  background: linear-gradient(264deg, #409EFF 0%, #67B0FD 100%);
+  background: linear-gradient(180deg, #409EFF 0%, #67B0FD 100%);
+  /* background: linear-gradient(264deg, #409EFF 0%, #67B0FD 100%); */
+
+  /* background: linear-gradient(to bottom,#409EFF ,#67B0FD ); */
 }
 .bg-6{
   background:#409EFF;
@@ -221,6 +231,9 @@ background:#F6F6F6;
 }
 .w-127{
   width: 127px;
+}
+.h-min-50{
+  min-height: 50px;
 }
 .h-m100{
   min-height: 100vh;
@@ -794,11 +807,17 @@ button {
 .margin-top-f78{
   margin-top:-78px
 }
+.margin-top-f80{
+  margin-top: -80px;
+}
 .margin-top-f120{
   margin-top: -120px;
 }
 .margin-top-fdai{
   margin-top: -160px;
+}
+.margin-top-f120{
+  margin-top: -120px;
 }
 .margin-top-f160{
   margin-top: -160px;
@@ -817,6 +836,9 @@ button {
 }
 .margin-top-f120{
   margin-top: -120px;
+}
+.margin-top-f170{
+  margin-top: -170px;
 }
 .margin-top-f95{
   margin-top: -95px;

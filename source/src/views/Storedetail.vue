@@ -47,7 +47,8 @@ var xqmendian=()=>{
   storedetail.value = res;
 
   fuwu();
-  daijin()
+  daijin();
+  filtratestore();
 });
 }
 
@@ -414,8 +415,12 @@ var filtratestore = () => {
   var mylat= window.localStorage.getItem("latitude");
 var mylng= window.localStorage.getItem("longitude");
 
+var storedetail_city_id=storedetail.value.city_id
+
+console.log(storedetail_city_id,'storedetail_city_id');
+
    HttpHelper.Post("store/filtrate2", { 
-   service_id:service_id.value,mylat,mylng,seq:4,storeid:route.query.id
+   service_id:service_id.value,mylat,mylng,seq:4,storeid:route.query.id,storedetail_city_id:storedetail_city_id
    }).then((res) => {
      for(let item of res){
        item.distance2=Utils.GetMileTxt(item.distance)
@@ -426,7 +431,7 @@ item.coupon_jainshao=parseFloat(item.coupon_jainshao)
     storelist.value = res;
    });
 };
-filtratestore()
+
 
 
 // mendian 点击附近更多

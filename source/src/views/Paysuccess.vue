@@ -33,13 +33,17 @@ var chakan = ()=>{
 }
 
 
+// shouye
+var shouye=()=>{
+    router.push('/')
+}
+
 </script>
 
 <template>
   <div v-if="page.Res!=null">
-      <div class="h-200 bg-5"></div> 
-       <div style="margin-top:-115px"></div>
-       <div class="flex-row flex-center">
+      <div class="h-200 bg-5">
+            <div class="flex-row flex-center h-120"  >
            <div class="flex-1"></div>
               <img  :src="page.uploadpath + 'resource/' + page.Res.tubiao" class="tubiao" />
               <div class="margin-left-10">
@@ -48,6 +52,9 @@ var chakan = ()=>{
               </div>
                <div class="flex-1"></div>
        </div>
+          </div> 
+       <!-- <div style="margin-top:-115px"></div> -->
+      <div  class="margin-top-f80"></div>
        <!--  -->
        <img  :src="page.uploadpath + 'resource/' + page.Res.tupain2" class="h-30 "  style="width:100%"/>
        <!--  -->
@@ -89,7 +96,14 @@ var chakan = ()=>{
        </div>
 
        <!--  -->
-       <div class="h-40 border-radius-20 bg-5 c-w f-16 bold center line-height-40 margin-top-30" @click="chakan">查看订单</div>
+       <div class="flex-row " style="width:100%">
+           <div class="margin-left-30"></div>
+            <div class="h-40 border-radius-20 bd-5 c-2 f-16 bold center line-height-40 margin-top-30 flex-1   " @click="shouye">返回首页</div>
+ <div class="margin-left-30"></div>
+            <div class="h-40 border-radius-20 bg-5 c-w f-16 bold center line-height-40 margin-top-30 flex-1  " @click="chakan">查看订单</div>
+             <div class="margin-left-30"></div>
+       </div>
+       <!-- <div class="h-40 border-radius-20 bg-5 c-w f-16 bold center line-height-40 margin-top-30" @click="chakan">查看订单</div> -->
 
 
 

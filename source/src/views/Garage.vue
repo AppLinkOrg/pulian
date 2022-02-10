@@ -78,7 +78,7 @@ var morder=(id)=>{
 </script>
 
 <template>
-  <div v-if="page.Res != null">
+  <div v-if="page.Res != null" class="big-bg">
     <div
       class="margin-top-10 margin-left-14 margin-right-14 bg-w border-radius-9"
       v-for="(item, index) in mycarlist"
@@ -113,6 +113,17 @@ var morder=(id)=>{
         <div class="c-1 f-12 margin-left-10" @click="toedit(item.id)">编辑</div>
       </div>
     </div>
+
+    <div v-if="mycarlist.length==0 "  class="f-20 c-1  center ">
+         <img
+                :src="page.uploadpath + 'resource/' + page.Res.zanwu"
+                class="displat-block margin-auto w-100f"
+              />
+    </div>
+
+
+
+
 
     <!--  -->
     <div class="position-bottom" style="bottom: 20px">

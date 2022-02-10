@@ -84,19 +84,29 @@ Toast('兑换失败')
 }
 
 const onClickLeft = () => history.back();
+
+var renwu=()=>{
+    show.value=false
+    router.push('/integral')
+}
+
+var chognzhi=()=>{
+      show.value=false
+    router.push('/recharge')
+}
 </script>
 
 <template>
   <div  v-if="page.Res!=null">
-    <van-nav-bar
+    <!-- <van-nav-bar
   title="提交订单"
   left-text="返回"
   left-arrow
   fixed
   @click-left="onClickLeft"
 />
-<div class="h-50"></div>
-      <div class="h-200 bg-7 "></div>
+<div class="h-50"></div> -->
+      <div class="h-200 bg-5 "></div>
       <div class="margin-top-f200"></div>
 
       <div class="margin-left-14 margin-right-14 ">
@@ -188,9 +198,10 @@ const onClickLeft = () => history.back();
         </div>
          <div class="bold c-1 f-16 center">积分不足</div>
             <div class="c-2 margin-top-26 center">您当前有{{page.Memberinfo.jifen}}积分， 还差{{pointsmadetail.point-page.Memberinfo.jifen}}积分即可兑换。</div>
-            <div class="margin-top-30 flex-row flex-center">
-                <div class="btn-1 bd-5 border-radius-13 f-12 c-6 center line-height-26" @click="show=false">做任务</div>
-                 <div class="btn-1 bg-6 border-radius-13 f-12  center line-height-26 margin-left-20 c-w " @click="show=false">去充值</div>
+            <div class="margin-top-30 flex-row flex-center" style="width:100%">
+                <div class="btn-1 bd-5 border-radius-13 f-12 c-6 center line-height-26" @click="renwu">做任务</div>
+                <div class="flex-1"></div>
+                 <div class="btn-1 bg-6 border-radius-13 f-12  center line-height-26  c-w " @click="chognzhi">去充值</div>
             </div>
     </div>
   </div>

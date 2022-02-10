@@ -68,7 +68,8 @@ var shouhuo=()=>{
          HttpHelper.Post('pintrecord/uppintrecord',{id:route.query.id,type:'C'}).then((res)=>{
     if (res.code==0) {
         Toast('收货成功')
-        router.go(-1)
+        router.push('/interevalute?id='+route.query.id)
+        // router.go(-1)
     }else{
          Toast('收货失败')
 

@@ -110,8 +110,9 @@ const routes = [{
   path: '/paysuccess',
   name: 'Paysuccess',
   component: Paysuccess,
+     // 'name': '支付成功',
   meta: {
-    'name': '支付成功',
+ 
     'name2': '支付成功',
   }
 }, {
@@ -204,7 +205,12 @@ const routes = [{
 }, {
   path: '/submitintegral',
   name: 'Submitintegral',
-  component: Submitintegral
+  component: Submitintegral,
+  meta:{
+    'name':'提交订单',
+    'name2':'提交订单'
+  }
+
 }, {
   path: '/addressguan',
   name: 'Addressguan',
@@ -276,7 +282,7 @@ const routes = [{
   name: 'Vouchercenter',
   component: Vouchercenter,
   meta: {
-    'name': '领券中心',
+    'name': '有券更优惠',
     'name2': '领券中心'
   }
 }, {
@@ -307,7 +313,7 @@ const routes = [{
   name: 'Mycollection',
   component: Mycollection,
   meta: {
-    'name': '我的收藏',
+    'name': '门店列表',
     'name2': '我的收藏',
   }
 },{
@@ -358,7 +364,7 @@ const routes = [{
   component: Myorderdetail,
   meta: {
     'name': '订单详情',
-    'name2': '订单详情',
+    'name2': '我的订单',
   }
 },{
   path: '/city',

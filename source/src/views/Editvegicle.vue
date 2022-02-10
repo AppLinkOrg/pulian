@@ -35,7 +35,7 @@ var vin = ref("");
 var engineno = ref("");
 var inspection_date = ref("");
 var register_date = ref("");
-
+var caridname = ref("");
 
 // if(store.state.first==0){
 // }
@@ -58,6 +58,7 @@ store.changefirst(store.state.first+1);
   vin.value=store.state.vin
   engineno.value=store.state.engineno
   register_date.value=store.state.register_date
+  caridname.value=store.state.caridname
 
   
 
@@ -169,12 +170,13 @@ HttpHelper.Post("store/provinceslist", {}).then((res) => {
 
 // 选择品牌车系
 var pingpai = () => {
-  store.changebrand_name(brand_name.value,model_name.value,series_name.value,provinces_name.value,vin.value,engineno.value,inspection_date.value,register_date.value)
+  // caridname
+  store.changebrand_name(brand_name.value,model_name.value,series_name.value,provinces_name.value,vin.value,engineno.value,inspection_date.value,register_date.value,caridname.value)
   
   router.push("/choosebrand");
 };
 
-var caridname = ref("");
+
 var caridname_input = (e) => {
   caridname.value = e;
 };

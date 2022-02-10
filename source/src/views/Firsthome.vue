@@ -192,7 +192,18 @@ var che=()=>{
   router.push('/garage')
 }
 var addmycar = () => {  
-  router.push("/editvegicle");
+
+   HttpHelper.Post("member/mycarlist", {
+ 
+}).then((res) => {
+if (res.length>0) {
+      router.push("/editvegicle?first=A");
+    }else{
+router.push("/editvegicle?first=B");
+    }
+});
+
+  // router.push("/editvegicle");
 };
 </script>
 
@@ -204,7 +215,12 @@ var addmycar = () => {
       style="width: 100%"
     /> -->
     <div class="h-170" :style="{'background-image':'url'+'('+page.uploadpath+'resource/'+page.Res.sybg+')'}" style="background-size:100% 100%; ">
-    <div class="flex-row flex-center margin-left-14 margin-right-14 h-50">
+ 
+    </div>
+    <!-- <div class="margin-top-f95"></div> -->
+    <div class="margin-top-f170"></div>
+
+       <div class="flex-row flex-center margin-left-14 margin-right-14 h-min-50 margin-bottom-20">
 <div class="flex-row flex-center" @click="chengshi()" >
 
 <!-- <div class="c-w f-15 bold  " v-if="page.Memberinfo ==null&& store.state.cityname==''&& page.Inst.cities_city=='' ">未获取到位置</div> -->
@@ -239,9 +255,6 @@ var addmycar = () => {
       <div class="radius_block"></div>
     </div>
     </div>
-    </div>
-    <!-- <div class="margin-top-f95"></div> -->
-    <div class="margin-top-f120"></div>
     
     <!-- 轮播图 -->
     <van-swipe
@@ -271,7 +284,7 @@ var addmycar = () => {
           class="icon-15"
         />
         <!-- @click="chefu" -->
-        <div class="c-1 f-13 margin-left-4" >车服中心</div>
+        <div class="c-1 f-2 margin-left-4" >车服中心</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
@@ -281,7 +294,7 @@ var addmycar = () => {
           :src="page.uploadpath + 'resource/' + page.Res.zhuce"
           class="icon-15"
         />
-        <div class="c-1 f-13 margin-left-4">全国网点</div>
+        <div class="c-1 f-2 margin-left-4">全国网点</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
@@ -291,7 +304,7 @@ var addmycar = () => {
           :src="page.uploadpath + 'resource/' + page.Res.koubai"
           class="icon-15"
         />
-        <div class="c-1 f-13 margin-left-4">专业服务</div>
+        <div class="c-1 f-2 margin-left-4">专业服务</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
@@ -301,7 +314,7 @@ var addmycar = () => {
           :src="page.uploadpath + 'resource/' + page.Res.fuwu"
           class="icon-15"
         />
-        <div class="c-1 f-13 margin-left-4">省心贴心</div>
+        <div class="c-1 f-2 margin-left-4">省心贴心</div>
       </div>
     </div>
     <!-- 按钮 -->
@@ -403,7 +416,7 @@ var addmycar = () => {
         <div class="flex-row">
           <img
             :src="page.uploadpath + 'store/' + item.tupian"
-            class="icon-84"
+            class="icon-84 border-radius-9"
           />
           <div class="margin-left-10 flex-1" >
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>

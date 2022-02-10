@@ -69,8 +69,18 @@ var cheku = ()=>{
 
 // 点击添加车
 var addaiche=()=>{
+
+  HttpHelper.Post("member/mycarlist", {
+ 
+}).then((res) => {
+if (res.length>0) {
+      router.push("/editvegicle?first=A");
+    }else{
+router.push("/editvegicle?first=B");
+    }
+});
    
-    router.push('/editvegicle')
+    // router.push('/editvegicle')
 }
 
 // 点击地址
@@ -321,6 +331,8 @@ var fuzhi=(str)=>{
          </div>
       </div>
   
+<div class="h-50"></div>
+
 <div class="h-50"></div>
 
 <van-overlay :show="kfshow" @click="kfshow = false">
