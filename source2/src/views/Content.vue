@@ -12,7 +12,7 @@ let route = useRoute();
 
 
 PageHelper.Init(page, () => {});
-PageHelper.LoginAuth(page, () => {});
+// PageHelper.LoginAuth(page, () => {});
 
 let info = ref({}); 
 HttpHelper.Post("content/get", { keycode:  route.query.keycode }).then((Res) => {

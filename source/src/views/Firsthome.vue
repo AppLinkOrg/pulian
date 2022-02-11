@@ -284,7 +284,7 @@ router.push("/editvegicle?first=B");
           class="icon-15"
         />
         <!-- @click="chefu" -->
-        <div class="c-1 f-2 margin-left-4" >车服中心</div>
+        <div class="c-2 f-2 margin-left-4" >车服中心</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
@@ -294,7 +294,7 @@ router.push("/editvegicle?first=B");
           :src="page.uploadpath + 'resource/' + page.Res.zhuce"
           class="icon-15"
         />
-        <div class="c-1 f-2 margin-left-4">全国网点</div>
+        <div class="c-2 f-2 margin-left-4">全国网点</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>
@@ -304,7 +304,7 @@ router.push("/editvegicle?first=B");
           :src="page.uploadpath + 'resource/' + page.Res.koubai"
           class="icon-15"
         />
-        <div class="c-1 f-2 margin-left-4">专业服务</div>
+        <div class="c-2 f-2 margin-left-4">专业服务</div>
         <div class="flex-1"></div>
       </div>
       <div class="shu"></div>

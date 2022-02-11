@@ -53,7 +53,10 @@ var login = () => {
   });
 };
 var tocontent = (keycode) => {
+//  alert(111)
+
    router.push("/content?keycode=" + keycode);
+
 };
 
 
@@ -121,7 +124,13 @@ var tocontent = (keycode) => {
         >
       </div>
     </div>
-
+<!-- <div class=" " style="margin-top:50px">
+      <div class="center c-6 f-12">
+        <span class="" @click="tocontent('yinsi')">《隐私政策》</span>&<span class="" @click="tocontent('xieyi')"
+          >《用户协议》</span
+        >
+      </div>
+    </div> -->
     <!--忘记密码  -->
 
     <van-dialog
