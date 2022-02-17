@@ -91,7 +91,7 @@ var qiandao=()=>{
 
 // 添加车辆信息
 var tianche=()=>{
-  if (page.value.Memberinfo.tianjiache=='B') {
+  if (page.value.Memberinfo.tianjiache=='B') {B
     HttpHelper.Post('pointsrecord/pointsrecordadd',{
       type:'B',
       num:'100',
@@ -157,6 +157,13 @@ var quwan=()=>{
 var guize=()=>{
   router.push('partnership?type=C')
 }
+
+let taskintegral=ref(null)
+HttpHelper.Post("taskintegral/detail",{}).then((res)=>{
+  taskintegral.value=res
+
+})
+
 
 
 </script>
@@ -231,7 +238,7 @@ var guize=()=>{
   <div class="flex-row flex-center">
     <div class="f-14 c-2 ">添加车辆</div>
     <img :src="page.uploadpath + 'resource/' + page.Res.xinxin" class="icon-14"/>
-    <div class="c-6 bold f-14">+100</div>
+    <div class="c-6 bold f-14" >+{{taskintegral!=null?taskintegral.addcar:0}}</div>
   </div>
   <div class="margin-top-10 c-2 f-12  ">添加车牌车系</div>
 </div>
@@ -246,7 +253,7 @@ var guize=()=>{
   <div class="flex-row flex-center">
     <div class="f-14 c-2 ">完善车辆信息</div>
     <img :src="page.uploadpath + 'resource/' + page.Res.xinxin" class="icon-14"/>
-    <div class="c-6 bold f-14">+100</div>
+    <div class="c-6 bold f-14">+{{taskintegral!=null?taskintegral.wanshang:0}}</div>
   </div>
   <div class="margin-top-10 c-2 f-12  ">完善车辆信息</div>
 </div>

@@ -60,6 +60,9 @@ var onChange = (index) => {
 
 // 抢购
 var qiangou = (item) =>{
+  couponlist_item.value=null
+  mycouponlist_item.value=null
+
   PageHelper.LoginAuth(page, () => {
        // 判断用户是否授权微信
   let viewer = window.navigator.userAgent.toLowerCase();
@@ -116,9 +119,21 @@ yhlist(item);
 var yhlist=(item)=>{
   var bigcategory_id=storedetail.value.bigcategorylist[fwshow.value].id
 var buji=storedetail.value.bigcategorylist[fwshow.value].buji
-if (buji=='Y') {
+
+
+// if (buji=='Y') {
+//   var serviceitem_id=item.service_id
+
+// }else{
+  
+
+// }
+
+if (item.service_id>0) {
   var serviceitem_id=item.service_id
 }
+
+
 
    HttpHelper.Post('coupon/couponlist',{store_id:route.query.id,bigcategory_id,buji,service_id:serviceitem_id}).then((Res)=>{
      for (let index = 0; index < Res.length; index++) {
@@ -337,8 +352,11 @@ let mycouponlist_item=ref(0)
 var mydiandan=(e)=>{
 
   // 判断满减数目是否达标
-  if (mycouponlist.value[e].manmoney>fuwudetail.value.originalprice) {
-    Toast('满减价格为满足')
+
+  // console.log(mycouponlist.value[e].manmoney,fuwudetail.value.originalprice,'eeee');
+  // return
+  if (mycouponlist.value[e].manmoney*1>fuwudetail.value.originalprice*1) {
+    Toast('满减价格未达标')
     return
   }else{
 
@@ -564,7 +582,7 @@ var chakanall=()=>{
           <div class="c-1 f-11 margin-top-9">距离您{{storedetail.distance2}}，驾车约12分钟</div>
         </div>
         <div class="flex-1"></div>
-        <div @click="dianhua">
+        <div @click="dianhua" style="flex:none">
           <img
             :src="page.uploadpath + 'resource/' + page.Res.dianhua"
             class="icon-15 "
@@ -572,7 +590,7 @@ var chakanall=()=>{
           <div class="f-9 c-1 margin-top-5">电话</div>
 
         </div>
-        <div class="margin-left-20" @click="daohang()">
+        <div class="margin-left-20" @click="daohang()"  style="flex:none">
           <img
             :src="page.uploadpath + 'resource/' + page.Res.	danhang"
             class="icon-15 "
@@ -596,22 +614,30 @@ var chakanall=()=>{
         </div>
        
       </div>
+
     <div v-for="(item,index) in fuwulist" :key="index">
         <div class="margin-top-14 flex-row flex-center" >
-        <div class="c-2 f-11 ">{{item.service_name}}</div>
+        <div class="c-2 f-14 ">{{item.service_name}}</div>
         <div class="flex-1"></div>
-         <!-- <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 ">减免券¥10</div> -->
-         <!-- <div class="c-4 f-9 margin-left-10">¥</div>
-      <div class="c-4 f-13 ">{{item.presentprice}}</div>  -->
-      <div class="f-7 c-2 margin-left-10 " style="text-align: center;">¥</div>
-        <div class="f-9 c-2 " style="text-align: center;">{{item.originalprice}}</div>
+        <div v-if="item.couponlist.length>0" class="flex-row flex-center">
+           <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 ">减免券¥{{item.couponlist[0].type=='C'?item.originalprice:item.couponlist[0].jainshao}}</div>
+
+         <div class="c-4 f-9 margin-left-10">¥</div>
+      <div class="c-4 f-13 ">{{item.couponlist[0].type=='C'?0:item.originalprice-item.couponlist[0].jainshao}}</div> 
+        </div>
+
+
+      <div class="f-12 c-2 margin-left-10 " style="text-align: center;">¥</div>
+        <div class="f-14 c-2 " style="text-align: center;" :style="{'text-decoration':item.couponlist.length>0?'line-through':'none'   }">{{item.originalprice}}</div>
 </div>
 <div class="flex-row flex-center margin-top-6">
-<div class="c-1 f-9">已售 {{item.sell}}</div>
+<div class="c-1 f-14">已售 {{item.sell}}</div>
 <div class="flex-1"></div>
-<div class="h-19  padding-left-14 padding-right-14 c-w f-9  border-radius-9 bg-3 line-height-19" @click="qiangou(item)">抢购</div>
+<div class="h-26  padding-left-14 padding-right-14 c-w f-9  border-radius-13 bg-3 line-height-26 c-14" @click="qiangou(item)">抢购</div>
 </div>
     </div>
+
+    
       </div>
       <!--使用说明  -->
          <div class="c-2 f-14 bold margin-top-20 margin-bottom-10 margin-left-14 ">使用说明</div>
@@ -734,13 +760,15 @@ var chakanall=()=>{
         </div>
         <div class="c-1 f-9 margin-top-9">{{item.service_name}}</div>
         <div class="flex-row flex-center margin-top-9" >
-            <!-- <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 " v-if="item.coupon_type=='C'" >减免券¥{{item.originalprice}}</div>
+            <div v-if="item.couponlist.length>0" class="flex-row  flex-center">
+              <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 " v-if="item.coupon_type=='C'" >减免券¥{{item.originalprice}}</div>
              <div class="flex-1" v-if="item.coupon_type==''"></div>
-          <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 "  v-if="item.coupon_type!=''&&item.coupon_type!='C' ">减免券¥{{item.coupon_jainshao}}</div>
+          <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 "  v-if="item.coupon_type!=''&&item.coupon_type!='C' ">减免券¥{{item.couponlist[0].jainshao}}</div>
          
          <div class="c-4 f-9 margin-left-10" v-if="item.coupon_type!=''">¥</div>
       <div class="c-4 f-13 " v-if="item.coupon_type=='C'">0</div> 
-      <div class="c-4 f-13 " v-if="item.coupon_type!='C'&& item.coupon_type!=''">{{item.originalprice-item.coupon_jainshao}}</div>  -->
+      <div class="c-4 f-13 " v-if="item.coupon_type!='C'&& item.coupon_type!=''">{{item.originalprice-item.couponlist[0].jainshao}}</div> 
+            </div>
 
       <div class="flex-1"></div>
       <div class="f-7 c-2 margin-left-10 "  :style="{'text-decoration':item.coupon_type!='line-through'?'':''}">¥</div>
@@ -777,8 +805,8 @@ var chakanall=()=>{
 
 </div>
 <div class="flex-1"></div>
-  <img  :src="page.uploadpath + 'resource/' + page.Res.danhang" class="icon-11" />
-  <div class="margin-left-4 c-1 f-9">{{storedetail.distance2}}</div>
+  <!-- <img  :src="page.uploadpath + 'resource/' + page.Res.danhang" class="icon-11" />
+  <div class="margin-left-4 c-1 f-9">{{storedetail.distance2}}</div> -->
   </div>
     <div class="h-1 bg-2"></div>
     <div class=" f-15 bold c-2 margin-top-20">{{fuwuxian.buji=='Y'?'补给券':'代金券'}}</div>

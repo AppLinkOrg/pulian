@@ -69,7 +69,8 @@ var chakanall=()=>{
   
         <div class="padding-15">
           <div class="bg-w border-radius-9 ">
-          <img :src="page.uploadpath + 'pointsmall/' + pointsmadetail.img" class="h-130 displat-block margin-auto "/>
+          <!-- <img :src="page.uploadpath + 'pointsmall/' + pointsmadetail.img" class="h-130 displat-block margin-auto "/> -->
+          <van-image style="width:100%" class="h-130 " fit="contain" :src="page.uploadpath + 'pointsmall/' + pointsmadetail.img"  />
           <div class="flex-row flex-center padding-15">
               <div class="c-1 bold f-16 ">{{pointsmadetail.name}}</div>
               <div class="flex-1"></div>

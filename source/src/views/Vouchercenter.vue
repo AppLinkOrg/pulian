@@ -4,20 +4,37 @@ import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
 import { Toast } from 'vant';
+import  store  from "../State";
+
 
 let page = ref({});
 let router = useRouter();
 let route = useRoute();
-
+let bujilist=ref(null);
 
 PageHelper.Init(page, () => {});
-PageHelper.LoginAuth(page, () => {});
+PageHelper.LoginAuth(page, () => {
+    var city_id=''
+    if (store.state.cityname!='') {
+        city_id=store.state.cityid
+    }else if (page.value.Memberinfo.city_id_name=='') {
+        city_id=page.value.Inst.city_id
+        
+    }else{
+        city_id=page.value.Memberinfo.city_id
+    }
+    juan(city_id);
 
-// 满减券   抵扣券
-let bujilist=ref(null);
-HttpHelper.Post('coupon/bujilist',{types:'A',tuiguan:'Y'}).then((res)=>{
+    console.log(city_id,'cityname');
+});
+
+var juan=(e)=>{
+    // 满减券   抵扣券
+
+HttpHelper.Post('coupon/bujilist',{types:'A',tuiguan:'Y',city_id:e}).then((res)=>{
     bujilist.value=res
 })
+}
 
 // 抢购
 var ligou=(e)=>{

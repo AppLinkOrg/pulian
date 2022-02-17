@@ -136,7 +136,8 @@ let timer = setInterval(() => {
       <div class="margin-left-14 margin-right-14 margin-top-14 bg-w border-radius-9">
           <div class="h-130 flex-row flex-center">
               <div class="flex-1"></div>
-              <img :src="page.uploadpath + 'coupon/' + coupondetail.img" class="juanbao" v-if="coupondetail.img !='' "/>
+              <van-image style="width:100%" class="h-130 " fit="contain" :src="page.uploadpath + 'coupon/' + coupondetail.img" v-if="coupondetail.img !='' " />
+              <!-- <img :src="page.uploadpath + 'coupon/' + coupondetail.img" class="juanbao" v-if="coupondetail.img !='' "/> -->
               <div class="flex-1"></div>
           </div>
           <div class="margin-left-10 margin-right-10">

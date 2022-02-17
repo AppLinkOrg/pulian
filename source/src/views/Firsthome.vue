@@ -20,6 +20,7 @@ var indexbanner1 = ref({});
 var anniulist = ref([]);
 var servicelist = ref([]);
 var storelist = ref([]);
+var show=ref(false)
 
 
 
@@ -104,7 +105,15 @@ if (route.query.openid!=undefined && route.query.openid!='') {
 
   
  let memberinfo=ref({});
-PageHelper.LoginAuth(page, () => {});
+PageHelper.LoginAuth(page, () => {
+  if (page.value.Memberinfo.shoujisq=='B') {
+    show.value=false
+  }else{
+    show.value=true
+  }
+});
+
+
 
 var service_id=ref("");
 let showsele=ref(0);
@@ -121,7 +130,7 @@ var mylng= window.localStorage.getItem("longitude");
 var cityid=store.state.cityid
 
    HttpHelper.Post("store/filtrate", { 
-   service_id:service_id.value,mylat,mylng,cityid
+   service_id:service_id.value,mylat,mylng,cityid,line:"0,3"
    }).then((res) => {
      for(let item of res){
        item.distance2=Utils.GetMileTxt(item.distance)
@@ -134,11 +143,43 @@ var cityid=store.state.cityid
 
 
 // tiaozhaun 首页按钮跳转
-var tiaozhaun=(url)=>{
-  if (url=='') {
+var tiaozhaun=(item)=>{
+  if (item.url=='') {
     // Toast('暂未开放')
     return
   }
+
+  if (item.neibu_value=='Y') {
+    // 页面内部跳转
+
+    
+  }
+  if (item.neibu_value=='N') {
+    // 页面外部跳转
+    // window.open(item.url)
+      let viewer = window.navigator.userAgent.toLowerCase();
+
+if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+  wx.miniProgram.getEnv((resrnv) => {
+
+      if (resrnv.miniprogram) {
+  wx.miniProgram.navigateTo({
+                url: "/pages/newopen/newopen?url=" + item.url,
+              });
+      }else{
+        location.href=item.url
+
+
+      }
+
+
+  })
+  
+  
+  }
+    
+  }
+ 
 router.push(url)
 }
 
@@ -205,6 +246,65 @@ router.push("/editvegicle?first=B");
 
   // router.push("/editvegicle");
 };
+
+
+let  jinru=ref(0)
+
+var zhucetupian=()=>{
+   PageHelper.LoginAuth(page, () => {
+     
+  if (page.value.Memberinfo.touxiang !='B') {
+ jinru.value=1
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
+}
+
+   if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B' ) {
+      jinru.value=2
+         wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
+}
+
+
+   });
+
+    
+  
+}
+
+
+
+// 判断服务支付情况
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
+
+let wancheng=()=>{
+ 
+if (jinru.value==0) {
+  
+}else{
+
+  
+
+  PageHelper.LoginAuth(page, () => {
+  if (page.value.Memberinfo.shoujisq=='B') {
+    show.value=false
+      jinru.value=0
+      // alert(jinru.value)
+  }else{
+    show.value=true
+      // jinru.value=0
+      // alert(jinru.value)
+  }
+});
+
+}
+}
+
+var close=()=>{
+  show.value=false
+  jinru.value=0
+}
 </script>
 
 <template >
@@ -266,7 +366,7 @@ router.push("/editvegicle?first=B");
         v-for="(image, index) in indexbanner1"
         :key="index"
         class="h-140"
-        @click="tiaozhaun(image.url)"
+        @click="tiaozhaun(image)"
       >
         <img
           :src="page.uploadpath + 'indexbanner/' + image.img"
@@ -381,6 +481,7 @@ router.push("/editvegicle?first=B");
       <!-- 分类 -->
 
       <div
+      v-if="false"
         class="flex-row flex-center margin-top-14 margin-bottom-30"
         style="overflow: scroll"
       >
@@ -407,7 +508,7 @@ router.push("/editvegicle?first=B");
       </div>
     </div>
     <!-- 店铺 -->
-    <div
+    <!-- <div
       @click="dianpu(item.id)"
       v-for="(item, index) in storelist"
       :key="index"
@@ -416,12 +517,12 @@ router.push("/editvegicle?first=B");
         <div class="flex-row">
           <img
             :src="page.uploadpath + 'store/' + item.tupian"
-            class="icon-84 border-radius-9"
+            class="icon-84 border-radius-5"
           />
           <div class="margin-left-10 flex-1" >
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
-            <div class="margin-top-9 f-11 c-3">{{ item.score }}分</div>
-            <div class="margin-top-9 c-1 f-11">
+            <div class="margin-top-9 f-14 c-3">{{ item.score }}分</div>
+            <div class="margin-top-9 c-1 f-14">
               月售 {{ item.monthlysale }}单
             </div>
             <div class="margin-top-9 flex-row  ">
@@ -429,18 +530,65 @@ router.push("/editvegicle?first=B");
                 :src="page.uploadpath + 'resource/' + page.Res.dizhi"
                 class="icon-13"
               />
-              <div class="c-1 f-11 margin-left-4 "  >{{ item.address }}</div>
+              <div class="c-1 f-14 margin-left-4 "  >{{ item.address }}</div>
               <div class="flex-1"></div>
-              <div class="f-11 c-1">{{item.distance2}}</div>
+              <div class="f-14 c-1">{{item.distance2}}</div>
             </div>
           </div>
         </div>
         <div class="bg-2 margin-top-15" style="height: 1px"></div>
         <div class="margin-top-15 margin-bottom-15">
           <div class="flex-row flex-center">
-            <div class="c-2 f-13 bold">{{item.service_name}}</div>
+            <div class="c-2 f-14 bold">{{item.service_name}}</div>
             <div class="flex-1"></div>
-            <!-- <div
+            
+          </div>
+          <div class="flex-row margin-top-10 flex-center">
+            <div class="c-1 f-14">已售 {{item.sell}}</div>
+            <div class="flex-1"></div>
+            <div class="f-7 c-2" style="text-align: center">¥</div>
+            <div class="f-14 c-2" style="text-align: center">{{item.originalprice}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="bg-1 h-4"></div>
+    </div> -->
+
+
+    <div v-for="(item, index) in storelist" :key="index" @click="dianpu(item.id)" >
+      <div class="margin-top-15 margin-left-14 margin-right-14 bg-w padding-10 border-radius-5">
+        <div class="flex-row">
+          <img
+            :src="page.uploadpath + 'store/' + item.tupian"
+            class="icon-84 border-radius-5"
+          />
+          <div class="margin-left-10 flex-1">
+            <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
+            <div class="margin-top-9 f-14 c-3">{{ item.score }}分</div>
+            <div class="margin-top-9 c-1 f-14">
+              月售 {{ item.monthlysale }}单
+            </div>
+            <div class="margin-top-9 flex-row flex-center">
+              <img
+                :src="page.uploadpath + 'resource/' + page.Res.dizhi"
+                class="icon-13"
+              />
+              <div class="c-1  f-14 margin-left-4">{{ item.address }}</div>
+              <div class="flex-1"></div>
+              <div class="f-14 c-1">{{item.distance2}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="bg-2 margin-top-15" style="height: 1px"></div>
+        <!-- @click.stop="fuwustodetail()" -->
+        <div v-for="(items,indexs) in item.servicepricelist" :key="indexs" >
+          <div   v-if="item.shownum==false">
+  <div class="margin-top-15 margin-bottom-15"   v-if="indexs<3 ">
+          <div class="flex-row flex-center" >
+            <div class="c-2 f-14 bold">{{items.service_name}}</div>
+            <div class="flex-1"></div>
+           <div v-if="items.couponlist.length>0" class="flex-row  flex-center">
+              <div
               class="
                 bd-1
                 border-radius-2
@@ -450,23 +598,83 @@ router.push("/editvegicle?first=B");
                 f-8
               "
             >
-              减免券¥10
+              减免券¥{{items.couponlist[0].type=='C'?items.originalprice:items.couponlist[0].jainshao}}
             </div>
             <div class="c-4 f-9 margin-left-10">¥</div>
-            <div class="c-4 f-13">{{item.presentprice}}</div> -->
+            <div class="c-4 f-13">{{items.couponlist[0].type=='C'?0:items.originalprice-items.couponlist[0].jainshao}}</div>
+           </div>
+
           </div>
           <div class="flex-row margin-top-10 flex-center">
-            <div class="c-1 f-9">已售 {{item.sell}}</div>
+            <div class="c-1 f-14">已售 {{items.sell}}</div>
             <div class="flex-1"></div>
-            <div class="f-7 c-2" style="text-align: center">¥</div>
-            <div class="f-9 c-2" style="text-align: center">{{item.originalprice}}</div>
+            <div class="f-12 c-2" style="text-align: center">¥</div>
+            <div class="f-14 c-2" style="text-align: center;" :style="{'text-decoration':items.couponlist.length>0?'line-through':'none'   }">{{items.originalprice}}</div>
           </div>
         </div>
+          </div>
+
+ <div class="margin-top-15 margin-bottom-15"   v-else>
+          <div class="flex-row flex-center" >
+            <div class="c-2 f-14 bold">{{items.service_name}}</div>
+            <div class="flex-1"></div>
+           <div v-if="items.couponlist.length>0" class="flex-row  flex-center">
+              <div
+              class="
+                bd-1
+                border-radius-2
+                h-14
+                padding-right-4 padding-left-4
+                c-4
+                f-8
+              "
+            >
+              减免券¥{{items.couponlist[0].type=='C'?items.originalprice:items.couponlist[0].jainshao}}
+            </div>
+            <div class="c-4 f-9 margin-left-10">¥</div>
+            <div class="c-4 f-13">{{items.couponlist[0].type=='C'?0:items.originalprice-items.couponlist[0].jainshao}}</div>
+           </div>
+          </div>
+          <div class="flex-row margin-top-10 flex-center">
+            <div class="c-1 f-14">已售 {{items.sell}}</div>
+            <div class="flex-1"></div>
+            <div class="f-12 c-2" style="text-align: center">¥</div>
+            <div class="f-14 c-2" style="text-align: center" :style="{'text-decoration':items.couponlist.length>0?'line-through':'none'}">{{items.originalprice}}</div>
+          </div>
+        </div>
+    
+        </div>
+      
+    <div class="center h-44 line-height-44 f-11 bd-7" v-if="item.servicepricelist.length>3&&item.shownum==false"  @click.stop="fuwuall(index)">查看全部服务</div>
+
       </div>
       <div class="bg-1 h-4"></div>
     </div>
 
     <div class="h-93"></div>
+
+
+        <!-- 嵌入内容 -->
+      <van-overlay :show="show" @click="close">
+  <div class="wrapper" @click.stop>
+    <div class="block" >
+        <div class="flex-row flex-center">
+            <div class="flex-1"></div>
+            <img :src="page.uploadpath + 'resource/' + page.Res.guianboi" class="icon-25"  @click="close"/>
+          
+        </div>
+         <img
+         @click="zhucetupian"
+         
+                :src="page.uploadpath + 'resource/' + page.Res.zhucetupian"
+                class="icon-220"
+              />
+        
+    </div>
+  </div>
+</van-overlay>
+
+
   </div>
 </template>
 
@@ -502,5 +710,8 @@ router.push("/editvegicle?first=B");
   border-radius: 2px;
 }
 .van-swipe__indicators {
+}
+.block{
+  background: none;
 }
 </style>

@@ -58,6 +58,7 @@ yhlist();
           <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='A'?'#409EFF':''}" @click="cx('A')">未使用</div>
           <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='B'?'#409EFF':''}" @click="cx('B')">已使用</div>
           <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='C'?'#409EFF':''}" @click="cx('C')">已失效</div>
+           <div class="flex-1 f-14 c-1 center" :style="{'color':shownum=='D'?'#409EFF':''}" @click="cx('D')">未开始</div>
       </div>
       <div class="bg-w flex-row">
           <div class="flex-1 ">
@@ -68,6 +69,9 @@ yhlist();
           </div>
           <div class="flex-1 ">
               <div class="hen" :style="{'background':shownum=='C'?'#1890FE':''}"></div>
+          </div>
+           <div class="flex-1 ">
+              <div class="hen" :style="{'background':shownum=='D'?'#1890FE':''}"></div>
           </div>
       </div>
       </van-sticky>
@@ -96,9 +100,12 @@ yhlist();
          <div class="margin-right-14 flex-1">
              <div class="flex-row">
                  <div><div class="c-2 f-16 bold ">{{item.coupon_name}}</div>
-              <div class="f-12 c-1  margin-top-10">有效期至{{item.end_time_dateformat}}</div></div>
+              <!-- <div class="f-12 c-1  margin-top-10">有效期至{{item.end_time_dateformat}}</div> -->
+
+              <div class="f-12 c-1  margin-top-10">{{item.star_time_dateformat}}至{{item.end_time_dateformat}}</div>
+              </div>
               <div class="flex-1"></div>
-              <div class="f-12 c-w padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bg-6 " @click="gouse(index)">{{item.yhstadius=='A'?'去使用':item.yhstadius=='B'?'已使用':'失效'}}</div>
+              <div class="f-12 c-w padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12  bg-6  " style="flex:none" @click="gouse(index)">{{item.yhstadius=='A'?'去使用':item.yhstadius=='B'?'已使用':item.yhstadius=='D'?'未开始':'失效'}}</div>
              </div>
              <div class="flex-row flex-center margin-top-26">
                  <div class="c-1 f-12">使用规则</div>

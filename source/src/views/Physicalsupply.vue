@@ -4,21 +4,43 @@ import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
 import { Toast } from 'vant';
+import  store  from "../State";
 
 let page = ref({});
 let router = useRouter();
 let route = useRoute();
-
+let bujilist=ref(null);
 
 PageHelper.Init(page, () => {});
-PageHelper.LoginAuth(page, () => {});
+
+ 
+
+var liebiao=()=>{
+    var city_id=''
+    if (store.state.cityname!='') {
+        city_id=store.state.cityid
+    }else if (page.value.Memberinfo.city_id_name=='') {
+        city_id=page.value.Inst.city_id
+        
+    }else{
+        city_id=page.value.Memberinfo.city_id
+    }
+HttpHelper.Post('coupon/bujilist',{type:'C',tuiguan:'Y',city_id}).then((res)=>{
+    bujilist.value=res
+})
+}
+
+
+PageHelper.LoginAuth(page, () => {
+liebiao()
+});
 
 
 // 实物不急优惠券列表
-let bujilist=ref(null);
-HttpHelper.Post('coupon/bujilist',{type:'C',tuiguan:'Y'}).then((res)=>{
-    bujilist.value=res
-})
+
+
+
+
 
 // buti 补贴跳转
 var buti=(e)=>{

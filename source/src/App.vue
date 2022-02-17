@@ -138,8 +138,11 @@ background: #ECF5FF;
 border-radius: 5px;
 }
 .juanbao{
-  width: 125px;
-height: 68px;
+  /* width: 125px;
+height: 68px; */
+
+  width: 120px;
+height: 80px;
 }
 .slide-right-enter-active,
 .slide-right-leave-active,
@@ -597,6 +600,9 @@ height: 26px;
 }
 .bd-6{
   border-bottom: 1px solid #CCCCCC ;
+}
+.bd-7{
+  border-top: 1px solid #CCCCCC ;
 }
 
 .button,
@@ -1074,6 +1080,10 @@ button {
 .icon-220{
   width: 220px;
   height: 220px;
+}
+.icon-300{
+  width: 300px;
+  height: 300px;
 }
 .displat-block{
   display: block;

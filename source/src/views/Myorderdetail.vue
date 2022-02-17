@@ -111,6 +111,41 @@ PageHelper.loadwechatconfig(()=>{
 
 }
 
+
+var shenqing=()=>{
+   HttpHelper.Post("order/update",{
+    id:orderdetail.value.id,
+    type:'B'
+  }).then((res)=>{
+    if (res==0) {
+        Toast('申请成功')
+orderxq();
+
+    }else{
+      Toast('申请失败')
+    }
+
+  })
+}
+
+// chexiao 撤销退款
+var chexiao=()=>{
+   HttpHelper.Post("order/update",{
+    id:orderdetail.value.id,
+    type:'C'
+  }).then((res)=>{
+    if (res==0) {
+        Toast('撤销成功')
+orderxq();
+
+    }else{
+      Toast('撤销失败')
+    }
+
+  })
+
+}
+
 </script>
 
 <template>
@@ -217,8 +252,9 @@ PageHelper.loadwechatconfig(()=>{
               <div class="flex-row flex-center h-50 margin-left-14 margin-right-14">
                   <div class="flex-1"></div>
                   <div class="c-w f-12 center h-30 bg-6 w-90 border-radius-15 line-height-30" @click="pingjia()" v-if="orderdetail.orderstatus=='C' ">评价</div>
-                  <div class="c-2 f-12 center h-30 bd-4 w-90 border-radius-15 line-height-30"  v-if="orderdetail.orderstatus=='B' " @click="tuikuan()">退款</div>
-
+                  <!-- <div class="c-2 f-12 center h-30 bd-4 w-90 border-radius-15 line-height-30"  v-if="orderdetail.orderstatus=='B' " @click="tuikuan()">退款</div> -->
+                  <div class="c-2 f-12 center h-30 bd-4 w-90 border-radius-15 line-height-30"  v-if="orderdetail.orderstatus=='B' " @click="shenqing()">申请退款</div>
+<div class="c-2 f-12 center h-30 bd-4 w-90 border-radius-15 line-height-30"  v-if="orderdetail.orderstatus=='H' ||  orderdetail.orderstatus=='I'" @click="chexiao()">撤销退款</div>
                    <div class="c-2 f-12 center h-30 bd-4 w-90 border-radius-15 line-height-30 "  v-if="orderdetail.orderstatus=='A' " @click="quxiao()">取消订单</div>
                    <div class="c-w f-12 center h-30 bg-6 w-90 border-radius-15 line-height-30 margin-left-20"  v-if="orderdetail.orderstatus=='A' " @click="zhifu()">立即支付</div>
               </div>

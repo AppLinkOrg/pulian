@@ -200,6 +200,7 @@ var filtratestore = () => {
    }).then((res) => {
         for(let item of res){
        item.distance2=Utils.GetMileTxt(item.distance)
+       item.shownum=false;
 
      }
 
@@ -345,6 +346,19 @@ wokestatus_type.value=""
 }
 
 
+// chakanall
+var fuwuall=(e)=>{
+  
+  storelist.value[e].shownum=true
+    // for(let item of storelist.value){
+    //    item.distance2=Utils.GetMileTxt(item.distance)
+    //    item.shownum=false;
+
+    //  }
+
+    // storelist.value = res;
+}
+
  
 </script>
 
@@ -407,7 +421,7 @@ wokestatus_type.value=""
             height="206"
             fit="cover"
             :src="page.uploadpath + 'storetui/' + storelist3[0]['storetui_img']"
-            class="border-radius-9"
+            class="border-radius-5"
             
           />
         </div>
@@ -416,10 +430,10 @@ wokestatus_type.value=""
         <div class="flex-1 margin-left-10" style="width: 56vw"  v-if="storelist3.length>0" @click="storexq">
           <div class="f-16 f-bold c-b">{{storelist3[0]['name']}}</div>
           <div class="flex-row flex-center margin-top-5">
-            <div class="f-12 c-3">{{storelist3[0]['score']}}分</div>
-            <div class="f-12 c-7 margin-left-10">月售{{storelist3[0]['monthlysale']}}单</div>
+            <div class="f-14 c-3">{{storelist3[0]['score']}}分</div>
+            <div class="f-14 c-7 margin-left-10">月售{{storelist3[0]['monthlysale']}}单</div>
             <div class="flex-1"></div>
-            <div class="f-12 c-7">{{storelist3[0]['distance2']}}</div>
+            <div class="f-14 c-7">{{storelist3[0]['distance2']}}</div>
           </div>
           <div class="flex-row flex-wrap">
             <div class="label_bg margin-right-5 margin-top-5 c-3 f-10" v-for="(item,index) in storelist3[0]['biaoqianlist']" :key="index">
@@ -435,7 +449,7 @@ wokestatus_type.value=""
               class="zuobiao margin-right-5"
               :src="page.uploadpath + 'resource/' + page.Res.zuobiao"
             />
-            <div class="f-12 c-7 flex-1">{{storelist3[0]['address']}}</div>
+            <div class="f-14 c-7 flex-1">{{storelist3[0]['address']}}</div>
           </div>
 
           <!-- 广告店铺服务列表滚动区域 -->
@@ -535,16 +549,16 @@ wokestatus_type.value=""
 
     <!-- 门店列表 -->
     <div v-for="(item, index) in storelist" :key="index" @click="tostoredetail(item.id)"  >
-      <div class="margin-top-15 margin-left-14 margin-right-14 bg-w padding-10 border-radius-9">
+      <div class="margin-top-15 margin-left-14 margin-right-14 bg-w padding-10 border-radius-5">
         <div class="flex-row">
           <img
             :src="page.uploadpath + 'store/' + item.tupian"
-            class="icon-84 border-radius-9"
+            class="icon-84 border-radius-5"
           />
           <div class="margin-left-10 flex-1">
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
-            <div class="margin-top-9 f-11 c-3">{{ item.score }}分</div>
-            <div class="margin-top-9 c-1 f-11">
+            <div class="margin-top-9 f-14 c-3">{{ item.score }}分</div>
+            <div class="margin-top-9 c-1 f-14">
               月售 {{ item.monthlysale }}单
             </div>
             <div class="margin-top-9 flex-row flex-center">
@@ -552,19 +566,22 @@ wokestatus_type.value=""
                 :src="page.uploadpath + 'resource/' + page.Res.dizhi"
                 class="icon-13"
               />
-              <div class="c-1  f-11 margin-left-4">{{ item.address }}</div>
+              <div class="c-1  f-14 margin-left-4">{{ item.address }}</div>
               <div class="flex-1"></div>
-              <div class="f-11 c-1">{{item.distance2}}</div>
+              <div class="f-14 c-1">{{item.distance2}}</div>
             </div>
           </div>
         </div>
         <div class="bg-2 margin-top-15" style="height: 1px"></div>
         <!-- @click.stop="fuwustodetail()" -->
-        <div class="margin-top-15 margin-bottom-15" v-for="(items,indexs) in item.servicepricelist" :key="indexs"  >
-          <div class="flex-row flex-center">
-            <div class="c-2 f-13 bold">{{items.service_name}}</div>
+        <div v-for="(items,indexs) in item.servicepricelist" :key="indexs" >
+          <div   v-if="item.shownum==false">
+  <div class="margin-top-15 margin-bottom-15"   v-if="indexs<3 ">
+          <div class="flex-row flex-center" >
+            <div class="c-2 f-14 bold">{{items.service_name}}</div>
             <div class="flex-1"></div>
-            <!-- <div
+           <div v-if="items.couponlist.length>0" class="flex-row  flex-center">
+              <div
               class="
                 bd-1
                 border-radius-2
@@ -574,18 +591,55 @@ wokestatus_type.value=""
                 f-8
               "
             >
-              减免券¥10
+              减免券¥{{items.couponlist[0].type=='C'?items.originalprice:items.couponlist[0].jainshao}}
             </div>
             <div class="c-4 f-9 margin-left-10">¥</div>
-            <div class="c-4 f-13">30</div> -->
+            <div class="c-4 f-13">{{items.couponlist[0].type=='C'?0:items.originalprice-items.couponlist[0].jainshao}}</div>
+           </div>
+
           </div>
           <div class="flex-row margin-top-10 flex-center">
-            <div class="c-1 f-9">已售 {{items.sell}}</div>
+            <div class="c-1 f-14">已售 {{items.sell}}</div>
             <div class="flex-1"></div>
-            <div class="f-7 c-2" style="text-align: center">¥</div>
-            <div class="f-9 c-2" style="text-align: center">{{items.originalprice}}</div>
+            <div class="f-12 c-2" style="text-align: center">¥</div>
+            <div class="f-14 c-2" style="text-align: center;" :style="{'text-decoration':items.couponlist.length>0?'line-through':'none'   }">{{items.originalprice}}</div>
           </div>
         </div>
+          </div>
+
+ <div class="margin-top-15 margin-bottom-15"   v-else>
+          <div class="flex-row flex-center" >
+            <div class="c-2 f-14 bold">{{items.service_name}}</div>
+            <div class="flex-1"></div>
+           <div v-if="items.couponlist.length>0" class="flex-row  flex-center">
+              <div
+              class="
+                bd-1
+                border-radius-2
+                h-14
+                padding-right-4 padding-left-4
+                c-4
+                f-8
+              "
+            >
+              减免券¥{{items.couponlist[0].type=='C'?items.originalprice:items.couponlist[0].jainshao}}
+            </div>
+            <div class="c-4 f-9 margin-left-10">¥</div>
+            <div class="c-4 f-13">{{items.couponlist[0].type=='C'?0:items.originalprice-items.couponlist[0].jainshao}}</div>
+           </div>
+          </div>
+          <div class="flex-row margin-top-10 flex-center">
+            <div class="c-1 f-14">已售 {{items.sell}}</div>
+            <div class="flex-1"></div>
+            <div class="f-12 c-2" style="text-align: center">¥</div>
+            <div class="f-14 c-2" style="text-align: center" :style="{'text-decoration':items.couponlist.length>0?'line-through':'none'}">{{items.originalprice}}</div>
+          </div>
+        </div>
+    
+        </div>
+      
+    <div class="center h-44 line-height-44 f-11 bd-7" v-if="item.servicepricelist.length>3&&item.shownum==false"  @click.stop="fuwuall(index)">查看全部服务</div>
+
       </div>
       <div class="bg-1 h-4"></div>
     </div>
@@ -597,7 +651,7 @@ wokestatus_type.value=""
 </template>
 <style scoped>
 /deep/ .van-image__img{
-  border-radius:9px !important;
+  border-radius:5px !important;
 }
 
 .all_page {

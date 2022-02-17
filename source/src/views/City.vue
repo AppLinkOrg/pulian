@@ -89,7 +89,7 @@ Toast('获取失败')
 
           <div class="f-14 c-1">开放城市</div>
           <div class="flex-row flex-center margin-top-14 margin-bottom-14" style="display: flex;display: -webkit-flex;justify-content: space-between;flex-direction: row;flex-wrap: wrap;">
-              <div class="h-40 line-height-40 bg-10 padding-left-30 padding-right-30 border-radius-5 c-2 f-16 " 
+              <div class="h-40 line-height-40 bg-10 padding-left-30 padding-right-30 border-radius-5 c-2 f-16 margin-top-20 " 
               :style="{'color':index+1==showsele?'#409EFF':'','background':index+1==showsele?'rgba(64, 158, 255, 0.1)':''}"
               v-for="(item,index) in citilist" :key="index" @click="xz(index)">
 {{item.city}}

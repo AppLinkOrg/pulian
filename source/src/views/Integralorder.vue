@@ -34,20 +34,31 @@ gongsi.value=res.aftersalelist.gongsi
 ddxq()
 // 退款
 var tuikuan=()=>{
-    show.value=true
-
-}
-var quetui=()=>{
-    HttpHelper.Post('pintrecord/uppintrecord',{id:route.query.id,type:'A'}).then((res)=>{
+       HttpHelper.Post('pintrecord/uppintrecord',{id:route.query.id,type:'D'}).then((res)=>{
     if (res.code==0) {
-        router.push('/ordersucess?type=B')
-        // Toast('退款成功')
-        // router.go(-1)
+        Toast('申请成功')
+        router.go(-1)
     }else{
-         Toast('退款失败')
+         Toast('申请失败')
 
     }
 })
+
+
+    // show.value=true
+
+}
+var quetui=()=>{
+//     HttpHelper.Post('pintrecord/uppintrecord',{id:route.query.id,type:'A'}).then((res)=>{
+//     if (res.code==0) {
+//         router.push('/ordersucess?type=B')
+//         // Toast('退款成功')
+//         // router.go(-1)
+//     }else{
+//          Toast('退款失败')
+
+//     }
+// })
 }
 
 // 删除订单
@@ -190,6 +201,19 @@ Toast('确认收货失败')
 }
 
 
+// chexiao 撤销申请退款
+var chexiao=()=>{
+       HttpHelper.Post('pintrecord/uppintrecord',{id:route.query.id,type:'E'}).then((res)=>{
+    if (res.code==0) {
+        Toast('撤销成功')
+        router.go(-1)
+    }else{
+         Toast('撤销失败')
+
+    }
+})
+}
+
 </script>
 
 <template>
@@ -279,7 +303,13 @@ Toast('确认收货失败')
                   <div class="flex-1"></div>
                   <div class="f-14 c-1">{{pintrecorddetail.fahuo}}</div>
               </div>
-                <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.danhao!='' ">
+                <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.kuaidiname!='' ">
+                     <div class="f-14 c-1 ">快递公司</div>
+                  <div class="flex-1"></div>
+                  <!-- <div class="c-6 f-12 " @click="fuzhi(pintrecorddetail.danhao)">复制</div> -->
+                  <div class="f-14 c-1 margin-left-10">{{pintrecorddetail.kuaidiname}}</div>
+              </div>
+               <div class="margin-top-20 flex-row flex-center" v-if="pintrecorddetail.danhao!='' ">
                      <div class="f-14 c-1 ">快递单号</div>
                   <div class="flex-1"></div>
                   <div class="c-6 f-12 " @click="fuzhi(pintrecorddetail.danhao)">复制</div>
@@ -387,7 +417,8 @@ Toast('确认收货失败')
                 </div>
 
                 <div v-else class="flex-row ">
- <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='A'" @click="tuikuan()">退款</div>
+ <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='A'" @click="tuikuan()">申请退款</div>
+  <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='K'" @click="chexiao()">撤销申请退款</div>
              <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='D'|| pintrecorddetail.orderstatus=='F' || pintrecorddetail.orderstatus=='E'  " @click="shanchu()">删除订单</div>
                <div class="h-30 bg-6 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-w  f-12 margin-left-10 " v-if="pintrecorddetail.orderstatus=='B'" @click="shouhuo()">确认收货</div>
                  <div class="h-30 bd-4 line-height-30 padding-left-30 padding-right-30 border-radius-13 c-2 f-12" v-if="pintrecorddetail.orderstatus=='C'" @click="shouhou()">申请售后</div>
