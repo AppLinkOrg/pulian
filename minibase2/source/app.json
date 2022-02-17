@@ -6,6 +6,7 @@
         "pages/auth/auth",
         "pages/fwpay/fwpay",
         "pages/kefu/kefu",
+        "pages/newopen/newopen",
         "pages/pay/pay"
     ],
     "permission": {
