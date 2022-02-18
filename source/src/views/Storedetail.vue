@@ -620,7 +620,7 @@ var chakanall=()=>{
         <div class="c-2 f-14 ">{{item.service_name}}</div>
         <div class="flex-1"></div>
         <div v-if="item.couponlist.length>0" class="flex-row flex-center">
-           <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 ">减免券¥{{item.couponlist[0].type=='C'?item.originalprice:item.couponlist[0].jainshao}}</div>
+           <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 line-height-14">减免券¥{{item.couponlist[0].type=='C'?item.originalprice:item.couponlist[0].jainshao}}</div>
 
          <div class="c-4 f-9 margin-left-10">¥</div>
       <div class="c-4 f-13 ">{{item.couponlist[0].type=='C'?0:item.originalprice-item.couponlist[0].jainshao}}</div> 

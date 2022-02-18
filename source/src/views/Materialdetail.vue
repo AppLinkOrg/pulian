@@ -39,7 +39,7 @@ var duihaun=()=>{
         Toast('请先授权用户信息');
   return;
     }
-    router.push('/submitintegral?id='+route.query.id)
+    router.push('/submitintegral?id='+route.query.id+'&type='+route.query.type)
 
 
 }

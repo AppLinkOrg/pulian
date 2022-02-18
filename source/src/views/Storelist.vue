@@ -431,7 +431,7 @@ var fuwuall=(e)=>{
           <div class="f-16 f-bold c-b">{{storelist3[0]['name']}}</div>
           <div class="flex-row flex-center margin-top-5">
             <div class="f-14 c-3">{{storelist3[0]['score']}}分</div>
-            <div class="f-14 c-7 margin-left-10">月售{{storelist3[0]['monthlysale']}}单</div>
+            <div class="f-14 c-7 margin-left-10">月售{{storelist3[0]['yueshou']}}单</div>
             <div class="flex-1"></div>
             <div class="f-14 c-7">{{storelist3[0]['distance2']}}</div>
           </div>
@@ -559,7 +559,7 @@ var fuwuall=(e)=>{
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
             <div class="margin-top-9 f-14 c-3">{{ item.score }}分</div>
             <div class="margin-top-9 c-1 f-14">
-              月售 {{ item.monthlysale }}单
+              月售 {{ item.yueshou }}单
             </div>
             <div class="margin-top-9 flex-row flex-center">
               <img
@@ -589,6 +589,7 @@ var fuwuall=(e)=>{
                 padding-right-4 padding-left-4
                 c-4
                 f-8
+                line-height-14
               "
             >
               减免券¥{{items.couponlist[0].type=='C'?items.originalprice:items.couponlist[0].jainshao}}
@@ -620,6 +621,7 @@ var fuwuall=(e)=>{
                 padding-right-4 padding-left-4
                 c-4
                 f-8
+                line-height-14
               "
             >
               减免券¥{{items.couponlist[0].type=='C'?items.originalprice:items.couponlist[0].jainshao}}

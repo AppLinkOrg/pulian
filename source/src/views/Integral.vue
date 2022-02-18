@@ -113,7 +113,9 @@ var tianche=()=>{
     return
   }
 
-  router.push('/addgarage')
+  // router.push('/addgarage')
+
+  router.push('/editvegicle?first=B')
 
  
 }

@@ -30,7 +30,7 @@ HttpHelper.Post('neirong/neirongdetail',{id:2}).then((res)=>{
   <div  v-if="page.Res!=null && page.Inst!=null" >
 
      <div class="h-25"></div>
-           <img :src="page.uploadpath + 'resource/' + page.Res.logoicon" class="icon-150 displat-block margin-auto" />
+           <img :src="page.uploadpath + 'inst/' + page.Inst.logo" class="icon-150 displat-block margin-auto" />
            <div class="bold center c-2 f-18 margin-top-14">{{page.Inst.name}}</div>
            <div class="margin-top-30 bg-w">
                <div class="flex-row flex-center h-50 padding-left-14 padding-right-14 bd-6">

@@ -566,7 +566,7 @@ var close=()=>{
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
             <div class="margin-top-9 f-14 c-3">{{ item.score }}分</div>
             <div class="margin-top-9 c-1 f-14">
-              月售 {{ item.monthlysale }}单
+              月售 {{ item.yueshou }}单
             </div>
             <div class="margin-top-9 flex-row flex-center">
               <img
@@ -593,6 +593,7 @@ var close=()=>{
                 bd-1
                 border-radius-2
                 h-14
+                line-height-14
                 padding-right-4 padding-left-4
                 c-4
                 f-8
@@ -626,6 +627,7 @@ var close=()=>{
                 h-14
                 padding-right-4 padding-left-4
                 c-4
+                line-height-14
                 f-8
               "
             >

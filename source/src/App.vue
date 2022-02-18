@@ -537,6 +537,9 @@ background:#F6F6F6;
 .border-radius-50{
   border-radius: 50%;
 }
+.line-height-14{
+  line-height: 14px;
+}
 .line-height-17{
   line-height: 17px;
 }

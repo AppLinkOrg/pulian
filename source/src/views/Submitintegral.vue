@@ -41,7 +41,7 @@ var xzdizhi=()=>{
 // 提交订单
 var tijiao=()=>{
     // 判断是否填写信息
-    if (morendetail.value==null) {
+    if (morendetail.value==null && type.value !='A') {
         Toast('请选择地址')
         return
     }
@@ -94,6 +94,9 @@ var chognzhi=()=>{
       show.value=false
     router.push('/recharge')
 }
+
+let type=ref(null)
+type.value=route.query.type
 </script>
 
 <template>
@@ -110,7 +113,8 @@ var chognzhi=()=>{
       <div class="margin-top-f200"></div>
 
       <div class="margin-left-14 margin-right-14 ">
-          <div class="margin-top-20 padding-15 bg-w border-radius-9 flex-row flex-center" v-if="morendetail!=null" @click="xzdizhi()">
+        <div v-if="type!='A'">
+              <div class="margin-top-20 padding-15 bg-w border-radius-9 flex-row flex-center" v-if="morendetail!=null" @click="xzdizhi()">
               <div>
                   <div class="c-2 bold f-15">{{morendetail.address}}{{morendetail.xianxi}}</div>
                   <div class="margin-top-10 c-2 f-12 ">{{morendetail.shouhuo}} {{morendetail.phone}}</div>
@@ -130,6 +134,7 @@ var chognzhi=()=>{
               <img :src="page.uploadpath + 'resource/' + page.Res.youjian" class="icon-12"/>
 
           </div>
+        </div>
           <!--  -->
           <div class="padding-15 bg-w border-radius-9 margin-top-10">
              <div class="flex-row ">
