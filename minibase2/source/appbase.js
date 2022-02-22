@@ -286,7 +286,9 @@ export class AppBase {
       }
     }, false);
     console.log(AppBase.UserInfo.openid, 'instinfo')
-    if (AppBase.UserInfo.openid == undefined) {
+    
+      if (AppBase.UserInfo.unionid == undefined) {
+    // if (AppBase.UserInfo.openid == undefined) {
       // 登录
       console.log("onShow");
       wx.login({
@@ -319,6 +321,10 @@ export class AppBase {
                 // wx.setStorageSync('token',data.openid)
                 ApiConfig.SetToken(data.unionid);
                 wx.setStorageSync('token',data.unionid)
+                
+                // wx.showToast({
+                //   title: '进来了',
+                // })
 
 
                 this.Base.setMyData({useropenid:data.openid})
@@ -395,6 +401,8 @@ export class AppBase {
       that.Base.setMyData({
         UserInfo: AppBase.UserInfo
       });
+      this.Base.setMyData({userunionid:AppBase.UserInfo.unionid })
+      
 
       that.onMyShow();
       // that.checkPermission();

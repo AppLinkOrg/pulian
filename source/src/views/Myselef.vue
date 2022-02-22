@@ -12,7 +12,11 @@ let page = ref({});
 let router = useRouter();
 let route = useRoute();
 PageHelper.Init(page, () => {});
-PageHelper.LoginAuth(page, () => {});
+PageHelper.LoginAuth(page, () => {
+  // var token = window.localStorage.getItem("token");
+  // alert(token)
+ 
+});
 
 
 // 点击全部订单
@@ -20,8 +24,11 @@ var dindan = ()=>{
     router.push('/myorder')
 }
 // 授权页面点击
+// alert(1111)
 var shouquan=()=>{
-  PageHelper.LoginAuth(page, () => {});
+  PageHelper.LoginAuth(page, () => {
+   
+  });
 
     
     if (page.value.Memberinfo.touxiang !='B') {

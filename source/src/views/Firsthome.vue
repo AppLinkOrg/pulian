@@ -113,7 +113,18 @@ PageHelper.LoginAuth(page, () => {
   }
 });
 
+// wx.miniProgram.postMessage({
+//   data:{
+//      title: '分享的标题',
+//       desc:'分享的描述',
+//       path:'/pages/share/share.js?data='+JSON.stringfy({url:encodeURIComponent('当前h5页面的url地址')})
 
+//   }
+
+// })
+
+// var token = route.query.openid;
+//   alert(token)
 
 var service_id=ref("");
 let showsele=ref(0);
@@ -129,8 +140,12 @@ var filtratestore = (index) => {
 var mylng= window.localStorage.getItem("longitude");
 var cityid=store.state.cityid
 
+//  service_id:service_id.value,
    HttpHelper.Post("store/filtrate", { 
-   service_id:service_id.value,mylat,mylng,cityid,line:"0,3"
+  
+   mylat,mylng,
+   cityid,
+   limit:'A'
    }).then((res) => {
      for(let item of res){
        item.distance2=Utils.GetMileTxt(item.distance)
