@@ -1,13 +1,23 @@
 export class ApiConfig {
 
+  // static GetApiUrl() {
+  //   return "https://cmsdev.app-link.org/alucard263096/pulian/api/";
+  // }
+  // static GetUploadPath() {
+  //   return "https://alioss.app-link.org/alucard263096/pulian/";
+  // }
+  // static GetFileUploadAPI() {
+  //   return "https://cmsdev.app-link.org/alucard263096/pulian/fileupload";
+  // }
+
   static GetApiUrl() {
-    return "https://cmsdev.app-link.org/alucard263096/pulian/api/";
+    return "https://appwx.chefuzhongxin.com/api/";
   }
   static GetUploadPath() {
-    return "https://alioss.app-link.org/alucard263096/pulian/";
+    return "https://appwx.chefuzhongxin.com/Users/upload/";
   }
   static GetFileUploadAPI() {
-    return "https://cmsdev.app-link.org/alucard263096/pulian/fileupload";
+    return "https://appwx.chefuzhongxin.com/fileupload";
   }
 
   static GetHeader() {
