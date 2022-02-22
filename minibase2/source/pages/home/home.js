@@ -35,7 +35,7 @@ class Content extends AppBase {
     var lng=this.Base.getMyData().lng
     console.log(useropenid,'useropenid');
   
-var str='http://localhost:3000/#/?openid='
+var str='https://app.chefuzhongxin.com/#/?openid='
 // var str='https://uat20.helpfooter.com?'+"rand="+(new Date()).getTime()+'/#/?openid='
 
 
