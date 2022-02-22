@@ -50,6 +50,8 @@ import Ordersucess from '../views/Ordersucess.vue'
 import Genneralevalut from '../views/Genneralevalut.vue'
 import Myorderdetail from '../views/Myorderdetail.vue'
 import City from '../views/City.vue'
+import Landpage from '../views/Landpage.vue'
+
 
 const routes = [{
   path: '/home',
@@ -373,7 +375,14 @@ const routes = [{
   meta: {
     'name': '城市'
   }
+},{
+  path: '/landpage',
+  name: 'Landpage',
+  component: Landpage,
+  
 }
+
+
 
 
 
