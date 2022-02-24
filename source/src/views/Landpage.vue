@@ -47,8 +47,12 @@ if (str=='firsthome') {
 
 <template>
 <!-- padding-15 -->
-  <div  v-if="page.Res!=null">
+<!--  -->
+  <div  v-if=" page.Res!=null && langdetail!=null">
+    <!-- {{langdetail.neirong}} -->
+
 <div class="htmlimg " v-html="Utils.HtmlDecode(langdetail.neirong)" @click="tiaozhaun"></div>
+
   </div>
 
 

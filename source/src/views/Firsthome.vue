@@ -101,6 +101,10 @@ if (route.query.openid!=undefined && route.query.openid!='') {
    window.localStorage.setItem("token",route.query.openid);
 }
 
+if (route.query.url2!=undefined && route.query.url2!='') {
+   router.push('/'+route.query.url2)
+}
+
 
 
   
@@ -149,6 +153,7 @@ var cityid=store.state.cityid
    }).then((res) => {
      for(let item of res){
        item.distance2=Utils.GetMileTxt(item.distance)
+       item.shownum=false;
 
      }
      
@@ -319,6 +324,18 @@ if (jinru.value==0) {
 var close=()=>{
   show.value=false
   jinru.value=0
+}
+
+var fuwuall=(e)=>{
+  
+  storelist.value[e].shownum=true
+    // for(let item of storelist.value){
+    //    item.distance2=Utils.GetMileTxt(item.distance)
+    //    item.shownum=false;
+
+    //  }
+
+    // storelist.value = res;
 }
 </script>
 

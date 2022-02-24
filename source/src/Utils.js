@@ -28,7 +28,9 @@ export class Utils{
 
 
         var reg = new RegExp("\"/upload/", "g"); //创建正则RegExp对象   
-        s = s.replace(reg, "\"https://api.kalianworld.cn/upload/");
+        // s = s.replace(reg, "\"https://api.kalianworld.cn/upload/");
+
+        s = s.replace(reg, "\"https://appwx.chefuzhongxin.com/upload/");
         
         return s;
     }
@@ -66,5 +68,39 @@ export class Utils{
         } else {
           return "" + mile + "m";
         }
+      }
+      static GetTime(second){
+        // const days = Math.floor(second / 86400);
+    const hours = Math.floor(second  / 3600);
+    const minutes = Math.floor((second  % 3600) / 60);
+    const seconds = Math.floor((second % 3600) % 60);
+
+    var  duration='';
+
+    if (hours>0) {
+          duration = duration + hours + "小时" ;
+    }
+
+    if (minutes>0) {
+      if (seconds>0) {
+        var minutesss=minutes+1
+        duration = duration + minutesss+ "分钟" ;
+      }else{
+         duration = duration + minutes + "分钟" ;
+      }
+
+
+     
+    }
+
+  
+
+  
+
+ 
+    return duration;
+
+
+
       }
 }

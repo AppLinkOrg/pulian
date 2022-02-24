@@ -15,7 +15,9 @@ class Content extends AppBase {
       token:'',
       url:'',
       timer:0,
-      h5Data:''
+      h5Data:'',
+      testUrl:'',
+      imageUrl:''
 
     })
     
@@ -43,7 +45,17 @@ class Content extends AppBase {
   
     // var str='http://localhost:3000/#/?openid='
 // var str='https://uat20.helpfooter.com?'+"rand="+(new Date()).getTime()+'/#/?openid='
+
+let url2 = this.Base.options.url2
+// wx.showToast({
+//   title: ''+url2,
+// })
+
 var str='https://app.chefuzhongxin.com?'+"rand="+(new Date()).getTime()+'/#/?openid='+userunionid
+if (url2!=''&&url2!=undefined) {
+  str=str+'&url2='+url2
+}
+
 
 console.log('寄哪里了 啊   ');
     // if (useropenid!=undefined&&useropenid!=null) {
@@ -72,27 +84,36 @@ var url=this.Base.getMyData().url
     console.log(e.target.data,'进来了')
   }
   bindGetMsg(e){
-    // this.Base.setMyData({url:options})
-    this.Base.setMyData({h5Data:e.detail.data})
-
-    // wx.showToast({
-    //   title: ''+options.webViewUrl,
-  
-    // })
-    // console.log(options.webViewUrl)
+    let obj = e.detail.data[e.detail.data.length - 1];
+    this.Base.setMyData({
+      testUrl: obj.wareUrl,
+      imageUrl: obj.imageUrl? obj.imageUrl: ""
+    })
+   
   }
 
   
-  // onShareAppMessage(options){
-  //   return {
-  //     title: ''+options.webViewUrl,
-  //     path: options.webViewUrl,
-  //     success: (res) => {
-  //       console.log( options.webViewUrl,' options.webViewUrl')
-      
-  //     }
-  //   }
-  // }
+  onShareAppMessage(options){
+    let that = this;
+    var index=options.webViewUrl.lastIndexOf("/#/");
+    console.log( index,' options.webViewUrl')
+    var obj2=options.webViewUrl.substring(index+3,options.webViewUrl.length);
+    console.log( obj2,' options.webViewUrl')
+    console.log( options.webViewUrl,' options.webViewUrl')
+        console.log( that.Base.getMyData().testUrl,' options.webViewUrl')
+    return {
+      title: '哈哈',
+      path: '/pages/home/home?url2=' + obj2,
+      success: (res) => {
+       
+        console.log( options.webViewUrl,' options.webViewUrl')
+        console.log( obj2,' options.webViewUrl')
+      }
+    }
+  }
+
+
+
  
 }
 var content = new Content();

@@ -89,8 +89,12 @@ export class PageHelper {
     console.log('resddddd1');
     var token = window.localStorage.getItem("token");
     console.log(token, 'resddddd1');
+
+
     if (token != null) {
       // alert(token+'token')
+      
+    
 
       HttpHelper.Post("member/info", {}).then((res) => {
         console.log(res, 'resddddd');

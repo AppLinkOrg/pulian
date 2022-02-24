@@ -52,6 +52,14 @@ var xqmendian=()=>{
 });
 }
 
+
+var str=ref('')
+HttpHelper.Post("amap/distance",{mylat,mylng,store_id:route.query.id}).then((res)=>{
+  str.value  =Utils.GetTime(res.route.paths[0].duration)
+  console.log(str,'str')
+
+})
+
 xqmendian()
 // 轮播图改变时间
 var onChange = (index) => {
@@ -579,7 +587,7 @@ var chakanall=()=>{
       <div class="flex-row flex-center margin-top-14">
         <div>
           <div class="c-2 f-11 ">{{storedetail.address}}</div>
-          <div class="c-1 f-11 margin-top-9">距离您{{storedetail.distance2}}，驾车约12分钟</div>
+          <div class="c-1 f-11 margin-top-9">距离您{{storedetail.distance2}}，驾车约{{str}}</div>
         </div>
         <div class="flex-1"></div>
         <div @click="dianhua" style="flex:none">
