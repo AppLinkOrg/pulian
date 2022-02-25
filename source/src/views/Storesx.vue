@@ -127,7 +127,7 @@ var mendian=(e)=>{
 </div>
   
     <div class="flex-row ">
-        <div class="c-1 margin-top-14 f-12 ">月售 {{item.monthlysale}}单</div>
+        <div class="c-1 margin-top-14 f-12 ">月售 {{item.yueshou}}单</div>
         <div class="flex-1"></div>
         <div class="c-1 margin-top-14 f-12 ">{{item.distance2}}</div>
     </div>

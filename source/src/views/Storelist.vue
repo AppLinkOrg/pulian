@@ -580,7 +580,7 @@ var fuwuall=(e)=>{
           <div class="flex-row flex-center" >
             <div class="c-2 f-14 bold">{{items.service_name}}</div>
             <div class="flex-1"></div>
-           <div v-if="items.couponlist.length>0" class="flex-row  flex-center">
+           <div v-if="items.couponlist.length>0" class="flex-row  flex-center" style="flex:none">
               <div
               class="
                 bd-1
@@ -612,7 +612,7 @@ var fuwuall=(e)=>{
           <div class="flex-row flex-center" >
             <div class="c-2 f-14 bold">{{items.service_name}}</div>
             <div class="flex-1"></div>
-           <div v-if="items.couponlist.length>0" class="flex-row  flex-center">
+           <div v-if="items.couponlist.length>0" class="flex-row  flex-center" style="flex:none">>
               <div
               class="
                 bd-1

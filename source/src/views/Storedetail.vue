@@ -264,8 +264,8 @@ var xuanze=(index)=>{
   // var couponlistdd=couponlist.value[index]
 
   // 判断满减数目是否达标
-  if (couponlist.value[index].manmoney>fuwudetail.value.originalprice) {
-    Toast('满减价格为满足')
+  if (couponlist.value[index].manmoney*1>fuwudetail.value.originalprice*1) {
+    Toast('满减价格未达标')
     return
   }else{
 
@@ -627,7 +627,7 @@ var chakanall=()=>{
         <div class="margin-top-14 flex-row flex-center" >
         <div class="c-2 f-14 ">{{item.service_name}}</div>
         <div class="flex-1"></div>
-        <div v-if="item.couponlist.length>0" class="flex-row flex-center">
+        <div v-if="item.couponlist.length>0" class="flex-row flex-center"  style="flex:none">
            <div class="bd-1 border-radius-2 h-14 padding-right-4 padding-left-4 c-4 f-8 line-height-14">减免券¥{{item.couponlist[0].type=='C'?item.originalprice:item.couponlist[0].jainshao}}</div>
 
          <div class="c-4 f-9 margin-left-10">¥</div>
