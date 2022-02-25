@@ -521,7 +521,7 @@ if (route.query.first=='B') {
       </div>
 
       <div class="c-2 margin-top-10 f-12">
-        所填信息为交管局所需，我们将严格保密，请您放心填写
+        所填信息我们将严格保密，请您放心填写
       </div>
     </div>
     <!--  -->
