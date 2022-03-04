@@ -73,10 +73,16 @@ type.value=route.query.type
       <div class="h-30"></div>
       <div class="c-w f-16 bold margin-left-26" v-if="type!='A'">
         {{ orderinfo.hexiao == "A" ? "待核销" : "已核销" }}
+   <!-- {{ orderinfo.hexiao == "B" ? "已核销" : orderinfo.orderstatus == "B" ? "待核销" :orderinfo.orderstatus == "E"?"退款":orderinfo.orderstatus == "F"?"取消": "已核销" }}  -->
       </div>
       <div class="c-w f-16 bold margin-left-26" v-else>
-        {{ orderinfo.orderstatus == "B" ? "待核销" :orderinfo.orderstatus == "E"?"退款":orderinfo.orderstatus == "F"?"取消": "已核销" }}
+      
+          <!-- {{ orderinfo.hexiao == "B" ? "已核销" : orderinfo.orderstatus == "B" ? "待核销" :orderinfo.orderstatus == "E"?"退款":orderinfo.orderstatus == "F"?"取消":orderinfo.orderstatus == "A"?'待付款':orderinfo.orderstatus == "A"?'待付款' }}  -->
+        {{ orderinfo.orderstatus == "B" ? "待核销" :orderinfo.orderstatus == "E"?"退款成功":orderinfo.orderstatus == "F"?"取消": "已核销" }}
       </div>
+
+  
+
       <div
         class="
           margin-left-14 margin-right-14 margin-top-20

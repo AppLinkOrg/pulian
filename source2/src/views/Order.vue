@@ -74,7 +74,8 @@ var xqclick=(order)=>{
         <div class="flex-row flex-center">
           <div class="c-2 f-14">{{ item.service_name }}</div>
           <div class="flex-1"></div>
-          <div class="f-14" style="color: #de2f24"  v-if="item.orderstatus!='E'&& item.orderstatus!='F' ">{{ item.hexiao_name }}</div>
+          <!-- <div class="f-14" style="color: #de2f24"  v-if="item.orderstatus!='E'&& item.orderstatus!='F' && item.orderstatus!='A' ">{{ item.hexiao_name }}</div> -->
+          <div class="f-14" style="color: #de2f24"  v-if="item.orderstatus=='B' ||  item.orderstatus=='C' ||  item.orderstatus=='G'  ">{{ item.hexiao_name }}</div>
           <div class="f-14" style="color: #de2f24"  v-else>{{ item.orderstatus_name }}</div>
         </div>
         <div class="margin-top-14 flex-row flex-center c-1 f-12">

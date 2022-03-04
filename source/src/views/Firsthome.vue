@@ -8,7 +8,7 @@ import { useRouter,useRoute } from "vue-router";
 import Tar from "../components/Tar.vue";
 import { Toast } from "vant";
 import  store  from "../State";
-
+import Config from "../Config";
 
 let router = useRouter();
 let route = useRoute();
@@ -109,12 +109,29 @@ if (route.query.url2!=undefined && route.query.url2!='') {
 
   
  let memberinfo=ref({});
+ let neirongdetail=ref(null)
 PageHelper.LoginAuth(page, () => {
-  if (page.value.Memberinfo.shoujisq=='B') {
+  // 判断是否禁用
+  HttpHelper.Post("neirong/panduan",{type:'D'}).then((res)=>{
+    if (res==0) {
+      HttpHelper.Post("neirong/neirongdetail",{id:5}).then((res)=>{
+neirongdetail.value=res
+
+ if (page.value.Memberinfo.shoujisq=='B') {
     show.value=false
   }else{
     show.value=true
   }
+      })
+      
+    }else{
+
+    }
+
+  })
+
+
+ 
 });
 
 // wx.miniProgram.postMessage({
@@ -164,10 +181,59 @@ var cityid=store.state.cityid
 
 // tiaozhaun 首页按钮跳转
 var tiaozhaun=(item)=>{
+ 
   if (item.url=='') {
-    // Toast('暂未开放')
+    Toast('暂未开放')
     return
   }
+
+
+var  host = item.url.substring(8,);
+
+
+
+var  host2 = Config.ApiUrl
+
+console.log(host,'host',host2);
+
+
+
+if (item.url.indexOf("app.chefuzhongxin.com") !=-1) {
+    // 页面内部跳转
+    var len= item.url.indexOf("/#/")+3
+   var urls =  item.url.substring(len,item.url.length)
+
+   console.log(len)
+
+
+router.push(urls)
+}else{
+    // 页面外部跳转
+
+if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+  wx.miniProgram.getEnv((resrnv) => {
+
+      if (resrnv.miniprogram) {
+  wx.miniProgram.navigateTo({
+                url: "/pages/newopen/newopen?url=" + item.url,
+              });
+      }else{
+        location.href=item.url
+
+
+      }
+
+
+  })
+  
+  
+  }
+
+}
+
+
+
+  return
 
   if (item.neibu_value=='Y') {
     // 页面内部跳转
@@ -619,7 +685,7 @@ var fuwuall=(e)=>{
           <div class="flex-row flex-center" >
             <div class="c-2 f-14 bold">{{items.service_name}}</div>
             <div class="flex-1"></div>
-           <div v-if="items.couponlist.length>0" class="flex-row  flex-center">
+           <div v-if="items.couponlist.length>0" class="flex-row  flex-center"  style="flex:none">
               <div
               class="
                 bd-1
@@ -651,7 +717,7 @@ var fuwuall=(e)=>{
           <div class="flex-row flex-center" >
             <div class="c-2 f-14 bold">{{items.service_name}}</div>
             <div class="flex-1"></div>
-           <div v-if="items.couponlist.length>0" class="flex-row  flex-center">
+           <div v-if="items.couponlist.length>0" class="flex-row  flex-center"  style="flex:none">
               <div
               class="
                 bd-1
@@ -700,7 +766,7 @@ var fuwuall=(e)=>{
          <img
          @click="zhucetupian"
          
-                :src="page.uploadpath + 'resource/' + page.Res.zhucetupian"
+                :src="page.uploadpath + 'neirong/' + neirongdetail.img"
                 class="icon-220"
               />
         

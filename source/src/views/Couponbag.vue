@@ -65,7 +65,9 @@ order_id.value=res.return
 zhifushow.value=true
  wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return+'&type=B'});
     }else{
-        HttpHelper.Post("wechat/prepay4",{
+        // prepay8
+        // prepay4
+        HttpHelper.Post("wechat/prepay8",{
             id:res.return,
             types:'A'
         }).then((payret)=>{

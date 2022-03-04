@@ -92,8 +92,9 @@ if(res.code==0){
  }
     }else{
       // 微信浏览器
-     
-         HttpHelper.Post("wechat/prepay5",{
+    //  prepay5
+    // prepay7
+         HttpHelper.Post("wechat/prepay7",{
             id:res.return,
             types:'A'
         }).then((payret)=>{

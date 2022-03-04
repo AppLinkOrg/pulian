@@ -126,12 +126,31 @@ var shoucan=()=>{
 
 // hehuo 合伙
 var hehuo=()=>{
+  
+  HttpHelper.Post("neirong/panduan",{type:'B'}).then((res)=>{
+    if(res==0){
   router.push('/partnership?type=B')
+    }else{
+Toast("功能暂未开放")
+    }
+
+  })
+
+
+  
 }
 
 // Aboutus
 var guaunyu=()=>{
- router.push('/aboutus')
+   HttpHelper.Post("neirong/panduan",{type:'C'}).then((res)=>{
+    if(res==0){
+  router.push('/aboutus')
+    }else{
+Toast("功能暂未开放")
+    }
+
+  })
+
 }
 
 // fankui 反馈
@@ -141,8 +160,17 @@ var fankui=()=>{
 
 // 使用说明
 var shiyong=()=>{
-  // router.push('/ceshi')
+  HttpHelper.Post("neirong/panduan",{type:'A'}).then((res)=>{
+    if(res==0){
   router.push('/partnership?type=A')
+    }else{
+Toast("功能暂未开放")
+    }
+
+  })
+
+  // router.push('/ceshi')
+
 }
 
 let kfshow=ref(false)

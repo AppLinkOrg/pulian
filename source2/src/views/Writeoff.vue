@@ -69,6 +69,12 @@ var bindscanQRCode = (e) => {
         orderno.value = res.resultStr; // 当needResult 为 1 时，扫码返回的结果  
         select();
       },
+      fail:function (res) {
+        console.log(res,'ressss')
+        alert(JSON.stringify(res))
+        
+      },
+
     });
   });
 };
@@ -111,7 +117,7 @@ var daohang = () => {
     </van-sticky>
    <!-- <div>多少：{{code}}</div> -->
     <div class="c-2 bold f-16 margin-top-15 margin-left-14 margin-bottom-20">
-      核销记录
+      核销记录1111
     </div>
 
     <div class="flex-row flex-center padding-15">

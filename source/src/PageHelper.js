@@ -64,7 +64,15 @@ export class PageHelper {
         PageHelper.Inst = res;
 
         if (page.value.Memberinfo==null) {
-          PageHelper.loadwechat()
+
+          if (route.path=='/landpage') {
+            
+          }else{
+            PageHelper.loadwechat()
+          }
+          
+          
+         
         }
         
       });

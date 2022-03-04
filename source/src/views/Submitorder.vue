@@ -128,7 +128,9 @@ var zhifu = () => {
               });
             } else {
               // 微信浏览器
-              HttpHelper.Post("wechat/prepay6", {
+              // wechat/prepay6
+              // wechat/ceshi
+              HttpHelper.Post("wechat/ceshi", {
                 id: res.return,
                 types: "A",
               }).then((payret) => {
@@ -141,11 +143,14 @@ var zhifu = () => {
                     //  alert(JSON.stringify(ress))
                     if (ress.err_msg == "get_brand_wcpay_request:ok") {
                       Toast("支付成功");
+                       router.push("/Paysuccess?id=" + res.return);
                       // router.go(-1)
                     }
                   }
                 );
               });
+
+
             }
           });
         }
@@ -192,7 +197,9 @@ var zhifu = () => {
               });
             } else {
               // 微信浏览器
-              HttpHelper.Post("wechat/prepay6", {
+              // ceshi
+              // prepay6
+              HttpHelper.Post("wechat/ceshi", {
                 id: res.return,
                 types: "A",
               }).then((payret) => {

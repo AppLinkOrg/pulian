@@ -1,5 +1,5 @@
 <script setup>
-import { PageHelper } from "../PageHelper";
+// import { PageHelper } from "../PageHelper";
 import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
@@ -13,7 +13,7 @@ let router = useRouter();
 let route = useRoute();
 
 
-PageHelper.Init(page, () => {});
+// PageHelper.Init(page, () => {});
 
 let langdetail=ref(null)
 
@@ -48,7 +48,7 @@ if (str=='firsthome') {
 <template>
 <!-- padding-15 -->
 <!--  -->
-  <div  v-if=" page.Res!=null && langdetail!=null">
+  <div  v-if="langdetail!=null">
     <!-- {{langdetail.neirong}} -->
 
 <div class="htmlimg " v-html="Utils.HtmlDecode(langdetail.neirong)" @click="tiaozhaun"></div>
@@ -62,7 +62,11 @@ if (str=='firsthome') {
 /deep/ .htmlimg>p{
   margin: 0 !important;
 }
-.htmlimg p>img{
+/deep/ .htmlimg p>img{
+  width: 100% !important;
+}
+
+/deep/ .htmlimg p >a >img{
   width: 100% !important;
 }
 </style>

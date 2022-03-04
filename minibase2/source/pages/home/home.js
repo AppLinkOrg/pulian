@@ -18,7 +18,6 @@ class Content extends AppBase {
       h5Data:'',
       testUrl:'',
       imageUrl:''
-
     })
     
   }
@@ -52,6 +51,8 @@ let url2 = this.Base.options.url2
 // })
 
 var str='https://app.chefuzhongxin.com?'+"rand="+(new Date()).getTime()+'/#/?openid='+userunionid
+
+
 if (url2!=''&&url2!=undefined) {
   str=str+'&url2='+url2
 }
@@ -70,8 +71,9 @@ var url=this.Base.getMyData().url
 
 
 
-
+console.log(str,'strrrrr');
       if (url=='') {
+       
         this.Base.setMyData({url:str})
       }
 
