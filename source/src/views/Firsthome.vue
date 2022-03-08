@@ -101,9 +101,27 @@ if (route.query.openid!=undefined && route.query.openid!='') {
    window.localStorage.setItem("token",route.query.openid);
 }
 
+
 if (route.query.url2!=undefined && route.query.url2!='') {
-   router.push('/'+route.query.url2)
+  // alert('/'+route.query.url2+'&id='+route.query.id)
+// alert(JSON.stringify(route.query))
+
+
+ 
+  if (route.query.id>0) {
+    //  alert('/'+route.query.url2+'&id='+route.query.id)
+     router.push('/'+route.query.url2+'?id='+route.query.id)
+  }else{
+ router.push('/'+route.query.url2)
+  }
+  
 }
+
+
+
+// if (route.query.url3!=undefined && route.query.url3!='') {
+//    router.push('/'+route.query.url3)
+// }
 
 
 

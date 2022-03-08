@@ -35,6 +35,12 @@
                     "pathName": "pages/kefu/kefu",
                     "query": "",
                     "scene": null
+                },
+                {
+                    "name": "/pages/home/home",
+                    "pathName": "/pages/home/home",
+                    "query": "url2=storedetail&id=9",
+                    "scene": null
                 }
             ]
         }

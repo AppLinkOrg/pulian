@@ -63,20 +63,35 @@ export class PageHelper {
         page.value.Inst = res;
         PageHelper.Inst = res;
 
+ console.log('进来了 啊 ',route);
         if (page.value.Memberinfo==null) {
 
-          if (route.path=='/landpage') {
+          if (route.path =='/landpage') {
             
           }else{
+            console.log('进来了 啊 ');
             PageHelper.loadwechat()
           }
           
           
          
         }
+
         
       });
     } else {
+      if (page.value.Memberinfo==null) {
+
+        if (route.path =='/landpage') {
+          
+        }else{
+          console.log('进来了 啊 ');
+          PageHelper.loadwechat()
+        }
+        
+        
+       
+      }
       page.value.Inst = PageHelper.Inst;
     }
     //
@@ -128,6 +143,8 @@ export class PageHelper {
       });
 
 
+
+    }else{
 
     }
     //  else {

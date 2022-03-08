@@ -90,12 +90,34 @@ class Content extends AppBase {
     })
   }
 
+  saoma() {
+    // wx.navigateTo({
+    //   url: '/pages/zulin/zulin',
+    // })
+    // return;
+    wx.scanCode({
+      onlyFromCamera: true,
+      success(res) {
+        console.log(res,'respppp')
+        if(res.errMsg=='scanCode:ok')
+        { 
+          console.log(res,'res.path');
+          // wx.navigateTo({
+          //   url: res.path,
+          // })
+        }
+      }
+    })
+  }
+
 }
 var content = new Content();
 var body = content.generateBodyJson();
 body.onLoad = content.onLoad; 
 body.onMyShow = content.onMyShow;
 
+
+body.saoma = content.saoma;
 body.getUserInfo2 = content.getUserInfo2;
 body.backGo = content.backGo;
 

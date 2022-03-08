@@ -25,6 +25,8 @@ class Content extends AppBase {
 
     var that = this;
 
+  // alert(this.Base.options.url2)
+
     //  this.Base.getMyData().timer=setInterval(function () {
     //   that.shuax()
     // },1000)
@@ -46,6 +48,10 @@ class Content extends AppBase {
 // var str='https://uat20.helpfooter.com?'+"rand="+(new Date()).getTime()+'/#/?openid='
 
 let url2 = this.Base.options.url2
+
+let id=this.Base.options.id
+
+
 // wx.showToast({
 //   title: ''+url2,
 // })
@@ -55,6 +61,10 @@ var str='https://app.chefuzhongxin.com?'+"rand="+(new Date()).getTime()+'/#/?ope
 
 if (url2!=''&&url2!=undefined) {
   str=str+'&url2='+url2
+}
+
+if (id!=''&&id!=undefined) {
+  str=str+'&id='+id
 }
 
 
@@ -101,7 +111,7 @@ console.log(str,'strrrrr');
     console.log( index,' options.webViewUrl')
     var obj2=options.webViewUrl.substring(index+3,options.webViewUrl.length);
     console.log( obj2,' options.webViewUrl')
-    console.log( options.webViewUrl,' options.webViewUrl')
+    // console.log( options.webViewUrl,' options.webViewUrl')
         console.log( that.Base.getMyData().testUrl,' options.webViewUrl')
     return {
       title: '哈哈',
@@ -115,7 +125,7 @@ console.log(str,'strrrrr');
   }
 
 
-
+ 
  
 }
 var content = new Content();
