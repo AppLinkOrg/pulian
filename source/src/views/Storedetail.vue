@@ -143,7 +143,7 @@ if (item.service_id>0) {
 
 
 
-   HttpHelper.Post('coupon/couponlist',{store_id:route.query.id,bigcategory_id,buji,service_id:serviceitem_id}).then((Res)=>{
+   HttpHelper.Post('coupon/couponlist',{store_id:route.query.id,bigcategory_ids:bigcategory_id,buji,service_id:serviceitem_id}).then((Res)=>{
      for (let index = 0; index < Res.length; index++) {
         Res[index].show = false;
        
@@ -152,13 +152,16 @@ if (item.service_id>0) {
 })
 
 
- HttpHelper.Post('coupon/mycoupon',{store_id:route.query.id,bigcategory_id,buji,service_id:serviceitem_id}).then((Res)=>{
+
+ HttpHelper.Post('coupon/mycoupon',{store_id:route.query.id,bigcategory_ids:bigcategory_id,buji,service_id:serviceitem_id}).then((Res)=>{
     //  for (let index = 0; index < Res.length; index++) {
     //     Res[index].show = false;
        
     //  }
     mycouponlist.value=Res
 })
+
+
 
 
 
@@ -950,7 +953,7 @@ var chakanall=()=>{
       <div class="c-1 f-12 margin-top-4">{{fuwudetail.service_name}}</div>
     </div>
     <div class="flex-1"></div>
-    <div class="h-38 bg-5 c-w f-15 line-height-38 padding-left-36 padding-right-36 border-radius-19 "  @click="goumia">立即购买</div>
+    <div class="h-38 bg-5 c-w f-15 line-height-38 padding-left-36 padding-right-36 border-radius-19 "  style="flex:none" @click="goumia">立即购买</div>
   </div>
  </div>
 

@@ -236,15 +236,40 @@ service_name.value='全部'+route.query.bigcategory_name;
    service_id.value="";
    area_id.value="";
 
-  HttpHelper.Post("store/filtrate", {
+  // HttpHelper.Post("store/filtrate", {
+  //  business:wokestatus_type.value,
+  //  seq:seqid.value,
+  //  service_id:service_id.value,
+  //  areas_id:area_id.value,
+  //  bigcategory_id:bigcategory_id.value
+  //  }).then((res) => {
+  //   storelist.value = res;
+  //  });
+
+    HttpHelper.Post("store/filtrate", {
    business:wokestatus_type.value,
    seq:seqid.value,
    service_id:service_id.value,
    areas_id:area_id.value,
-   bigcategory_id:bigcategory_id.value
+   bigcategory_id:bigcategory_id.value,
+   mylat,mylng,cityid
+   
+
    }).then((res) => {
+        for(let item of res){
+       item.distance2=Utils.GetMileTxt(item.distance)
+       item.shownum=false;
+
+     }
+
     storelist.value = res;
+
+
    });
+
+
+
+
    
 }
 }

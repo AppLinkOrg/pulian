@@ -17,12 +17,26 @@ let title=ref('');
 
 
 let route = useRoute();
+let router = useRouter();
+
 
   // title.value = inject("title");
 
  const onClickLeft = () => 
+
  {
-   history.back()
+
+   if(history.state.back==null){
+     
+router.push('/')
+   }else{
+     history.back()
+   }
+
+   console.log("进来了",history);
+  //  history.back()
+
+
  };
 title.value=props.title
  console.log(props.title,'可以拿到父组件的数据')
