@@ -117,7 +117,6 @@ console.log(str,'strrrrr');
       title: '哈哈',
       path: '/pages/home/home?url2=' + obj2,
       success: (res) => {
-       
         console.log( options.webViewUrl,' options.webViewUrl')
         console.log( obj2,' options.webViewUrl')
       }

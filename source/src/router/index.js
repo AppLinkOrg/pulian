@@ -51,7 +51,11 @@ import Genneralevalut from '../views/Genneralevalut.vue'
 import Myorderdetail from '../views/Myorderdetail.vue'
 import City from '../views/City.vue'
 import Landpage from '../views/Landpage.vue'
-
+import Infodetails from '../views/Infodetails.vue'
+import Carwash from '../views/Carwash.vue'
+import Personalcenter from '../views/Personalcenter.vue'
+import Carwashorder from '../views/Carwashorder.vue'
+import Carwashcard from '../views/Carwashcard.vue'
 
 const routes = [{
   path: '/home',
@@ -380,20 +384,43 @@ const routes = [{
   name: 'Landpage',
   component: Landpage,
   
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
+},{
+  path: '/infodetails',
+  name: 'Infodetails',
+  component: Infodetails, 
+  meta: {
+    'name': '资讯详情'
+  }
+},{
+  path: '/carwash',
+  name: 'Carwash',
+  component: Carwash, 
+  meta: {
+    'name': '自助洗车'
+  }
+},
+,{
+  path: '/personalcenter',
+  name: 'Personalcenter',
+  component: Personalcenter, 
+  meta: {
+    'name': '个人中心'
+  }
+},{
+  path: '/carwashorder',
+  name: 'Carwashorder',
+  component: Carwashorder, 
+  meta: {
+    'name': '个人中心'
+  }
+},{
+  path: '/carwashcard',
+  name: 'Carwashcard',
+  component: Carwashcard, 
+  meta: {
+    'name': '个人中心'
+  }
+},
 
 ]
 

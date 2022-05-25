@@ -4,13 +4,13 @@
         "ignore": []
     },
     "setting": {
-        "urlCheck": false,
+        "urlCheck": true,
         "es6": true,
         "enhance": true,
         "postcss": true,
         "preloadBackgroundData": false,
         "minified": true,
-        "newFeature": true,
+        "newFeature": false,
         "coverView": true,
         "nodeModules": false,
         "autoAudits": false,
@@ -30,23 +30,28 @@
             "disablePlugins": [],
             "outputPath": ""
         },
-        "enableEngineNative": false,
         "useIsolateContext": true,
         "userConfirmedBundleSwitch": false,
         "packNpmManually": false,
         "packNpmRelationList": [],
         "minifyWXSS": true,
         "disableUseStrict": false,
+        "minifyWXML": true,
         "showES6CompileOption": false,
         "useCompilerPlugins": false,
-        "minifyWXML": true
+        "ignoreUploadUnusedFiles": true
     },
     "compileType": "miniprogram",
-    "libVersion": "2.21.2",
-    "appid": "wxd5ca8d4e19d8dc43",
+    "libVersion": "2.24.1",
+    "appid": "wx1538bd04d676645d",
     "projectname": "source",
     "debugOptions": {
         "hidedInDevtools": []
+    },
+    "scripts": {},
+    "staticServerOptions": {
+        "baseURL": "",
+        "servePath": ""
     },
     "isGameTourist": false,
     "condition": {
@@ -57,7 +62,12 @@
             "list": []
         },
         "game": {
-            "currentL": -1,
+            "list": []
+        },
+        "plugin": {
+            "list": []
+        },
+        "gamePlugin": {
             "list": []
         },
         "miniprogram": {
