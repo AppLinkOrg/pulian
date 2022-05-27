@@ -27,9 +27,16 @@ PageHelper.LoginAuth(page, () => {
 // 实物不急优惠券列表
 
 // 跳转
-var personalcenter = (e) => {
-  router.push("/personalcenter");
+var carwashcourse = (e) => {
+  router.push("/carwashcourse");
 };
+var helpinfo = (e) => {
+  router.push("/helpinfo");
+};
+var deductionbond = (e) => {
+  router.push("/deductionbond");
+};
+
 </script>
 
 <template>
@@ -58,7 +65,7 @@ var personalcenter = (e) => {
     </div>
     <div class="wf-100 padding-left-14 padding-right-14 margin-top-20">
       <div class="imgbox flex-around">
-        <div>
+        <div @click="deductionbond()">
           <div>5</div>
           <div>优惠券</div>
         </div>
@@ -69,7 +76,7 @@ var personalcenter = (e) => {
       </div>
     </div>
     <div class="wf-100 padding-left-14 padding-right-14 margin-top-10">
-      <div class="imgbox flex-between flex-center h-60">
+      <div class="imgbox flex-between flex-center h-60" >
         <div style="line-height:40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"
@@ -101,7 +108,7 @@ var personalcenter = (e) => {
           />
         </div>
       </div>
-      <div class="imgbox flex-between flex-center h-60">
+      <div class="imgbox flex-between flex-center h-60" @click="carwashcourse()">
         <div style="line-height:40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"
@@ -132,7 +139,7 @@ var personalcenter = (e) => {
           />
         </div>
       </div>
-      <div class="imgbox flex-between flex-center h-60">
+      <div class="imgbox flex-between flex-center h-60 " @click="helpinfo()">
         <div style="line-height:40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"

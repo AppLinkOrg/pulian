@@ -56,6 +56,12 @@ import Carwash from '../views/Carwash.vue'
 import Personalcenter from '../views/Personalcenter.vue'
 import Carwashorder from '../views/Carwashorder.vue'
 import Carwashcard from '../views/Carwashcard.vue'
+import Selectcarwashpackage from '../views/Selectcarwashpackage.vue'
+import Placedetails from '../views/Placedetails.vue'
+import Carwashcourse from '../views/Carwashcourse.vue'
+import Helpinfo from '../views/Helpinfo.vue'
+import Deductionbond from '../views/Deductionbond.vue'
+
 
 const routes = [{
   path: '/home',
@@ -411,14 +417,49 @@ const routes = [{
   name: 'Carwashorder',
   component: Carwashorder, 
   meta: {
-    'name': '个人中心'
+    'name': '洗车订单'
   }
 },{
   path: '/carwashcard',
   name: 'Carwashcard',
   component: Carwashcard, 
   meta: {
-    'name': '个人中心'
+    'name': '购买洗车卡'
+  }
+},{
+  path: '/selectcarwashpackage',
+  name: 'Selectcarwashpackage',
+  component: Selectcarwashpackage, 
+  meta: {
+    'name': '选择洗车套餐'
+  }
+},{
+  path: '/placedetails',
+  name: 'Placedetails',
+  component: Placedetails, 
+  meta: {
+    'name': '选择洗车套餐'
+  }
+},{
+  path: '/carwashcourse',
+  name: 'Carwashcourse',
+  component: Carwashcourse, 
+  meta: {
+    'name': '洗车教程'
+  }
+},{
+  path: '/helpinfo',
+  name: 'Helpinfo',
+  component:Helpinfo, 
+  meta: {
+    'name': '帮助信息'
+  }
+},{
+  path: '/deductionbond',
+  name: 'Deductionbond',
+  component:Deductionbond, 
+  meta: {
+    'name': '我的优惠券'
   }
 },
 
