@@ -97,6 +97,11 @@ const deleteSomeInfo = () => {
   // control.setNumVisible(true);
 };
 const addMarkerLayer = () => {
+  var markerGeo = {
+    id: "center",
+    position: dataMap.map.getCenter(),
+  };
+   arr.push(markerGeo)
   console.log(arr.length, arr, "99999");
   // 创建一个位于地图中心点的marker
   dataMap.markerLayer = new TMap.MultiMarker({
@@ -112,24 +117,7 @@ const addMarkerLayer = () => {
       }),
     },
 
-    geometries: [
-      {
-        id: "marker2",
-        styleId: "myStyle",
-        position: new TMap.LatLng(39.794104, 116.287503),
-        properties: {
-          title: "marker2",
-        },
-      },
-      {
-        id: "marker3",
-        styleId: "myStyle",
-        position: new TMap.LatLng(39.984104, 116.307503),
-        properties: {
-          title: "marker3",
-        },
-      },
-    ], //点标记数据数组
+    geometries: arr//点标记数据数组
   });
   //监听地图平移，panstart开始平移，panend平移结束
   // dataMap.map.on("pan", function () {
@@ -146,9 +134,20 @@ const addMarkerLayer = () => {
   // });
 };
 
+
 onMounted(() => {
   $.when(getNowLngAndLat).done(function () {});
 });
+
+HttpHelper.Get("api/Auth", {appId:'38ccd6f4fc94cadb',appSerct:'471c4a38a0616c1aa154fb52178b88c3'}).then((Res) => {
+  console.log(Res, "rrrr");
+});
+
+// let MachineList = ref([])
+// HttpHelper.Get("CarWash/GetMachineListOfOnlie", {}).then((Res) => {
+//   console.log(Res, "MachineList");
+//   MachineList.value = Res;
+// });
 
 // 跳转
 var personalcenter = (e) => {
@@ -167,7 +166,6 @@ var placedetails = (e) => {
 
 <template>
   <div class="wf-100" v-if="page.Res != null">
-    {{ arr[0] }}
     <div class="container" id="QQMap" style="width: 100%; height: 200px"></div>
     <div class="wf-100 padding-left-14 padding-right-14 imgbox flex-between">
       <div>

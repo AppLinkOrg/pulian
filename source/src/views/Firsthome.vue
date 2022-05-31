@@ -97,7 +97,9 @@ let member_id = ref(null);
 member_id.value = route.query.member_id;
 // route.query.openid
 // owMBk5ZESuUrZUEPnfrbtj-jsVdM
+console.log( route.query.openid,'route.query.openid');
 if (route.query.openid != undefined && route.query.openid != "") {
+  console.log( route.query.openid,' route.query.openid');
   window.localStorage.setItem("token", route.query.openid);
 }
 
