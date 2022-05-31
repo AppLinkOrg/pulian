@@ -1,48 +1,40 @@
 {
-    "setting": {},
-    "condition": {
-        "plugin": {
-            "list": []
+  "setting": {},
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/login/login",
+          "pathName": "pages/login/login",
+          "query": "",
+          "scene": null
         },
-        "game": {
-            "list": []
+        {
+          "name": "pages/pay/pay",
+          "pathName": "pages/pay/pay",
+          "query": "id=33",
+          "scene": null
         },
-        "gamePlugin": {
-            "list": []
+        {
+          "name": "pages/fwpay/fwpay",
+          "pathName": "pages/fwpay/fwpay",
+          "query": "",
+          "scene": null
         },
-        "miniprogram": {
-            "list": [
-                {
-                    "name": "pages/login/login",
-                    "pathName": "pages/login/login",
-                    "query": "",
-                    "scene": null
-                },
-                {
-                    "name": "pages/pay/pay",
-                    "pathName": "pages/pay/pay",
-                    "query": "id=33",
-                    "scene": null
-                },
-                {
-                    "name": "pages/fwpay/fwpay",
-                    "pathName": "pages/fwpay/fwpay",
-                    "query": "",
-                    "scene": null
-                },
-                {
-                    "name": "pages/kefu/kefu",
-                    "pathName": "pages/kefu/kefu",
-                    "query": "",
-                    "scene": null
-                },
-                {
-                    "name": "/pages/home/home",
-                    "pathName": "/pages/home/home",
-                    "query": "url2=storedetail&id=9",
-                    "scene": null
-                }
-            ]
+        {
+          "name": "pages/kefu/kefu",
+          "pathName": "pages/kefu/kefu",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "/pages/home/home",
+          "pathName": "/pages/home/home",
+          "query": "url2=storedetail&id=9",
+          "scene": null
         }
+      ]
     }
+  },
+  "description": "项目私有配置文件。此文件中的内容将覆盖 project.config.json 中的相同字段。项目的改动优先同步到此文件中。详见文档：https://developers.weixin.qq.com/miniprogram/dev/devtools/projectconfig.html"
 }

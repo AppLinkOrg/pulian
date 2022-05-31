@@ -56,7 +56,7 @@ let id=this.Base.options.id
 //   title: ''+url2,
 // })
 
-var str='https://app.chefuzhongxin.com?'+"rand="+(new Date()).getTime()+'/#/?openid='+userunionid
+var str='https://uat20.helpfooter.com/?'+"rand="+(new Date()).getTime()+'/#/?openid='+userunionid
 
 
 if (url2!=''&&url2!=undefined) {
