@@ -30,7 +30,7 @@ PageHelper.Init(page, () => {});
 //   console.log('监听到变化ddd',route)
 // })
 
-const props = defineProps({ 
+const props = defineProps({  
   pathname:String
 });
 

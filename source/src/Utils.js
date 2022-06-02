@@ -1,4 +1,30 @@
 export class Utils{
+    static _throttle (fn,interval,type) {
+      if(type === 1){
+        let previous = 0;
+      }else if(type === 2){
+        let timeout;
+      }
+      var interval = interval || 200;
+      return function () {
+        var th = this;
+        var args = arguments;
+        if(type === 1){
+          let now = Date.now();
+          if (now - previous > interval){
+            fn.apply(th,args);
+            previous = now;
+          }
+        }else if(type === 2){
+          if(!timeout){
+            timeout = setTimeout(()=> {
+              timeout = null;
+              fn.apply(th,args)
+            }, interval);
+          }
+        }
+      }
+    }
     static ContentToHtml(str){
         if (str == null) {
             return "";

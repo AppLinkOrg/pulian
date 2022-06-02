@@ -61,6 +61,7 @@ import Placedetails from '../views/Placedetails.vue'
 import Carwashcourse from '../views/Carwashcourse.vue'
 import Helpinfo from '../views/Helpinfo.vue'
 import Deductionbond from '../views/Deductionbond.vue'
+import Purchasedpackage from '../views/Purchasedpackage.vue'
 
 
 const routes = [{
@@ -460,6 +461,13 @@ const routes = [{
   component:Deductionbond, 
   meta: {
     'name': '我的优惠券'
+  }
+},{
+  path: '/purchasedpackage',
+  name: 'Purchasedpackage',
+  component:Purchasedpackage, 
+  meta: {
+    'name': '已购套餐'
   }
 },
 

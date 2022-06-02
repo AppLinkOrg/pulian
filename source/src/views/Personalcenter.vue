@@ -36,6 +36,9 @@ var helpinfo = (e) => {
 var deductionbond = (e) => {
   router.push("/deductionbond");
 };
+var purchasedpackage = (e) => {
+  router.push("/purchasedpackage");
+};
 
 </script>
 
@@ -92,7 +95,7 @@ var deductionbond = (e) => {
           />
         </div>
       </div>
-      <div class="imgbox flex-between flex-center h-60">
+      <div class="imgbox flex-between flex-center h-60"  @click="purchasedpackage()">
         <div style="line-height:40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"
