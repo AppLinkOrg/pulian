@@ -1,87 +1,77 @@
 <script setup>
-import { PageHelper } from "../PageHelper";
 import { ref } from "@vue/reactivity";
-import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
-import { Toast } from "vant";
-import store from "../State";
-import { Utils } from "../Utils";
+import { HttpHelper } from "../HttpHelper";
+import { PageHelper } from "../PageHelper";
 
-let page = ref({});
 let router = useRouter();
 let route = useRoute();
-let bujilist = ref(null);
 
+let page = ref({});
+let statuslist = ref([
+  { name: "未使用", status: "B" },
+  { name: "已使用", status: "C" },
+  { name: "已过期", status: "D" },
+]);
 PageHelper.Init(page, () => {});
 
-let carwashplacelist = ref([]);
-HttpHelper.Post("carwash/carwashplacelist", {}).then((Res) => {
-  console.log(Res,'11');  
-  carwashplacelist.value = Res;
+var storedetail = ref({});
+
+let current = ref("A");
+
+// 门店详情
+let packageorderlist = ref([]);
+HttpHelper.Post("carwash/packageorderlist", {zhuangtai:current.value}).then((res) => {
+  packageorderlist.value = res;
 });
 
-PageHelper.LoginAuth(page, () => {
-  liebiao();
+// 购买
+var status = (e) => {
+  current.value = e;
+  HttpHelper.Post("carwash/packageorderlist", {zhuangtai:current.value}).then((res) => {
+  packageorderlist.value = res;
 });
 
-// 实物不急优惠券列表
-
-// 跳转
-var personalcenter = (e) => {
-  router.push("/personalcenter");
+  console.log(current.value, "666");
 };
 </script>
 
 <template>
-  <div v-if="page.Res != null">
-    <div class="wf-100 padding-left-14 padding-right-14 imgbox flex-between">
-        <div>
-            <img class="icon-40" :src="page.uploadpath + 'resource/' + page.Res.location">
-        </div>
-        <div>
-            <img class="icon-40" :src="page.uploadpath + 'resource/' + page.Res.personalcenter"  @click="personalcenter()">
-        </div>
-    </div>
-    <div class="bottom margin-left-18 margin-right-18" style="background-color:#F7F7F8">
-      <div class="bg-w">
-        <img
-          class="wf-100"
-          :src="page.uploadpath + 'resource/' + page.Res.buycarwash"
-        />
-      </div>
+  <div class="" v-if="page.Res != null">
+    <div class="h-40 imgbox flex-around line-height-40">
       <div
-        class="bg-w"
-        v-for="(item, index) in carwashplacelist"
+        v-for="(item, index) in statuslist"
+        :key="index"
+        @click="status(item.status)"
+        :class="{ active: item.status == current }"
+        style="font-size: 14px"
+      >
+        {{ item.name }}
+      </div>
+    </div>
+    <div class="bg-10 h-14 wf-100"></div>
+    <div class="bg-10 order wf-100 padding-top-14">
+      <div
+        class="
+          padding-left-14 padding-right-14
+          margin-left-14 margin-right-14
+          bg-w
+          margin-bottom-14
+        "
+        v-for="(item, index) in packageorderlist"
         :key="index"
       >
-        <div>
-            {{item.name}}
-        </div>
-        <div>
-            {{item.address}}
-        </div>
-        <div>
-            {{item.distance}}{{item.timeslot}}
-        </div>
-
-      </div>
-      <div class="bg-w">
-        <div class="wf-100  bg-6 border-radius-20 wrapper">
-          <div>
-            <img
-              class="icon-25"
-              :src="page.uploadpath + 'resource/' + page.Res.saoyisao"
-            />
-          </div>
-          <div class="c-w f-14" style="line-height:40px">扫码洗车</div>
+        <div >
+          <div>{{ item.synopsis }}</div>
+          <div></div>
+          <div>{{item.rule}}</div>
         </div>
       </div>
     </div>
   </div>
 </template>
 <style scoped>
-.bottom {
-  position: fixed;
-  bottom: 0;
+.active {
+  color: #1890fe;
 }
 </style>

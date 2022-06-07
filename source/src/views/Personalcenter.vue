@@ -39,6 +39,9 @@ var deductionbond = (e) => {
 var purchasedpackage = (e) => {
   router.push("/purchasedpackage");
 };
+var carwashorder = (e) => {
+  router.push("/carwashorder");
+};
 
 </script>
 
@@ -79,7 +82,7 @@ var purchasedpackage = (e) => {
       </div>
     </div>
     <div class="wf-100 padding-left-14 padding-right-14 margin-top-10">
-      <div class="imgbox flex-between flex-center h-60" >
+      <div class="imgbox flex-between flex-center h-60" @click="carwashorder()">
         <div style="line-height:40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"

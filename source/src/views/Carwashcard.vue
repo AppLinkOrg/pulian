@@ -6,7 +6,7 @@ import { useRouter, useRoute } from "vue-router";
 import { Toast } from "vant";
 import store from "../State";
 import { Utils } from "../Utils";
-import BScroll from 'better-scroll'
+import BScroll from "better-scroll";
 
 let page = ref({});
 let router = useRouter();
@@ -18,12 +18,27 @@ let wanchengt = ref(false);
 PageHelper.Init(page, () => {});
 
 let carwashpackagelist = ref([]);
+let couponorder = ref([]);
+
 HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
-  console.log(Res, "11");
-  carwashpackagelist.value = Res;
+  HttpHelper.Post("carwash/couponorderlist", { yhstatus: "A" }).then((res) => {
+    couponorder.value = res;
+
+    Res.sort((a, b) => a.price - b.price);
+    console.log(Res, "11");
+    carwashpackagelist.value = Res;
+    for (let i = 0; i < carwashpackagelist.value.length; i++) {
+      carwashpackagelist.value[i].isyh = false;
+      for (let j = 0; j < res.length; j++) {
+        if (carwashpackagelist.value[i].price >= res[j].manmoney) {
+          carwashpackagelist.value[i].isyh = true;
+          break;
+        }
+      }
+    }
+  });
 });
-
-
+//优惠券
 
 PageHelper.LoginAuth(page, () => {
   liebiao();
@@ -35,10 +50,11 @@ var price = ref({});
 var synopsis = ref({});
 var rule = ref({});
 var selectpackage = (e) => {
+  console.log(e.id);
   package_id.value = e.id;
-  price.value = e.price; 
-  synopsis.value = e.synopsis
-  rule.value = e.rule
+  price.value = e.price;
+  synopsis.value = e.synopsis;
+  rule.value = e.rule;
 };
 //创建一个新实例 并且 对class为wrapper对象 实现了一个纵向可点击的滚动效果
 
@@ -48,7 +64,7 @@ var payorder = () => {
     package_id: package_id.value,
     amount: price.value,
     synopsis: synopsis.value,
-    rule: rule.value
+    rule: rule.value,
   }).then((res) => {
     let viewer = window.navigator.userAgent.toLowerCase();
 
@@ -63,7 +79,7 @@ var payorder = () => {
             //  ordr_id.value=res.return
             //  wanchengt.value=false
             wx.miniProgram.navigateTo({
-              url: "/pages/pay/pay?id=" + res.return + "&type=" + 'P',
+              url: "/pages/pay/pay?id=" + res.return + "&type=" + "P",
             });
           }
         } else {
@@ -98,9 +114,11 @@ var personalcenter = (e) => {
 <template>
   <div class="bg-10 h-m100 wf-100" v-if="page.Res != null">
     <div class="h-14 bg-10 wf-100"></div>
-    
+
     <div class="bg-w margin-left-14 margin-right-14 padding-top-10">
-      <div class="h-38 line-height-38 f-16 bold margin-left-14">请选购洗车套餐</div>
+      <div class="h-38 line-height-38 f-16 bold margin-left-14">
+        请选购洗车套餐
+      </div>
       <div class="bg-w padding-left-14 padding-right-14 padding-top-10">
         <div
           id="washcard"
@@ -111,11 +129,14 @@ var personalcenter = (e) => {
         >
           <div class="imgbox flex-between price">
             <div class="f-16 bold">{{ item.synopsis }}</div>
-            <div>¥{{ item.price }}</div>
+            <div class="price2">
+              <span style="font-size: 15px">¥</span>{{ item.price }}
+            </div>
           </div>
           <div class="imgbox flex-between price">
             <div>{{ item.rule }}</div>
-            <div>（您有抵扣券可用）</div>
+            <div v-if="item.isyh" class="isyh">（您有抵扣券可用）</div>
+            <div v-else class="isyh">（暂无抵扣劵）</div>
           </div>
         </div>
       </div>
@@ -186,5 +207,19 @@ var personalcenter = (e) => {
 }
 .active {
   border: 1px solid #1890fe !important;
+}
+.price2 {
+  width: 55px;
+  font-size: 30px;
+  font-family: DIN;
+  font-weight: 500;
+  color: #1890fe;
+}
+.isyh {
+  font-size: 12px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #fb6260;
+  line-height: 48px;
 }
 </style>

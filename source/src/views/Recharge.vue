@@ -17,162 +17,125 @@ HttpHelper.Post("inst/integral", {}).then((res) => {
   integrallist.value = res;
 });
 
-var checked_id = ref(""); 
-var amount=ref("");
+var checked_id = ref("");
+var amount = ref("");
 
-var checking = (id,price) => {
-  amount.value=price;
+var checking = (id, price) => {
+  amount.value = price;
   checked_id.value = id;
 };
 
-var amount_input=(e)=>{
+var amount_input = (e) => {
   console.log(e);
-    amount.value=e;
-}
-var confrim=()=>{
-PageHelper.LoginAuth(page, () => {
+  amount.value = e;
+};
+var confrim = () => {
+  PageHelper.LoginAuth(page, () => {
+    let viewer = window.navigator.userAgent.toLowerCase();
 
-let viewer = window.navigator.userAgent.toLowerCase();
-
-if (viewer.match(/MicroMessenger/i) == "micromessenger") {
-  wx.miniProgram.getEnv((resrnv) => {
-    if (resrnv.miniprogram) {
-     if (page.value.Memberinfo.touxiang !='B') {
-       
-   
-         wx.miniProgram.navigateTo({url: '/pages/login/login?type=A'});
-         return
-}
-		// alert(page.value.Memberinfo.shoujisq)
-   if (page.value.Memberinfo.shoujisq !='B' && page.value.Memberinfo.touxiang =='B') {
-
-         wx.miniProgram.navigateTo({url: '/pages/login/login?type=B'});
-         return
-}
-dinfdan()
-    }else{
-      dinfdan()
-
+    if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+      wx.miniProgram.getEnv((resrnv) => {
+        if (resrnv.miniprogram) {
+          if (page.value.Memberinfo.touxiang != "B") {
+            wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+            return;
+          }
+          // alert(page.value.Memberinfo.shoujisq)
+          if (
+            page.value.Memberinfo.shoujisq != "B" &&
+            page.value.Memberinfo.touxiang == "B"
+          ) {
+            wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+            return;
+          }
+          dinfdan();
+        } else {
+          dinfdan();
+        }
+      });
     }
+  });
 
-  })
-}
-
- 
-
-
-});
-  
-
-//  integral:1000
-
- 
-}
-var dinfdan=()=>{
-    HttpHelper.Post("member/creatorder", {
-    amount:amount.value,
-   
+  //  integral:1000
+};
+var dinfdan = () => {
+  HttpHelper.Post("member/creatorder", {
+    amount: amount.value,
   }).then((res) => {
- 
- 
+    let viewer = window.navigator.userAgent.toLowerCase();
 
-let viewer = window.navigator.userAgent.toLowerCase();
+    if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+      wx.miniProgram.getEnv((resrnv) => {
+        ordr_id.value = res.return;
+        wanchengt.value = false;
+        if (resrnv.miniprogram) {
+          // 小程序内部
+          if (res.code == 0) {
+            console.log("提交成功跳转支付");
+            //  ordr_id.value=res.return
+            //  wanchengt.value=false
+            wx.miniProgram.navigateTo({
+              url: "/pages/pay/pay?id=" + res.return,
+            });
+          }
+        } else {
+          // 微信浏览器
+          //  prepay5
+          // prepay7
+          HttpHelper.Post("wechat/prepay7", {
+            id: res.return,
+            types: "A",
+          }).then((payret) => {
+            console.log(payret, "payret");
 
-if (viewer.match(/MicroMessenger/i) == "micromessenger") {
-  wx.miniProgram.getEnv((resrnv) => {
-     ordr_id.value=res.return
- wanchengt.value=false
-    if (resrnv.miniprogram) {
-      // 小程序内部
-if(res.code==0){
- console.log("提交成功跳转支付");
-//  ordr_id.value=res.return
-//  wanchengt.value=false
- wx.miniProgram.navigateTo({url: '/pages/pay/pay?id='+res.return});
- }
-    }else{
-      // 微信浏览器
-    //  prepay5
-    // prepay7
-         HttpHelper.Post("wechat/prepay7",{
-            id:res.return,
-            types:'A'
-        }).then((payret)=>{
-            console.log(payret,'payret');
-
- WeixinJSBridge.invoke("getBrandWCPayRequest", payret, ress => {
-    //  alert(JSON.stringify(ress))
-                  if (ress.err_msg == "get_brand_wcpay_request:ok") {
-
-                    Toast('支付成功')
-                    // router.go(-1)
-
-
-                  }
-                });
-
-        })
-
-
-
+            WeixinJSBridge.invoke("getBrandWCPayRequest", payret, (ress) => {
+              //  alert(JSON.stringify(ress))
+              if (ress.err_msg == "get_brand_wcpay_request:ok") {
+                Toast("支付成功");
+                // router.go(-1)
+              }
+            });
+          });
+        }
+      });
     }
-  })
-}
+  });
+};
 
+var todetail = () => {
+  router.push("/integraldetail");
+};
 
-
-
- 
-  }) 
-}
-
-var todetail=()=>{
-     router.push('/integraldetail') 
-}
-
-
-let ordr_id=ref(0);
-let wanchengt=ref(false);
+let ordr_id = ref(0);
+let wanchengt = ref(false);
 // 判断服务支付情况
 let timer = setInterval(() => {
-     //需要定时执行的代码
-     wancheng()
-},1000)
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
 
+var wancheng = () => {
+  if (ordr_id.value > 0) {
+    HttpHelper.Post("integral/integralorderdetail", { id: ordr_id.value }).then(
+      (Res) => {
+        if (wanchengt.value != false) {
+          clearInterval(timer);
+        }
+        if (Res.orderstatus == "B" && wanchengt.value == false) {
+          console.log("进来哦了");
+          wanchengt.value = true;
+          ordr_id.value = 0;
 
-
-var wancheng=()=>{
-  if (ordr_id.value>0) {
-
-
-  HttpHelper.Post('integral/integralorderdetail',{id:ordr_id.value}).then((Res)=>{
-    if (wanchengt.value!=false) {
-  clearInterval(timer)
-}
-    if (Res.orderstatus=='B' && wanchengt.value==false) {
-    
-      console.log('进来哦了');
-      wanchengt.value=true
-      ordr_id.value=0
-
-PageHelper.LoginAuth(page, () => {});
-    
-     
-}
-
-
-})
-
-
-
-}
-}
-
-
+          PageHelper.LoginAuth(page, () => {});
+        }
+      }
+    );
+  }
+};
 </script>
 
 <template>
-  <div v-if="page.Res != null && page.Memberinfo!=null">
+  <div v-if="page.Res != null && page.Memberinfo != null">
     <div
       class="h-160"
       :style="{
@@ -192,7 +155,9 @@ PageHelper.LoginAuth(page, () => {});
           :src="page.uploadpath + 'resource/' + page.Res.xinxin"
           class="icon-26"
         />
-        <div class="f-30 bold c-w margin-left-4">{{page.Memberinfo.jifen}}</div>
+        <div class="f-30 bold c-w margin-left-4">
+          {{ page.Memberinfo.jifen }}
+        </div>
         <div class="flex-1"></div>
         <div
           class="
@@ -234,7 +199,7 @@ PageHelper.LoginAuth(page, () => {});
             style="width: 30%"
             v-for="(item, index) in integrallist"
             :key="index"
-            @click="checking(item.id,item.price)"
+            @click="checking(item.id, item.price)"
           >
             <div class="flex-row flex-bottom">
               <div class="f-24 bold">{{ item.price }}</div>
@@ -243,23 +208,20 @@ PageHelper.LoginAuth(page, () => {});
             <div class="margin-top-10 f-12">{{ item.integral }}积分</div>
           </div>
 
-<div  style="width: 30%;visibility: hidden"></div>
-
-          
-
+          <div style="width: 30%; visibility: hidden"></div>
         </div>
         <div
           class="
             flex-row flex-center
             h-45
-            padding-10 
+            padding-10
             bg-1
             border-radius-9
             margin-top-15
           "
         >
           <div class="f-14 bold c-2">其他金额</div>
-           
+
           <!-- <input
             type="number"
             placeholder="请输入充值金额"
@@ -267,18 +229,16 @@ PageHelper.LoginAuth(page, () => {});
          v-model="amount"
           /> -->
 
-
           <!-- type="digit" -->
 
-           <van-field
+          <van-field
             v-model="amount"
             @update:model-value="amount_input"
-             class="f-14 c-1 flex-1 bg-2 margin-left-10"
-             style="background:#F7F7F8"
-             type="digit"
+            class="f-14 c-1 flex-1 bg-2 margin-left-10"
+            style="background: #f7f7f8"
+            type="digit"
             placeholder="请输入充值金额"
           />
-
         </div>
       </div>
     </div>
@@ -286,7 +246,7 @@ PageHelper.LoginAuth(page, () => {});
     <!--  -->
     <div class="position-bottom" style="bottom: 20px">
       <div
-      @click="confrim"
+        @click="confrim"
         class="
           margin-left-14 margin-right-14
           h-40
@@ -299,7 +259,6 @@ PageHelper.LoginAuth(page, () => {});
           border-radius-20
         "
       >
-      
         确认充值
       </div>
     </div>

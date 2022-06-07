@@ -60,7 +60,6 @@ const getNowLngAndLat = $.ajax({
       console.log(arr[0], "rrr");
       init();
       deleteSomeInfo();
-
       addMarkerLayer();
     });
   },
@@ -137,11 +136,9 @@ const addMarkerLayer = () => {
 
 onMounted(() => {
   $.when(getNowLngAndLat).done(function () {});
+  
 });
 
-HttpHelper.Get("api/Auth", {appId:'38ccd6f4fc94cadb',appSerct:'471c4a38a0616c1aa154fb52178b88c3'}).then((Res) => {
-  console.log(Res, "rrrr");
-});
 
 // let MachineList = ref([])
 // HttpHelper.Get("CarWash/GetMachineListOfOnlie", {}).then((Res) => {
@@ -151,6 +148,7 @@ HttpHelper.Get("api/Auth", {appId:'38ccd6f4fc94cadb',appSerct:'471c4a38a0616c1aa
 
 // 跳转
 var personalcenter = (e) => {
+  console.log('llllll');
   router.push("/personalcenter");
 };
 var buycarwash = (e) => {
@@ -166,22 +164,25 @@ var placedetails = (e) => {
 
 <template>
   <div class="wf-100" v-if="page.Res != null">
-    <div class="container" id="QQMap" style="width: 100%; height: 200px"></div>
-    <div class="wf-100 padding-left-14 padding-right-14 imgbox flex-between">
+    <div class="container" id="QQMap" style="width: 100%; height: 200px">
+      <div class="wf-100 padding-left-14 padding-right-14 imgbox flex-between twoicon">
       <div>
         <img
           class="icon-40"
           :src="page.uploadpath + 'resource/' + page.Res.location"
+          @touchend="personalcenter()"
         />
       </div>
       <div>
         <img
           class="icon-40"
           :src="page.uploadpath + 'resource/' + page.Res.personalcenter"
-          @click="personalcenter()"
+          @touchend="personalcenter()"
         />
       </div>
     </div>
+    </div>
+    
     <div class="bg-10">
       <div class="bottom" style="background-color: #f7f7f8">
         <div class="bg-w">
@@ -251,5 +252,14 @@ var placedetails = (e) => {
 .bottom {
   position: fixed;
   bottom: 0;
+}
+.twoicon{
+  position: absolute;
+  bottom: 0;
+  z-index: 9999;
+}
+.container{
+  position: relative;
+  z-index: 98;
 }
 </style>

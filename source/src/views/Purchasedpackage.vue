@@ -9,9 +9,9 @@ let route = useRoute();
 
 let page = ref({});
 let statuslist = ref([
-  { name: "未使用", status: "A" },
-  { name: "已使用", status: "B" },
-  { name: "已过期", status: "C" },
+  { name: "未使用", status: "B" },
+  { name: "已使用", status: "C" },
+  { name: "已过期", status: "D" },
 ]);
 PageHelper.Init(page, () => {});
 
@@ -21,13 +21,17 @@ let current = ref("A");
 
 // 门店详情
 let packageorderlist = ref([]);
-HttpHelper.Post("carwash/packageorderlist", {}).then((res) => {
+HttpHelper.Post("carwash/packageorderlist", {zhuangtai:current.value}).then((res) => {
   packageorderlist.value = res;
 });
 
 // 购买
 var status = (e) => {
   current.value = e;
+  HttpHelper.Post("carwash/packageorderlist", {zhuangtai:current.value}).then((res) => {
+  packageorderlist.value = res;
+});
+
   console.log(current.value, "666");
 };
 </script>
@@ -57,7 +61,7 @@ var status = (e) => {
         v-for="(item, index) in packageorderlist"
         :key="index"
       >
-        <div v-if="item.orderstatus === current">
+        <div >
           <div>{{ item.synopsis }}</div>
           <div></div>
           <div>{{item.rule}}</div>

@@ -6,7 +6,7 @@ import { useRouter, useRoute } from "vue-router";
 import { Toast } from "vant";
 import store from "../State";
 import { Utils } from "../Utils";
-import { throttle } from "throttle-debounce"
+import { throttle } from "throttle-debounce";
 
 let page = ref({});
 let router = useRouter();
@@ -23,11 +23,11 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
   carwashpackagelist.value = Res;
 });
 let packageorderlist = ref([]);
-HttpHelper.Post("carwash/packageorderlist", {}).then((res) => {
+HttpHelper.Post("carwash/packageorderlist", { zhuangtai: "B" }).then((res) => {
   packageorderlist.value = res;
 });
-var package_id = ref('');
-var price = ref('');
+var package_id = ref("");
+var price = ref("");
 var synopsis = ref({});
 var rule = ref({});
 var selectpackage = (e) => {
@@ -36,7 +36,7 @@ var selectpackage = (e) => {
   synopsis.value = e.synopsis;
   rule.value = e.rule;
 };
-var order_id = ref('')
+var order_id = ref("");
 var selectpackage2 = (e) => {
   console.log(e);
   order_id.value = e.id;
@@ -44,8 +44,8 @@ var selectpackage2 = (e) => {
 //上传订单
 //支付
 
-var payorder = throttle(()=>{
-   HttpHelper.Post("carwash/packageorder", {
+var payorder = throttle(() => {
+  HttpHelper.Post("carwash/packageorder", {
     package_id: package_id.value,
     amount: price.value,
     synopsis: synopsis.value,
@@ -88,10 +88,8 @@ var payorder = throttle(()=>{
       });
     }
   });
-},2000)
-var payorder = () => {
- 
-};
+}, 2000);
+var payorder = () => {};
 
 // 跳转
 var personalcenter = (e) => {
@@ -102,16 +100,28 @@ var personalcenter = (e) => {
 <template>
   <div class="bg-10 h-m100 wf-100" v-if="page.Res != null">
     <div class="h-14 bg-10 wf-100"></div>
-    <div class="bg-w margin-left-14 margin-right-14 padding-top-10 margin-bottom-14">
-      <div class="h-38 line-height-38 f-16 bold margin-left-14">选择已购洗车套餐</div>
-      <div class="h-38 line-height-38 f-16 bold margin-left-14"
-        v-for="(item, index) in packageorderlist"
-        :key="index"
-        :class="{ active: item.id == order_id }"
-        @click="selectpackage2(item)"
-      >
-      {{item.synopsis}}
-      {{item.rule}}
+    <div
+      class="
+        bg-w
+        margin-left-14 margin-right-14
+        padding-top-10
+        margin-bottom-14
+      "
+    >
+      <div class="h-38 line-height-38 f-16 bold margin-left-14">
+        选择已购洗车套餐
+      </div>
+      <div class="imgbox">
+        <div
+          class=" f-16 bold margin-left-14 padding-10 taocan"
+          v-for="(item, index) in packageorderlist"
+          :key="index"
+          :class="{ active: item.id == order_id }"
+          @click="selectpackage2(item)"
+        >
+          <div>{{ item.synopsis }}</div>
+          <div class="margin-top-15">{{ item.rule }}</div>
+        </div>
       </div>
     </div>
     <div
@@ -198,5 +208,8 @@ var personalcenter = (e) => {
 }
 .active {
   border: 1px solid #1890fe;
+}
+.taocan{
+  border: #1890fe 1px solid;
 }
 </style>
