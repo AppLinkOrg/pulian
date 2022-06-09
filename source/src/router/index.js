@@ -62,6 +62,7 @@ import Carwashcourse from '../views/Carwashcourse.vue'
 import Helpinfo from '../views/Helpinfo.vue'
 import Deductionbond from '../views/Deductionbond.vue'
 import Purchasedpackage from '../views/Purchasedpackage.vue'
+import Carwashpaysuccess from '../views/Carwashpaysuccess.vue'
 
 
 const routes = [{
@@ -468,6 +469,13 @@ const routes = [{
   component:Purchasedpackage, 
   meta: {
     'name': '已购套餐'
+  }
+},{
+  path: '/carwashpaysuccess',
+  name: 'Carwashpaysuccess',
+  component:Carwashpaysuccess, 
+  meta: {
+    'name': '支付成功'
   }
 },
 

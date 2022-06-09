@@ -14,17 +14,29 @@ let route = useRoute();
 let bujilist = ref(null);
 let ordr_id = ref(0);
 let wanchengt = ref(false);
-
+let yhprice = ref(0);
+var package_id = ref([]);
+var price = ref({});
+var synopsis = ref({});
+var rule = ref({});
+var yh_id = ref({});
+var valid = ref({})
 PageHelper.Init(page, () => {});
 
 let carwashpackagelist = ref([]);
 let couponorder = ref([]);
 
 HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
+  
   HttpHelper.Post("carwash/couponorderlist", { yhstatus: "A" }).then((res) => {
     couponorder.value = res;
 
     Res.sort((a, b) => a.price - b.price);
+    package_id.value=Res[0].id
+    price.value = Res[0].price;
+    synopsis.value = Res[0].synopsis;
+    valid.value = Res[0].valid;
+    rule.value = Res[0].rule;
     console.log(Res, "11");
     carwashpackagelist.value = Res;
     for (let i = 0; i < carwashpackagelist.value.length; i++) {
@@ -36,6 +48,7 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
         }
       }
     }
+    selectpackage(Res[0])
   });
 });
 //优惠券
@@ -45,29 +58,45 @@ PageHelper.LoginAuth(page, () => {
 });
 
 // 选择套餐
-var package_id = ref({});
-var price = ref({});
-var synopsis = ref({});
-var rule = ref({});
+
+
 var selectpackage = (e) => {
   console.log(e.id);
   package_id.value = e.id;
   price.value = e.price;
   synopsis.value = e.synopsis;
   rule.value = e.rule;
+  valid.value = e.valid;
+  if (e.isyh) {
+    let arr = couponorder.value;
+    arr.sort((a, b) => b.jainshao - a.jainshao);
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i].manmoney <= price.value) {
+        yh_id.value = arr[i].id;
+        yhprice.value = arr[i].jainshao
+        break;
+      }
+    }
+  }else{
+    yh_id.value = -1
+    yhprice.value = 0
+  }
 };
 //创建一个新实例 并且 对class为wrapper对象 实现了一个纵向可点击的滚动效果
 
 //支付
 var payorder = () => {
+  console.log(valid.value,'666');
   HttpHelper.Post("carwash/packageorder", {
     package_id: package_id.value,
     amount: price.value,
     synopsis: synopsis.value,
     rule: rule.value,
+    couponorder_id:yh_id.value,
+    valid:valid.value,
   }).then((res) => {
-    let viewer = window.navigator.userAgent.toLowerCase();
 
+    let viewer = window.navigator.userAgent.toLowerCase();
     if (viewer.match(/MicroMessenger/i) == "micromessenger") {
       wx.miniProgram.getEnv((resrnv) => {
         ordr_id.value = res.return;
@@ -115,7 +144,14 @@ var personalcenter = (e) => {
   <div class="bg-10 h-m100 wf-100" v-if="page.Res != null">
     <div class="h-14 bg-10 wf-100"></div>
 
-    <div class="bg-w margin-left-14 margin-right-14 padding-top-10">
+    <div
+      class="
+        bg-w
+        margin-left-14 margin-right-14
+        padding-top-10
+        border-radius-10
+      "
+    >
       <div class="h-38 line-height-38 f-16 bold margin-left-14">
         请选购洗车套餐
       </div>
@@ -140,24 +176,26 @@ var personalcenter = (e) => {
           </div>
         </div>
       </div>
+      <div class="wf-100 h-14"></div>
     </div>
     <div
       class="
         bg-w
-        margin-left-14 margin-right-14
-        padding-top-10 padding-left-14 padding-right-14
+        margin-left-14 margin-right-14 margin-top-14
+        padding-top-10 padding-15
+        border-radius-10
       "
     >
       <div class="imgbox flex-between">
-        <div>自助5元洗车套餐1次</div>
-        <div>¥ 5</div>
+        <div class="line-height-18">使用劵</div>
+        <div class="line-height-18">-¥{{ yhprice }}</div>
       </div>
-      <div class="imgbox flex-between">
-        <div>全城通用 一年有效</div>
-        <div>¥ 48</div>
+      <div class="imgbox flex-between margin-top-14">
+        <div>订单总价</div>
+        <div>¥{{ price }}</div>
       </div>
     </div>
-    <div class="h-14 wf-100"></div>
+    <div class="h-1 wf-100"></div>
     <div
       class="
         bottom
@@ -169,8 +207,9 @@ var personalcenter = (e) => {
       "
     >
       <div class="">
-        <div>{{ price }}</div>
-        <div>222</div>
+        <div class="amount">
+          <span style="font-size:12px">¥</span>{{ price - yhprice }}</div>
+        <div class="f-12 c-7">已优惠¥{{ yhprice }}</div>
       </div>
       <div class="but" @click="payorder()">立即支付</div>
     </div>
@@ -221,5 +260,12 @@ var personalcenter = (e) => {
   font-weight: 400;
   color: #fb6260;
   line-height: 48px;
+}
+.amount {
+  font-size: 24px;
+  font-family: DIN;
+  font-weight: 500;
+  color: #fb6260;
+  line-height: 30px;
 }
 </style>

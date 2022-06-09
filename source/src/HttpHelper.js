@@ -22,23 +22,6 @@ export class HttpHelper {
       return res.data;
     });
   }
-  static Get(url, data) {
-    var fullurl = Config.ApiUrl2 + url;
-    var token =  window.localStorage.getItem("token");
-    var tokenkey = window.sessionStorage.getItem("v");
-    return Axios.get(fullurl, HttpHelper.ParamUrlencoded(data), {
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded',
-        'Sign': HttpHelper.Sign,
-        'Token': token,
-        'TokenKey': tokenkey,
-        'UNICODE': HttpHelper.Unicode
-      }
-    }).then((res) => {
-      console.log(url, data, res.data);
-      return res.data;
-    });
-  }
   static UploadImage(module,completecallback){
     
      wx.chooseImage({

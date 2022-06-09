@@ -155,8 +155,15 @@ var buycarwash = (e) => {
   router.push("/carwashcard");
 };
 var selectcarwashpackage = (e) => {
-  router.push("/selectcarwashpackage");
-};
+   HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
+     let status = res.networkstatus.onOfflines
+     if(status == '0'){
+       console.log(status,'111');
+     }else{
+       console.log(status,'222');
+     }
+   })
+   }
 var placedetails = (e) => {
   router.push("/placedetails?id=" + e);
 };
