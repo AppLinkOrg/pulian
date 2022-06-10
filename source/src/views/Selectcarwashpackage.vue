@@ -12,7 +12,7 @@ let page = ref({});
 let router = useRouter();
 let route = useRoute();
 let bujilist = ref(null);
-let ordr_id = ref(0);
+let ordr_id = ref(0); //现在购买的套餐
 let wanchengt = ref(false);
 let yhprice = ref({});
 let couponorder = ref([]);
@@ -21,6 +21,7 @@ var synopsis = ref({});
 var rule = ref({});
 var yh_id = ref({});
 var package_id = ref({});
+var order_id = ref(""); //已购套餐
 PageHelper.Init(page, () => {});
 
 let carwashpackagelist = ref([]);
@@ -74,7 +75,7 @@ var selectpackage = (e) => {
   }
   order_id.value = -1;
 };
-var order_id = ref("");
+
 var selectpackage2 = (e) => {
   console.log(e);
   order_id.value = e.id;
@@ -126,7 +127,19 @@ var payorder = () => {
                 if (ress.err_msg == "get_brand_wcpay_request:ok") {
                   Toast("支付成功");
                   // router.go(-1)
-                  router.push("/carwashpaysuccess?orderid=" + order_id.value);
+                  console.log("ordr_id.value");
+                  console.log("order_id.value");
+                  HttpHelper.Post("carwash/startup", {
+                    order_id: order_id.value,
+                  }).then((e) => {
+                    router.push("/carwashpaysuccess?orderid=" + order_id.value);
+                    if (e.statusCode == "200" && e.errCode == "0") {
+                      router.push("/carwashpaysuccess?orderid=" + order_id.value);
+                    } else {
+                      Toast(retMsg)
+                    }
+                  });
+                  
                 }
               });
             });

@@ -32,6 +32,12 @@
           "pathName": "/pages/home/home",
           "query": "url2=storedetail&id=9",
           "scene": null
+        },
+        {
+          "name": "/pages/paysuccess/paysuccess",
+          "pathName": "/pages/paysuccess/paysuccess",
+          "query": "",
+          "scene": null
         }
       ]
     }

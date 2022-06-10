@@ -7,7 +7,8 @@
         "pages/fwpay/fwpay",
         "pages/kefu/kefu",
         "pages/newopen/newopen",
-        "pages/pay/pay"
+        "pages/pay/pay",
+        "pages/paysuccess/paysuccess"
     ],
     "permission": {
         "scope.userLocation": {
@@ -18,8 +19,7 @@
         "backgroundTextStyle": "light",
         "enablePullDownRefresh": true,
         "navigationBarBackgroundColor": "#409EFF",
-        "navigationBarTextStyle": "white",
-        "navigationStyle": "custom"
+        "navigationBarTextStyle": "white"
     },
     "sitemapLocation": "sitemap.json"
 }

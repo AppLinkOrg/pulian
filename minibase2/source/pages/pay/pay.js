@@ -14,6 +14,9 @@ import {
 import {
   MemberApi
 } from "../../apis/member.api.js";
+import {
+  CarwashApi
+} from "../../apis/carwash.api.js";
 class Content extends AppBase {
   constructor() {
     super();
@@ -59,16 +62,21 @@ class Content extends AppBase {
         console.log(e, 'eee');
         if (e.errMsg == "requestPayment:ok") {
           that.Base.toast("支付成功");
-
-          // memberapi.addpointsrecord({
-          //   totle:1000
-          // },(ret)=>{ 
-
-          // })
-          wx.navigateBack({
-            delta: 0,
+          wx.navigateTo({
+            url: '/pages/paysuccess/paysuccess',
           })
-
+          var carwashapi = new CarwashApi();
+          carwashapi.startup({
+            
+          },(e)=>{
+            if(e.statusCode == '200'&& e.errCode=='0'){
+              wx.navigateBack({
+                delta: 0,
+              })
+            }else{
+              that.Base.toast(retMsg);
+            }
+          })
         } else {
           that.Base.toast("支付失败");
           wx.navigateBack({
@@ -163,8 +171,6 @@ class Content extends AppBase {
           wx.navigateBack({
             delta: 0,
           })
-
-
         } else {
           that.Base.toast("支付失败");
           wx.navigateBack({

@@ -156,11 +156,17 @@ var buycarwash = (e) => {
 };
 var selectcarwashpackage = (e) => {
    HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
+     router.push("/selectcarwashpackage")
      let status = res.networkstatus.onOfflines
      if(status == '0'){
-       console.log(status,'111');
+       //离线
+       Toast('此台设备正在维护， 请更换其他机器。')
+     }else if(status == '1'){
+       //在线
+       router.push("/selectcarwashpackage")
      }else{
-       console.log(status,'222');
+       //工作中
+       Toast('此台设备正在使用中， 请手动关闭后重新扫码使用。')
      }
    })
    }
