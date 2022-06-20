@@ -42,10 +42,7 @@ xzindex.value=0
 
 // gouse 去使用
 var gouse=(index)=>{
-    
-
     router.push('/couponbag?id='+couponorder.value[index].coupon_id+'&couponorder_id='+couponorder.value[index].id+'&type=A')
-
 }
 
 yhlist();

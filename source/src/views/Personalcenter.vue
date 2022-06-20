@@ -22,10 +22,13 @@ HttpHelper.Post("carwash/carwashplacelist", {}).then((Res) => {
 });
 
 PageHelper.LoginAuth(page, () => {
-  liebiao();
+  
 });
 // 授权页面点击
-// alert(1111)
+
+
+
+
 var shouquan = () => {
   PageHelper.LoginAuth(page, () => {});
 
@@ -42,7 +45,6 @@ var shouquan = () => {
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
   }
 };
-
 let show = ref(0);
 let timer = setInterval(() => {
   //需要定时执行的代码
@@ -69,7 +71,11 @@ var wancheng = () => {
     clearInterval(timer);
   }
 };
-
+let yhnum = ref({})
+HttpHelper.Post('carwash/couponorderlist',{yhstatus:'A'}).then((res)=>{
+  console.log(res,'res');
+  yhnum.value=res.length
+})
 // 联系客服
 var lianxikf = ()=>{
   kfshow.value = true
@@ -94,43 +100,47 @@ var purchasedpackage = (e) => {
 var carwashorder = (e) => {
   router.push("/carwashorder");
 };
+var fuzhi=(str)=>{
+  PageHelper.Copy(str);
+}
 </script>
 
 <template>
-  <div v-if="page.Res != null">
+  <div v-if="page.Res != null" class="bacc padding-top-25">
+    <div class=""></div>
     <div
       class="
         wf-100
         padding-left-14 padding-right-14
         imgbox
         flex-between
-        margin-top-25
+        
       "
     >
       <div class="imgbox flex-star">
-        <div>
-          <img class="icon-70 radius" :src="page.Memberinfo.avatarUrl" />
+        <div class="margin-right-10" >
+          <img class="icon-55 radius" :src="page.Memberinfo.avatarUrl" />
         </div>
-        <div class="flex-row column">
-          <div style="line-height: 20px">{{ page.Memberinfo.nickName }}</div>
-          <div style="line-height: 20px">{{ page.Memberinfo.mobile }}</div>
+        <div class="flex-row column flex-around padding-top-14 padding-bottom-14">
+          <div  class="name">{{ page.Memberinfo.nickName }}</div>
+          <div style="line-height: 20px" class="c-7">{{ page.Memberinfo.mobile }}</div>
         </div>
       </div>
     </div>
     <div class="wf-100 padding-left-14 padding-right-14 margin-top-20">
       <div class="imgbox flex-around">
-        <div @click="deductionbond()">
-          <div>5</div>
-          <div>优惠券</div>
+        <div @click="deductionbond()" class="wrapper column">
+          <div class="num margin-bottom-10">{{yhnum}}</div>
+          <div class="c-1">优惠券</div>
         </div>
         <div class="wrapper column">
-          <div>{{ page.Memberinfo.jifen }}</div>
-          <div>积分</div>
+          <div class="num margin-bottom-10 ">{{ page.Memberinfo.jifen }}</div>
+          <div class="c-1">积分</div>
         </div>
       </div>
     </div>
     <div class="wf-100 padding-left-14 padding-right-14 margin-top-10">
-      <div class="imgbox flex-between flex-center h-60" @click="carwashorder()">
+      <div class="imgbox flex-between flex-center h-60 solid" @click="carwashorder()">
         <div style="line-height: 40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"
@@ -147,7 +157,7 @@ var carwashorder = (e) => {
         </div>
       </div>
       <div
-        class="imgbox flex-between flex-center h-60"
+        class="imgbox flex-between flex-center h-60 solid"
         @click="purchasedpackage()"
       >
         <div style="line-height: 40px" class="imgbox flex-between flex-center">
@@ -166,7 +176,7 @@ var carwashorder = (e) => {
         </div>
       </div>
       <div
-        class="imgbox flex-between flex-center h-60"
+        class="imgbox flex-between flex-center h-60 solid"
         @click="carwashcourse()"
       >
         <div style="line-height: 40px" class="imgbox flex-between flex-center">
@@ -184,7 +194,7 @@ var carwashorder = (e) => {
           />
         </div>
       </div>
-      <div class="imgbox flex-between flex-center h-60" @click="lianxikf()">
+      <div class="imgbox flex-between flex-center h-60 solid" @click="lianxikf()">
         <div style="line-height: 40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"
@@ -201,7 +211,7 @@ var carwashorder = (e) => {
           />
         </div>
       </div>
-      <div class="imgbox flex-between flex-center h-60" @click="helpinfo()">
+      <div class="imgbox flex-between flex-center h-60 solid" @click="helpinfo()" >
         <div style="line-height: 40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"
@@ -259,5 +269,30 @@ var carwashorder = (e) => {
 }
 .radius {
   border-radius: 50%;
+}
+.name{
+  height: 16px;
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 16px;
+}
+.num{
+  font-size: 20px;
+  font-family: DIN;
+  font-weight: 500;
+  color: #1890FE;
+  line-height: 20px;
+}
+.solid{
+  border-bottom: 1px solid #eeeeee;
+}
+.bacc{
+  background: url(https://lanhu.oss-cn-beijing.aliyuncs.com/psban9hk9dr76g1evq74j177rv82titkzlk31d78768-1598-46e4-b0fd-c344a0767187) 100% no-repeat;
+  width: 750rpx;
+  height: 518rpx;
+  background-size: 750rpx 932rpx;
+  z-index: 0;
 }
 </style>

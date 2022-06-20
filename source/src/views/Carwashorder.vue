@@ -8,10 +8,11 @@ let router = useRouter();
 let route = useRoute();
 
 let page = ref({});
+let name = ref({});
 let statuslist = ref([
-  { name: "未使用", status: "B" },
-  { name: "已使用", status: "C" },
-  { name: "已过期", status: "D" },
+  { name: "已完成", status: "A" },
+  { name: "进行中", status: "B" },
+  { name: "启动失败", status: "C" },
 ]);
 PageHelper.Init(page, () => {});
 
@@ -20,19 +21,23 @@ var storedetail = ref({});
 let current = ref("A");
 
 // 门店详情
-let packageorderlist = ref([]);
-HttpHelper.Post("carwash/packageorderlist", {zhuangtai:current.value}).then((res) => {
-  packageorderlist.value = res;
+let carwashorderlist = ref([]);
+HttpHelper.Post("carwash/carwashorderlist", {zhuangtai:current.value}).then((res) => {
+  carwashorderlist.value = res;
 });
 
 // 购买
 var status = (e) => {
   current.value = e;
-  HttpHelper.Post("carwash/packageorderlist", {zhuangtai:current.value}).then((res) => {
-  packageorderlist.value = res;
+  HttpHelper.Post("carwash/carwashorderlist", {zhuangtai:current.value}).then((res) => {
+  carwashorderlist.value = res;
 });
 
+
   console.log(current.value, "666");
+};
+var carwashdetails = (e) => {
+  router.push("/carwashdetails?id=" + e);
 };
 </script>
 
@@ -53,20 +58,29 @@ var status = (e) => {
     <div class="bg-10 order wf-100 padding-top-14">
       <div
         class="
-          padding-left-14 padding-right-14
+          padding-15
           margin-left-14 margin-right-14
           bg-w
           margin-bottom-14
+          border-radius-10
         "
-        v-for="(item, index) in packageorderlist"
-        :key="index"
+        v-for="item in carwashorderlist"
+        @click="carwashdetails(item.id)"
+        :key="item.id"
       >
-        <div >
-          <div>{{ item.synopsis }}</div>
-          <div></div>
-          <div>{{item.rule}}</div>
+        <div>
+          <div class="c-1 margin-bottom-10 flex-row flex-between">
+            <div>下单时间：{{ item.paytime }}</div>
+            <div v-if="current == 'A'">已完成</div>
+            <div v-else-if="current == 'B'">进行中</div>
+            <div v-else>已退款</div>
+          </div>
+          <div class="f-16 bold margin-bottom-10">{{ item.name }}</div>
+          <div class="c-1 f-13 margin-bottom-10">{{ item.synopsis }}</div>
+          <div class="c-1 f-13">实付：¥{{ item.amount }}</div>
         </div>
       </div>
+      <div class="bg-10 h-1 wf-100"></div>
     </div>
   </div>
 </template>

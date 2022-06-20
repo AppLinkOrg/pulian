@@ -23,7 +23,50 @@ var yh_id = ref({});
 var package_id = ref({});
 var order_id = ref(""); //已购套餐
 PageHelper.Init(page, () => {});
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
 
+  if (page.value.Memberinfo.touxiang != "B") {
+    show.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
+let show = ref(0);
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
+
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  } else {
+    console.log(page.value.Memberinfo);
+  }
+  if (show.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (show.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 let carwashpackagelist = ref([]);
 HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
   HttpHelper.Post("carwash/couponorderlist", { yhstatus: "A" }).then((res) => {
@@ -38,10 +81,15 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
     carwashpackagelist.value = Res;
     for (let i = 0; i < carwashpackagelist.value.length; i++) {
       carwashpackagelist.value[i].isyh = false;
+      carwashpackagelist.value[i].yh = 0;
+      console.log(i,'iii');
       for (let j = 0; j < res.length; j++) {
-        if (carwashpackagelist.value[i].price >= res[j].manmoney) {
+        if (carwashpackagelist.value[i].price*1 >= res[j].manmoney*1) {
+          console.log(j,'jjj');
           carwashpackagelist.value[i].isyh = true;
-          break;
+          console.log(carwashpackagelist.value[i].isyh);
+          carwashpackagelist.value[i].yh = res[j].jainshao;
+          j=res.length;
         }
       }
     }
@@ -49,7 +97,7 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
   });
 });
 let packageorderlist = ref([]);
-HttpHelper.Post("carwash/packageorderlist", { zhuangtai: "B" }).then((res) => {
+HttpHelper.Post("carwash/packageorderlist", { zhuangtai: "A" }).then((res) => {
   packageorderlist.value = res;
 });
 
@@ -63,7 +111,7 @@ var selectpackage = (e) => {
     let arr = couponorder.value;
     arr.sort((a, b) => b.jainshao - a.jainshao);
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].manmoney <= price.value) {
+      if (arr[i].manmoney >= price.value) {
         yh_id.value = arr[i].id;
         yhprice.value = arr[i].jainshao;
         break;
@@ -86,16 +134,16 @@ var selectpackage2 = (e) => {
 };
 //上传订单
 //支付
-//创建一个新实例 并且 对class为wrapper对象 实现了一个纵向可点击的滚动效果
-
 var payorder = () => {
   if (price.value != 0) {
-    HttpHelper.Post("carwash/packageorder", {
+    HttpHelper.Post("carwash/uploadcarwashorder", {
       package_id: package_id.value,
       amount: price.value,
       synopsis: synopsis.value,
       rule: rule.value,
       couponorder_id: yh_id.value,
+      tel: page.value.Memberinfo.mobile,
+      machine_id:route.query.id
     }).then((res) => {
       let viewer = window.navigator.userAgent.toLowerCase();
 
@@ -117,7 +165,7 @@ var payorder = () => {
             // 微信浏览器
             //  prepay5
             // prepay7
-            HttpHelper.Post("wechat/packageorder", {
+            HttpHelper.Post("wechat/carwash ", {
               id: res.return,
             }).then((payret) => {
               console.log(payret, "payret");
@@ -127,19 +175,7 @@ var payorder = () => {
                 if (ress.err_msg == "get_brand_wcpay_request:ok") {
                   Toast("支付成功");
                   // router.go(-1)
-                  console.log("ordr_id.value");
-                  console.log("order_id.value");
-                  HttpHelper.Post("carwash/startup", {
-                    order_id: order_id.value,
-                  }).then((e) => {
-                    router.push("/carwashpaysuccess?orderid=" + order_id.value);
-                    if (e.statusCode == "200" && e.errCode == "0") {
-                      router.push("/carwashpaysuccess?orderid=" + order_id.value);
-                    } else {
-                      Toast(retMsg)
-                    }
-                  });
-                  
+                  router.push("/carwashpaysuccess?orderid=" + order_id.value + '&type=' + 'A');
                 }
               });
             });
@@ -148,7 +184,20 @@ var payorder = () => {
       }
     });
   } else {
-    router.push("/carwashpaysuccess?orderid=" + order_id.value);
+    console.log(order_id.value,route.query.id,page.value.Memberinfo.mobile,);
+    HttpHelper.Post("carwash/startup", {
+      packageorder_id: order_id.value,
+      machine_id:route.query.id,
+      tel: page.value.Memberinfo.mobile,
+    }).then((e) => {
+      console.log(e,'666');
+      router.push("/carwashpaysuccess?orderid=" + order_id.value);
+      if (e.statusCode == "200" && e.errCode == "0") {
+        router.push("/carwashpaysuccess?orderid=" + order_id.value);
+      } else {
+        Toast(e.retMsg);
+      }
+    });
   }
 };
 </script>
@@ -162,6 +211,7 @@ var payorder = () => {
         margin-left-14 margin-right-14
         padding-top-10 padding-bottom-10
         margin-bottom-14
+        border-radius-10
       "
     >
       <div class="h-38 line-height-38 f-16 bold margin-left-14">
@@ -169,15 +219,17 @@ var payorder = () => {
       </div>
       <div class="flex-row scroll-view">
         <div
-          class="f-16 bold margin-left-14 padding-10 taocan"
+          class="f-16 bold margin-left-14 padding-10 taocan border-radius-10"
           style="display: inline-block"
           v-for="(item, index) in packageorderlist"
           :key="index"
           :class="{ active: item.id == order_id }"
           @click="selectpackage2(item)"
         >
-          <div>{{ item.synopsis }}</div>
-          <div class="margin-top-15">{{ item.rule }}</div>
+          <div :class="{ active2: item.id == order_id }">
+            {{ item.synopsis }}
+          </div>
+          <div class="margin-top-15 f-14 c-1">{{ item.rule }}</div>
         </div>
       </div>
       <div class="h-14 f-16 bold margin-left-14"></div>
@@ -186,7 +238,7 @@ var payorder = () => {
       class="
         bg-w
         margin-left-14 margin-right-14
-        padding-left-14 padding-right-14 padding-top-10
+        padding-left-14 padding-right-14 padding-top-10 border-radius-10
       "
     >
       <div class="h-38 line-height-38 f-16 bold">请选购洗车套餐</div>
@@ -198,28 +250,37 @@ var payorder = () => {
         @click="selectpackage(item)"
       >
         <div class="imgbox flex-between price">
-          <div>{{ item.synopsis }}</div>
-          <div>¥{{ item.price }}</div>
+          <div class="f-16 bold">{{ item.synopsis }}</div>
+          <div class="jiage">
+            <span style="font-size: 15px">¥</span>{{ item.price }}
+          </div>
         </div>
         <div class="imgbox flex-between price">
-          <div>{{ item.rule }}</div>
-          <div v-if="item.isyh" class="isyh">（您有抵扣券可用）</div>
-          <div v-else class="isyh">（暂无抵扣劵）</div>
+          <div class="f-14 c-1">{{ item.rule }}</div>
+          <div v-if="item.isyh" class="isyh">优惠券减{{ item.yh }}元</div>
+          <div v-else class="isyh">(暂无抵扣劵)</div>
         </div>
       </div>
 
-      <div class="">
-        <div class="imgbox flex-between">
-          <div>使用券</div>
-          <div>-¥{{ yhprice }}</div>
-        </div>
-        <div class="imgbox flex-between">
-          <div>订单总价</div>
-          <div v-if="price != ''">¥{{ price }}</div>
-          <div v-else>¥0</div>
-        </div>
+      <div class="h-4 wf-100"></div>
+    </div>
+    <div
+      class="
+        margin-left-14 margin-right-14 margin-top-14
+        bg-w
+        padding-15
+        border-radius-10
+      "
+    >
+      <div class="imgbox flex-between">
+        <div class="c-1">使用券</div>
+        <div class="isyh">-¥{{ yhprice }}</div>
       </div>
-      <div class="h-14 wf-100"></div>
+      <div class="imgbox flex-between margin-top-10">
+        <div class="c-1">订单总价</div>
+        <div class="bold f-15" v-if="price != ''">¥{{ price }}</div>
+        <div class="bold f-15" v-else>¥0</div>
+      </div>
     </div>
     <div
       class="
@@ -232,7 +293,9 @@ var payorder = () => {
       "
     >
       <div class="">
-        <div>¥{{ price - yhprice }}</div>
+        <div class="allprice">
+          <span style="font-size: 10px">¥</span>{{ price - yhprice }}
+        </div>
       </div>
       <div class="but" @click="payorder()">立即支付</div>
     </div>
@@ -255,6 +318,12 @@ var payorder = () => {
   font-size: 14px;
   color: #ffffff;
 }
+.jiage {
+  font-size: 25px;
+  font-family: DIN;
+  font-weight: 500;
+  color: #1890fe;
+}
 .washcard {
   border: 1px solid #eeeeee;
   border-radius: 10px;
@@ -266,6 +335,9 @@ var payorder = () => {
 }
 .active {
   border: 1px solid #1890fe !important;
+}
+.active2 {
+  color: #1890fe;
 }
 .taocan {
   border: #eeeeee 1px solid;
@@ -279,9 +351,15 @@ var payorder = () => {
   overflow-y: hidden;
 }
 .isyh {
-  font-size: 12px;
+  font-size: 14px;
   font-family: PingFang SC;
   font-weight: 400;
+  color: #fb6260;
+}
+.allprice {
+  font-size: 24px;
+  font-family: DIN;
+  font-weight: 500;
   color: #fb6260;
 }
 </style>

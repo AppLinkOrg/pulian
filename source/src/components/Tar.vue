@@ -50,8 +50,8 @@ pathname.value=props.pathname
   if (pathname.value=='/integral'&&active.value!='/integral') {
   active.value='integral'
  }
-  if (pathname.value=='/storelist'&&active.value!='/storelist') {
-  active.value='storelist'
+  if (pathname.value=='/carwash'&&active.value!='/carwash') {
+  active.value='carwash'
  }
   if (pathname.value=='/myselef'&&active.value!='/myselef') {
    active.value='myselef'
@@ -75,8 +75,8 @@ var tz = (num) => {
                active.value='integral'
           }
           if (num==3) {
-             router.push('/storelist') 
-               active.value='store'
+             router.push('/carwash') 
+               active.value='carwash'
           }
           if (num==4) {
               router.push('/myselef') 
@@ -93,7 +93,7 @@ var tz = (num) => {
     
   <van-tabbar-item icon="home-o" @click="tz(1)" name="/">首页</van-tabbar-item>
   <van-tabbar-item icon="points" @click="tz(2)" name="/integral">积分</van-tabbar-item>
-  <van-tabbar-item icon="shop-o" @click="tz(3)" name="/storelist">门店</van-tabbar-item>
+  <van-tabbar-item icon="shop-o" @click="tz(3)" name="/carwash">洗车</van-tabbar-item>
   <van-tabbar-item icon="manager-o" @click="tz(4)" name="/myselef">我的</van-tabbar-item>
 </van-tabbar>
 

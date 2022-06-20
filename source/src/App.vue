@@ -43,7 +43,6 @@ watch(
     // window.document.querySelector("title").text=route.meta.name;
 
     // window.document.title=route.meta.name;
-
     // window.document.querySelector("title").text=route.meta.name;
 
     // console.log(e,'querySelector');
@@ -394,9 +393,16 @@ height: 68px; */
 .flex-between {
   justify-content: space-between;
 }
+.flex-center2 {
+  justify-content: center;
+}
+.flex-center3 {
+  align-items: center;
+}
 .flex-around {
   justify-content: space-around;
 }
+
 .minheight {
   min-height: 100vh;
 }
@@ -731,6 +737,9 @@ button {
 }
 .padding-top-15 {
   padding-top: 15px;
+}
+.padding-top-25 {
+  padding-top: 25px;
 }
 .padding-top-20 {
   padding-top: 20px;

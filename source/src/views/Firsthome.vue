@@ -97,9 +97,9 @@ let member_id = ref(null);
 member_id.value = route.query.member_id;
 // route.query.openid
 // owMBk5ZESuUrZUEPnfrbtj-jsVdM
-console.log( route.query.openid,'route.query.openid');
+console.log(route.query.openid, "route.query.openid");
 if (route.query.openid != undefined && route.query.openid != "") {
-  console.log( route.query.openid,' route.query.openid');
+  console.log(route.query.openid, " route.query.openid");
   window.localStorage.setItem("token", route.query.openid);
 }
 
@@ -565,32 +565,34 @@ var fuwuall = (e) => {
             :src="page.uploadpath + 'information/' + item.img"
             class="icon-84 border-radius-5"
           />
-          <div class="margin-left-10  imgbox column flex-between ">
+          <div class="margin-left-10 imgbox column flex-between">
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
-            <div class=" f-15 c-2 imgbox flex-between ">
-              <div class="f-13 c-1 ">
-                <img 
-                :src="page.uploadpath + 'resource/' + page.Res.time"
-                class="icon-13">
-                {{item.time}}
+            <div class="f-15 c-2 imgbox flex-between">
+              <div class="f-13 c-1">
+                <img
+                  :src="page.uploadpath + 'resource/' + page.Res.time"
+                  class="icon-13"
+                />
+                {{ item.time }}
               </div>
-              <div class="f-13 c-1  ">
-                <img 
-                :src="page.uploadpath + 'resource/' + page.Res.views"
-                class="icon-13">
-                {{item.views}}
+              <div class="f-13 c-1">
+                <img
+                  :src="page.uploadpath + 'resource/' + page.Res.views"
+                  class="icon-13"
+                />
+                {{ item.views }}
               </div>
             </div>
           </div>
         </div>
       </div>
       <!-- 附近门店 -->
-      <div class="flex-row flex-center margin-top-26">
+      <!-- <div class="flex-row flex-center margin-top-26">
         <div class="shu1"></div>
         <div class="margin-left-10 bold f-17 c-2">附近门店</div>
-      </div>
+      </div> -->
       <!-- 分类 -->
-
+      <!-- 
       <div
         v-if="false"
         class="flex-row flex-center margin-top-14 margin-bottom-30"
@@ -618,7 +620,7 @@ var fuwuall = (e) => {
         >
           {{ item.name }}
         </div>
-      </div>
+      </div> -->
     </div>
     <!-- 店铺 -->
     <!-- <div
@@ -666,7 +668,7 @@ var fuwuall = (e) => {
       </div>
       <div class="bg-1 h-4"></div>
     </div> -->
-
+<!-- 
     <div
       v-for="(item, index) in storelist"
       :key="index"
@@ -701,7 +703,7 @@ var fuwuall = (e) => {
           </div>
         </div>
         <div class="bg-2 margin-top-15" style="height: 1px"></div>
-        <!-- @click.stop="fuwustodetail()" -->
+
         <div v-for="(items, indexs) in item.servicepricelist" :key="indexs">
           <div v-if="item.shownum == false">
             <div class="margin-top-15 margin-bottom-15" v-if="indexs < 3">
@@ -821,9 +823,9 @@ var fuwuall = (e) => {
         </div>
       </div>
       <div class="bg-1 h-4"></div>
-    </div>
+    </div> -->
 
-    <div class="h-93"></div>
+    <div class="h-93 w-100f"></div>
 
     <!-- 嵌入内容 -->
     <van-overlay :show="show" @click="close">

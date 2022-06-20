@@ -40,11 +40,16 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
     console.log(Res, "11");
     carwashpackagelist.value = Res;
     for (let i = 0; i < carwashpackagelist.value.length; i++) {
+      console.log(i,'iiiii');
       carwashpackagelist.value[i].isyh = false;
+      carwashpackagelist.value[i].yh = 0;
       for (let j = 0; j < res.length; j++) {
-        if (carwashpackagelist.value[i].price >= res[j].manmoney) {
+        if (carwashpackagelist.value[i].price*1 >= res[j].manmoney*1) {
+          console.log(j,'jjjj');
           carwashpackagelist.value[i].isyh = true;
-          break;
+          console.log(carwashpackagelist.value[i].isyh);
+          carwashpackagelist.value[i].yh = res[j].jainshao;
+          j=res.length;
         }
       }
     }
@@ -54,7 +59,6 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
 //优惠券
 
 PageHelper.LoginAuth(page, () => {
-  liebiao();
 });
 
 // 选择套餐
@@ -108,7 +112,7 @@ var payorder = () => {
             //  ordr_id.value=res.return
             //  wanchengt.value=false
             wx.miniProgram.navigateTo({
-              url: "/pages/pay/pay?id=" + res.return + "&type=" + "P",
+              url: "/pages/pay/pay?id=" + res.return + "&type=" + "Q",
             });
           }
         } else {
@@ -118,13 +122,12 @@ var payorder = () => {
           HttpHelper.Post("wechat/packageorder", {
             id: res.return,
           }).then((payret) => {
-            console.log(payret, "payret");
 
             WeixinJSBridge.invoke("getBrandWCPayRequest", payret, (ress) => {
               //  alert(JSON.stringify(ress))
               if (ress.err_msg == "get_brand_wcpay_request:ok") {
                 Toast("支付成功");
-                // router.go(-1)
+                router.push("/carwashpaysuccess?type="  + 'B');
               }
             });
           });
@@ -170,9 +173,9 @@ var personalcenter = (e) => {
             </div>
           </div>
           <div class="imgbox flex-between price">
-            <div>{{ item.rule }}</div>
-            <div v-if="item.isyh" class="isyh">（您有抵扣券可用）</div>
-            <div v-else class="isyh">（暂无抵扣劵）</div>
+            <div class="f-14 c-1 f-bold">{{ item.rule }}</div>
+            <div v-if="item.isyh" class="isyh">优惠券-{{item.yh}}元</div>
+            <div v-else class="isyh">(暂无抵扣劵)</div>
           </div>
         </div>
       </div>
@@ -187,12 +190,12 @@ var personalcenter = (e) => {
       "
     >
       <div class="imgbox flex-between">
-        <div class="line-height-18">使用劵</div>
-        <div class="line-height-18">-¥{{ yhprice }}</div>
+        <div class="line-height-18 f-14 c-7">使用劵</div>
+        <div class="line-height-18 f-16 c-5 bold">-¥{{ yhprice }}</div>
       </div>
       <div class="imgbox flex-between margin-top-14">
-        <div>订单总价</div>
-        <div>¥{{ price }}</div>
+        <div class="f-14 c-7 ">订单总价</div>
+        <div class="f-16 bold">¥{{ price }}</div>
       </div>
     </div>
     <div class="h-1 wf-100"></div>
@@ -233,33 +236,26 @@ var personalcenter = (e) => {
   color: #ffffff;
 }
 #washcard {
-  height: 80px;
-  border: 1px solid #eeeeee;
-  border-radius: 10px;
+  border: 1px solid #eeeeee; 
+  border-radius: 10px; 
   margin-bottom: 14px;
-  padding-left: 14px;
-  padding-right: 14px;
-}
-.price {
-  height: 40px;
-  line-height: 40px;
+  padding: 14px;
 }
 .active {
   border: 1px solid #1890fe !important;
 }
 .price2 {
-  width: 55px;
-  font-size: 30px;
+  font-size: 25px;
   font-family: DIN;
   font-weight: 500;
   color: #1890fe;
+  line-height: 25px;
 }
 .isyh {
-  font-size: 12px;
+  font-size: 14px;
   font-family: PingFang SC;
   font-weight: 400;
   color: #fb6260;
-  line-height: 48px;
 }
 .amount {
   font-size: 24px;

@@ -15,7 +15,8 @@ class Content extends AppBase {
     })
     super.onLoad(options);
     this.Base.setMyData({
-      url:"http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/pulian/"
+      url:"http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/pulian/",
+      type:this.options.type
     })
   }
   onMyShow() {

@@ -4,6 +4,7 @@ import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
 import { Toast } from 'vant';
+import { logLight } from "naive-ui/lib/log/styles";
 
 let page = ref({});
 let router = useRouter();
@@ -16,9 +17,12 @@ let qiandaocha2=ref(0);
 
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
-
+HttpHelper.Post('member/info',{}).then((res)=>{
+  console.log(res,'ssssssssss');
+    pointsmallist.value=res
+})
 // 初始化展示列表
-  HttpHelper.Post('pointsmall/pointsmallist',{leixinss:leixin.value}).then((res)=>{
+HttpHelper.Post('pointsmall/pointsmallist',{leixinss:leixin.value}).then((res)=>{
     pointsmallist.value=res
 })
 

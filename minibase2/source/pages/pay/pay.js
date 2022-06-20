@@ -34,7 +34,8 @@ class Content extends AppBase {
     } else if (this.Base.options.type == 'B') {
       this.pay3()
     } else if (this.Base.options.type == 'P') {
-      console.log('999999999999');
+      this.prepayxiche()
+    } else if (this.Base.options.type == 'Q') {
       this.prepaytaocan()
     } else {
       this.pay();
@@ -48,8 +49,52 @@ class Content extends AppBase {
 
 
   }
+  prepayxiche(){
+    var that = this;
+    var id=this.Base.options.id;
+    var wechatapi = new WechatApi();
+    var memberapi = new MemberApi();
+    wechatapi.paycarwash({
+      id: this.Base.options.id,
+      yh_id: this.Base.options.yh_id
+    }, (payret) => {
+      console.log(payret, '支付回调');
+
+      payret.complete = function (e) {
+        console.log(e, 'eee');
+        if (e.errMsg == "requestPayment:ok") {
+          that.Base.toast("支付成功");
+          var carwashapi = new CarwashApi();
+          carwashapi.startup({
+            carwashorder_id:id
+          },(e)=>{
+            console.log(e,'eeee');
+            if(e.statusCode == '200'&& e.errCode=='0'){
+              wx.navigateBack({
+                delta: 0,
+              })
+            }else{
+              that.Base.toast(e.retMsg);
+            }
+          })
+          wx.navigateTo({
+            url: '/pages/paysuccess/paysuccess',
+          })
+          
+        } else {
+          that.Base.toast("支付失败");
+          wx.navigateBack({
+            delta: 0,
+          })
+        }
+      }
+
+      wx.requestPayment(payret)
+    })
+  }
   prepaytaocan(){
     var that = this;
+    var id=this.Base.options.id;
     var wechatapi = new WechatApi();
     var memberapi = new MemberApi();
     wechatapi.prepaytaocan({
@@ -62,20 +107,9 @@ class Content extends AppBase {
         console.log(e, 'eee');
         if (e.errMsg == "requestPayment:ok") {
           that.Base.toast("支付成功");
-          wx.navigateTo({
-            url: '/pages/paysuccess/paysuccess',
-          })
           var carwashapi = new CarwashApi();
-          carwashapi.startup({
-            
-          },(e)=>{
-            if(e.statusCode == '200'&& e.errCode=='0'){
-              wx.navigateBack({
-                delta: 0,
-              })
-            }else{
-              that.Base.toast(retMsg);
-            }
+          wx.navigateTo({
+            url: '/pages/paysuccess/paysuccess?type="A"',
           })
         } else {
           that.Base.toast("支付失败");
@@ -193,4 +227,5 @@ body.pay = content.pay;
 body.pay2 = content.pay2;
 body.pay3 = content.pay3;
 body.prepaytaocan = content.prepaytaocan;
+body.prepayxiche = content.prepayxiche;
 Page(body)

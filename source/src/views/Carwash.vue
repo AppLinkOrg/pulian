@@ -22,6 +22,8 @@ let router = useRouter();
 let route = useRoute();
 let carwashplacelist = ref([]);
 const arr = new Array();
+let lat = ref({});
+let lng = ref({});
 PageHelper.Init(page, () => {});
 // 异步获得位置
 // 通过终端设备IP地址获取其当前所在地理位置，精确到市级
@@ -39,7 +41,8 @@ const getNowLngAndLat = $.ajax({
     // console.log(res)
     dataMap.latitude = res.result.location.lat;
     dataMap.lngitude = res.result.location.lng;
-
+    lat.value = res.result.location.lat;
+    lng.value = res.result.location.lng;
     HttpHelper.Post("carwash/carwashplacelist", {
       lng: res.result.location.lng,
       lat: res.result.location.lat,
@@ -100,7 +103,7 @@ const addMarkerLayer = () => {
     id: "center",
     position: dataMap.map.getCenter(),
   };
-   arr.push(markerGeo)
+  arr.push(markerGeo);
   console.log(arr.length, arr, "99999");
   // 创建一个位于地图中心点的marker
   dataMap.markerLayer = new TMap.MultiMarker({
@@ -116,7 +119,7 @@ const addMarkerLayer = () => {
       }),
     },
 
-    geometries: arr//点标记数据数组
+    geometries: arr, //点标记数据数组
   });
   //监听地图平移，panstart开始平移，panend平移结束
   // dataMap.map.on("pan", function () {
@@ -132,14 +135,26 @@ const addMarkerLayer = () => {
   //   });
   // });
 };
-
-
+var openArea=()=>{
+  var keys = "HN5BZ-FHPK4-6Z2U3-DBEUG-ZHXYV-AQFQV"
+  location.href = `https://apis.map.qq.com/tools/routeplan/eword=${route.query.address}&epointx=${route.query.lng}&epointy=${route.query.lat}&spointx=${lng.value}&spointy=${lat.value}?key=${keys}&referer=myaap`;
+}
 onMounted(() => {
+  if(route.query.address){
+    openArea()
+  }
   $.when(getNowLngAndLat).done(function () {});
-  
 });
-
-
+var easeTo =() =>{
+    dataMap.map.easeTo({
+        zoom: 17.2,
+        // rotation: 10, 
+        pitch: 10,
+        adcode: 110101,
+        center: new TMap.LatLng(lat.value, lng.value) 
+    },
+    );//平滑缩放,旋转到指定级别
+}
 // let MachineList = ref([])
 // HttpHelper.Get("CarWash/GetMachineListOfOnlie", {}).then((Res) => {
 //   console.log(Res, "MachineList");
@@ -148,57 +163,66 @@ onMounted(() => {
 
 // 跳转
 var personalcenter = (e) => {
-  console.log('llllll');
+  console.log("llllll");
   router.push("/personalcenter");
 };
 var buycarwash = (e) => {
   router.push("/carwashcard");
 };
 var selectcarwashpackage = (e) => {
-   HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
-     router.push("/selectcarwashpackage")
-     let status = res.networkstatus.onOfflines
-     if(status == '0'){
-       //离线
-       Toast('此台设备正在维护， 请更换其他机器。')
-     }else if(status == '1'){
-       //在线
-       router.push("/selectcarwashpackage")
-     }else{
-       //工作中
-       Toast('此台设备正在使用中， 请手动关闭后重新扫码使用。')
-     }
-   })
-   }
+  HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
+    router.push("/selectcarwashpackage?id=" + '1');
+    return;
+    let status = res.networkstatus.onOfflines;
+    if (status == "0") {
+      //离线
+      Toast("此台设备正在维护， 请更换其他机器。");
+    } else if (status == "1") {
+      //在线
+      router.push("/selectcarwashpackage?id=" + '1');
+    } else {
+      //工作中
+      Toast("此台设备正在使用中， 请手动关闭后重新扫码使用。");
+    }
+  });
+};
 var placedetails = (e) => {
-  router.push("/placedetails?id=" + e);
+  router.push("/placedetails?id=" + e.id + '&lat=' + e.lat + '&lng=' + e.lng + '&lat2=' + lat.value + '&lng2=' + lng.value );
 };
 </script>
 
 <template>
-  <div class="wf-100" v-if="page.Res != null">
-    <div class="container" id="QQMap" style="width: 100%; height: 200px">
-      <div class="wf-100 padding-left-14 padding-right-14 imgbox flex-between twoicon">
-      <div>
-        <img
-          class="icon-40"
-          :src="page.uploadpath + 'resource/' + page.Res.location"
-          @touchend="personalcenter()"
-        />
-      </div>
-      <div>
-        <img
-          class="icon-40"
-          :src="page.uploadpath + 'resource/' + page.Res.personalcenter"
-          @touchend="personalcenter()"
-        />
+  <div class="wf-100 h-m100 bg-10 " v-if="page.Res != null">
+    <div class="container" id="QQMap" style="width: 100%; height:40vh">
+      <div
+        class="
+          wf-100
+          padding-left-14 padding-right-14
+          imgbox
+          flex-between
+          twoicon
+        "
+      >
+        <div>
+          <img
+            class="icon-40"
+            :src="page.uploadpath + 'resource/' + page.Res.location"
+            @touchend="easeTo()"
+          />
+        </div>
+        <div>
+          <img
+            class="icon-40"
+            :src="page.uploadpath + 'resource/' + page.Res.personalcenter"
+            @touchend="personalcenter()"
+          />
+        </div>
       </div>
     </div>
-    </div>
-    
-    <div class="bg-10">
-      <div class="bottom" style="background-color: #f7f7f8">
-        <div class="bg-w">
+
+    <div class="bg-10 padding-top-10 " >
+      <div  style="background-color: #f7f7f8;margin-bottom:80px ">
+        <div class="bg-w margin-left-14 margin-right-14 border-radius-10">
           <img
             class="wf-100"
             :src="page.uploadpath + 'resource/' + page.Res.buycarwash"
@@ -206,15 +230,15 @@ var placedetails = (e) => {
           />
         </div>
         <div
-          class="bg-w margin-left-14 margin-right-14 margin-top-14"
+          class="bg-w margin-left-14 margin-right-14 margin-top-14 padding-10 border-radius-10 "
           v-for="(item, index) in carwashplacelist"
           :key="index"
-          @click="placedetails(item.id)"
+          @click="placedetails(item)"
         >
-          <div class="margin-bottom-10">
+          <div class="margin-bottom-10 f-14 bold c-2">
             {{ item.name }}
           </div>
-          <div class="margin-bottom-10">
+          <div class="margin-bottom-10 f-10 c-7">
             {{ item.address }}
           </div>
           <div class="margin-bottom-10 imgbox">
@@ -222,10 +246,10 @@ var placedetails = (e) => {
               class="icon-15"
               :src="page.uploadpath + 'resource/' + page.Res.distance"
             />
-            <div v-if="item.distance < 1000" class="line-height-19">
+            <div v-if="item.distance < 1000" class="line-height-19 c-1">
               {{ item.distance }}m
             </div>
-            <div class="line-height-19" v-else>
+            <div class="line-height-19 c-1" v-else>
               {{ Math.floor(item.distance / 1000) }}km
             </div>
             <img
@@ -234,18 +258,32 @@ var placedetails = (e) => {
             />
             <div class="line-height-19">{{ item.timeslot }}</div>
           </div>
-          <div class="margin-bottom-10">
-            {{ item.distance }}{{ item.timeslot }}{{ item.timeslot }}
+          <div class=" flex-row flex-between">
+            <div class="flex-row">
+              <div class="shebei">{{ item.jqstatus.zaixian }}台设备</div>
+              <div class="status" style="background-color: #01be6c">空闲</div>
+            </div>
+            <div class="flex-row">
+              <div class="shebei">{{ item.jqstatus.gongzuo }}台设备</div>
+              <div class="status" style="background-color: #fac601">忙碌</div>
+            </div>
+            <div class="flex-row">
+              <div class="shebei">{{ item.jqstatus.lixian }}台设备</div>
+              <div class="status" style="background-color: #ed0e3d">维修</div>
+            </div>
           </div>
         </div>
         <div
           class="
-            bg-w
-            margin-left-14 margin-right-14 margin-top-14 margin-bottom-14
+              margin-top-14 margin-bottom-14
+              padding-right-14
+              padding-left-14
+            bottom
           "
+          style="width: 100%;"
         >
           <div
-            class="wf-100 bg-6 border-radius-10 wrapper"
+            class="wf-100 bg-6 border-radius-10 wrapper "
             @click="selectcarwashpackage()"
           >
             <div>
@@ -266,13 +304,36 @@ var placedetails = (e) => {
   position: fixed;
   bottom: 0;
 }
-.twoicon{
+.twoicon {
   position: absolute;
   bottom: 0;
   z-index: 9999;
 }
-.container{
+.bottom2{
+  margin-bottom: 50px;
+}
+.container {
   position: relative;
   z-index: 98;
 }
+.status {
+  width: 30px;
+  height: 16px;
+  line-height: 16px;
+  background: #ed0e3d;
+  border-radius: 8px;
+  font-size: 10px;
+  font-family: PingFang SC;
+  font-weight: 400;
+  color: #ffffff;
+  text-align: center;
+}
+.shebei {
+  height: 16px;
+  line-height: 16px;
+  margin-right: 8px;
+}
+/* .win{
+  position: relative;
+} */
 </style>

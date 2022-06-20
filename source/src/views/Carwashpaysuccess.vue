@@ -12,26 +12,29 @@ import { logLight } from "naive-ui/lib/log/styles";
 let page = ref({});
 let router = useRouter();
 let route = useRoute();
-
-PageHelper.Init(page, () => {});
-
-HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {});
-//优惠券
-
-PageHelper.LoginAuth(page, () => {
-  liebiao();
+var type = ref({});
+PageHelper.Init(page, () => {
+ 
 });
 
-
-var start = () =>{
-    HttpHelper.Post("carwash/startup", {}).then((Res) => {
-        console.log(Res);
+if (route.query.type == "A") {
+    HttpHelper.Post("carwash/startup", {
+      carwashorder_id: route.query.order_id,
+    }).then((e) => {
+      if (e.statusCode == "200" && e.errCode == "0") {
+        type.value = route.query.type;
+      } else {
+        type.value = "C";
+        Toast(e.retMsg);
+      }
     });
+
 }
-// 跳转
-var personalcenter = (e) => {
-  router.push("/personalcenter");
-};
+ 
+//优惠券
+
+PageHelper.LoginAuth(page, () => {});
+
 var goindex = (e) => {
   router.push("/carwash");
 };
@@ -48,10 +51,18 @@ var goindex = (e) => {
       </div>
       <div class="margin-top-14">支付成功</div>
       <div class="margin-top-7">感谢您的购买</div>
-      <div class="margin-top-20 margin-bottom-20">此台设备可以正常使用</div>
+      <div class="margin-top-20 margin-bottom-20">
+        <span v-if="type == 'A'">此台设备可以正常使用</span>
+        <span v-if="type == 'C'">启动失败原套餐已退回您的账户</span>
+      </div>
     </div>
     <div class="flex-row flex-around margin-top-40">
-      <div class="backbtn imgbox column flex-center c-3 border" @click="goindex">返回首页</div>
+      <div
+        class="backbtn imgbox column flex-center c-3 border"
+        @click="goindex"
+      >
+        返回首页
+      </div>
     </div>
   </div>
 </template>
