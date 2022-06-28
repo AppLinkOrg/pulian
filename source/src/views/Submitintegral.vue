@@ -74,9 +74,9 @@ var tijiao = () => {
     if (res.code == 0) {
       Toast("兑换成功");
       if (pointsmadetail.value.type == "A") {
-        router.push("/ordersucess?type=C");
+        router.push("/ordersucess?type=C&id="+ route.query.yhid);
       } else {
-        router.push("/ordersucess?type=A");
+        router.push("/ordersucess?type=A&id="+ route.query.yhid);
       }
 
       // Toast('兑换成功')

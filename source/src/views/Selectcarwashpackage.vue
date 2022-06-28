@@ -70,11 +70,10 @@ var wancheng = () => {
 let carwashpackagelist = ref([]);
 HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
   HttpHelper.Post("carwash/couponorderlist", { yhstatus: "A" }).then((res) => {
+    res.sort((a, b) => b.jainshao - a.jainshao);
     couponorder.value = res;
-
     Res.sort((a, b) => a.price - b.price);
     package_id.value = Res[0].id;
-    price.value = Res[0].price;
     synopsis.value = Res[0].synopsis;
     rule.value = Res[0].rule;
     console.log(Res, "11");
@@ -82,14 +81,14 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
     for (let i = 0; i < carwashpackagelist.value.length; i++) {
       carwashpackagelist.value[i].isyh = false;
       carwashpackagelist.value[i].yh = 0;
-      console.log(i,'iii');
+      console.log(i, "iii");
       for (let j = 0; j < res.length; j++) {
-        if (carwashpackagelist.value[i].price*1 >= res[j].manmoney*1) {
-          console.log(j,'jjj');
+        if (carwashpackagelist.value[i].price * 1 >= res[j].manmoney * 1) {
+          console.log(j, "jjj");
           carwashpackagelist.value[i].isyh = true;
           console.log(carwashpackagelist.value[i].isyh);
           carwashpackagelist.value[i].yh = res[j].jainshao;
-          j=res.length;
+          j = res.length;
         }
       }
     }
@@ -102,26 +101,30 @@ HttpHelper.Post("carwash/packageorderlist", { zhuangtai: "A" }).then((res) => {
 });
 
 var selectpackage = (e) => {
-  console.log(e.id);
+  console.log(e);
   package_id.value = e.id;
   price.value = e.price;
   synopsis.value = e.synopsis;
   rule.value = e.rule;
+  order_id.value=-1
   if (e.isyh) {
     let arr = couponorder.value;
+    console.log(couponorder.value, "arr");
     arr.sort((a, b) => b.jainshao - a.jainshao);
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].manmoney >= price.value) {
+      if (arr[i].manmoney * 1 <= price.value * 1) {
+        console.log(arr[i].manmoney, "arr");
+        console.log(price.value, "arr");
+        console.log(price.value, "arr");
         yh_id.value = arr[i].id;
         yhprice.value = arr[i].jainshao;
-        break;
+        i = arr.length;
       }
     }
   } else {
     yh_id.value = -1;
     yhprice.value = 0;
   }
-  order_id.value = -1;
 };
 
 var selectpackage2 = (e) => {
@@ -130,7 +133,6 @@ var selectpackage2 = (e) => {
   package_id.value = -1;
   yhprice.value = 0;
   price.value = 0;
-  package_id.value = -1;
 };
 //上传订单
 //支付
@@ -138,12 +140,12 @@ var payorder = () => {
   if (price.value != 0) {
     HttpHelper.Post("carwash/uploadcarwashorder", {
       package_id: package_id.value,
-      amount: price.value,
+      amount: price.value - yhprice.value,
       synopsis: synopsis.value,
       rule: rule.value,
       couponorder_id: yh_id.value,
       tel: page.value.Memberinfo.mobile,
-      machine_id:route.query.id
+      machine_id: route.query.id,
     }).then((res) => {
       let viewer = window.navigator.userAgent.toLowerCase();
 
@@ -175,7 +177,12 @@ var payorder = () => {
                 if (ress.err_msg == "get_brand_wcpay_request:ok") {
                   Toast("支付成功");
                   // router.go(-1)
-                  router.push("/carwashpaysuccess?orderid=" + order_id.value + '&type=' + 'A');
+                  router.push(
+                    "/carwashpaysuccess?orderid=" +
+                      order_id.value +
+                      "&type=" +
+                      "A"
+                  );
                 }
               });
             });
@@ -184,13 +191,13 @@ var payorder = () => {
       }
     });
   } else {
-    console.log(order_id.value,route.query.id,page.value.Memberinfo.mobile,);
+    console.log(order_id.value, route.query.id, page.value.Memberinfo.mobile);
     HttpHelper.Post("carwash/startup", {
       packageorder_id: order_id.value,
-      machine_id:route.query.id,
+      machine_id: route.query.id,
       tel: page.value.Memberinfo.mobile,
     }).then((e) => {
-      console.log(e,'666');
+      console.log(e, "666");
       router.push("/carwashpaysuccess?orderid=" + order_id.value);
       if (e.statusCode == "200" && e.errCode == "0") {
         router.push("/carwashpaysuccess?orderid=" + order_id.value);
@@ -238,7 +245,8 @@ var payorder = () => {
       class="
         bg-w
         margin-left-14 margin-right-14
-        padding-left-14 padding-right-14 padding-top-10 border-radius-10
+        padding-left-14 padding-right-14 padding-top-10
+        border-radius-10
       "
     >
       <div class="h-38 line-height-38 f-16 bold">请选购洗车套餐</div>

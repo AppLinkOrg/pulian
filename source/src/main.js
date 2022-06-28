@@ -7,6 +7,8 @@ import 'vant/lib/index.css'
 // import './libs/rem.js';
 import 'lib-flexible/flexible'
 
+import { VueJsonp } from 'vue-jsonp'
+
 
 import VueWechatTitle from 'vue-wechat-title'
 

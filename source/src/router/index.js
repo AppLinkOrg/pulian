@@ -51,6 +51,7 @@ import Genneralevalut from '../views/Genneralevalut.vue'
 import Myorderdetail from '../views/Myorderdetail.vue'
 import City from '../views/City.vue'
 import Landpage from '../views/Landpage.vue'
+import Land from '../views/Land.vue'
 import Infodetails from '../views/Infodetails.vue'
 import Carwash from '../views/Carwash.vue'
 import Personalcenter from '../views/Personalcenter.vue'
@@ -64,7 +65,9 @@ import Deductionbond from '../views/Deductionbond.vue'
 import Purchasedpackage from '../views/Purchasedpackage.vue'
 import Carwashpaysuccess from '../views/Carwashpaysuccess.vue'
 import Carwashdetails from '../views/Carwashdetails.vue'
-
+import Fault from '../views/Fault.vue'
+import Mypoints from '../views/Mypoints.vue'
+import Carwashplace from '../views/Carwashplace.vue'
 
 const routes = [{
   path: '/home',
@@ -85,11 +88,11 @@ const routes = [{
       'name2': '车服中心'
     }
   }, {
-    path: '/storelist',
-    name: 'Storelist',
-    component: Storelist,
+    path: '/carwash',
+    name: 'Carwash',
+    component: Carwash,
     meta: {
-      'name2': '门店列表'
+      'name2': '自助洗车'
     }
   }, {
     path: '/myselef',
@@ -108,6 +111,17 @@ const routes = [{
     'name2': '商家服务介绍'
 
   }
+  
+}, {
+  path: '/storelist',
+  name: 'Storelist',
+  component: Storelist,
+  meta: {
+    'name': '门店详情',
+    'name2': '商家服务介绍'
+
+  }
+  
 }, {
   path: '/xzservice',
   name: 'Xzservice',
@@ -401,14 +415,6 @@ const routes = [{
     'name': '资讯详情'
   }
 },{
-  path: '/carwash',
-  name: 'Carwash',
-  component: Carwash, 
-  meta: {
-    'name': '自助洗车'
-  }
-},
-,{
   path: '/personalcenter',
   name: 'Personalcenter',
   component: Personalcenter, 
@@ -485,7 +491,40 @@ const routes = [{
   meta: {
     'name': '订单详情'
   }
+},{
+  path: '/fault',
+  name: 'Fault',
+  component:Fault, 
+  meta: {
+    'name': '故障反馈'
+  }
 },
+{
+  path: '/mypoints',
+  name: 'Mypoints',
+  component:Mypoints, 
+  meta: {
+    'name': '我的积分'
+  }
+},
+{
+  path: '/carwashplace',
+  name: 'Carwashplace',
+  component:Carwashplace, 
+  meta: {
+    'name': '站点详情'
+    
+  }
+},{
+  path: '/land',
+  name: 'Land',
+  component:Land, 
+  meta: {
+    'name': '落地页'
+    
+  }
+},
+
 
 ]
 

@@ -65,7 +65,7 @@ createApp({}).component("nav-bar", {
       v-if="
         pathname != '/' &&
         pathname != '/integral' &&
-        pathname != '/storelist' &&
+        pathname != '/carwash' &&
         pathname != '/myselef' &&
         route.meta.name != undefined
       "
@@ -311,6 +311,9 @@ height: 68px; */
 .h-100 {
   height: 100px;
 }
+.h-110 {
+  height: 110px;
+}
 .h-120 {
   height: 120px;
 }
@@ -402,7 +405,9 @@ height: 68px; */
 .flex-around {
   justify-content: space-around;
 }
-
+.flex-evenly {
+  justify-content: space-evenly;
+}
 .minheight {
   min-height: 100vh;
 }
@@ -680,6 +685,9 @@ button {
   line-height: 42px;
   transition: all 0.2s linear;
 }
+.padding-tb {
+  padding: 8px 0;
+}
 .padding-10 {
   padding: 10px;
 }
@@ -752,6 +760,9 @@ button {
 }
 .padding-bottom-15 {
   padding-bottom: 15px;
+}
+.padding-bottom-20 {
+  padding-bottom: 20px;
 }
 
 .bold {

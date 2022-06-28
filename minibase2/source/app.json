@@ -8,7 +8,10 @@
         "pages/kefu/kefu",
         "pages/newopen/newopen",
         "pages/pay/pay",
-        "pages/paysuccess/paysuccess"
+        "pages/paysuccess/paysuccess",
+        "pages/qrcode/qrcode",
+        "pages/land/land",
+        "pages/taocan/taocan"
     ],
     "permission": {
         "scope.userLocation": {

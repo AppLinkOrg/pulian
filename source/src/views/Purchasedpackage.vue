@@ -30,10 +30,13 @@ HttpHelper.Post("carwash/packageorderlist", {zhuangtai:current.value}).then((res
   packageorderlist.value = res;
 });
 var show = ref(false);
-var isshow = (e) =>{
-  console.log(show);
-  show.value = !show.value
-}
+let id= ref({})
+var isshow = (e) => {
+  id.value=e
+  show.value=!show.value
+  console.log(show.value);
+  console.log(id.value);
+};
 // 购买
 var status = (e) => {
   current.value = e;
@@ -81,7 +84,7 @@ var status = (e) => {
           </div>
           <div class="xian"></div>
           <div class="flex-row flex-between">
-            <div class="c-7 f-12 h-14 " style="overflow:hidden;line-height:20px; height:20;" :class="{active2:show}">{{instinfo.rule}}</div>
+            <div class="c-7 f-12 h-14 " style="overflow:hidden;line-height:20px; height:20px;" :class="{active2: (show && item.id==id)}">{{instinfo.rule}}</div>
             <div @click="isshow(item.id)"><img class="icon-12" :src="page.uploadpath + 'resource/' + page.Res.xiajain"></div>
           </div>
           
@@ -108,7 +111,7 @@ var status = (e) => {
   line-height: 24px;
 }
 .active2{
-  height: 40px;
+  height: 40px !important;
 }
 .xian{
   width: 100%;

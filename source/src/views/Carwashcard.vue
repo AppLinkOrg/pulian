@@ -30,28 +30,31 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then((Res) => {
   
   HttpHelper.Post("carwash/couponorderlist", { yhstatus: "A" }).then((res) => {
     couponorder.value = res;
-
+    res.sort((a, b) => b.jainshao - a.jainshao);
     Res.sort((a, b) => a.price - b.price);
     package_id.value=Res[0].id
-    price.value = Res[0].price;
+    console.log(res,'zzz');
     synopsis.value = Res[0].synopsis;
     valid.value = Res[0].valid;
     rule.value = Res[0].rule;
     console.log(Res, "11");
     carwashpackagelist.value = Res;
     for (let i = 0; i < carwashpackagelist.value.length; i++) {
-      console.log(i,'iiiii');
       carwashpackagelist.value[i].isyh = false;
       carwashpackagelist.value[i].yh = 0;
       for (let j = 0; j < res.length; j++) {
         if (carwashpackagelist.value[i].price*1 >= res[j].manmoney*1) {
           console.log(j,'jjjj');
           carwashpackagelist.value[i].isyh = true;
-          console.log(carwashpackagelist.value[i].isyh);
           carwashpackagelist.value[i].yh = res[j].jainshao;
-          j=res.length;
+          console.log(carwashpackagelist.value[i].yh,'zzz');
+          console.log(carwashpackagelist.value[i].price*1,'zzz');
+          console.log(res[j].manmoney*1,'zzz');
+          j=res.length
         }
+        
       }
+      
     }
     selectpackage(Res[0])
   });
@@ -65,7 +68,7 @@ PageHelper.LoginAuth(page, () => {
 
 
 var selectpackage = (e) => {
-  console.log(e.id);
+  console.log(e);
   package_id.value = e.id;
   price.value = e.price;
   synopsis.value = e.synopsis;
@@ -73,12 +76,16 @@ var selectpackage = (e) => {
   valid.value = e.valid;
   if (e.isyh) {
     let arr = couponorder.value;
+    console.log(couponorder.value,'arr');
     arr.sort((a, b) => b.jainshao - a.jainshao);
     for (let i = 0; i < arr.length; i++) {
-      if (arr[i].manmoney <= price.value) {
+      if (arr[i].manmoney*1 <= price.value*1) {
+        console.log(arr[i].manmoney,'arr');
+        console.log(price.value,'arr');
+        console.log(price.value,'arr');
         yh_id.value = arr[i].id;
         yhprice.value = arr[i].jainshao
-        break;
+        i=arr.length
       }
     }
   }else{
@@ -93,7 +100,7 @@ var payorder = () => {
   console.log(valid.value,'666');
   HttpHelper.Post("carwash/packageorder", {
     package_id: package_id.value,
-    amount: price.value,
+    amount: price.value-yhprice.value,
     synopsis: synopsis.value,
     rule: rule.value,
     couponorder_id:yh_id.value,

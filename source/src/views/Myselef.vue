@@ -92,7 +92,15 @@ var dizhi = () => {
 var kazhuan = () => {
   router.push("/myvoucher");
 };
-
+var myjifen = (e) => {
+  router.push("/mypoints");
+};
+var myself = (e) => {
+  router.push("/personalcenter");
+};
+var deductionbond = (e) => {
+  router.push("/myvoucher");
+};
 let mycarlist = ref([]);
 //查询车库的数目
 HttpHelper.Post("member/mycarlist", {
@@ -103,7 +111,7 @@ HttpHelper.Post("member/mycarlist", {
 
 // jifen 点击积分
 var jifen = () => {
-  router.push("/integraldetail");
+  router.push("/mypoints");
 };
 
 // qiandao 点击签到
@@ -171,11 +179,10 @@ var lianxigg = () => {
 let len = ref({});
 
 HttpHelper.Post("couponorder/couponorderlist", {
-  shownum: 'A',
+  shownum: "A",
 }).then((res) => {
   len.value = res.length;
 });
-
 
 // 查询 卡卷  收藏的数目
 let shumu = ref(null);
@@ -186,6 +193,9 @@ var chaxun = () => {
 };
 chaxun();
 
+var carwashorder = (e) => {
+  router.push("/carwashorder");
+};
 var daifu = (e) => {
   router.push("/myorder?type=" + e);
 };
@@ -240,7 +250,7 @@ var fuzhi = (str) => {
       </div>
     </div>
     <!--  -->
-    <div class="flex-row flex-center margin-top-30">
+    <!-- <div class="flex-row flex-center margin-top-30">
       <div class="flex-1"></div>
       <div @click="jifen()">
         <div class="c-6 bold f-20 center">{{ page.Memberinfo.jifen }}</div>
@@ -261,8 +271,52 @@ var fuzhi = (str) => {
         <div class="margin-top-10 c-2 f-12 center">收藏</div>
       </div>
       <div class="flex-1"></div>
-    </div>
+    </div> -->
     <!-- 我的订单 -->
+    <div class="imgbox flex-around f-14 margin-top-20">
+      <div @click="myself()" class="flex-row">
+        <div class="margin-right-10">
+          <img
+            class="icon-20"
+            :src="page.uploadpath + 'resource/' + page.Res.gocar"
+          />
+        </div>
+        <div class="c-1 line-height-22">自助洗车</div>
+      </div>
+      <div @click="deductionbond()" class="flex-row">
+        <div class="margin-right-10">
+          <img
+            class="icon-20"
+            :src="page.uploadpath + 'resource/' + page.Res.card"
+          />
+        </div>
+        <div class="c-1 line-height-22">卡券列表</div>
+      </div>
+      <div @click="myjifen()" class="flex-row">
+        <div class="margin-right-10">
+          <img
+            class="icon-20"
+            :src="page.uploadpath + 'resource/' + page.Res.integral"
+          />
+        </div>
+        <div class="c-1 line-height-22">我的积分</div>
+      </div>
+    </div>
+    <div
+      :style="{
+        backgroundImage:
+          'url(' + page.uploadpath + 'resource/' + page.Res.gocarwashod + ')',
+      }"
+      style="background-size: 100%; background-repeat: no-repeat"
+      class="padding-15 flex-row flex-between h-70
+       margin-left-14 margin-right-14 margin-top-20"
+    >
+      <div class="c-w">
+        <div class="f-15">洗车订单</div>
+        <div class="f-12 margin-top-10">快速查询自助洗车订单</div>
+      </div>
+      <div class="btn c-3" @click="carwashorder()">进入订单</div>
+    </div>
     <div
       class="
         margin-left-14 margin-right-14
@@ -466,4 +520,12 @@ var fuzhi = (str) => {
   </div>
 </template>
 <style scoped>
+.btn {
+  width: 70px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  background: #ffffff;
+  border-radius: 12px;
+}
 </style>

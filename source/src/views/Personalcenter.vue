@@ -21,72 +21,73 @@ HttpHelper.Post("carwash/carwashplacelist", {}).then((Res) => {
   carwashplacelist.value = Res;
 });
 
-PageHelper.LoginAuth(page, () => {
-  
-});
+PageHelper.LoginAuth(page, () => {});
 // 授权页面点击
 
+// var shouquan = () => {
+//   PageHelper.LoginAuth(page, () => {});
 
+//   if (page.value.Memberinfo.touxiang != "B") {
+//     show.value = 1;
+//     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+//   }
+//   // alert(page.value.Memberinfo.shoujisq)
+//   if (
+//     page.value.Memberinfo.shoujisq != "B" &&
+//     page.value.Memberinfo.touxiang == "B"
+//   ) {
+//     show.value = 2;
+//     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+//   }
+// };
+// let show = ref(0);
+// let timer = setInterval(() => {
 
+//   wancheng();
+// }, 1000);
 
-var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
+// var wancheng = () => {
+//   if (page.value.Memberinfo == null) {
+//     PageHelper.LoginAuth(page, () => {});
+//     return;
+//   }
+//   if (show.value == 1 && page.value.Memberinfo.touxiang != "B") {
+//     PageHelper.LoginAuth(page, () => {});
+//   }
 
-  if (page.value.Memberinfo.touxiang != "B") {
-    show.value = 1;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
-  }
-  // alert(page.value.Memberinfo.shoujisq)
-  if (
-    page.value.Memberinfo.shoujisq != "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    show.value = 2;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
-  }
-};
-let show = ref(0);
-let timer = setInterval(() => {
-  //需要定时执行的代码
-  wancheng();
-}, 1000);
+//   if (show.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+//     PageHelper.LoginAuth(page, () => {});
+//   }
 
-var wancheng = () => {
-  if (page.value.Memberinfo == null) {
-    PageHelper.LoginAuth(page, () => {});
-    return;
-  }
-  if (show.value == 1 && page.value.Memberinfo.touxiang != "B") {
-    PageHelper.LoginAuth(page, () => {});
-  }
-
-  if (show.value == 2 && page.value.Memberinfo.shoujisq != "B") {
-    PageHelper.LoginAuth(page, () => {});
-  }
-
-  if (
-    page.value.Memberinfo.shoujisq == "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    clearInterval(timer);
-  }
-};
-let yhnum = ref({})
-HttpHelper.Post('carwash/couponorderlist',{yhstatus:'A'}).then((res)=>{
-  console.log(res,'res');
-  yhnum.value=res.length
-})
+//   if (
+//     page.value.Memberinfo.shoujisq == "B" &&
+//     page.value.Memberinfo.touxiang == "B"
+//   ) {
+//     clearInterval(timer);
+//   }
+// };
+let yhnum = ref({});
+HttpHelper.Post("carwash/couponorderlist", { yhstatus: "A" }).then((res) => {
+  console.log(res, "res");
+  yhnum.value = res.length;
+});
 // 联系客服
-var lianxikf = ()=>{
-  kfshow.value = true
-}
-var guanbi=()=>{
-  kfshow.value=false
-}
+var lianxikf = () => {
+  kfshow.value = true;
+};
+var guanbi = () => {
+  kfshow.value = false;
+};
 
 // 跳转
 var carwashcourse = (e) => {
   router.push("/carwashcourse");
+};
+var jifen = (e) => {
+  router.push("/mypoints");
+};
+var myself = (e) => {
+  router.push("/myselef");
 };
 var helpinfo = (e) => {
   router.push("/helpinfo");
@@ -100,47 +101,82 @@ var purchasedpackage = (e) => {
 var carwashorder = (e) => {
   router.push("/carwashorder");
 };
-var fuzhi=(str)=>{
+var fuzhi = (str) => {
   PageHelper.Copy(str);
-}
+};
+var fault = (str) => {
+  router.push("/fault");
+};
 </script>
 
 <template>
-  <div v-if="page.Res != null" class="bacc padding-top-25">
-    <div class=""></div>
+  <div
+    v-if="page.Res != null"
+    class="bacc padding-top-25"
+    :style="{
+      backgroundImage:
+        'url(' + page.uploadpath + 'resource/' + page.Res.mybg + ')',
+    }"
+    style="background-size: 100%; background-repeat: no-repeat"
+  >
+    <div style="padding-bottom-20">
+      <div class="wf-100 padding-left-14 padding-right-14 imgbox flex-between">
+        <div class="imgbox flex-star">
+          <div class="margin-right-10">
+            <img class="icon-55 radius" :src="page.Memberinfo.avatarUrl" />
+          </div>
+          <div
+            class="flex-row column flex-around padding-top-14 padding-bottom-14"
+          >
+            <div class="name">{{ page.Memberinfo.nickName }}</div>
+            <div style="line-height: 20px" class="c-7">
+              {{ page.Memberinfo.mobile }}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="wf-100 padding-left-14 padding-right-14 margin-top-20">
+        <div class="imgbox flex-around f-14">
+          <div @click="myself()" class="flex-row">
+            <div class="margin-right-10">
+              <img
+                class="icon-20"
+                :src="page.uploadpath + 'resource/' + page.Res.gocar"
+              />
+            </div>
+            <div class="c-1 line-height-22">车服中心</div>
+          </div>
+          <div @click="deductionbond()" class="flex-row">
+            <div class="margin-right-10">
+              <img
+                class="icon-20 "
+                :src="page.uploadpath + 'resource/' + page.Res.card"
+              />
+            </div>
+            <div class="c-1 line-height-22">卡券列表</div>
+          </div>
+          <div @click="jifen()" class="flex-row">
+            <div class="margin-right-10">
+              <img
+                class="icon-20"
+                :src="page.uploadpath + 'resource/' + page.Res.integral"
+              />
+            </div>
+            <div class="c-1 line-height-22">我的积分</div>
+          </div>
+        </div>
+      </div>
+      <div class="w-100f h-40"></div>
+    </div>
+
     <div
-      class="
-        wf-100
-        padding-left-14 padding-right-14
-        imgbox
-        flex-between
-        
-      "
+      class="wf-100 padding-left-14 padding-right-14 bg-w f-16"
+      style="border-radius: 20px 20px 0 0"
     >
-      <div class="imgbox flex-star">
-        <div class="margin-right-10" >
-          <img class="icon-55 radius" :src="page.Memberinfo.avatarUrl" />
-        </div>
-        <div class="flex-row column flex-around padding-top-14 padding-bottom-14">
-          <div  class="name">{{ page.Memberinfo.nickName }}</div>
-          <div style="line-height: 20px" class="c-7">{{ page.Memberinfo.mobile }}</div>
-        </div>
-      </div>
-    </div>
-    <div class="wf-100 padding-left-14 padding-right-14 margin-top-20">
-      <div class="imgbox flex-around">
-        <div @click="deductionbond()" class="wrapper column">
-          <div class="num margin-bottom-10">{{yhnum}}</div>
-          <div class="c-1">优惠券</div>
-        </div>
-        <div class="wrapper column">
-          <div class="num margin-bottom-10 ">{{ page.Memberinfo.jifen }}</div>
-          <div class="c-1">积分</div>
-        </div>
-      </div>
-    </div>
-    <div class="wf-100 padding-left-14 padding-right-14 margin-top-10">
-      <div class="imgbox flex-between flex-center h-60 solid" @click="carwashorder()">
+      <div
+        class="imgbox flex-between flex-center h-60 solid"
+        @click="carwashorder()"
+      >
         <div style="line-height: 40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"
@@ -194,7 +230,10 @@ var fuzhi=(str)=>{
           />
         </div>
       </div>
-      <div class="imgbox flex-between flex-center h-60 solid" @click="lianxikf()">
+      <div
+        class="imgbox flex-between flex-center h-60 solid"
+        @click="lianxikf()"
+      >
         <div style="line-height: 40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"
@@ -211,13 +250,31 @@ var fuzhi=(str)=>{
           />
         </div>
       </div>
-      <div class="imgbox flex-between flex-center h-60 solid" @click="helpinfo()" >
+      <div
+        class="imgbox flex-between flex-center h-60 solid"
+        @click="helpinfo()"
+      >
         <div style="line-height: 40px" class="imgbox flex-between flex-center">
           <img
             class="icon-26 margin-right-10"
             :src="page.uploadpath + 'resource/' + page.Res.helpinfo"
           />
           <div>帮助信息</div>
+        </div>
+        <div>
+          <img
+            class="icon-15"
+            :src="page.uploadpath + 'resource/' + page.Res.jiantou"
+          />
+        </div>
+      </div>
+      <div class="imgbox flex-between flex-center h-60 solid" @click="fault()">
+        <div style="line-height: 40px" class="imgbox flex-between flex-center">
+          <img
+            class="icon-26 margin-right-10"
+            :src="page.uploadpath + 'resource/' + page.Res.guzhang"
+          />
+          <div>故障反馈</div>
         </div>
         <div>
           <img
@@ -270,7 +327,7 @@ var fuzhi=(str)=>{
 .radius {
   border-radius: 50%;
 }
-.name{
+.name {
   height: 16px;
   font-size: 16px;
   font-family: PingFang SC;
@@ -278,21 +335,14 @@ var fuzhi=(str)=>{
   color: #333333;
   line-height: 16px;
 }
-.num{
+.num {
   font-size: 20px;
   font-family: DIN;
   font-weight: 500;
-  color: #1890FE;
+  color: #1890fe;
   line-height: 20px;
 }
-.solid{
+.solid {
   border-bottom: 1px solid #eeeeee;
-}
-.bacc{
-  background: url(https://lanhu.oss-cn-beijing.aliyuncs.com/psban9hk9dr76g1evq74j177rv82titkzlk31d78768-1598-46e4-b0fd-c344a0767187) 100% no-repeat;
-  width: 750rpx;
-  height: 518rpx;
-  background-size: 750rpx 932rpx;
-  z-index: 0;
 }
 </style>

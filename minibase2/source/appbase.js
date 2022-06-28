@@ -295,7 +295,7 @@ export class AppBase {
         success: res => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
 
-          console.log("res");
+          console.log("res777",res);
 
           console.log(res);
           // getUserInfo
@@ -304,7 +304,7 @@ export class AppBase {
             desc: '用于完善会员资料',
             success: userres => {
               AppBase.UserInfo = userres.userInfo;
-              console.log(userres);
+              console.log(userres,'res777');
 
               var memberapi = new MemberApi();
               memberapi.getuserinfo({

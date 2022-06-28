@@ -8,6 +8,7 @@ import store from "../State";
 import { Utils } from "../Utils";
 import { onMounted, reactive, watch } from "vue";
 import $ from "jquery";
+import Tar from "../components/Tar.vue";
 
 const key = "";
 const TMap = window.TMap;
@@ -24,50 +25,14 @@ let carwashplacelist = ref([]);
 const arr = new Array();
 let lat = ref({});
 let lng = ref({});
+let cameraId = ref(0)//相机id
+let isScan = ref(true)
+var url = ref(
+  "https://apis.map.qq.com/tools/geolocation?key=HN5BZ-FHPK4-6Z2U3-DBEUG-ZHXYV-AQFQV&referer=myapp"
+);
 PageHelper.Init(page, () => {});
-// 异步获得位置
-// 通过终端设备IP地址获取其当前所在地理位置，精确到市级
-// 常用于初始化用户城市等非精确定位场景。
-const getNowLngAndLat = $.ajax({
-  type: "get",
-  url: "https://apis.map.qq.com/ws/location/v1/ip",
-  data: {
-    key: "HN5BZ-FHPK4-6Z2U3-DBEUG-ZHXYV-AQFQV",
-    output: "jsonp",
-  },
-  dataType: "jsonp",
-  success: function (res) {
-    console.log(res, "666");
-    // console.log(res)
-    dataMap.latitude = res.result.location.lat;
-    dataMap.lngitude = res.result.location.lng;
-    lat.value = res.result.location.lat;
-    lng.value = res.result.location.lng;
-    HttpHelper.Post("carwash/carwashplacelist", {
-      lng: res.result.location.lng,
-      lat: res.result.location.lat,
-    }).then((Res) => {
-      console.log(Res, "11");
-      carwashplacelist.value = Res;
-      for (let i = 0; i < Res.length; i++) {
-        let obj = {
-          id: Res[i].id,
-          styleId: "myStyle",
-          position: new TMap.LatLng(Res[i].lat * 1, Res[i].lng * 1),
-          properties: {
-            title: "marker1",
-          },
-        };
-        arr.push(obj);
-      }
-      console.log(arr[0], "rrr");
-      init();
-      deleteSomeInfo();
-      addMarkerLayer();
-    });
-  },
-  fail: function () {},
-});
+
+
 const init = () => {
   let center = new TMap.LatLng(dataMap.latitude, dataMap.lngitude);
   dataMap.map = new TMap.Map(document.getElementById("QQMap"), {
@@ -75,7 +40,56 @@ const init = () => {
     zoom: 17.2, //设置地图缩放级别
   });
 };
-
+var getweizhi = () => {
+  PageHelper.loadwechatconfig(() => {
+    wx.getLocation({
+      type: "gcj02",
+      success: function (res) {
+        console.log(res, "resss");
+        var latitude = res.latitude;
+        var longitude = res.longitude;
+        console.log(latitude, "999999");
+        console.log(longitude, "999999");
+        dataMap.latitude = latitude;
+        dataMap.lngitude = longitude;
+        lat.value = latitude;
+        lng.value = longitude;
+        HttpHelper.Post("carwash/carwashplacelist", {
+          lng: longitude,
+          lat: latitude,
+        }).then((Res) => {
+          console.log(Res, "11");
+          carwashplacelist.value = Res;
+          for (let i = 0; i < Res.length; i++) {
+            let obj = {
+              id: Res[i].id,
+              styleId: "myStyle",
+              position: new TMap.LatLng(Res[i].lat * 1, Res[i].lng * 1),
+              properties: {
+                title: "marker1",
+              },
+            };
+            arr.push(obj);
+          }
+          console.log(arr[0], "rrr");
+          init();
+          deleteSomeInfo();
+          addMarkerLayer();
+        });
+        window.localStorage.setItem("latitude", latitude);
+        window.localStorage.setItem("longitude", longitude);
+        //  alert("success" + JSON.stringify(res));
+      },
+      fail: function (res) {
+        // alert("fail" + JSON.stringify(res));
+        console.log("getLocation", "fail" + JSON.stringify(res));
+      },
+      complete: function (res) {
+        console.log("getLocation", "complete" + JSON.stringify(res));
+      },
+    });
+  });
+};
 // 去除无用信息
 const deleteSomeInfo = () => {
   // 腾讯地图去除logo
@@ -135,26 +149,25 @@ const addMarkerLayer = () => {
   //   });
   // });
 };
-var openArea=()=>{
-  var keys = "HN5BZ-FHPK4-6Z2U3-DBEUG-ZHXYV-AQFQV"
+var openArea = () => {
+  var keys = "HN5BZ-FHPK4-6Z2U3-DBEUG-ZHXYV-AQFQV";
   location.href = `https://apis.map.qq.com/tools/routeplan/eword=${route.query.address}&epointx=${route.query.lng}&epointy=${route.query.lat}&spointx=${lng.value}&spointy=${lat.value}?key=${keys}&referer=myaap`;
-}
+};
 onMounted(() => {
-  if(route.query.address){
-    openArea()
+  if (route.query.address) {
+    openArea();
   }
-  $.when(getNowLngAndLat).done(function () {});
+  getweizhi();
 });
-var easeTo =() =>{
-    dataMap.map.easeTo({
-        zoom: 17.2,
-        // rotation: 10, 
-        pitch: 10,
-        adcode: 110101,
-        center: new TMap.LatLng(lat.value, lng.value) 
-    },
-    );//平滑缩放,旋转到指定级别
-}
+var easeTo = () => {
+  dataMap.map.easeTo({
+    zoom: 17.2,
+    // rotation: 10,
+    pitch: 10,
+    adcode: 110101,
+    center: new TMap.LatLng(lat.value, lng.value),
+  }); //平滑缩放,旋转到指定级别
+};
 // let MachineList = ref([])
 // HttpHelper.Get("CarWash/GetMachineListOfOnlie", {}).then((Res) => {
 //   console.log(Res, "MachineList");
@@ -169,31 +182,100 @@ var personalcenter = (e) => {
 var buycarwash = (e) => {
   router.push("/carwashcard");
 };
+
 var selectcarwashpackage = (e) => {
-  HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
-    router.push("/selectcarwashpackage?id=" + '1');
-    return;
-    let status = res.networkstatus.onOfflines;
-    if (status == "0") {
-      //离线
-      Toast("此台设备正在维护， 请更换其他机器。");
-    } else if (status == "1") {
-      //在线
-      router.push("/selectcarwashpackage?id=" + '1');
-    } else {
-      //工作中
-      Toast("此台设备正在使用中， 请手动关闭后重新扫码使用。");
-    }
-  });
+    wx.scanQRCode({
+      onlyFromCamera: true,
+      success(res) {
+        console.log(res,'respppp')
+        if(res.errMsg=='scanCode:ok'){ 
+          console.log(res,'res.path');
+          wx.navigateTo({
+            url: res.path,
+          })
+        }else{
+          wx.navigateBack({
+            delta: -1,
+          })
+        }
+      },
+      fail(res) {
+        console.log(res,'奥术大师多撒')
+        wx.navigateBack({
+          delta: -1,
+        })
+      },
+    })
+  //    var ua = window.navigator.userAgent.toLowerCase();
+  //    if (ua.match(/MicroMessenger/i) == 'micromessenger') { // 判断是否是微信环境
+  //       // 微信环境，如果不是Vue导入方式，需要写成window.wx.miniProgram.getEnv()
+  //       wx.miniProgram.getEnv(function (res) {
+  //        if (res.miniprogram) {
+ 
+  //              wx.miniProgram.navigateTo({
+  //                  url: "/pages/qrcode/qrcode",//小程序地址
+  //                  success: function () {
+  //                      console.log("调用成功！")
+  //                  },
+  //                  fail: function () {
+  //                      alert("调用失败");
+  //                      wx.showToast({
+  //                           title: '调用小程序失败！',
+  //                           icon: 'none'
+  //                      })
+  //                  }
+  //               });
+ 
+ 
+  //        } else {
+  //            console.log('不在微信环境中，无法调用微信小程序！');
+  //             WeixinJSBridge.invoke("scanQRCode",{
+  //           })
+  //        }
+  //    })
+  //  } else {
+  //       console.log('不在微信环境中，无法进行调用微信小程序！');
+  //  }
+  // wx.miniProgram.navigateTo({
+  //   url: "/pages/qrcode/qrcode"
+  // });
+  // router.push("/selectcarwashpackage?id=" + '1');
+  // HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
+  //   router.push("/selectcarwashpackage?id=" + '1');
+  //   return;
+  //   let status = res.networkstatus.onOfflines;
+  //   if (status == "0") {
+  //     //离线
+  //     Toast("此台设备正在维护， 请更换其他机器。");
+  //   } else if (status == "1") {
+  //     //在线
+  //     router.push("/selectcarwashpackage?id=" + '1');
+  //   } else {
+  //     //工作中
+  //     Toast("此台设备正在使用中， 请手动关闭后重新扫码使用。");
+  //   }
+  // });
 };
 var placedetails = (e) => {
-  router.push("/placedetails?id=" + e.id + '&lat=' + e.lat + '&lng=' + e.lng + '&lat2=' + lat.value + '&lng2=' + lng.value );
+  router.push(
+    "/placedetails?id=" +
+      e.id +
+      "&lat=" +
+      e.lat +
+      "&lng=" +
+      e.lng +
+      "&lat2=" +
+      lat.value +
+      "&lng2=" +
+      lng.value
+  );
 };
+
 </script>
 
 <template>
   <div class="wf-100 h-m100 bg-10 " v-if="page.Res != null">
-    <div class="container" id="QQMap" style="width: 100%; height:40vh">
+    <div class="container" id="QQMap" style="width: 100%; height: 40vh">
       <div
         class="
           wf-100
@@ -220,8 +302,8 @@ var placedetails = (e) => {
       </div>
     </div>
 
-    <div class="bg-10 padding-top-10 " >
-      <div  style="background-color: #f7f7f8;margin-bottom:80px ">
+    <div class="bg-10 padding-top-10">
+      <div style="background-color: #f7f7f8; margin-bottom: 80px">
         <div class="bg-w margin-left-14 margin-right-14 border-radius-10">
           <img
             class="wf-100"
@@ -230,7 +312,12 @@ var placedetails = (e) => {
           />
         </div>
         <div
-          class="bg-w margin-left-14 margin-right-14 margin-top-14 padding-10 border-radius-10 "
+          class="
+            bg-w
+            margin-left-14 margin-right-14 margin-top-14
+            padding-10
+            border-radius-10
+          "
           v-for="(item, index) in carwashplacelist"
           :key="index"
           @click="placedetails(item)"
@@ -258,7 +345,7 @@ var placedetails = (e) => {
             />
             <div class="line-height-19">{{ item.timeslot }}</div>
           </div>
-          <div class=" flex-row flex-between">
+          <div class="flex-row flex-between">
             <div class="flex-row">
               <div class="shebei">{{ item.jqstatus.zaixian }}台设备</div>
               <div class="status" style="background-color: #01be6c">空闲</div>
@@ -275,15 +362,14 @@ var placedetails = (e) => {
         </div>
         <div
           class="
-              margin-top-14 margin-bottom-14
-              padding-right-14
-              padding-left-14
+            margin-top-14 margin-bottom-14
+            padding-right-14 padding-left-14
             bottom
           "
-          style="width: 100%;"
+          style="width: 100%"
         >
           <div
-            class="wf-100 bg-6 border-radius-10 wrapper "
+            class="wf-100 bg-6 border-radius-10 wrapper"
             @click="selectcarwashpackage()"
           >
             <div>
@@ -300,16 +386,21 @@ var placedetails = (e) => {
   </div>
 </template>
 <style scoped>
+.top{
+  position: fixed;
+  top: 0;
+  right: 0;
+}
 .bottom {
   position: fixed;
-  bottom: 0;
+  bottom: 8vh;
 }
 .twoicon {
   position: absolute;
   bottom: 0;
   z-index: 9999;
 }
-.bottom2{
+.bottom2 {
   margin-bottom: 50px;
 }
 .container {
