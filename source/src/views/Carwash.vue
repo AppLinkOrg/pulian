@@ -23,6 +23,7 @@ let router = useRouter();
 let route = useRoute();
 let carwashplacelist = ref([]);
 const arr = new Array();
+let sign = ref(true);
 let lat = ref({});
 let lng = ref({});
 let cameraId = ref(0)//相机id
@@ -72,9 +73,13 @@ var getweizhi = () => {
             arr.push(obj);
           }
           console.log(arr[0], "rrr");
-          init();
-          deleteSomeInfo();
-          addMarkerLayer();
+          if(sign.value){
+            
+            init();
+            deleteSomeInfo();
+            addMarkerLayer();
+          }
+          
         });
         window.localStorage.setItem("latitude", latitude);
         window.localStorage.setItem("longitude", longitude);
@@ -149,14 +154,7 @@ const addMarkerLayer = () => {
   //   });
   // });
 };
-var openArea = () => {
-  var keys = "HN5BZ-FHPK4-6Z2U3-DBEUG-ZHXYV-AQFQV";
-  location.href = `https://apis.map.qq.com/tools/routeplan/eword=${route.query.address}&epointx=${route.query.lng}&epointy=${route.query.lat}&spointx=${lng.value}&spointy=${lat.value}?key=${keys}&referer=myaap`;
-};
 onMounted(() => {
-  if (route.query.address) {
-    openArea();
-  }
   getweizhi();
 });
 var easeTo = () => {
@@ -200,46 +198,12 @@ var selectcarwashpackage = (e) => {
         }
       },
       fail(res) {
-        console.log(res,'奥术大师多撒')
         wx.navigateBack({
           delta: -1,
         })
       },
     })
-  //    var ua = window.navigator.userAgent.toLowerCase();
-  //    if (ua.match(/MicroMessenger/i) == 'micromessenger') { // 判断是否是微信环境
-  //       // 微信环境，如果不是Vue导入方式，需要写成window.wx.miniProgram.getEnv()
-  //       wx.miniProgram.getEnv(function (res) {
-  //        if (res.miniprogram) {
- 
-  //              wx.miniProgram.navigateTo({
-  //                  url: "/pages/qrcode/qrcode",//小程序地址
-  //                  success: function () {
-  //                      console.log("调用成功！")
-  //                  },
-  //                  fail: function () {
-  //                      alert("调用失败");
-  //                      wx.showToast({
-  //                           title: '调用小程序失败！',
-  //                           icon: 'none'
-  //                      })
-  //                  }
-  //               });
- 
- 
-  //        } else {
-  //            console.log('不在微信环境中，无法调用微信小程序！');
-  //             WeixinJSBridge.invoke("scanQRCode",{
-  //           })
-  //        }
-  //    })
-  //  } else {
-  //       console.log('不在微信环境中，无法进行调用微信小程序！');
-  //  }
-  // wx.miniProgram.navigateTo({
-  //   url: "/pages/qrcode/qrcode"
-  // });
-  // router.push("/selectcarwashpackage?id=" + '1');
+  
   // HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
   //   router.push("/selectcarwashpackage?id=" + '1');
   //   return;
@@ -303,7 +267,7 @@ var placedetails = (e) => {
     </div>
 
     <div class="bg-10 padding-top-10">
-      <div style="background-color: #f7f7f8; margin-bottom: 80px">
+      <div style="background-color: #f7f7f8; margin-bottom: 125px">
         <div class="bg-w margin-left-14 margin-right-14 border-radius-10">
           <img
             class="wf-100"
@@ -330,20 +294,20 @@ var placedetails = (e) => {
           </div>
           <div class="margin-bottom-10 imgbox">
             <img
-              class="icon-15"
+              class="icon-15 margin-right-5"
               :src="page.uploadpath + 'resource/' + page.Res.distance"
             />
-            <div v-if="item.distance < 1000" class="line-height-19 c-1">
+            <div v-if="item.distance < 1000" class="line-height-15 c-1">
               {{ item.distance }}m
             </div>
-            <div class="line-height-19 c-1" v-else>
+            <div class="line-height-15 c-1" v-else>
               {{ Math.floor(item.distance / 1000) }}km
             </div>
             <img
-              class="icon-15 margin-left-30"
+              class="icon-15 margin-left-30 margin-right-5"
               :src="page.uploadpath + 'resource/' + page.Res.timeslot"
             />
-            <div class="line-height-19">{{ item.timeslot }}</div>
+            <div class="line-height-15">{{ item.timeslot }}</div>
           </div>
           <div class="flex-row flex-between">
             <div class="flex-row">

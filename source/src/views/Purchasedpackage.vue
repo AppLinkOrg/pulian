@@ -23,7 +23,46 @@ HttpHelper.Post("inst/instinfo", {}).then((Res) => {
   console.log(Res,'11');  
   instinfo.value = Res;
 });
-
+//扫码
+var selectcarwashpackage = (e) => {
+    wx.scanQRCode({
+      onlyFromCamera: true,
+      success(res) {
+        console.log(res,'respppp')
+        if(res.errMsg=='scanCode:ok'){ 
+          console.log(res,'res.path');
+          wx.navigateTo({
+            url: res.path,
+          })
+        }else{
+          wx.navigateBack({
+            delta: -1,
+          })
+        }
+      },
+      fail(res) {
+        wx.navigateBack({
+          delta: -1,
+        })
+      },
+    })
+  
+  // HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
+  //   router.push("/selectcarwashpackage?id=" + '1');
+  //   return;
+  //   let status = res.networkstatus.onOfflines;
+  //   if (status == "0") {
+  //     //离线
+  //     Toast("此台设备正在维护， 请更换其他机器。");
+  //   } else if (status == "1") {
+  //     //在线
+  //     router.push("/selectcarwashpackage?id=" + '1');
+  //   } else {
+  //     //工作中
+  //     Toast("此台设备正在使用中， 请手动关闭后重新扫码使用。");
+  //   }
+  // });
+};
 // 门店详情
 let packageorderlist = ref([]);
 HttpHelper.Post("carwash/packageorderlist", {zhuangtai:current.value}).then((res) => {
@@ -80,7 +119,7 @@ var status = (e) => {
               <div class="f-16 bold">{{item.synopsis}}</div>
               <div class="c-1 f-12 margin-top-8">{{item.start_time}}-{{item.end_time}}</div>
             </div>
-            <div v-if="current == 'A'" class="btn">扫码洗车</div>
+            <div @click="selectcarwashpackage()" v-if="current == 'A'" class="btn">扫码洗车</div>
           </div>
           <div class="xian"></div>
           <div class="flex-row flex-between">

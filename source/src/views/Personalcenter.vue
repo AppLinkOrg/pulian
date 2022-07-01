@@ -128,7 +128,7 @@ var fault = (str) => {
           <div
             class="flex-row column flex-around padding-top-14 padding-bottom-14"
           >
-            <div class="name">{{ page.Memberinfo.nickName }}</div>
+            <div class="name bold">{{ page.Memberinfo.nickName }}</div>
             <div style="line-height: 20px" class="c-7">
               {{ page.Memberinfo.mobile }}
             </div>
@@ -141,7 +141,7 @@ var fault = (str) => {
             <div class="margin-right-10">
               <img
                 class="icon-20"
-                :src="page.uploadpath + 'resource/' + page.Res.gocar"
+                :src="page.uploadpath + 'resource/' + page.Res.gocar2"
               />
             </div>
             <div class="c-1 line-height-22">车服中心</div>
@@ -153,7 +153,7 @@ var fault = (str) => {
                 :src="page.uploadpath + 'resource/' + page.Res.card"
               />
             </div>
-            <div class="c-1 line-height-22">卡券列表</div>
+            <div class="c-1 line-height-22">洗车券表</div>
           </div>
           <div @click="jifen()" class="flex-row">
             <div class="margin-right-10">
@@ -230,7 +230,7 @@ var fault = (str) => {
           />
         </div>
       </div>
-      <div
+      <!-- <div
         class="imgbox flex-between flex-center h-60 solid"
         @click="lianxikf()"
       >
@@ -267,7 +267,7 @@ var fault = (str) => {
             :src="page.uploadpath + 'resource/' + page.Res.jiantou"
           />
         </div>
-      </div>
+      </div> -->
       <div class="imgbox flex-between flex-center h-60 solid" @click="fault()">
         <div style="line-height: 40px" class="imgbox flex-between flex-center">
           <img
@@ -331,7 +331,6 @@ var fault = (str) => {
   height: 16px;
   font-size: 16px;
   font-family: PingFang SC;
-  font-weight: 500;
   color: #333333;
   line-height: 16px;
 }

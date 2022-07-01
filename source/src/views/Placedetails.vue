@@ -29,14 +29,16 @@ PageHelper.LoginAuth(page, () => {
 });
 
 var openarea = (e) => {
-  router.push(
-    "/carwash?address=" +
-      e +
-      "&lat=" +
-      route.query.lat +
-      "&lng=" +
-      route.query.lng
-  );
+  let latstor = route.query.lat;
+  let lngstor = route.query.lng;
+  let name = e;
+  // alert(latstor)
+  var json = { latitude: latstor * 1, longitude: lngstor * 1, scale: 18, name };
+
+  PageHelper.loadwechatconfig(() => {
+    // alert("loadwechatconfig");
+    wx.openLocation(json);
+  });
 };
 </script>
 
@@ -52,23 +54,23 @@ var openarea = (e) => {
         </div>
         <div class="margin-bottom-10 imgbox">
           <img
-            class="icon-15"
+            class="icon-15 margin-right-5"
             :src="page.uploadpath + 'resource/' + page.Res.distance"
           />
           <div
             v-if="placedetails.distance < 1000"
-            class="line-height-19 c-1 f-12"
+            class="line-height-15 c-1 f-12"
           >
             {{ placedetails.distance }}m
           </div>
-          <div class="line-height-19 c-1 f-12" v-else>
+          <div class="line-height-15 c-1 f-12" v-else>
             {{ Math.floor(placedetails.distance / 1000) }}km
           </div>
           <img
-            class="icon-15 margin-left-30"
+            class="icon-15 margin-left-30 margin-right-5"
             :src="page.uploadpath + 'resource/' + page.Res.timeslot"
           />
-          <div class="line-height-19">{{ placedetails.timeslot }}</div>
+          <div class="line-height-15">{{ placedetails.timeslot }}</div>
         </div>
         <div class="flex-row flex-between f-12">
           <div class="flex-row">
@@ -91,7 +93,10 @@ var openarea = (e) => {
           v-html="Utils.HtmlDecode(placedetails.content)"
         ></div>
       </div>
-      <div class="bottom wrapper margin-top-10" @click="openarea(placedetails.address)">
+      <div
+        class="bottom wrapper margin-top-10"
+        @click="openarea(placedetails.address)"
+      >
         <img
           class="icon-17"
           :src="page.uploadpath + 'resource/' + page.Res.wdaohang"

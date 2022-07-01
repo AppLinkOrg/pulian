@@ -144,20 +144,20 @@ var placedetails = (e) => {
           </div>
           <div class="margin-bottom-10 imgbox">
             <img
-              class="icon-15"
+              class="icon-15 margin-right-5"
               :src="page.uploadpath + 'resource/' + page.Res.distance"
             />
-            <div v-if="item.distance < 1000" class="line-height-19 c-1">
+            <div v-if="item.distance < 1000" class="line-height-15 c-1">
               {{ item.distance }}m
             </div>
-            <div class="line-height-19 c-1" v-else>
+            <div class="line-height-15 c-1" v-else>
               {{ Math.floor(item.distance / 1000) }}km
             </div>
             <img
-              class="icon-15 margin-left-30"
+              class="icon-15 margin-left-30 margin-right-5"
               :src="page.uploadpath + 'resource/' + page.Res.timeslot"
             />
-            <div class="line-height-19">{{ item.timeslot }}</div>
+            <div class="line-height-15">{{ item.timeslot }}</div>
           </div>
           <div class="flex-row flex-between">
             <div class="flex-row">

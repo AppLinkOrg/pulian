@@ -17,16 +17,18 @@ let qiandaocha2 = ref(0);
 
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
-HttpHelper.Post("member/info", {}).then((res) => {
-  console.log(res, "ssssssssss");
-  pointsmallist.value = res;
-});
+// HttpHelper.Post("member/info", {}).then((res) => {
+//   console.log(res, "ssssssssss");
+//   pointsmallist.value = res;
+// });
 // 初始化展示列表
-HttpHelper.Post("pointsmall/pointsmallist", { leixinss: leixin.value }).then(
-  (res) => {
-    pointsmallist.value = res;
-  }
-);
+setTimeout(() => {
+  HttpHelper.Post("pointsmall/pointsmallist", { leixinss: leixin.value }).then(
+    (res) => {
+      pointsmallist.value = res;
+    }
+  );
+});
 
 // 点击积分充值
 var chongzhi = () => {
@@ -53,12 +55,14 @@ var poinlist = (e) => {
 
 // 点击立即兑换
 var xinqing = (e) => {
-  router.push("/materialdetail?id=" + e.id + "&type=" + e.type + "&yhid=" + e.coupon_id);
+  router.push(
+    "/materialdetail?id=" + e.id + "&type=" + e.type + "&yhid=" + e.coupon_id
+  );
 };
 
 // 兑换记录dianji
 var jilu = () => {
-  router.push("/exchangerecord");
+  router.push("/deductionbond");
 };
 
 // 查询签到情况
@@ -116,7 +120,9 @@ var tianche = () => {
 
   router.push("/editvegicle?first=B");
 };
-
+var shiwu = () => {
+  router.push("/exchangerecord");
+};
 // 完善车俩填写信息
 var quwan = () => {
   if (
@@ -321,51 +327,68 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
         </div>
       </div> -->
 
-      <div class="flex-row flex-center">
+      <div class="flex-row flex-between ">
         <div class="f-15 bold c-2 padding-top-15 padding-bottom-15">
           积分兑换
         </div>
-        <div class="flex-1"></div>
-        <div
-          class="
-            f-12
-            c-w
-            bg-5
-            padding-left-14 padding-right-14
-            h-25
-            line-height-25
-            border-radius-12
-            bd-5
-          "
-          @click="jilu()"
-        >
-          兑换订单
+        <div class="flex-row flex-between flex-center3">
+          <div
+            class="
+              f-12
+              c-w
+              bg-5
+              padding-left-14 padding-right-14
+              h-25
+              line-height-25
+              border-radius-12
+              bd-5
+              margin-right-20
+            "
+            @click="jilu()"
+          >
+            兑换的券
+          </div>
+          <div
+            class="
+              f-12
+              c-w
+              bg-5
+              padding-left-14 padding-right-14
+              h-25
+              line-height-25
+              border-radius-12
+              bd-5
+            "
+            @click="shiwu()"
+          >
+            兑换的物
+          </div>
         </div>
       </div>
       <div class="flex-row flex-center margin-top-14">
         <div
-          class="f-12 c-2"
+          class="f-16 c-2"
           :style="{ color: leixin == '' ? '#409EFF' : '' }"
           @click="dianji('')"
         >
           全部
         </div>
         <div
-          class="f-12 c-2 margin-left-20"
+          class="f-16 c-2 margin-left-20"
           :style="{ color: leixin == 'A' ? '#409EFF' : '' }"
           @click="dianji('A')"
         >
           优惠券
         </div>
         <div
-          class="f-12 c-2 margin-left-20"
+          class="f-16 c-2 margin-left-20"
           :style="{ color: leixin == 'B' ? '#409EFF' : '' }"
           @click="dianji('B')"
         >
           养车好物
         </div>
         <div
-          class="f-12 c-2 margin-left-20"
+          class="f-16 c-2 margin-left-20"
           :style="{ color: leixin == 'C' ? '#409EFF' : '' }"
           @click="dianji('C')"
         >

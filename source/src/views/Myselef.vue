@@ -116,7 +116,7 @@ var jifen = () => {
 
 // qiandao 点击签到
 var qiandao = () => {
-  router.push("/integral");
+  router.push("/mypoints");
 };
 
 // shoucan 点击收藏
@@ -229,7 +229,7 @@ var fuzhi = (str) => {
       />
       <div class="margin-left-14">
         <div class="c-2 bold f-16">{{ page.Memberinfo.nickName }}</div>
-        <div class="margin-top-10 c-2 f-12">{{ page.Memberinfo.mobile }}</div>
+        <div class="margin-top-10 c-7 f-12">{{ page.Memberinfo.mobile }}</div>
       </div>
       <div class="flex-1"></div>
       <div
@@ -273,7 +273,7 @@ var fuzhi = (str) => {
       <div class="flex-1"></div>
     </div> -->
     <!-- 我的订单 -->
-    <div class="imgbox flex-around f-14 margin-top-20">
+    <div class="imgbox flex-around f-14 margin-top-20 padding-left-14 padding-right-14">
       <div @click="myself()" class="flex-row">
         <div class="margin-right-10">
           <img
@@ -283,14 +283,14 @@ var fuzhi = (str) => {
         </div>
         <div class="c-1 line-height-22">自助洗车</div>
       </div>
-      <div @click="deductionbond()" class="flex-row">
+      <div @click="kazhuan()" class="flex-row">
         <div class="margin-right-10">
           <img
             class="icon-20"
-            :src="page.uploadpath + 'resource/' + page.Res.card"
+            :src="page.uploadpath + 'resource/' + page.Res.card2"
           />
         </div>
-        <div class="c-1 line-height-22">卡券列表</div>
+        <div class="c-1 line-height-22">保养券表</div>
       </div>
       <div @click="myjifen()" class="flex-row">
         <div class="margin-right-10">
@@ -327,10 +327,10 @@ var fuzhi = (str) => {
       "
     >
       <div class="flex-row flex-center">
-        <div class="f-15 bold c-2">我的订单</div>
+        <div class="f-15 bold c-2">保养订单</div>
         <div class="flex-1"></div>
         <div class="flex-row flex-center" @click="dindan()">
-          <div class="c-1 f-10">全部订单</div>
+          <div class="c-1 f-10">保养订单</div>
           <img
             :src="page.uploadpath + 'resource/' + page.Res.youjian"
             class="icon-12 margin-left-4"

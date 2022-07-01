@@ -68,6 +68,7 @@ import Carwashdetails from '../views/Carwashdetails.vue'
 import Fault from '../views/Fault.vue'
 import Mypoints from '../views/Mypoints.vue'
 import Carwashplace from '../views/Carwashplace.vue'
+import Test from '../views/Test.vue'
 
 const routes = [{
   path: '/home',
@@ -419,7 +420,8 @@ const routes = [{
   name: 'Personalcenter',
   component: Personalcenter, 
   meta: {
-    'name': '个人中心'
+    'name': '信息中心',
+    'name2': '自主洗车'
   }
 },{
   path: '/carwashorder',
@@ -512,7 +514,7 @@ const routes = [{
   name: 'Carwashplace',
   component:Carwashplace, 
   meta: {
-    'name': '站点详情'
+    'name': '站点列表'
     
   }
 },{
@@ -521,6 +523,14 @@ const routes = [{
   component:Land, 
   meta: {
     'name': '落地页'
+    
+  }
+},{
+  path: '/test',
+  name: 'Test',
+  component:Test, 
+  meta: {
+    'name': 'test'
     
   }
 },
