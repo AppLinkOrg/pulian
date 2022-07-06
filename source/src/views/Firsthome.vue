@@ -58,6 +58,9 @@ HttpHelper.Post("carwash/information", {}).then((Res) => {
 });
 // 跳转资讯详情页
 var zixun = (index) => {
+  HttpHelper.Post("carwash/addviews", {id:index}).then((Res) => {
+    
+  });
   router.push("/infodetails?id=" + index);
 };
 

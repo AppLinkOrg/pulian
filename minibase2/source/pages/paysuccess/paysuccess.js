@@ -14,19 +14,12 @@ class Content extends AppBase {
       title: '支付成功'
     })
     super.onLoad(options);
-    this.Base.setMyData({
-      url:"http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/pulian/",
-      type:this.options.type
-    })
   }
   onMyShow() {
     var that = this;
-  }
-  gohome(){
-    wx.navigateTo({  
-      url: '/pages/home/home',
+    this.Base.setMyData({
+      url:'https://uat20.helpfooter.com/#/carwashpaysuccess?type=' + this.options.type
     })
-
   }
 }
 var content = new Content();

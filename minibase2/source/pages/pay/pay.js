@@ -26,7 +26,7 @@ class Content extends AppBase {
     //options.id=5;
     super.onLoad(options);
     this.Base.setMyData({
-      type: ''
+      type: '',
     })
 
     if (this.Base.options.type == 'A') {
@@ -70,16 +70,16 @@ class Content extends AppBase {
           },(e)=>{
             console.log(e,'eeee');
             if(e.statusCode == '200'&& e.errCode=='0'){
-              wx.navigateBack({
-                delta: 0,
+              wx.navigateTo({
+                url: '/pages/paysuccess/paysuccess?type=A',
               })
             }else{
-              that.Base.toast(e.retMsg);
+              wx.navigateTo({
+                url: '/pages/paysuccess/paysuccess?type=C',
+              })
             }
           })
-          wx.navigateTo({
-            url: '/pages/paysuccess/paysuccess',
-          })
+          
           
         } else {
           that.Base.toast("支付失败");

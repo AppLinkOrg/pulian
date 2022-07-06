@@ -68,7 +68,6 @@ import Carwashdetails from '../views/Carwashdetails.vue'
 import Fault from '../views/Fault.vue'
 import Mypoints from '../views/Mypoints.vue'
 import Carwashplace from '../views/Carwashplace.vue'
-import Test from '../views/Test.vue'
 
 const routes = [{
   path: '/home',
@@ -523,14 +522,6 @@ const routes = [{
   component:Land, 
   meta: {
     'name': '落地页'
-    
-  }
-},{
-  path: '/test',
-  name: 'Test',
-  component:Test, 
-  meta: {
-    'name': 'test'
     
   }
 },

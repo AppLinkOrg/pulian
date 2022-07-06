@@ -14,6 +14,11 @@ let leixin = ref("");
 let pointsmallist = ref([]);
 let qiandaocha = ref({});
 let qiandaocha2 = ref(0);
+let instinfo = ref({});
+HttpHelper.Post("inst/instinfo", {}).then((Res) => {
+  console.log(Res,'11');  
+  instinfo.value = Res;
+});
 
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
@@ -243,7 +248,7 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
               "
               v-if="item == 0"
             >
-              +10
+              +{{instinfo.zengsong}}
             </div>
             <img
               :src="page.uploadpath + 'resource/' + page.Res.xinxin"

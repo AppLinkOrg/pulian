@@ -1,13 +1,2 @@
-<!--pages/pay/pay.wxml-->
-<!-- <web-view    src="{{url}}"></web-view> -->
-<view class="top ">
-    <view><image class="paysuccess" src="{{url}}resource/{{res.paysuccessimg}}"></image></view>
-    <view class="txt-white">支付成功</view>
-    <view class="txt-white">感谢购买</view>
-    <view class="txt-white"><view wx:if="{{!type}}">此台设备可以正常使用</view></view>
-</view>
-<view class="bottom " style="width:750rpx;">
-    <view class="btn" bindtap="gohome">
-        返回首页
-    </view>
-</view>
+<!-- Carwashpaysuccess -->
+<web-view    src="{{url}}"></web-view> 

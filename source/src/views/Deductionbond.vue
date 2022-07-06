@@ -99,8 +99,7 @@ var isshow = (e) => {
           </div>
         </div>
         </div>
-        <div class="shuoming margin-top-10 c-7 line-height-19 padding-10 shadow" v-if="(show && id==item.id)">车服中心的积分可以兑换自助洗车优惠券(抵扣券)欢迎广大车
-主朋友使用自己的账户积分兑换。</div>
+        <div class="shuoming margin-top-10 c-7 line-height-19 padding-10 shadow" v-if="(show && id==item.id)">{{item.guize}}</div>
       </div>
     </div>
   </div>

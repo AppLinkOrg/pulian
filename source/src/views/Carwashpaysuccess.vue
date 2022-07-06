@@ -49,8 +49,8 @@ var goindex = (e) => {
           :src="page.uploadpath + 'resource/' + page.Res.paysuccessimg"
         />
       </div>
-      <div class="margin-top-14">支付成功</div>
-      <div class="margin-top-7">感谢您的购买</div>
+      <div class="margin-top-14">使用成功</div>
+      <div class="margin-top-7">请选择洗车机按钮，开始洗车。</div>
       <div class="margin-top-20 margin-bottom-20">
         <span v-if="type == 'A'">此台设备可以正常使用</span>
         <span v-if="type == 'C'">启动失败原套餐已退回您的账户</span>

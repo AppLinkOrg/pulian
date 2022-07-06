@@ -16,7 +16,7 @@ const dataMap = reactive({
   map: "",
   markerLayer: "",
   latitude: 0, //纬度
-  lngitude: 0, //经度
+  lngitude: 0 //经度
 });
 let page = ref({});
 let router = useRouter();
@@ -26,26 +26,25 @@ const arr = new Array();
 let sign = ref(true);
 let lat = ref({});
 let lng = ref({});
-let cameraId = ref(0)//相机id
-let isScan = ref(true)
+let cameraId = ref(0); //相机id
+let isScan = ref(true);
 var url = ref(
   "https://apis.map.qq.com/tools/geolocation?key=HN5BZ-FHPK4-6Z2U3-DBEUG-ZHXYV-AQFQV&referer=myapp"
 );
 PageHelper.Init(page, () => {});
 
-
 const init = () => {
   let center = new TMap.LatLng(dataMap.latitude, dataMap.lngitude);
   dataMap.map = new TMap.Map(document.getElementById("QQMap"), {
     center: center, //设置地图中心点坐标
-    zoom: 17.2, //设置地图缩放级别
+    zoom: 17.2 //设置地图缩放级别
   });
 };
 var getweizhi = () => {
   PageHelper.loadwechatconfig(() => {
     wx.getLocation({
       type: "gcj02",
-      success: function (res) {
+      success: function(res) {
         console.log(res, "resss");
         var latitude = res.latitude;
         var longitude = res.longitude;
@@ -55,43 +54,49 @@ var getweizhi = () => {
         dataMap.lngitude = longitude;
         lat.value = latitude;
         lng.value = longitude;
+        init();
+        deleteSomeInfo();
         HttpHelper.Post("carwash/carwashplacelist", {
           lng: longitude,
-          lat: latitude,
-        }).then((Res) => {
+          lat: latitude
+        }).then(Res => {
+          Res.sort((a,b)=>a.distance-b.distance)
           console.log(Res, "11");
           carwashplacelist.value = Res;
           for (let i = 0; i < Res.length; i++) {
+            HttpHelper.Post("carwash/getmachinelistofonliebycode", {
+              id:Res[i].id
+            }).then(status => {
+              console.log(status,'status');
+              
+              carwashplacelist.value[i].jqstatus=status
+            })
             let obj = {
               id: Res[i].id,
               styleId: "myStyle",
               position: new TMap.LatLng(Res[i].lat * 1, Res[i].lng * 1),
               properties: {
-                title: "marker1",
-              },
+                title: "marker1"
+              }
             };
             arr.push(obj);
           }
           console.log(arr[0], "rrr");
-          if(sign.value){
-            
-            init();
-            deleteSomeInfo();
+          if (sign.value) {
             addMarkerLayer();
           }
-          
         });
         window.localStorage.setItem("latitude", latitude);
         window.localStorage.setItem("longitude", longitude);
         //  alert("success" + JSON.stringify(res));
       },
-      fail: function (res) {
+      fail: function(res) {
         // alert("fail" + JSON.stringify(res));
         console.log("getLocation", "fail" + JSON.stringify(res));
       },
-      complete: function (res) {
+      complete: function(res) {
         console.log("getLocation", "complete" + JSON.stringify(res));
-      },
+      }
     });
   });
 };
@@ -120,7 +125,7 @@ const deleteSomeInfo = () => {
 const addMarkerLayer = () => {
   var markerGeo = {
     id: "center",
-    position: dataMap.map.getCenter(),
+    position: dataMap.map.getCenter()
   };
   arr.push(markerGeo);
   console.log(arr.length, arr, "99999");
@@ -132,13 +137,14 @@ const addMarkerLayer = () => {
       myStyle: new TMap.MarkerStyle({
         width: 25, // 点标记样式宽度（像素）
         height: 25, // 点标记样式高度（像素）
-        src: "http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/pulian/resource/6c323aed1de243a1650aa42eb1a1c014_220527105607_1161226950.png", //图片路径
+        src:
+          "http://applinkupload.oss-cn-shenzhen.aliyuncs.com/alucard263096/pulian/resource/6c323aed1de243a1650aa42eb1a1c014_220527105607_1161226950.png", //图片路径
         //焦点在图片中的像素位置，一般大头针类似形式的图片以针尖位置做为焦点，圆形点以圆心位置为焦点
-        anchor: { x: 16, y: 32 },
-      }),
+        anchor: { x: 16, y: 32 }
+      })
     },
 
-    geometries: arr, //点标记数据数组
+    geometries: arr //点标记数据数组
   });
   //监听地图平移，panstart开始平移，panend平移结束
   // dataMap.map.on("pan", function () {
@@ -163,7 +169,7 @@ var easeTo = () => {
     // rotation: 10,
     pitch: 10,
     adcode: 110101,
-    center: new TMap.LatLng(lat.value, lng.value),
+    center: new TMap.LatLng(lat.value, lng.value)
   }); //平滑缩放,旋转到指定级别
 };
 // let MachineList = ref([])
@@ -173,54 +179,34 @@ var easeTo = () => {
 // });
 
 // 跳转
-var personalcenter = (e) => {
+var personalcenter = e => {
   console.log("llllll");
   router.push("/personalcenter");
 };
-var buycarwash = (e) => {
+var buycarwash = e => {
   router.push("/carwashcard");
 };
 
-var selectcarwashpackage = (e) => {
-    wx.scanQRCode({
-      onlyFromCamera: true,
-      success(res) {
-        console.log(res,'respppp')
-        if(res.errMsg=='scanCode:ok'){ 
-          console.log(res,'res.path');
-          wx.navigateTo({
-            url: res.path,
-          })
-        }else{
-          wx.navigateBack({
-            delta: -1,
-          })
-        }
-      },
-      fail(res) {
-        wx.navigateBack({
-          delta: -1,
-        })
-      },
-    })
-  
-  // HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
-  //   router.push("/selectcarwashpackage?id=" + '1');
-  //   return;
-  //   let status = res.networkstatus.onOfflines;
-  //   if (status == "0") {
-  //     //离线
-  //     Toast("此台设备正在维护， 请更换其他机器。");
-  //   } else if (status == "1") {
-  //     //在线
-  //     router.push("/selectcarwashpackage?id=" + '1');
-  //   } else {
-  //     //工作中
-  //     Toast("此台设备正在使用中， 请手动关闭后重新扫码使用。");
+var selectcarwashpackage = e => {
+  router.push("/selectcarwashpackage");
+  // HttpHelper.Post("carwash/getmachineofonlie", { machineCode: code }).then(
+  //   res => {
+  //     let status = res.networkstatus.onOfflines;
+  //     if (status == "0") {
+  //       //离线
+  //       Toast("此台设备正在维护， 请更换其他机器。");
+  //     } else if (status == "1") {
+  //       //在线
+        
+  //     } else {
+  //       //工作中
+  //       Toast("此台设备正在使用中， 请手动关闭后重新扫码使用。");
+  //     }
   //   }
-  // });
+  // );
+
 };
-var placedetails = (e) => {
+var placedetails = e => {
   router.push(
     "/placedetails?id=" +
       e.id +
@@ -234,21 +220,12 @@ var placedetails = (e) => {
       lng.value
   );
 };
-
 </script>
 
 <template>
-  <div class="wf-100 h-m100 bg-10 " v-if="page.Res != null">
+  <div class="wf-100 h-m100 bg-10" v-if="page.Res != null">
     <div class="container" id="QQMap" style="width: 100%; height: 40vh">
-      <div
-        class="
-          wf-100
-          padding-left-14 padding-right-14
-          imgbox
-          flex-between
-          twoicon
-        "
-      >
+      <div class="wf-100 padding-left-14 padding-right-14 imgbox flex-between twoicon">
         <div>
           <img
             class="icon-40"
@@ -276,33 +253,20 @@ var placedetails = (e) => {
           />
         </div>
         <div
-          class="
-            bg-w
-            margin-left-14 margin-right-14 margin-top-14
-            padding-10
-            border-radius-10
-          "
+          class="bg-w margin-left-14 margin-right-14 margin-top-14 padding-10 border-radius-10"
           v-for="(item, index) in carwashplacelist"
           :key="index"
           @click="placedetails(item)"
         >
-          <div class="margin-bottom-10 f-14 bold c-2">
-            {{ item.name }}
-          </div>
-          <div class="margin-bottom-10 f-10 c-7">
-            {{ item.address }}
-          </div>
+          <div class="margin-bottom-10 f-14 bold c-2">{{ item.name }}</div>
+          <div class="margin-bottom-10 f-10 c-7">{{ item.address }}</div>
           <div class="margin-bottom-10 imgbox">
             <img
               class="icon-15 margin-right-5"
               :src="page.uploadpath + 'resource/' + page.Res.distance"
             />
-            <div v-if="item.distance < 1000" class="line-height-15 c-1">
-              {{ item.distance }}m
-            </div>
-            <div class="line-height-15 c-1" v-else>
-              {{ Math.floor(item.distance / 1000) }}km
-            </div>
+            <div v-if="item.distance < 1000" class="line-height-15 c-1">{{ item.distance }}m</div>
+            <div class="line-height-15 c-1" v-else>{{ Math.floor(item.distance / 1000) }}km</div>
             <img
               class="icon-15 margin-left-30 margin-right-5"
               :src="page.uploadpath + 'resource/' + page.Res.timeslot"
@@ -325,22 +289,12 @@ var placedetails = (e) => {
           </div>
         </div>
         <div
-          class="
-            margin-top-14 margin-bottom-14
-            padding-right-14 padding-left-14
-            bottom
-          "
+          class="margin-top-14 margin-bottom-14 padding-right-14 padding-left-14 bottom"
           style="width: 100%"
         >
-          <div
-            class="wf-100 bg-6 border-radius-10 wrapper"
-            @click="selectcarwashpackage()"
-          >
+          <div class="wf-100 bg-6 border-radius-10 wrapper" @click="selectcarwashpackage()">
             <div>
-              <img
-                class="icon-25"
-                :src="page.uploadpath + 'resource/' + page.Res.saoyisao"
-              />
+              <img class="icon-25" :src="page.uploadpath + 'resource/' + page.Res.saoyisao" />
             </div>
             <div class="c-w f-14" style="line-height: 40px">扫码洗车</div>
           </div>
@@ -350,7 +304,7 @@ var placedetails = (e) => {
   </div>
 </template>
 <style scoped>
-.top{
+.top {
   position: fixed;
   top: 0;
   right: 0;
