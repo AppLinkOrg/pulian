@@ -60,17 +60,17 @@ var getweizhi = () => {
           lng: longitude,
           lat: latitude
         }).then(Res => {
-          Res.sort((a,b)=>a.distance-b.distance)
+          Res.sort((a, b) => a.distance - b.distance);
           console.log(Res, "11");
           carwashplacelist.value = Res;
           for (let i = 0; i < Res.length; i++) {
             HttpHelper.Post("carwash/getmachinelistofonliebycode", {
-              id:Res[i].id
+              id: Res[i].id
             }).then(status => {
-              console.log(status,'status');
-              
-              carwashplacelist.value[i].jqstatus=status
-            })
+              console.log(status, "status");
+
+              carwashplacelist.value[i].jqstatus = status;
+            });
             let obj = {
               id: Res[i].id,
               styleId: "myStyle",
@@ -188,7 +188,27 @@ var buycarwash = e => {
 };
 
 var selectcarwashpackage = e => {
-  router.push("/selectcarwashpackage");
+  wx.scanQRCode({
+    onlyFromCamera: true,
+    success(res) {
+      console.log(res, "respppp");
+      if (res.errMsg == "scanCode:ok") {
+        console.log(res, "res.path");
+        wx.navigateTo({
+          url: res.path
+        });
+      } else {
+        wx.navigateBack({
+          delta: -1
+        });
+      }
+    },
+    fail(res) {
+      wx.navigateBack({
+        delta: -1
+      });
+    }
+  });
   // HttpHelper.Post("carwash/getmachineofonlie", { machineCode: code }).then(
   //   res => {
   //     let status = res.networkstatus.onOfflines;
@@ -197,14 +217,13 @@ var selectcarwashpackage = e => {
   //       Toast("此台设备正在维护， 请更换其他机器。");
   //     } else if (status == "1") {
   //       //在线
-        
+
   //     } else {
   //       //工作中
   //       Toast("此台设备正在使用中， 请手动关闭后重新扫码使用。");
   //     }
   //   }
   // );
-
 };
 var placedetails = e => {
   router.push(
