@@ -76,22 +76,6 @@ var selectpackage = e => {
   synopsis.value = e.synopsis;
   rule.value = e.rule;
   valid.value = e.valid;
-
-  // if (e.isyh) {
-  //   let arr = couponorder.value;
-  //   console.log(couponorder.value, "arr");
-  //   arr.sort((a, b) => b.jainshao - a.jainshao);
-  //   for (let i = 0; i < arr.length; i++) {
-  //     if (arr[i].manmoney * 1 <= price.value * 1) {
-  //       console.log(arr[i].manmoney, "arr");
-  //       console.log(price.value, "arr");
-  //       console.log(price.value, "arr");
-  //       // yh_id.value = arr[i].id;
-  //       // yhprice.value = arr[i].jainshao;
-  //       i = arr.length;
-  //     }
-  //   }
-  // }
 };
 //创建一个新实例 并且 对class为wrapper对象 实现了一个纵向可点击的滚动效果
 

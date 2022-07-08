@@ -18,7 +18,7 @@ class Content extends AppBase {
   onMyShow() {
     var that = this;
     this.Base.setMyData({
-      url:'https://uat20.helpfooter.com/#/carwashpaysuccess?type=' + this.options.type
+      url:'https://www.chefuzhongxin.com/#/carwashpaysuccess?type=' + this.options.type
     })
   }
 }

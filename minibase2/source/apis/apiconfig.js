@@ -1,8 +1,8 @@
 export class ApiConfig {
 
   static GetApiUrl() {
-    return "http://cmsdev.app-link.org/alucard263096/pulian/api/"
-    // return "https://appwx.chefuzhongxin.com/api/";
+    // return "http://cmsdev.app-link.org/alucard263096/pulian/api/"
+    return "https://appwx.chefuzhongxin.com/api/";
   }
   static GetUploadPath() {
     return "https://appwx.chefuzhongxin.com/Users/upload/";
