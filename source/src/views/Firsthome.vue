@@ -1,7 +1,7 @@
 <script setup>
 import { PageHelper } from "../PageHelper";
 import { HttpHelper } from "../HttpHelper";
-import { ref, reactive } from "vue";
+import { ref, reactive,onMounted} from "vue";
 import { Utils } from "../Utils";
 import { NModal } from "naive-ui";
 import { useRouter, useRoute } from "vue-router";
@@ -9,7 +9,6 @@ import Tar from "../components/Tar.vue";
 import { Toast } from "vant";
 import store from "../State";
 import Config from "../Config";
-
 let router = useRouter();
 let route = useRoute();
 let page = ref({});
@@ -21,9 +20,9 @@ var anniulist = ref([]);
 var servicelist = ref([]);
 var storelist = ref([]);
 var show = ref(false);
-
+let show1 = ref(0)
 PageHelper.Init(page, () => {});
-
+PageHelper.LoginAuth(page, () => {});
 // 轮播图
 HttpHelper.Post("inst/indexbanner", {}).then((indexbanner) => {
   console.log("进来了");
@@ -184,7 +183,51 @@ var filtratestore = (index) => {
     storelist.value = res;
   });
 };
+onMounted(() => {
+ 
+  
+   PageHelper.LoginAuth(page, () => {});
 
+  if (page.value.Memberinfo.touxiang != "B") {
+    show1.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  alert(page.value)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show1.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+});
+
+
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
+
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  }
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 // tiaozhaun 首页按钮跳转
 var tiaozhaun = (item) => {
   if (item.url == "") {
@@ -208,7 +251,7 @@ var tiaozhaun = (item) => {
     router.push(urls);
   } else {
     // 页面外部跳转
-
+  let viewer = window.navigator.userAgent.toLowerCase();
     if (viewer.match(/MicroMessenger/i) == "micromessenger") {
       wx.miniProgram.getEnv((resrnv) => {
         if (resrnv.miniprogram) {
@@ -325,28 +368,6 @@ var zhucetupian = () => {
   });
 };
 
-// 判断服务支付情况
-let timer = setInterval(() => {
-  //需要定时执行的代码
-  wancheng();
-}, 1000);
-
-let wancheng = () => {
-  if (jinru.value == 0) {
-  } else {
-    PageHelper.LoginAuth(page, () => {
-      if (page.value.Memberinfo.shoujisq == "B") {
-        show.value = false;
-        jinru.value = 0;
-        // alert(jinru.value)
-      } else {
-        show.value = true;
-        // jinru.value=0
-        // alert(jinru.value)
-      }
-    });
-  }
-};
 
 var close = () => {
   show.value = false;

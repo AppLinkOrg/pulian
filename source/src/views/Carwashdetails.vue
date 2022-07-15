@@ -29,11 +29,11 @@ HttpHelper.Post("carwash/carwashdetails", { id:route.query.id}).then(
       <div class="end">已完成</div>
       <div class="info bg-10 margin-left-14 margin-top-20 margin-right-14">
         <div class="border-radius-10 padding-15 bg-w">
-          <div class="f-16 bold line-height-30">宏福泰大楼</div>
-          <div class="f-14 c-1 margin-top-4">自助5元洗车套餐1次</div>
+          <div class="f-16 bold line-height-30">{{carwash.name}}</div>
+          <div class="f-14 c-1 margin-top-4">{{carwash.package_id_name}}</div>
           <div class="flex-row flex-between margin-top-20">
             <div>总价</div>
-            <div>{{carwash.allprice}}</div>
+            <div>{{carwash.taocanprice}}</div>
           </div>
           <div class="flex-row flex-between margin-top-10">
             <div>优惠</div>

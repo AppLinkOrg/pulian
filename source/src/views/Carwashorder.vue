@@ -72,11 +72,11 @@ var carwashdetails = (e) => {
           <div class="c-1 margin-bottom-10 flex-row flex-between">
             <div>下单时间：{{ item.paytime }}</div>
             <div v-if="current == 'A'">已完成</div>
-            <div v-else-if="current == 'B'">进行中</div>
-            <div v-else>已退款</div>
+            <div v-if="current == 'B'">进行中</div>
+            <div v-if="current == 'C'">启动失败</div>
           </div>
           <div class="f-16 bold margin-bottom-10">{{ item.name }}</div>
-          <div class="c-1 f-13 margin-bottom-10">{{ item.synopsis }}</div>
+          <div class="c-1 f-13 margin-bottom-10">{{ item.package_id_name }}</div>
           <div class="c-1 f-13">实付：¥{{ item.amount }}</div>
         </div>
       </div>

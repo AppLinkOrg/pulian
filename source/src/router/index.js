@@ -64,6 +64,7 @@ import Helpinfo from '../views/Helpinfo.vue'
 import Deductionbond from '../views/Deductionbond.vue'
 import Purchasedpackage from '../views/Purchasedpackage.vue'
 import Carwashpaysuccess from '../views/Carwashpaysuccess.vue'
+import Carwashtcpaysucces from '../views/Carwashtcpaysucces.vue' 
 import Carwashdetails from '../views/Carwashdetails.vue'
 import Fault from '../views/Fault.vue'
 import Mypoints from '../views/Mypoints.vue'
@@ -420,7 +421,7 @@ const routes = [{
   component: Personalcenter, 
   meta: {
     'name': '信息中心',
-    'name2': '自主洗车'
+    'name2': '自助洗车'
   }
 },{
   path: '/carwashorder',
@@ -482,6 +483,13 @@ const routes = [{
   path: '/carwashpaysuccess',
   name: 'Carwashpaysuccess',
   component:Carwashpaysuccess, 
+  meta: {
+    'name': '支付成功'
+  }
+},{
+  path: '/carwashtcpaysucces',
+  name: 'Carwashtcpaysucces',
+  component:Carwashtcpaysucces, 
   meta: {
     'name': '支付成功'
   }

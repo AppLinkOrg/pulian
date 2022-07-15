@@ -125,12 +125,12 @@ line-height: 53px;
 }
 .zizhu{
   width: 244px;
-height: 31px;
-font-size: 16px;
-font-family: PingFang SC;
-font-weight: 500;
-color: #333333;
-line-height: 53px;
+  height: 31px;
+  font-size: 16px;
+  font-family: PingFang SC;
+  font-weight: 500;
+  color: #333333;
+  line-height: 53px;
 }
 .borderleft{
   width: 4px;

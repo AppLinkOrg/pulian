@@ -15,13 +15,14 @@ let pointsmallist = ref([]);
 let qiandaocha = ref({});
 let qiandaocha2 = ref(0);
 let instinfo = ref({});
+PageHelper.LoginAuth(page, () => {});
 HttpHelper.Post("inst/instinfo", {}).then((Res) => {
   console.log(Res,'11');  
   instinfo.value = Res;
 });
 
 PageHelper.Init(page, () => {});
-PageHelper.LoginAuth(page, () => {});
+
 HttpHelper.Post("member/info", {}).then((res) => {
   console.log(res, "ssssssssss");
   pointsmallist.value = res;

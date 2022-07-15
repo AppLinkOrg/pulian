@@ -48,8 +48,6 @@ var getweizhi = () => {
         console.log(res, "resss");
         var latitude = res.latitude;
         var longitude = res.longitude;
-        console.log(latitude, "999999");
-        console.log(longitude, "999999");
         dataMap.latitude = latitude;
         dataMap.lngitude = longitude;
         lat.value = latitude;
@@ -189,7 +187,7 @@ var buycarwash = e => {
 
 var selectcarwashpackage = e => {
   wx.scanQRCode({
-    onlyFromCamera: true,
+    onlyFromCamera: false,
     success(res) {
       console.log(res, "respppp");
       if (res.errMsg == "scanCode:ok") {

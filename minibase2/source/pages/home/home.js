@@ -56,7 +56,7 @@ let id=this.Base.options.id
 //   title: ''+url2,
 // })
 
-var str='https://uat20.helpfooter.com/?'+"rand="+(new Date()).getTime()+'/#/?openid='+userunionid
+var str='https://app.chefuzhongxin.com/?'+"rand="+(new Date()).getTime()+'/#/?openid='+userunionid
 
 
 if (url2!=''&&url2!=undefined) {
@@ -114,7 +114,7 @@ console.log(str,'strrrrr');
     // console.log( options.webViewUrl,' options.webViewUrl')
         console.log( that.Base.getMyData().testUrl,' options.webViewUrl')
     return {
-      title: '哈哈',
+      title: '',
       path: '/pages/home/home?url2=' + obj2,
       success: (res) => {
         console.log( options.webViewUrl,' options.webViewUrl')

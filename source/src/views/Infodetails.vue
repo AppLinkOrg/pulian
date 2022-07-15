@@ -44,10 +44,10 @@ var buti=(e)=>{
 <template>
   <div v-if="page.Res!=null">
       <div class=" margin-left-14 margin-right-14">
-          <div class="f-20 bold margin-top-14">
+          <div class="f-20 bold ">
               {{infodetails.title}}
           </div>
-          <div class=" margin-top-14">
+          <div class="">
               {{infodetails.zuozhe}}&nbsp;&nbsp;&nbsp;{{infodetails.time}}
           </div>
           <div class="htmlimg padding-15" v-html="Utils.HtmlDecode(infodetails.details)" ></div>

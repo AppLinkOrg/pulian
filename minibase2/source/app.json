@@ -4,12 +4,11 @@
         "pages/login/login",
         "pages/daohan/daohan",
         "pages/auth/auth",
-        "pages/fwpay/fwpay",
+        "pages/fwpay/fwpay", 
         "pages/kefu/kefu",
         "pages/newopen/newopen",
         "pages/pay/pay",
         "pages/paysuccess/paysuccess",
-        "pages/qrcode/qrcode",
         "pages/land/land",
         "pages/taocan/taocan"
     ],

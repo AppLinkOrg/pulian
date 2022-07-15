@@ -14,7 +14,6 @@ let router = useRouter();
 let route = useRoute();
 var type = ref({});
 PageHelper.Init(page, () => {});
-
 type.value = route.query.type;
 //优惠券
 
@@ -31,17 +30,9 @@ var goindex = e => {
       <div class="margin-top-74">
         <img class="imgpay" :src="page.uploadpath + 'resource/' + page.Res.paysuccessimg" />
       </div>
-      <div v-if="type == 'A'">
-        <div class="margin-top-14 wf-100 center">使用成功</div>
-        <div class="margin-top-7 wf-100 center">请选择洗车机按钮，开始洗车。</div>
-      </div>
-      <div v-if="type == 'B'">
+      <div>
         <div class="margin-top-14 wf-100 center">支付成功</div>
         <div class="margin-top-7 wf-100 center">感谢您的购买</div>
-      </div>
-      <div v-if="type == 'C'">
-        <div class="margin-top-14 wf-100 center">启动失败</div>
-        <div class="margin-top-7 wf-100 center">原套餐已退回您的账户</div>
       </div>
       <div class="margin-top-20 margin-bottom-20"></div>
     </div>

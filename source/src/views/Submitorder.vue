@@ -22,7 +22,7 @@ let wanchengt = ref(false);
 let timer = setInterval(() => {
   //需要定时执行的代码
   wancheng();
-}, 1000);
+}, 1000); 
 
 var wancheng = () => {
   if (ordr_id.value > 0) {

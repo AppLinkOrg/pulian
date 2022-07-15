@@ -1,4 +1,4 @@
-<web-view src="https://uat20.helpfooter.com/#/selectcarwashpackage?member_id={{memberinfo.id}}&openid={{memberinfo.openid}}&machinecode=code"></web-view>
+<web-view src="https://app.chefuzhongxin.com/#/selectcarwashpackage?machine_id={{type}}&openid={{userunionid}}"></web-view>
 
 
 

@@ -903,6 +903,9 @@ button {
 .margin-bottom-30 {
   margin-bottom: 30px;
 }
+.margin-bottom-100 {
+  margin-bottom: 100px;
+}
 .margin-left-4 {
   margin-left: 4px;
 }

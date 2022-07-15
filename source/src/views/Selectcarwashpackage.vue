@@ -73,6 +73,8 @@ var wancheng = () => {
 };
 let carwashpackagelist = ref([]);
 HttpHelper.Post("carwash/carwashpackagelist", {}).then(Res => {
+  yhprice.value = 0;
+  yh_id.value = 0;
   HttpHelper.Post("carwash/couponorderlist", { yhstatus: "A" }).then(res => {
     res.sort((a, b) => b.jainshao - a.jainshao);
     couponorder.value = res;
@@ -108,29 +110,29 @@ var selectpackage = e => {
   console.log(e);
   if (package_id.value != e.id) {
     yh_id.value = -1;
-    yhprice.value = 0
+    yhprice.value = 0;
   }
   package_id.value = e.id;
   price.value = e.price;
   synopsis.value = e.synopsis;
   rule.value = e.rule;
   order_id.value = -1;
-//   if (e.isyh) {
-//     let arr = couponorder.value;
-//     console.log(couponorder.value, "arr");
-//     arr.sort((a, b) => b.jainshao - a.jainshao);
-//     for (let i = 0; i < arr.length; i++) {
-//       if (arr[i].manmoney * 1 <= price.value * 1) {
-//         console.log(arr[i].manmoney, "arr");
-//         console.log(price.value, "arr");
-//         console.log(price.value, "arr");
-//         // yh_id.value = arr[i].id;
-//         // yhprice.value = arr[i].jainshao;
-//         i = arr.length;
-//       }
-//     }
-//   }
- };
+  //   if (e.isyh) {
+  //     let arr = couponorder.value;
+  //     console.log(couponorder.value, "arr");
+  //     arr.sort((a, b) => b.jainshao - a.jainshao);
+  //     for (let i = 0; i < arr.length; i++) {
+  //       if (arr[i].manmoney * 1 <= price.value * 1) {
+  //         console.log(arr[i].manmoney, "arr");
+  //         console.log(price.value, "arr");
+  //         console.log(price.value, "arr");
+  //         // yh_id.value = arr[i].id;
+  //         // yhprice.value = arr[i].jainshao;
+  //         i = arr.length;
+  //       }
+  //     }
+  //   }
+};
 
 var selectpackage2 = e => {
   console.log(e);
@@ -146,74 +148,108 @@ var selectpackage2 = e => {
 //支付
 var payorder = () => {
   if (price.value != 0) {
-    HttpHelper.Post("carwash/uploadcarwashorder", {
-      package_id: package_id.value,
-      amount: price.value - yhprice.value,
-      synopsis: synopsis.value,
-      rule: rule.value,
-      couponorder_id: yh_id.value,
-      tel: page.value.Memberinfo.mobile,
-      machine_id: route.query.id
-    }).then(res => {
-      let viewer = window.navigator.userAgent.toLowerCase();
+    if (price.value == yhprice.value ) {
+      HttpHelper.Post("carwash/uploadcarwashorder2", {
+        package_id: package_id.value,
+        amount: price.value - yhprice.value,
+        couponorder_id: yh_id.value,
+        tel: page.value.Memberinfo.mobile,
+        machine_id: route.query.machine_id,
+        taocanprice:price.value
+      }).then(res => {
+        if (res.code == 0) {
+          HttpHelper.Post("carwash/startup", {
+            carwashorder_id: res.return,
+          }).then(e => {
+            
+            console.log(e, "666");
+            if (e.statusCode == "200" && e.errCode == "0") {
+              router.push(
+                "/carwashpaysuccess?orderid=" + res.return + "&type=A"
+              );
+            } else {
+              Toast(e.retMsg);
+              router.push(
+                "/carwashpaysuccess?orderid=" + res.return + "&type=C"
+              );
+            }
+          });
+        }
+      });
+    } else {
+      console.log(page.value.Memberinfo.mobile,'mobile');
+      console.log(route.query.machine_id,'route.query.machine_id');
+      
+      HttpHelper.Post("carwash/uploadcarwashorder", {
+        package_id: package_id.value,
+        amount: price.value - yhprice.value,
+        couponorder_id: yh_id.value,
+        tel: page.value.Memberinfo.mobile,
+        machine_id: route.query.machine_id,
+        taocanprice:price.value
+      }).then(res => {
+        let viewer = window.navigator.userAgent.toLowerCase();
 
-      if (viewer.match(/MicroMessenger/i) == "micromessenger") {
-        wx.miniProgram.getEnv(resrnv => {
-          ordr_id.value = res.return;
-          wanchengt.value = false;
-          if (resrnv.miniprogram) {
-            // 小程序内部
-            if (res.code == 0) {
-              console.log("提交成功跳转支付");
-              //  ordr_id.value=res.return
-              //  wanchengt.value=false
-              wx.miniProgram.navigateTo({
-                url: "/pages/pay/pay?id=" + res.return + "&type=" + "P"
+        if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+          wx.miniProgram.getEnv(resrnv => {
+            ordr_id.value = res.return;
+            wanchengt.value = false;
+            if (resrnv.miniprogram) {
+              // 小程序内部
+              if (res.code == 0) {
+                console.log("提交成功跳转支付");
+                //  ordr_id.value=res.return
+                //  wanchengt.value=false
+                wx.miniProgram.navigateTo({
+                  url: "/pages/pay/pay?id=" + res.return + "&type=" + "P"
+                });
+              }
+            } else {
+              // 微信浏览器
+              //  prepay5
+              // prepay7
+              HttpHelper.Post("wechat/carwash", {
+                id: res.return
+              }).then(payret => {
+                WeixinJSBridge.invoke("getBrandWCPayRequest", payret, ress => {
+
+                  if (ress.err_msg == "get_brand_wcpay_request:ok") {
+                    Toast("支付成功");
+                    // router.go(-1)
+                    HttpHelper.Post("carwash/startup", {
+                      carwashorder_id: res.return,
+                      machine_id: route.query.machine_id,
+                      tel: page.value.Memberinfo.mobile
+                    }).then(e => {
+                      if (e.statusCode == "200" && e.errCode == "0") {
+                        router.push(
+                          "/carwashpaysuccess?orderid=" +
+                            order_id.value +
+                            "&type=A"
+                        );
+                      } else {
+                        Toast(e.retMsg);
+                        router.push(
+                          "/carwashpaysuccess?orderid=" +
+                            order_id.value +
+                            "&type=" +
+                            "C"
+                        );
+                      }
+                    });
+                  }
+                });
               });
             }
-          } else {
-            // 微信浏览器
-            //  prepay5
-            // prepay7
-            HttpHelper.Post("wechat/carwash", {
-              id: res.return
-            }).then(payret => {
-              WeixinJSBridge.invoke("getBrandWCPayRequest", payret, ress => {
-                //  alert(JSON.stringify(ress))
-                if (ress.err_msg == "get_brand_wcpay_request:ok") {
-                  Toast("支付成功");
-                  // router.go(-1)
-                  HttpHelper.Post("carwash/startup", {
-                    carwashorder_id: res.return
-                  }).then(e => {
-                    if (e.statusCode == "200" && e.errCode == "0") {
-                      router.push(
-                        "/carwashpaysuccess?orderid=" +
-                          order_id.value +
-                          "&type=A"
-                      );
-                    } else {
-                      Toast(e.retMsg);
-                      router.push(
-                        "/carwashpaysuccess?orderid=" +
-                          order_id.value +
-                          "&type=" +
-                          "C"
-                      );
-                    }
-                  });
-                }
-              });
-            });
-          }
-        });
-      }
-    });
+          });
+        }
+      });
+    }
   } else {
-    console.log(order_id.value, route.query.id, page.value.Memberinfo.mobile);
+    
     HttpHelper.Post("carwash/startup", {
       packageorder_id: order_id.value,
-      machine_id: route.query.id,
+      machine_id: route.query.machine_id,
       tel: page.value.Memberinfo.mobile
     }).then(e => {
       console.log(e, "666");
@@ -240,10 +276,32 @@ var isshow = e => {
   console.log(isshow.value);
 };
 var usecard = e => {
+  if (e.manmoney * 1 > price.value * 1 || e.jainshao > price) {
+    Toast("该优惠券不可用");
+    return;
+  }
   yh_id.value = e.id;
   yhprice.value = e.jainshao;
   showbox.value = false;
 };
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
+
+  if (page.value.Memberinfo.touxiang != "B") {
+    show.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
+
+
 </script>
 
 <template>
@@ -293,7 +351,7 @@ var usecard = e => {
             @click="selectyh(item)"
             class="isyh"
           >优惠券-{{yhprice}}元</div>
-          <div v-else-if="!item.isyh" class="isyh" @click="selectyh(item)">{{!item.isyh}}(暂无抵扣劵)</div>
+          <div v-else-if="!item.isyh" class="isyh">(暂无抵扣劵)</div>
           <div v-else class="isyh" @click="selectyh(item)">您有优惠券可用</div>
         </div>
       </div>
@@ -311,6 +369,7 @@ var usecard = e => {
         <div class="bold f-15" v-else>¥0</div>
       </div>
     </div>
+    <div class="icon-80 bg-10"></div>
     <div class="bottom imgbox flex-between wf-100 padding-left-14 padding-right-14 bg-w">
       <div class>
         <div class="allprice">

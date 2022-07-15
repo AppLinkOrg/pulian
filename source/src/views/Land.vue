@@ -31,7 +31,7 @@ var lingquan = () => {
       pointsmall_id: landdetail.value.pointsmall_id
     }).then((res) => {
       if(res.code == 0){
-        Toast("领取成功请前往洗车个人中心卡券列表查看");
+        router.push('/deductionbond')
       }else{
         Toast("领取失败");
       }
