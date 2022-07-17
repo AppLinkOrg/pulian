@@ -31,7 +31,7 @@ var shouquan = () => {
   PageHelper.LoginAuth(page, () => {});
 
   if (page.value.Memberinfo.touxiang != "B") {
-    show.value = 1;
+    show1.value = 1;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
   }
   // alert(page.value.Memberinfo.shoujisq)
@@ -39,14 +39,15 @@ var shouquan = () => {
     page.value.Memberinfo.shoujisq != "B" &&
     page.value.Memberinfo.touxiang == "B"
   ) {
-    show.value = 2;
+    show1.value = 2;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
   }
 };
-let show = ref(0);
+let show1 = ref(0);
 let timer = setInterval(() => {
   //需要定时执行的代码
   wancheng();
+  shouquan();
 }, 1000);
 
 var wancheng = () => {
@@ -56,11 +57,11 @@ var wancheng = () => {
   } else {
     console.log(page.value.Memberinfo);
   }
-  if (show.value == 1 && page.value.Memberinfo.touxiang != "B") {
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
     PageHelper.LoginAuth(page, () => {});
   }
 
-  if (show.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
     PageHelper.LoginAuth(page, () => {});
   }
 
@@ -167,7 +168,7 @@ var payorder = () => {
               router.push(
                 "/carwashpaysuccess?orderid=" + res.return + "&type=A"
               );
-            } else {
+            } else { 
               Toast(e.retMsg);
               router.push(
                 "/carwashpaysuccess?orderid=" + res.return + "&type=C"
@@ -283,22 +284,6 @@ var usecard = e => {
   yh_id.value = e.id;
   yhprice.value = e.jainshao;
   showbox.value = false;
-};
-var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
-
-  if (page.value.Memberinfo.touxiang != "B") {
-    show.value = 1;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
-  }
-  // alert(page.value.Memberinfo.shoujisq)
-  if (
-    page.value.Memberinfo.shoujisq != "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    show.value = 2;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
-  }
 };
 
 

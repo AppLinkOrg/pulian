@@ -1,22 +1,17 @@
-// pages/qrcode/qrcode.js
+// pages/content/content.js
 import { AppBase } from "../../appbase";
 import { ApiConfig } from "../../apis/apiconfig";
 import { InstApi } from "../../apis/inst.api.js";
-import {
-    MemberApi
-  } from "../../apis/member.api.js";
 
-  
 class Content extends AppBase {
   constructor() {
     super();
   }
   onLoad(options) {
     this.Base.Page = this;
+    //options.id=5;
     super.onLoad(options);
-    alert(this.Base.options.machine_id)
     this.Base.setMyData({
-      type:this.Base.options.machine_id,
       token:'',
       url:'',
       timer:0,
@@ -24,6 +19,7 @@ class Content extends AppBase {
       testUrl:'',
       imageUrl:''
     })
+    
   }
   onMyShow() {
 
@@ -60,7 +56,7 @@ let id=this.Base.options.id
 //   title: ''+url2,
 // })
 
-var str='https://app.chefuzhongxin.com/?'+"rand="+(new Date()).getTime()+'/#/?openid='+userunionid
+var str='https://app.chefuzhongxin.com/?'+"rand="+(new Date()).getTime()+'/#/selectcarwashpackage?openid='+userunionid+'&machine_id='+this.Base.options.machine_id
 
 
 if (url2!=''&&url2!=undefined) {

@@ -121,6 +121,11 @@ body{
   width: 100vw;
   min-height: 100vh;
 }
+.big-bg2 {
+  background: rgba(0, 0, 0, 0);
+  width: 100vw;
+  min-height: 100vh;
+}
 .padding-ph {
   padding: 5px 10px 5px 5px;
 }

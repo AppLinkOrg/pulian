@@ -23,6 +23,48 @@ var show = ref(false);
 let show1 = ref(0)
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
+
+  if (page.value.Memberinfo.touxiang != "B") {
+    show1.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show1.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+  shouquan()
+}, 1000);
+
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  }
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 // 轮播图
 HttpHelper.Post("inst/indexbanner", {}).then((indexbanner) => {
   console.log("进来了");
@@ -183,51 +225,7 @@ var filtratestore = (index) => {
     storelist.value = res;
   });
 };
-onMounted(() => {
- 
-  
-   PageHelper.LoginAuth(page, () => {});
 
-  if (page.value.Memberinfo.touxiang != "B") {
-    show1.value = 1;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
-  }
-  alert(page.value)
-  if (
-    page.value.Memberinfo.shoujisq != "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    show1.value = 2;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
-  }
-});
-
-
-let timer = setInterval(() => {
-  //需要定时执行的代码
-  wancheng();
-}, 1000);
-
-var wancheng = () => {
-  if (page.value.Memberinfo == null) {
-    PageHelper.LoginAuth(page, () => {});
-    return;
-  }
-  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
-    PageHelper.LoginAuth(page, () => {});
-  }
-
-  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
-    PageHelper.LoginAuth(page, () => {});
-  }
-
-  if (
-    page.value.Memberinfo.shoujisq == "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    clearInterval(timer);
-  }
-};
 // tiaozhaun 首页按钮跳转
 var tiaozhaun = (item) => {
   if (item.url == "") {
@@ -388,6 +386,7 @@ var fuwuall = (e) => {
 
 <template >
   <div v-if="page.Res != null" class="big-bg">
+    <!-- <div class="big-bg2" @click="shouqan()"></div> -->
     <!--  -->
     <!-- <img
       :src="page.uploadpath + 'resource/' + page.Res.sybg"

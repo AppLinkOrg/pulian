@@ -1,8 +1,8 @@
-<web-view src="https://app.chefuzhongxin.com/#/selectcarwashpackage?machine_id={{type}}&openid={{userunionid}}"></web-view>
+
+
+<web-view    src="{{url}}"   bindmessage="bindGetMsg"></web-view>
 
 
 
-
-
-
-
+<!-- <web-view src="https://uat20.helpfooter.com/#/?member_id={{memberinfo.id}}&openid={{memberinfo.openid}}"></web-view> -->
+<!-- https://uat20.helpfooter.com -->
