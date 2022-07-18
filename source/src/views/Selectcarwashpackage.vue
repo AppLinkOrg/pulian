@@ -4,7 +4,7 @@ import { ref } from "@vue/reactivity";
 import { onMounted } from "vue";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
-import { Toast } from "vant";
+import { Toast, Dialog } from "vant";
 import store from "../State";
 import { Utils } from "../Utils";
 import { throttle } from "throttle-debounce";
@@ -44,34 +44,7 @@ var shouquan = () => {
   }
 };
 let show1 = ref(0);
-let timer = setInterval(() => {
-  //需要定时执行的代码
-  wancheng();
-  shouquan();
-}, 1000);
 
-var wancheng = () => {
-  if (page.value.Memberinfo == null) {
-    PageHelper.LoginAuth(page, () => {});
-    return;
-  } else {
-    console.log(page.value.Memberinfo);
-  }
-  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
-    PageHelper.LoginAuth(page, () => {});
-  }
-
-  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
-    PageHelper.LoginAuth(page, () => {});
-  }
-
-  if (
-    page.value.Memberinfo.shoujisq == "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    clearInterval(timer);
-  }
-};
 let carwashpackagelist = ref([]);
 HttpHelper.Post("carwash/carwashpackagelist", {}).then(Res => {
   yhprice.value = 0;
@@ -147,121 +120,206 @@ var selectpackage2 = e => {
 };
 //上传订单
 //支付
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  }
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 var payorder = () => {
-  if (price.value != 0) {
-    if (price.value == yhprice.value ) {
-      HttpHelper.Post("carwash/uploadcarwashorder2", {
-        package_id: package_id.value,
-        amount: price.value - yhprice.value,
-        couponorder_id: yh_id.value,
-        tel: page.value.Memberinfo.mobile,
-        machine_id: route.query.machine_id,
-        taocanprice:price.value
-      }).then(res => {
-        if (res.code == 0) {
-          HttpHelper.Post("carwash/startup", {
-            carwashorder_id: res.return,
-          }).then(e => {
-            
-            console.log(e, "666");
-            if (e.statusCode == "200" && e.errCode == "0") {
-              router.push(
-                "/carwashpaysuccess?orderid=" + res.return + "&type=A"
-              );
-            } else { 
-              Toast(e.retMsg);
-              router.push(
-                "/carwashpaysuccess?orderid=" + res.return + "&type=C"
-              );
-            }
-          });
-        }
-      });
-    } else {
-      console.log(page.value.Memberinfo.mobile,'mobile');
-      console.log(route.query.machine_id,'route.query.machine_id');
-      
-      HttpHelper.Post("carwash/uploadcarwashorder", {
-        package_id: package_id.value,
-        amount: price.value - yhprice.value,
-        couponorder_id: yh_id.value,
-        tel: page.value.Memberinfo.mobile,
-        machine_id: route.query.machine_id,
-        taocanprice:price.value
-      }).then(res => {
-        let viewer = window.navigator.userAgent.toLowerCase();
-
-        if (viewer.match(/MicroMessenger/i) == "micromessenger") {
-          wx.miniProgram.getEnv(resrnv => {
-            ordr_id.value = res.return;
-            wanchengt.value = false;
-            if (resrnv.miniprogram) {
-              // 小程序内部
-              if (res.code == 0) {
-                console.log("提交成功跳转支付");
-                //  ordr_id.value=res.return
-                //  wanchengt.value=false
-                wx.miniProgram.navigateTo({
-                  url: "/pages/pay/pay?id=" + res.return + "&type=" + "P"
-                });
-              }
-            } else {
-              // 微信浏览器
-              //  prepay5
-              // prepay7
-              HttpHelper.Post("wechat/carwash", {
-                id: res.return
-              }).then(payret => {
-                WeixinJSBridge.invoke("getBrandWCPayRequest", payret, ress => {
-
-                  if (ress.err_msg == "get_brand_wcpay_request:ok") {
-                    Toast("支付成功");
-                    // router.go(-1)
+  if (
+    page.value.Memberinfo.shoujisq != "B" ||
+    page.value.Memberinfo.touxiang != "B"
+  ) {
+    shouquan();
+  }else{
+    HttpHelper.Post("carwash/getmachineofonlie", {
+      machine_id: route.query.machine_id
+    }).then(e => {
+      if (e.onOfflines == 1) {
+        if (price.value != 0) {
+          if (price.value == yhprice.value) {
+            Dialog.confirm({
+              title: "标题",
+              message:
+                "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。"
+            })
+              .then(() => {
+                // on confirm
+                HttpHelper.Post("carwash/uploadcarwashorder2", {
+                  package_id: package_id.value,
+                  amount: price.value - yhprice.value,
+                  couponorder_id: yh_id.value,
+                  tel: page.value.Memberinfo.mobile,
+                  machine_id: route.query.machine_id,
+                  taocanprice: price.value
+                }).then(res => {
+                  if (res.code == 0) {
                     HttpHelper.Post("carwash/startup", {
-                      carwashorder_id: res.return,
-                      machine_id: route.query.machine_id,
-                      tel: page.value.Memberinfo.mobile
+                      carwashorder_id: res.return
                     }).then(e => {
+                      console.log(e, "666");
                       if (e.statusCode == "200" && e.errCode == "0") {
                         router.push(
-                          "/carwashpaysuccess?orderid=" +
-                            order_id.value +
-                            "&type=A"
+                          "/carwashpaysuccess?orderid=" + res.return + "&type=A"
                         );
                       } else {
-                        Toast(e.retMsg);
                         router.push(
-                          "/carwashpaysuccess?orderid=" +
-                            order_id.value +
-                            "&type=" +
-                            "C"
+                          "/carwashpaysuccess?orderid=" + res.return + "&type=C"
                         );
                       }
                     });
                   }
                 });
+              })
+              .catch(() => {
+                // on cancel
               });
-            }
-          });
+          } else {
+            console.log(page.value.Memberinfo.mobile, "mobile");
+            console.log(route.query.machine_id, "route.query.machine_id");
+            Dialog.confirm({
+              title: "标题",
+              message:
+                "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。"
+            })
+              .then(() => {
+                // on confirm
+                HttpHelper.Post("carwash/uploadcarwashorder", {
+                  package_id: package_id.value,
+                  amount: price.value - yhprice.value,
+                  couponorder_id: yh_id.value,
+                  tel: page.value.Memberinfo.mobile,
+                  machine_id: route.query.machine_id,
+                  taocanprice: price.value
+                }).then(res => {
+                  let viewer = window.navigator.userAgent.toLowerCase();
+
+                  if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+                    wx.miniProgram.getEnv(resrnv => {
+                      ordr_id.value = res.return;
+                      wanchengt.value = false;
+                      if (resrnv.miniprogram) {
+                        // 小程序内部
+                        if (res.code == 0) {
+                          console.log("提交成功跳转支付");
+                          //  ordr_id.value=res.return
+                          //  wanchengt.value=false
+                          wx.miniProgram.navigateTo({
+                            url:
+                              "/pages/pay/pay?id=" + res.return + "&type=" + "P"
+                          });
+                        }
+                      } else {
+                        // 微信浏览器
+                        //  prepay5
+                        // prepay7
+                        HttpHelper.Post("wechat/carwash", {
+                          id: res.return
+                        }).then(payret => {
+                          WeixinJSBridge.invoke(
+                            "getBrandWCPayRequest",
+                            payret,
+                            ress => {
+                              if (
+                                ress.err_msg == "get_brand_wcpay_request:ok"
+                              ) {
+                                Toast("支付成功");
+                                // router.go(-1)
+                                HttpHelper.Post("carwash/startup", {
+                                  carwashorder_id: res.return,
+                                  machine_id: route.query.machine_id,
+                                  tel: page.value.Memberinfo.mobile
+                                }).then(e => {
+                                  if (
+                                    e.statusCode == "200" &&
+                                    e.errCode == "0"
+                                  ) {
+                                    router.push(
+                                      "/carwashpaysuccess?orderid=" +
+                                        order_id.value +
+                                        "&type=A"
+                                    );
+                                  } else {
+                                    Toast(e.retMsg);
+                                    router.push(
+                                      "/carwashpaysuccess?orderid=" +
+                                        order_id.value +
+                                        "&type=" +
+                                        "C"
+                                    );
+                                  }
+                                });
+                              }
+                            }
+                          );
+                        });
+                      }
+                    });
+                  }
+                });
+              })
+              .catch(() => {
+                // on cancel
+              });
+          }
+        } else {
+          Dialog.confirm({
+            title: "标题",
+            message:
+              "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。"
+          })
+            .then(() => {
+              // on confirm
+              HttpHelper.Post("carwash/startup", {
+                packageorder_id: order_id.value,
+                machine_id: route.query.machine_id,
+                tel: page.value.Memberinfo.mobile
+              }).then(e => {
+                console.log(e, "666");
+                if (e.statusCode == "200" && e.errCode == "0") {
+                  router.push(
+                    "/carwashpaysuccess?orderid=" + order_id.value + "&type=A"
+                  );
+                } else {
+                  Toast(e.retMsg);
+                  router.push(
+                    "/carwashpaysuccess?orderid=" + order_id.value + "&type=C"
+                  );
+                }
+              });
+            })
+            .catch(() => {
+              // on cancel
+            });
         }
-      });
-    }
-  } else {
-    
-    HttpHelper.Post("carwash/startup", {
-      packageorder_id: order_id.value,
-      machine_id: route.query.machine_id,
-      tel: page.value.Memberinfo.mobile
-    }).then(e => {
-      console.log(e, "666");
-      if (e.statusCode == "200" && e.errCode == "0") {
-        router.push("/carwashpaysuccess?orderid=" + order_id.value + "&type=A");
-      } else {
-        Toast(e.retMsg);
-        router.push("/carwashpaysuccess?orderid=" + order_id.value + "&type=C");
+      } else if(e.onOfflines==2) {
+        Toast("机器正在使用,轻手动关闭");
+        return;
+      }else{
+        Toast("机器正在维修");
       }
     });
   }
+  
 };
 var selectyh = e => {
   cur_id.value = e.id;
@@ -285,8 +343,6 @@ var usecard = e => {
   yhprice.value = e.jainshao;
   showbox.value = false;
 };
-
-
 </script>
 
 <template>
@@ -354,7 +410,7 @@ var usecard = e => {
         <div class="bold f-15" v-else>¥0</div>
       </div>
     </div>
-    <div class="icon-80 bg-10"></div>
+    <div class="icon-80"></div>
     <div class="bottom imgbox flex-between wf-100 padding-left-14 padding-right-14 bg-w">
       <div class>
         <div class="allprice">

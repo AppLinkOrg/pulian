@@ -3,7 +3,7 @@ import { PageHelper } from "../PageHelper";
 import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
-import { Toast } from "vant";
+import { Toast,Dialog } from "vant";
 import store from "../State";
 import { Utils } from "../Utils";
 import BScroll from "better-scroll";
@@ -87,66 +87,93 @@ var selectpackage = e => {
 var payorder = () => {
   console.log(price.value, "xxx", yhprice.value);
 
-  if (price.value == yhprice.value && price.value !=0) {
-    HttpHelper.Post("carwash/packageorder2", {
-      package_id: package_id.value,
-      amount: price.value - yhprice.value,
-      synopsis: synopsis.value,
-      rule: rule.value,
-      couponorder_id: yh_id.value,
-      valid: valid.value,
-      taocanprice:price.value
-    }).then(res => {
-      if (res.code == 0) {
-        router.push("/carwashtcpaysucces?type=" + "B");
-      } else {
-        Toast(res.errMsg);
-      }
-    });
-  } else {
-    HttpHelper.Post("carwash/packageorder", {
-      package_id: package_id.value,
-      amount: price.value - yhprice.value,
-      synopsis: synopsis.value,
-      rule: rule.value,
-      couponorder_id: yh_id.value,
-      valid: valid.value,
-      taocanprice:price.value
-    }).then(res => {
-      let viewer = window.navigator.userAgent.toLowerCase();
-      if (viewer.match(/MicroMessenger/i) == "micromessenger") {
-        wx.miniProgram.getEnv(resrnv => {
-          ordr_id.value = res.return;
-          wanchengt.value = false;
-          if (resrnv.miniprogram) {
-            // 小程序内部
-            if (res.code == 0) {
-              console.log("提交成功跳转支付");
-              //  ordr_id.value=res.return
-              //  wanchengt.value=false
-              wx.miniProgram.navigateTo({
-                url: "/pages/pay/pay?id=" + res.return + "&type=" + "Q"
-              });
-            }
+  if (price.value == yhprice.value && price.value != 0) {
+    Dialog.confirm({
+      title: "标题",
+      message:
+        "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。"
+    })
+      .then(() => {
+        // on confirm
+        HttpHelper.Post("carwash/packageorder2", {
+          package_id: package_id.value,
+          amount: price.value - yhprice.value,
+          synopsis: synopsis.value,
+          rule: rule.value,
+          couponorder_id: yh_id.value,
+          valid: valid.value,
+          taocanprice: price.value
+        }).then(res => {
+          if (res.code == 0) {
+            router.push("/carwashtcpaysucces?type=" + "B");
           } else {
-            // 微信浏览器
-            //  prepay5
-            // prepay7
-            HttpHelper.Post("wechat/packageorder", {
-              id: res.return
-            }).then(payret => {
-              WeixinJSBridge.invoke("getBrandWCPayRequest", payret, ress => {
-                //  alert(JSON.stringify(ress))
-                if (ress.err_msg == "get_brand_wcpay_request:ok") {
-                  Toast("支付成功");
-                  router.push("/carwashtcpaysucces?type=" + "B");
+            Toast(res.errMsg);
+          }
+        });
+      })
+      .catch(() => {
+        // on cancel
+      });
+  } else {
+    Dialog.confirm({
+      title: "标题",
+      message:
+        "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。"
+    })
+      .then(() => {
+        // on confirm
+
+        HttpHelper.Post("carwash/packageorder", {
+          package_id: package_id.value,
+          amount: price.value - yhprice.value,
+          synopsis: synopsis.value,
+          rule: rule.value,
+          couponorder_id: yh_id.value,
+          valid: valid.value,
+          taocanprice: price.value
+        }).then(res => {
+          let viewer = window.navigator.userAgent.toLowerCase();
+          if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+            wx.miniProgram.getEnv(resrnv => {
+              ordr_id.value = res.return;
+              wanchengt.value = false;
+              if (resrnv.miniprogram) {
+                // 小程序内部
+                if (res.code == 0) {
+                  console.log("提交成功跳转支付");
+                  //  ordr_id.value=res.return
+                  //  wanchengt.value=false
+                  wx.miniProgram.navigateTo({
+                    url: "/pages/pay/pay?id=" + res.return + "&type=" + "Q"
+                  });
                 }
-              });
+              } else {
+                // 微信浏览器
+                //  prepay5
+                // prepay7
+                HttpHelper.Post("wechat/packageorder", {
+                  id: res.return
+                }).then(payret => {
+                  WeixinJSBridge.invoke(
+                    "getBrandWCPayRequest",
+                    payret,
+                    ress => {
+                      //  alert(JSON.stringify(ress))
+                      if (ress.err_msg == "get_brand_wcpay_request:ok") {
+                        Toast("支付成功");
+                        router.push("/carwashtcpaysucces?type=" + "B");
+                      }
+                    }
+                  );
+                });
+              }
             });
           }
         });
-      }
-    });
+      })
+      .catch(() => {
+        // on cancel
+      });
   }
 };
 var selectyh = e => {

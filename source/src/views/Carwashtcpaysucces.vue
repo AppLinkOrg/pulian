@@ -6,8 +6,6 @@ import { useRouter, useRoute } from "vue-router";
 import { Toast } from "vant";
 import store from "../State";
 import { Utils } from "../Utils";
-import BScroll from "better-scroll";
-import { logLight } from "naive-ui/lib/log/styles";
 
 let page = ref({});
 let router = useRouter();

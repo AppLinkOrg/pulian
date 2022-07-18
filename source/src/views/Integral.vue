@@ -14,7 +14,7 @@ let leixin = ref("");
 let pointsmallist = ref([]);
 let qiandaocha = ref({});
 let qiandaocha2 = ref(0);
-
+let show1 = ref(0)
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
 // HttpHelper.Post("member/info", {}).then((res) => {
@@ -22,6 +22,46 @@ PageHelper.LoginAuth(page, () => {});
 //   pointsmallist.value = res;
 // });
 // 初始化展示列表
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
+
+  if (page.value.Memberinfo.touxiang != "B") {
+    show1.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show1.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  }
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 setTimeout(() => {
   HttpHelper.Post("pointsmall/pointsmallist", { leixinss: leixin.value }).then(
     (res) => {
@@ -55,6 +95,7 @@ var poinlist = (e) => {
 
 // 点击立即兑换
 var xinqing = (e) => {
+  shouquan();
   router.push(
     "/materialdetail?id=" + e.id + "&type=" + e.type + "&yhid=" + e.coupon_id
   );

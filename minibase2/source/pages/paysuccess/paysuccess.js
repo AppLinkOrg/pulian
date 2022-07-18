@@ -15,10 +15,16 @@ class Content extends AppBase {
     })
     super.onLoad(options);
   }
-  onMyShow() {
+  onMyShow() { 
     var that = this;
-    this.Base.setMyData({
-      url:'https://app.chefuzhongxin.com/#/carwashpaysuccess?type=' + this.options.type
+    console.log(this.Base.options.type,'666');
+    if(this.Base.options.type == 'P'){
+      var url = 'https://app.chefuzhongxin.com/#/carwashtcpaysucces?type=' + this.Base.options.type
+    }else{
+      var url = 'https://app.chefuzhongxin.com/#/carwashpaysuccess?type=' + this.Base.options.type
+    }
+    this.Base.setMyData({ 
+      url
     })
   }
 }

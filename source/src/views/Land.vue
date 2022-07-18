@@ -17,9 +17,32 @@ let landdetail = ref({});
 HttpHelper.Post("land/landdetail", { id: route.query.id }).then((res) => {
   landdetail.value = res;
 });
-var lingquan = () => {
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
 
-  if (page.value.Memberinfo.landcard == "B") {
+  if (page.value.Memberinfo.touxiang != "B") {
+    show1.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show1.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
+let show1 = ref(0);
+
+var lingquan = () => {
+  if (
+    page.value.Memberinfo.shoujisq != "B" ||
+    page.value.Memberinfo.touxiang != "B"
+  ) {
+    shouquan();
+  }else{
+     if (page.value.Memberinfo.landcard == "B") {
     console.log(page.value.Memberinfo.landcard);
     Toast("该优惠券只能领取一次，您已经领取过了");
   } else {
@@ -28,7 +51,7 @@ var lingquan = () => {
       phone: '非实物',
       address: '非实物',
       xianxi: '非实物',
-      pointsmall_id: landdetail.value.pointsmall_id
+      coupon_id: landdetail.value.coupon_id
     }).then((res) => {
       if(res.code == 0){
         router.push('/deductionbond')
@@ -37,6 +60,8 @@ var lingquan = () => {
       }
     });
   }
+  }
+ 
 };
 </script>
 

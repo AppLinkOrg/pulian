@@ -15,12 +15,37 @@ let pointsmallist = ref([]);
 let qiandaocha = ref({});
 let qiandaocha2 = ref(0);
 let instinfo = ref({});
+let show1 = ref(0);
+
 PageHelper.LoginAuth(page, () => {});
 HttpHelper.Post("inst/instinfo", {}).then((Res) => {
   console.log(Res,'11');  
   instinfo.value = Res;
 });
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  }
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
 
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 PageHelper.Init(page, () => {});
 
 HttpHelper.Post("member/info", {}).then((res) => {
@@ -56,7 +81,22 @@ var poinlist = (e) => {
     pointsmallist.value = res;
   });
 };
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
 
+  if (page.value.Memberinfo.touxiang != "B") {
+    show1.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show1.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
 // 点击立即兑换
 var xinqing = (e) => {
   router.push("/materialdetail?id=" + e.id + "&type=" + e.type);
@@ -80,7 +120,13 @@ qinakuan();
 
 // 点击签到
 var qiandao = () => {
-  if (qiandaocha2.value == 1) {
+  if (
+    page.value.Memberinfo.shoujisq != "B" ||
+    page.value.Memberinfo.touxiang != "B"
+  ) {
+    shouquan();
+  }else{
+    if (qiandaocha2.value == 1) {
     Toast("已签到");
     return;
   }
@@ -93,10 +139,13 @@ var qiandao = () => {
       Toast("签到失败");
     }
   });
+  }
+  
 };
 
 // 添加车辆信息
 var tianche = () => {
+  
   if (page.value.Memberinfo.tianjiache == "B") {
     HttpHelper.Post("pointsrecord/pointsrecordadd", {
       type: "B",

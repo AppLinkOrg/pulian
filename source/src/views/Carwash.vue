@@ -33,6 +33,51 @@ var url = ref(
 );
 PageHelper.Init(page, () => {});
 
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
+
+  if (page.value.Memberinfo.touxiang != "B") {
+    show1.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show1.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
+let show1 = ref(0);
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+  // shouquan();
+}, 1000);
+
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  } else {
+    console.log(page.value.Memberinfo);
+  }
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 const init = () => {
   let center = new TMap.LatLng(dataMap.latitude, dataMap.lngitude);
   dataMap.map = new TMap.Map(document.getElementById("QQMap"), {
@@ -182,7 +227,15 @@ var personalcenter = e => {
   router.push("/personalcenter");
 };
 var buycarwash = e => {
-  router.push("/carwashcard");
+  if (
+    page.value.Memberinfo.shoujisq != "B" ||
+    page.value.Memberinfo.touxiang != "B"
+  ) {
+    shouquan();
+  }else{
+    router.push("/carwashcard");
+  }
+  
 };
 
 var selectcarwashpackage = e => {

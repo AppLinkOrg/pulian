@@ -109,7 +109,7 @@ class Content extends AppBase {
           that.Base.toast("支付成功");
           var carwashapi = new CarwashApi();
           wx.navigateTo({
-            url: '/pages/paysuccess/paysuccess?type="B"',
+            url: '/pages/paysuccess/paysuccess?type="P"',
           })
         } else {
           that.Base.toast("支付失败");

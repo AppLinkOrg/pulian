@@ -56,8 +56,8 @@ let id=this.Base.options.id
 //   title: ''+url2,
 // })
 
-var str='https://app.chefuzhongxin.com/?'+"rand="+(new Date()).getTime()+'/#/selectcarwashpackage?openid='+userunionid+'&machine_id='+this.Base.options.machine_id
-
+// var str='https://app.chefuzhongxin.com/?'+"rand="+(new Date()).getTime()+'/#/selectcarwashpackage?openid='+userunionid+'&machine_id='+this.Base.options.machine_id
+var str='https://app.chefuzhongxin.com/?'+"rand="+(new Date()).getTime()+'/#/selectcarwashpackage?openid='+userunionid+'&machine_id='+1
 
 if (url2!=''&&url2!=undefined) {
   str=str+'&url2='+url2

@@ -37,7 +37,8 @@ HttpHelper.Post("carwash/carwashdetails", { id:route.query.id}).then(
           </div>
           <div class="flex-row flex-between margin-top-10">
             <div>优惠</div>
-            <div>{{carwash.yprice}}</div>
+            <div v-if="carwash.r_couponorder_jainshao">{{carwash.r_couponorder_jainshao}}</div>
+            <div v-else>0</div>
           </div>
           <div class="flex-row flex-between margin-top-10">
             <div>实际支付</div>

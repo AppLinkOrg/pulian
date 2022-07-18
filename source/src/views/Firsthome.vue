@@ -42,7 +42,7 @@ var shouquan = () => {
 let timer = setInterval(() => {
   //需要定时执行的代码
   wancheng();
-  shouquan()
+  // shouquan()
 }, 1000);
 
 var wancheng = () => {

@@ -173,7 +173,7 @@ type.value = route.query.type;
             <div class="f-14 c-2 bold">{{ pointsmadetail.name }}</div>
             <div class="flex-1"></div>
             <div class="flex-row" style="width: 100%">
-              <div class="flex-1"></div>
+              <div class="flex-1">{{ pointsmadetail.name }}</div>
               <div class="c-1 f-12">x1</div>
             </div>
           </div>
@@ -184,21 +184,25 @@ type.value = route.query.type;
           <div class="f-14 c-6">{{ pointsmadetail.point }}积分</div>
         </div>
       </div>
-      <!--  -->
-      <!-- <div class="padding-15 bg-w border-radius-9 margin-top-10">
-              <div class="flex-row flex-center">
-                  <div class="f-14 c-1 ">订单编号</div>
-                  <div class="flex-1"></div>
-                  <div class="f-14 c-1">323423523423525</div>
-              </div>
-              <div class="margin-top-20 flex-row flex-center">
-                     <div class="f-14 c-1 ">兑换时间</div>
-                  <div class="flex-1"></div>
-                  <div class="f-14 c-1">2021-09-23 23:34:35</div>
-              </div>
-          </div> -->
-
-      <!--  -->
+      <div class="bg-w border-radius-9 margin-top-10 padding-15">
+        <div class="f-14 c-2 bold">兑换时间</div>
+        <div class="margin-top-14 c-1 f-12">
+          {{ pointsmadetail.star }}至{{ pointsmadetail.end }}
+        </div>
+        <div v-if="type == 'A'">
+          <div class="f-14 c-2 bold margin-top-20">兑换说明</div>
+          <div class="margin-top-14 c-1 f-12">
+            {{ pointsmadetail.shuoming }}
+          </div>
+        </div>
+        <div v-else>
+          <div class="f-14 c-2 bold margin-top-20">产品详情</div>
+          <div
+            class="htmlimg"
+            v-html="Utils.HtmlDecode(pointsmadetail.xianqing)"
+          ></div>
+        </div>
+      </div>
     </div>
 
     <div class="position-bottom bg-w">

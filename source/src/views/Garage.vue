@@ -8,12 +8,53 @@ import  store  from "../State";
 
 
 let page = ref({});
+let show1 = ref(0);
 let router = useRouter();
 
 PageHelper.Init(page, () => {});
 
 let mycarlist = ref([]);
 
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
+
+  if (page.value.Memberinfo.touxiang != "B") {
+    show1.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show1.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  }
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 //查询车库的数目
 var shumu=()=>{
   HttpHelper.Post("member/mycarlist", {}).then((res) => {
@@ -24,6 +65,7 @@ shumu();
 
 // 添加爱车
 var addche = () => {
+  
    store.changecarbrand_id(0);
     store.changecarseries_id(0);
     store.changecarmodel_id(0);

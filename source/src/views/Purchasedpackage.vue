@@ -123,7 +123,7 @@ var status = (e) => {
           </div>
           <div class="xian"></div>
           <div class="flex-row flex-between">
-            <div class="c-7 f-12 h-14 " style="overflow:hidden;line-height:20px; height:20px;" :class="{active2: (show && item.id==id)}">{{instinfo.rule}}</div>
+            <div class="c-7 f-12 h-14 " style="overflow:hidden;line-height:20px; height:20px;" :class="{active2: (show && item.id==id)}">{{item.rule}}</div>
             <div @click="isshow(item.id)"><img class="icon-12" :src="page.uploadpath + 'resource/' + page.Res.xiajain"></div>
           </div>
           

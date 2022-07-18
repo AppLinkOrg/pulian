@@ -13,13 +13,12 @@ let page = ref({});
 let router = useRouter();
 let route = useRoute();
 var type = ref({});
-PageHelper.Init(page, () => {});
-
-type.value = route.query.type;
+PageHelper.Init(page, () => {type.value = route.query.type});
 //优惠券
-
-PageHelper.LoginAuth(page, () => {});
-
+type.value = route.query.type
+PageHelper.LoginAuth(page, () => {
+  type.value = route.query.type
+});
 var goindex = e => {
   router.push("/carwash");
 };
