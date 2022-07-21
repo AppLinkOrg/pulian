@@ -25,6 +25,7 @@ HttpHelper.Post("inst/instinfo", {}).then((Res) => {
 });
 //扫码
 var selectcarwashpackage = (e) => {
+  localStorage.setItem("localpackage",e);
     wx.scanQRCode({
       onlyFromCamera: true,
       success(res) {
@@ -119,7 +120,7 @@ var status = (e) => {
               <div class="f-16 bold">{{item.synopsis}}</div>
               <div class="c-1 f-12 margin-top-8">{{item.start_time}}-{{item.end_time}}</div>
             </div>
-            <div @click="selectcarwashpackage()" v-if="current == 'A'" class="btn">扫码洗车</div>
+            <div @click="selectcarwashpackage(item.id)" v-if="current == 'A'" class="btn">扫码洗车</div>
           </div>
           <div class="xian"></div>
           <div class="flex-row flex-between">

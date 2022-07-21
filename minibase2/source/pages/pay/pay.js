@@ -65,17 +65,18 @@ class Content extends AppBase {
         if (e.errMsg == "requestPayment:ok") {
           that.Base.toast("支付成功");
           var carwashapi = new CarwashApi();
-          carwashapi.startup({
-            carwashorder_id:id
+          carwashapi.carwashdetails({
+            id
           },(e)=>{
             console.log(e,'eeee');
-            if(e.statusCode == '200'&& e.errCode=='0'){
+            if(e.orderstatus == 'B'){
               wx.navigateTo({
                 url: '/pages/paysuccess/paysuccess?type=A',
               })
-            }else{
+            }
+            if(e.orderstatus == 'C'){
               wx.navigateTo({
-                url: '/pages/paysuccess/paysuccess?type=C',
+                url: '/pages/paysuccess/paysuccess?type=C&msg=' + e.fail,
               })
             }
           })
@@ -109,7 +110,7 @@ class Content extends AppBase {
           that.Base.toast("支付成功");
           var carwashapi = new CarwashApi();
           wx.navigateTo({
-            url: '/pages/paysuccess/paysuccess?type="P"',
+            url: '/pages/paysuccess/paysuccess?type=P',
           })
         } else {
           that.Base.toast("支付失败");

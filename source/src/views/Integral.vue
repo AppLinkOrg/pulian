@@ -14,7 +14,7 @@ let leixin = ref("");
 let pointsmallist = ref([]);
 let qiandaocha = ref({});
 let qiandaocha2 = ref(0);
-let show1 = ref(0)
+let show1 = ref(0);
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
 // HttpHelper.Post("member/info", {}).then((res) => {
@@ -64,7 +64,7 @@ var wancheng = () => {
 };
 setTimeout(() => {
   HttpHelper.Post("pointsmall/pointsmallist", { leixinss: leixin.value }).then(
-    (res) => {
+    res => {
       pointsmallist.value = res;
     }
   );
@@ -81,24 +81,30 @@ var mingxi = () => {
 };
 
 // 积分兑换分类
-var dianji = (e) => {
+var dianji = e => {
   leixin.value = e;
   poinlist(e);
 };
 
 // 积分物品 列表
-var poinlist = (e) => {
-  HttpHelper.Post("pointsmall/pointsmallist", { leixinss: e }).then((res) => {
+var poinlist = e => {
+  HttpHelper.Post("pointsmall/pointsmallist", { leixinss: e }).then(res => {
     pointsmallist.value = res;
   });
 };
 
 // 点击立即兑换
-var xinqing = (e) => {
-  shouquan();
-  router.push(
-    "/materialdetail?id=" + e.id + "&type=" + e.type + "&yhid=" + e.coupon_id
-  );
+var xinqing = e => {
+  if (
+    page.value.Memberinfo.shoujisq != "B" ||
+    page.value.Memberinfo.touxiang != "B"
+  ) {
+    shouquan();
+  } else {
+    router.push(
+      "/materialdetail?id=" + e.id + "&type=" + e.type + "&yhid=" + e.coupon_id
+    );
+  }
 };
 
 // 兑换记录dianji
@@ -108,10 +114,10 @@ var jilu = () => {
 
 // 查询签到情况
 var qinakuan = () => {
-  HttpHelper.Post("qiandao/qiandaocha", {}).then((res) => {
+  HttpHelper.Post("qiandao/qiandaocha", {}).then(res => {
     qiandaocha.value = res;
   });
-  HttpHelper.Post("qiandao/qiandaocha2", {}).then((res) => {
+  HttpHelper.Post("qiandao/qiandaocha2", {}).then(res => {
     qiandaocha2.value = res;
   });
 };
@@ -123,7 +129,7 @@ var qiandao = () => {
     Toast("已签到");
     return;
   }
-  HttpHelper.Post("qiandao/qiandaoadd", {}).then((res) => {
+  HttpHelper.Post("qiandao/qiandaoadd", {}).then(res => {
     if (res.code == 0) {
       PageHelper.LoginAuth(page, () => {});
       qinakuan();
@@ -141,8 +147,8 @@ var tianche = () => {
       type: "B",
       num: "100",
       jia: 1,
-      jifenzhuan: "A",
-    }).then((res) => {
+      jifenzhuan: "A"
+    }).then(res => {
       if (res.code == 0) {
         PageHelper.LoginAuth(page, () => {});
         Toast("领取成功");
@@ -179,8 +185,8 @@ var quwan = () => {
       type: "C",
       num: "100",
       jia: 1,
-      jifenzhuan: "A",
-    }).then((res) => {
+      jifenzhuan: "A"
+    }).then(res => {
       if (res.code == 0) {
         PageHelper.LoginAuth(page, () => {});
         Toast("领取成功");
@@ -204,7 +210,7 @@ var guize = () => {
 };
 
 let taskintegral = ref(null);
-HttpHelper.Post("taskintegral/detail", {}).then((res) => {
+HttpHelper.Post("taskintegral/detail", {}).then(res => {
   taskintegral.value = res;
 });
 </script>
@@ -214,7 +220,7 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
     <!-- <div class="h-160"  :style="{
             backgroundImage:
               'url(' + page.uploadpath + 'resource/' + page.Res.integralbg + ')',
-          }" style="background-size:100%;background-repeat: no-repeat"  ></div> -->
+    }" style="background-size:100%;background-repeat: no-repeat"  ></div>-->
 
     <!-- <div class="margin-top-f160"></div> -->
     <!-- <div class="margin-left-14 margin-right-14">
@@ -236,7 +242,7 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
             <div class="h-25 padding-left-10 padding-right-10 line-height-25 f-12 c-6 bg-w border-radius-12" @click="chongzhi">积分充值</div>
           </div>
 
-        </div> -->
+    </div>-->
     <!--  -->
     <!-- <div class="margin-left-14 margin-right-14 border-radius-9 bg-w padding-15 margin-top-30">
           <div class="flex-row flex-center">
@@ -266,7 +272,7 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
           <div class="margin-left-20 margin-right-20 bg-5 center c-w f-16 h-40 line-height-40  margin-top-25 border-radius-20"  @click="qiandao">{{qiandaocha2==1?'已签到':'签到'}}</div>
 
 
-        </div> -->
+    </div>-->
 
     <!--任务领积分  -->
     <!-- <div class="f-15 bold  c-2 padding-15 ">任务领积分</div> -->
@@ -366,44 +372,19 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
             }}
           </div>
         </div>
-      </div> -->
+      </div>-->
 
-      <div class="flex-row flex-between ">
-        <div class="f-15 bold c-2 padding-top-15 padding-bottom-15">
-          积分兑换
-        </div>
+      <div class="flex-row flex-between">
+        <div class="f-15 bold c-2 padding-top-15 padding-bottom-15">积分兑换</div>
         <div class="flex-row flex-between flex-center3">
           <div
-            class="
-              f-12
-              c-w
-              bg-5
-              padding-left-14 padding-right-14
-              h-25
-              line-height-25
-              border-radius-12
-              bd-5
-              margin-right-20
-            "
+            class="f-12 c-w bg-5 padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12 bd-5 margin-right-20"
             @click="jilu()"
-          >
-            兑换的券
-          </div>
+          >兑换的券</div>
           <div
-            class="
-              f-12
-              c-w
-              bg-5
-              padding-left-14 padding-right-14
-              h-25
-              line-height-25
-              border-radius-12
-              bd-5
-            "
+            class="f-12 c-w bg-5 padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12 bd-5"
             @click="shiwu()"
-          >
-            兑换的物
-          </div>
+          >兑换的物</div>
         </div>
       </div>
       <div class="flex-row flex-center margin-top-14">
@@ -411,30 +392,22 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
           class="f-16 c-2"
           :style="{ color: leixin == '' ? '#409EFF' : '' }"
           @click="dianji('')"
-        >
-          全部
-        </div>
+        >全部</div>
         <div
           class="f-16 c-2 margin-left-20"
           :style="{ color: leixin == 'A' ? '#409EFF' : '' }"
           @click="dianji('A')"
-        >
-          优惠券
-        </div>
+        >优惠券</div>
         <div
           class="f-16 c-2 margin-left-20"
           :style="{ color: leixin == 'B' ? '#409EFF' : '' }"
           @click="dianji('B')"
-        >
-          养车好物
-        </div>
+        >养车好物</div>
         <div
           class="f-16 c-2 margin-left-20"
           :style="{ color: leixin == 'C' ? '#409EFF' : '' }"
           @click="dianji('C')"
-        >
-          其他
-        </div>
+        >其他</div>
       </div>
 
       <div
@@ -453,10 +426,7 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
           :key="index"
           @click="xinqing(item)"
         >
-          <img
-            :src="page.uploadpath + 'pointsmall/' + item.img"
-            class="inimg"
-          />
+          <img :src="page.uploadpath + 'pointsmall/' + item.img" class="inimg" />
 
           <div
             class="margin-top-10 center f-14 c-2 w-110 margin-auto"
@@ -465,26 +435,13 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
               text-overflow: ellipsis;
               overflow: hidden;
             "
-          >
-            {{ item.name }}
-          </div>
+          >{{ item.name }}</div>
           <div class="margin-top-10 f-14 center c-6">{{ item.point }}积分</div>
           <div class="flex-row">
             <div class="flex-1"></div>
             <div
-              class="
-                f-12
-                c-w
-                padding-left-14 padding-right-14
-                h-25
-                line-height-25
-                border-radius-12
-                bg-6
-                margin-top-10
-              "
-            >
-              立即兑换
-            </div>
+              class="f-12 c-w padding-left-14 padding-right-14 h-25 line-height-25 border-radius-12 bg-6 margin-top-10"
+            >立即兑换</div>
             <div class="flex-1"></div>
           </div>
           <div class="margin-top-10"></div>
@@ -500,40 +457,20 @@ HttpHelper.Post("taskintegral/detail", {}).then((res) => {
         <div class="block">
           <div class="flex-row flex-center">
             <div class="flex-1"></div>
-            <img
-              :src="page.uploadpath + 'resource/' + page.Res.cha"
-              class="icon-13"
-            />
+            <img :src="page.uploadpath + 'resource/' + page.Res.cha" class="icon-13" />
           </div>
           <div class="bold c-1 f-16 center">积分不足</div>
           <div class="flex-row">
             <div class="flex-1"></div>
-            <div class="c-1 margin-top-26 center w-127">
-              您当前有200积分， 还差1800积分即可兑换。
-            </div>
+            <div class="c-1 margin-top-26 center w-127">您当前有200积分， 还差1800积分即可兑换。</div>
             <div class="flex-1"></div>
           </div>
 
           <div class="margin-top-30 flex-row flex-center">
+            <div class="btn-1 bd-5 border-radius-13 f-12 c-6 center line-height-26">做任务</div>
             <div
-              class="btn-1 bd-5 border-radius-13 f-12 c-6 center line-height-26"
-            >
-              做任务
-            </div>
-            <div
-              class="
-                btn-1
-                bg-6
-                border-radius-13
-                f-12
-                center
-                line-height-26
-                margin-left-20
-                c-w
-              "
-            >
-              去充值
-            </div>
+              class="btn-1 bg-6 border-radius-13 f-12 center line-height-26 margin-left-20 c-w"
+            >去充值</div>
           </div>
         </div>
       </div>

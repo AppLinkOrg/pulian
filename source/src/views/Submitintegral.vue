@@ -22,13 +22,13 @@ localStorage.setItem("addressid", "");
 
 // 获取详情数据
 HttpHelper.Post("pointsmall/pointsmadetail", { id: route.query.id }).then(
-  (res) => {
+  res => {
     pointsmadetail.value = res;
   }
 );
 
 // 获取用户默认地址信息
-HttpHelper.Post("adress/moren", { addressid: addressid.value }).then((res) => {
+HttpHelper.Post("adress/moren", { addressid: addressid.value }).then(res => {
   morendetail.value = res;
 });
 
@@ -69,14 +69,14 @@ var tijiao = () => {
     phone: phone,
     address: address,
     xianxi: xianxi,
-    pointsmall_id: route.query.id,
-  }).then((res) => {
+    pointsmall_id: route.query.id
+  }).then(res => {
     if (res.code == 0) {
       Toast("兑换成功");
       if (pointsmadetail.value.type == "A") {
-        router.push("/ordersucess?type=C&id="+ route.query.yhid);
+        router.push("/ordersucess?type=C&id=" + route.query.yhid);
       } else {
-        router.push("/ordersucess?type=A&id="+ route.query.yhid);
+        router.push("/ordersucess?type=A&id=" + route.query.yhid);
       }
 
       // Toast('兑换成功')
@@ -111,73 +111,43 @@ type.value = route.query.type;
   fixed
   @click-left="onClickLeft"
 />
-<div class="h-50"></div> -->
+    <div class="h-50"></div>-->
     <div class="h-200 bg-5"></div>
     <div class="margin-top-f200"></div>
 
     <div class="margin-left-14 margin-right-14">
       <div v-if="type != 'A'">
         <div
-          class="
-            margin-top-20
-            padding-15
-            bg-w
-            border-radius-9
-            flex-row flex-center
-          "
+          class="margin-top-20 padding-15 bg-w border-radius-9 flex-row flex-center"
           v-if="morendetail != null"
           @click="xzdizhi()"
         >
           <div>
-            <div class="c-2 bold f-15">
-              {{ morendetail.address }}{{ morendetail.xianxi }}
-            </div>
-            <div class="margin-top-10 c-2 f-12">
-              {{ morendetail.shouhuo }} {{ morendetail.phone }}
-            </div>
+            <div class="c-2 bold f-15">{{ morendetail.address }}{{ morendetail.xianxi }}</div>
+            <div class="margin-top-10 c-2 f-12">{{ morendetail.shouhuo }} {{ morendetail.phone }}</div>
           </div>
           <div class="flex-1"></div>
-          <img
-            :src="page.uploadpath + 'resource/' + page.Res.youjian"
-            class="icon-12"
-          />
+          <img :src="page.uploadpath + 'resource/' + page.Res.youjian" class="icon-12" />
         </div>
 
         <div
-          class="
-            margin-top-20
-            padding-15
-            bg-w
-            border-radius-9
-            flex-row flex-center
-          "
+          class="margin-top-20 padding-15 bg-w border-radius-9 flex-row flex-center"
           v-else
           @click="xzdizhi()"
         >
           <div class="c-1 f-15">请选择地址</div>
           <div class="flex-1"></div>
-          <img
-            :src="page.uploadpath + 'resource/' + page.Res.youjian"
-            class="icon-12"
-          />
+          <img :src="page.uploadpath + 'resource/' + page.Res.youjian" class="icon-12" />
         </div>
       </div>
       <!--  -->
       <div class="padding-15 bg-w border-radius-9 margin-top-10">
-        <div class="flex-row">
-          <img
-            :src="page.uploadpath + 'pointsmall/' + pointsmadetail.img"
-            class="icon-80"
-          />
-          <div class="margin-left-10 flex-row flex-column" style="width: 100%">
-            <div class="f-14 c-2 bold">{{ pointsmadetail.name }}</div>
-            <div class="flex-1"></div>
-            <div class="flex-row" style="width: 100%">
-              <div class="flex-1">{{ pointsmadetail.name }}</div>
-              <div class="c-1 f-12">x1</div>
-            </div>
-          </div>
+        <div class="flex-row flex-center">
+          <div class="c-2 f-14 bold">{{ pointsmadetail.name }}</div>
+          <div class="flex-1"></div>
+          <div class="f-14 c-6">x1</div>
         </div>
+        <div class="flex-row flex-center margin-top-15 c-2 f-14">{{ pointsmadetail.coupon_title }}</div>
         <div class="flex-row flex-center margin-top-15">
           <div class="c-2 f-14">实际支付</div>
           <div class="flex-1"></div>
@@ -186,21 +156,14 @@ type.value = route.query.type;
       </div>
       <div class="bg-w border-radius-9 margin-top-10 padding-15">
         <div class="f-14 c-2 bold">兑换时间</div>
-        <div class="margin-top-14 c-1 f-12">
-          {{ pointsmadetail.star }}至{{ pointsmadetail.end }}
-        </div>
+        <div class="margin-top-14 c-1 f-12">{{ pointsmadetail.star }}至{{ pointsmadetail.end }}</div>
         <div v-if="type == 'A'">
           <div class="f-14 c-2 bold margin-top-20">兑换说明</div>
-          <div class="margin-top-14 c-1 f-12">
-            {{ pointsmadetail.shuoming }}
-          </div>
+          <div class="margin-top-14 c-1 f-12">{{ pointsmadetail.shuoming }}</div>
         </div>
         <div v-else>
           <div class="f-14 c-2 bold margin-top-20">产品详情</div>
-          <div
-            class="htmlimg"
-            v-html="Utils.HtmlDecode(pointsmadetail.xianqing)"
-          ></div>
+          <div class="htmlimg" v-html="Utils.HtmlDecode(pointsmadetail.xianqing)"></div>
         </div>
       </div>
     </div>
@@ -217,9 +180,7 @@ type.value = route.query.type;
           class="h-38 line-height-38 c-w bold f-14 bg-3"
           style="padding: 0 48px; border-radius: 5px 15px 5px 15px"
           @click="tijiao"
-        >
-          提交订单
-        </div>
+        >提交订单</div>
       </div>
     </div>
 
@@ -238,23 +199,19 @@ type.value = route.query.type;
           <div class="bold c-1 f-16 center">积分不足</div>
           <div class="c-2 margin-top-26 center">
             您当前有{{ page.Memberinfo.jifen }}积分， 还差{{
-              pointsmadetail.point - page.Memberinfo.jifen
+            pointsmadetail.point - page.Memberinfo.jifen
             }}积分即可兑换。
           </div>
           <div class="margin-top-30 flex-row flex-center" style="width: 100%">
             <div
               class="btn-1 bd-5 border-radius-13 f-12 c-6 center line-height-26"
               @click="renwu"
-            >
-              做任务
-            </div>
+            >做任务</div>
             <div class="flex-1"></div>
             <div
               class="btn-1 bg-6 border-radius-13 f-12 center line-height-26 c-w"
               @click="chognzhi"
-            >
-              去充值
-            </div>
+            >去充值</div>
           </div>
         </div>
       </div>

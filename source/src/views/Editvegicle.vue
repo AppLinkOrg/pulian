@@ -29,7 +29,6 @@ var engineno = ref("");
 var inspection_date = ref("");
 var register_date = ref("");
 var caridname = ref("");
-let show1 = ref(0);
 // if(store.state.first==0){
 // }
 
@@ -117,7 +116,6 @@ HttpHelper.Post("carbrand/selectcar", {
   model_name.value = res.model_name;
   series_name.value = res.series_name;
 });
-
 
 var selectcar_name = () => {
   HttpHelper.Post("carbrand/selectcar", {
@@ -265,86 +263,133 @@ var wokank = () => {
 var insertStr = (soure, start, newStr) => {
   return soure.slice(0, 4) + "-" + soure.slice(4, 6) + "-" + soure.slice(6, 10);
 };
+let show1 = ref(0);
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
 
+  if (page.value.Memberinfo.touxiang != "B") {
+    show1.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show1.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  }
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 //提交表单
 var confrim = e => {
-  if (provinces_name.value == "") {
-    Toast("请选择车牌归属地");
-    return;
-  }
-  if (caridname.value == "") {
-    Toast("请填写车牌号");
-    return;
-  }
-  if (carbrand_id.value == "") {
-    Toast("请选择品牌车系");
-    return;
-  }
-  var isdefault = "N";
-  if (checked.value == true) {
-    isdefault = "Y";
+  if (
+    page.value.Memberinfo.shoujisq != "B" ||
+    page.value.Memberinfo.touxiang != "B"
+  ) {
+    shouquan();
   } else {
-    isdefault = "N";
+    if (provinces_name.value == "") {
+      Toast("请选择车牌归属地");
+      return;
+    }
+    if (caridname.value == "") {
+      Toast("请填写车牌号");
+      return;
+    }
+    if (carbrand_id.value == "") {
+      Toast("请选择品牌车系");
+      return;
+    }
+    var isdefault = "N";
+    if (checked.value == true) {
+      isdefault = "Y";
+    } else {
+      isdefault = "N";
+    }
+
+    //判断编辑还是新增
+    console.log(route.query.id);
+    if (route.query.id != null) {
+      console.log("走的这边还是这边2222222？？？");
+      HttpHelper.Post("member/editmycar", {
+        id: route.query.id,
+        carbrand_id: carbrand_id.value,
+        carseries_id: carseries_id.value,
+        carmodel_id: carmodel_id.value,
+        vin: vin.value,
+        engineno: engineno.value,
+        register_date: register_date.value,
+        inspection_date: inspection_date.value,
+        plateno: provinces_name.value + "·" + caridname.value,
+        isdefault
+      }).then(res => {
+        provinceslist.value = res;
+        tishi.value = false;
+        router.go(-1);
+        // router.replace("/myselef");
+      });
+    } else {
+      console.log("走的这边还是这边11111？？？");
+      HttpHelper.Post("member/addmycar", {
+        carbrand_id: carbrand_id.value,
+        carseries_id: carseries_id.value,
+        carmodel_id: carmodel_id.value,
+        vin: vin.value,
+        engineno: engineno.value,
+        register_date: register_date.value,
+        inspection_date: inspection_date.value,
+        plateno: provinces_name.value + "·" + caridname.value,
+        isdefault
+      }).then(res => {
+        provinceslist.value = res;
+        tishi.value = false;
+        router.go(-1);
+        // router.replace("/myselef");
+      });
+    }
+
+    //上传图片
+    var fileimage = ref("");
+    var afters = file => {
+      console.log("有没有进来");
+      console.log("file", file);
+      file.status = "uploading";
+      file.message = "上传中...";
+      var name = file.file.name;
+      HttpHelper.UploadBase64("resource", file.content).then(ret => {
+        console.log(ret);
+
+        // this.frontPic.push({ img: ret.result, name: name,video:'' });
+        fileimage.value = ret.result;
+
+        file.status = "done";
+      });
+    };
   }
-
-  //判断编辑还是新增
-  console.log(route.query.id);
-  if (route.query.id != null) {
-    console.log("走的这边还是这边2222222？？？");
-    HttpHelper.Post("member/editmycar", {
-      id: route.query.id,
-      carbrand_id: carbrand_id.value,
-      carseries_id: carseries_id.value,
-      carmodel_id: carmodel_id.value,
-      vin: vin.value,
-      engineno: engineno.value,
-      register_date: register_date.value,
-      inspection_date: inspection_date.value,
-      plateno: provinces_name.value + "·" + caridname.value,
-      isdefault
-    }).then(res => {
-      provinceslist.value = res;
-      tishi.value = false;
-      router.go(-1);
-      // router.replace("/myselef");
-    });
-  } else {
-    console.log("走的这边还是这边11111？？？");
-    HttpHelper.Post("member/addmycar", {
-      carbrand_id: carbrand_id.value,
-      carseries_id: carseries_id.value,
-      carmodel_id: carmodel_id.value,
-      vin: vin.value,
-      engineno: engineno.value,
-      register_date: register_date.value,
-      inspection_date: inspection_date.value,
-      plateno: provinces_name.value + "·" + caridname.value,
-      isdefault
-    }).then(res => {
-      provinceslist.value = res;
-      tishi.value = false;
-      router.go(-1);
-      // router.replace("/myselef");
-    });
-  }
-
-  //上传图片
-  var fileimage = ref("");
-  var afters = file => {
-    console.log("有没有进来");
-    console.log("file", file);
-    file.status = "uploading";
-    file.message = "上传中...";
-    var name = file.file.name;
-    HttpHelper.UploadBase64("resource", file.content).then(ret => {
-      console.log(ret);
-
-      // this.frontPic.push({ img: ret.result, name: name,video:'' });
-      fileimage.value = ret.result;
-
-      file.status = "done";
-    });
-  };
 };
 
 const checked = ref(false);

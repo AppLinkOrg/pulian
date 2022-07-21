@@ -93,6 +93,7 @@ var getweizhi = () => {
         console.log(res, "resss");
         var latitude = res.latitude;
         var longitude = res.longitude;
+        
         dataMap.latitude = latitude;
         dataMap.lngitude = longitude;
         lat.value = latitude;
@@ -108,7 +109,7 @@ var getweizhi = () => {
           carwashplacelist.value = Res;
           for (let i = 0; i < Res.length; i++) {
             HttpHelper.Post("carwash/getmachinelistofonliebycode", {
-              id: Res[i].id
+              id: carwashplacelist.value[i].id
             }).then(status => {
               console.log(status, "status");
 
@@ -314,7 +315,7 @@ var placedetails = e => {
     </div>
 
     <div class="bg-10 padding-top-10">
-      <div style="background-color: #f7f7f8; margin-bottom: 125px">
+      <div style="background-color: #f7f7f8">
         <div class="bg-w margin-left-14 margin-right-14 border-radius-10">
           <img
             class="wf-100"
@@ -370,6 +371,7 @@ var placedetails = e => {
           </div>
         </div>
       </div>
+      <div class="icon-130"></div>
     </div>
   </div>
 </template>

@@ -763,6 +763,9 @@ button {
 .padding-top-5 {
   padding-top: 5px;
 }
+.padding-top-130 {
+  padding-top: 130px;
+}
 .padding-L-R-15 {
   padding: 0 15px;
 }
@@ -842,6 +845,7 @@ button {
 .margin-top-74 {
   margin-top: 74px;
 }
+
 .margin-top-f78 {
   margin-top: -78px;
 }
@@ -1106,6 +1110,10 @@ button {
 .icon-110 {
   width: 110px;
   height: 110px;
+}
+.icon-130 {
+  width: 130px;
+  height: 130px;
 }
 .icon-190 {
   width: 190px;

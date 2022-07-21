@@ -10,11 +10,11 @@ import { Utils } from "../Utils";
 let page = ref({});
 let router = useRouter();
 let route = useRoute();
-
+let show1 = ref(0);
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
 let landdetail = ref({});
-HttpHelper.Post("land/landdetail", { id: route.query.id }).then((res) => {
+HttpHelper.Post("land/landdetail", { id: route.query.id }).then(res => {
   landdetail.value = res;
 });
 var shouquan = () => {
@@ -33,7 +33,30 @@ var shouquan = () => {
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
   }
 };
-let show1 = ref(0);
+let timer = setInterval(() => {
+  //需要定时执行的代码
+  wancheng();
+}, 1000);
+var wancheng = () => {
+  if (page.value.Memberinfo == null) {
+    PageHelper.LoginAuth(page, () => {});
+    return;
+  }
+  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
+    PageHelper.LoginAuth(page, () => {});
+  }
+
+  if (
+    page.value.Memberinfo.shoujisq == "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    clearInterval(timer);
+  }
+};
 
 var lingquan = () => {
   if (
@@ -41,57 +64,43 @@ var lingquan = () => {
     page.value.Memberinfo.touxiang != "B"
   ) {
     shouquan();
-  }else{
-     if (page.value.Memberinfo.landcard == "B") {
-    console.log(page.value.Memberinfo.landcard);
-    Toast("该优惠券只能领取一次，您已经领取过了");
   } else {
-    HttpHelper.Post("coupon/collectcoupons", {
-      shouhuo: '非实物',
-      phone: '非实物',
-      address: '非实物',
-      xianxi: '非实物',
-      coupon_id: landdetail.value.coupon_id
-    }).then((res) => {
-      if(res.code == 0){
-        router.push('/deductionbond')
-      }else{
-        Toast("领取失败");
-      }
-    });
+    if (page.value.Memberinfo.landcard == "B") {
+      console.log(page.value.Memberinfo.landcard);
+      Toast("该优惠券只能领取一次，您已经领取过了");
+    } else {
+      HttpHelper.Post("coupon/collectcoupons", {
+        shouhuo: "非实物",
+        phone: "非实物",
+        address: "非实物",
+        xianxi: "非实物",
+        coupon_id: landdetail.value.coupon_id
+      }).then(res => {
+        if (res.code == 0) {
+          router.push("/deductionbond");
+        } else {
+          Toast("领取失败");
+        }
+      });
+    }
   }
-  }
- 
 };
 </script>
 
 <template>
-  <div @click="lingquan()"  class="padding-left-10 padding-right-10">
+  <div @click="lingquan()" class="padding-left-10 padding-right-10">
     <div
       :style="{
         backgroundImage:
           'url(' + page.uploadpath + 'resource/' + page.Res.landimg + ')',
       }"
       style="background-size: 100%; background-repeat: no-repeat"
-      class="
-        flex-row
-        column
-        flex-evenly
-        h-110
-        margin-top-10
-        padding-left-14
-        c-w
-      "
+      class="flex-row column flex-evenly h-110 margin-top-10 padding-left-14 c-w"
     >
       <div class="f-18">{{ page.Memberinfo.mobile }}</div>
       <div class="f-14">您有: {{ page.Memberinfo.jifen }} 积分</div>
-
     </div>
-    <div
-      @click="lingquan()"
-      class="htmlimg"
-      v-html="Utils.HtmlDecode(landdetail.neirong)"
-    ></div>
+    <div @click="lingquan()" class="htmlimg" v-html="Utils.HtmlDecode(landdetail.neirong)"></div>
   </div>
 </template>
 <style scoped>

@@ -22,6 +22,22 @@ HttpHelper.Post("inst/instinfo", {}).then((Res) => {
   console.log(Res,'11');  
   instinfo.value = Res;
 });
+var shouquan = () => {
+  PageHelper.LoginAuth(page, () => {});
+
+  if (page.value.Memberinfo.touxiang != "B") {
+    show1.value = 1;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+  }
+  // alert(page.value.Memberinfo.shoujisq)
+  if (
+    page.value.Memberinfo.shoujisq != "B" &&
+    page.value.Memberinfo.touxiang == "B"
+  ) {
+    show1.value = 2;
+    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+  }
+};
 let timer = setInterval(() => {
   //需要定时执行的代码
   wancheng();
@@ -81,22 +97,7 @@ var poinlist = (e) => {
     pointsmallist.value = res;
   });
 };
-var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
 
-  if (page.value.Memberinfo.touxiang != "B") {
-    show1.value = 1;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
-  }
-  // alert(page.value.Memberinfo.shoujisq)
-  if (
-    page.value.Memberinfo.shoujisq != "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    show1.value = 2;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
-  }
-};
 // 点击立即兑换
 var xinqing = (e) => {
   router.push("/materialdetail?id=" + e.id + "&type=" + e.type);

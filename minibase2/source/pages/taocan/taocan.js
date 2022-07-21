@@ -50,9 +50,9 @@ class Content extends AppBase {
 let url2 = this.Base.options.url2
 
 let id=this.Base.options.id
+ 
 
-
-// wx.showToast({
+// wx.showToast({ 
 //   title: ''+url2,
 // })
 

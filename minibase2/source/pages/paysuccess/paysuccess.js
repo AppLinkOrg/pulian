@@ -19,9 +19,9 @@ class Content extends AppBase {
     var that = this;
     console.log(this.Base.options.type,'666');
     if(this.Base.options.type == 'P'){
-      var url = 'https://app.chefuzhongxin.com/#/carwashtcpaysucces?type=' + this.Base.options.type
+      var url = 'https://app.chefuzhongxin.com/#/carwashtcpaysucces?type=P'
     }else{
-      var url = 'https://app.chefuzhongxin.com/#/carwashpaysuccess?type=' + this.Base.options.type
+      var url = 'https://app.chefuzhongxin.com/#/carwashpaysuccess?type=' + this.Base.options.type + '&msg=' + this.Base.options.msg
     }
     this.Base.setMyData({ 
       url

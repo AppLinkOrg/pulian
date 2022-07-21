@@ -3,7 +3,7 @@ import { PageHelper } from "../PageHelper";
 import { ref } from "@vue/reactivity";
 import { HttpHelper } from "../HttpHelper";
 import { useRouter, useRoute } from "vue-router";
-import { Toast,Dialog } from "vant";
+import { Toast, Dialog } from "vant";
 import store from "../State";
 import { Utils } from "../Utils";
 import BScroll from "better-scroll";
@@ -34,7 +34,10 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then(Res => {
   yhprice.value = 0;
   ordr_id.value = 0;
   price.value = 0;
-  HttpHelper.Post("carwash/couponorderlist", { yhstatus: "A" }).then(res => {
+  HttpHelper.Post("carwash/couponorderlist", {
+    yhstatus: "A",
+    taocanprice2:price.value
+  }).then(res => {
     couponorder.value = res;
     res.sort((a, b) => b.jainshao - a.jainshao);
     Res.sort((a, b) => a.price - b.price);
@@ -68,7 +71,7 @@ HttpHelper.Post("carwash/carwashpackagelist", {}).then(Res => {
 PageHelper.LoginAuth(page, () => {});
 
 // 选择套餐
-
+let couponorderlist2 = ref({})
 var selectpackage = e => {
   console.log(e);
   if (package_id.value != e.id) {
@@ -80,8 +83,18 @@ var selectpackage = e => {
   synopsis.value = e.synopsis;
   rule.value = e.rule;
   valid.value = e.valid;
+  HttpHelper.Post("carwash/couponorderlist2", {
+    yhstatus: "A",
+    taocanprice2: price.value
+  }).then(res => {
+    couponorderlist2.value = res
+  });
 };
-//创建一个新实例 并且 对class为wrapper对象 实现了一个纵向可点击的滚动效果
+let instinfo = ref({});
+HttpHelper.Post("inst/instinfo", {}).then(Res => {
+  console.log(Res, "11");
+  instinfo.value = Res;
+});
 
 //支付
 var payorder = () => {
@@ -89,9 +102,8 @@ var payorder = () => {
 
   if (price.value == yhprice.value && price.value != 0) {
     Dialog.confirm({
-      title: "标题",
-      message:
-        "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。"
+      title: "温馨提示",
+      message: instinfo.value.tips
     })
       .then(() => {
         // on confirm
@@ -116,9 +128,8 @@ var payorder = () => {
       });
   } else {
     Dialog.confirm({
-      title: "标题",
-      message:
-        "如果解决方法是丑陋的，那就肯定还有更好的解决方法，只是还没有发现而已。"
+      title: "温馨提示",
+      message: instinfo.value.tips
     })
       .then(() => {
         // on confirm
@@ -271,7 +282,7 @@ var usecard = e => {
       <div class="bg-10 order wf-100 padding-top-14">
         <div
           class="bg-w margin-bottom-14 border-radius-10"
-          v-for="(item, index) in couponorder"
+          v-for="(item, index) in couponorderlist2"
           :key="index"
         >
           <div class="imgbox shadow">
