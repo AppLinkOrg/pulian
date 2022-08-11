@@ -1,5 +1,4 @@
-
-    <web-view src="{{land.lianjie}}"></web-view>
+<web-view src="{{land.lianjie}}"></web-view>
 
 
 

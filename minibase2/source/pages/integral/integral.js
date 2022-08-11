@@ -50,14 +50,14 @@ class Content extends AppBase {
 let url2 = this.Base.options.url2
 
 let id=this.Base.options.id
- 
 
-// wx.showToast({  
+
+// wx.showToast({
 //   title: ''+url2,
 // })
 
-// var str='https://app.chefuzhongxin.com/?'+"rand="+(new Date()).getTime()+'/#/selectcarwashpackage?openid='+userunionid+'&machine_id='+this.Base.options.machine_id
-var str='https://app.chefuzhongxin.com/?'+"rand="+(new Date()).getTime()+'/#/selectcarwashpackage?openid='+userunionid+'&machine_id='+1
+var str='https://app.chefuzhongxin.com/?'+"rand="+(new Date()).getTime()+'/#/integral?openid='+userunionid
+
 
 if (url2!=''&&url2!=undefined) {
   str=str+'&url2='+url2

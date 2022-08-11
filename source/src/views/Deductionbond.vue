@@ -86,7 +86,7 @@ var isshow = (e) => {
         </div>
         <div  >
           <div class="imgbox">
-            <div class="zizhu">优惠券(自助专用)</div>
+            <div class="zizhu">抵扣券</div>
             <div></div>
           </div>
           <div class="imgbox margin-top-16">

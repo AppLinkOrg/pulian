@@ -11,27 +11,35 @@ let page = ref({});
 let router = useRouter();
 let route = useRoute();
 let show1 = ref(0);
+let integral = ref(0);
 PageHelper.Init(page, () => {});
-PageHelper.LoginAuth(page, () => {});
+PageHelper.LoginAuth(page, () => {
+  HttpHelper.Post("integral/selectintegral2", {
+    tel: page.value.Memberinfo.mobile
+  }).then(Res => {
+    console.log(Res, "11");
+    integral.value = Res.integral;
+  });
+});
 let landdetail = ref({});
 HttpHelper.Post("land/landdetail", { id: route.query.id }).then(res => {
   landdetail.value = res;
 });
 var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
-
-  if (page.value.Memberinfo.touxiang != "B") {
-    show1.value = 1;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
-  }
-  // alert(page.value.Memberinfo.shoujisq)
-  if (
-    page.value.Memberinfo.shoujisq != "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    show1.value = 2;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
-  }
+  PageHelper.LoginAuth(page, () => {
+    if (page.value.Memberinfo.touxiang != "B") {
+      show1.value = 1;
+      wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+    }
+    // alert(page.value.Memberinfo.shoujisq)
+    if (
+      page.value.Memberinfo.shoujisq != "B" &&
+      page.value.Memberinfo.touxiang == "B"
+    ) {
+      show1.value = 2;
+      wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+    }
+  });
 };
 let timer = setInterval(() => {
   //需要定时执行的代码

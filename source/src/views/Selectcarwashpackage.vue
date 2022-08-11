@@ -28,9 +28,8 @@ var shuoming = ref(false);
 var shuoming_id = ref({});
 PageHelper.Init(page, () => {});
 var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
-
-  if (page.value.Memberinfo.touxiang != "B") {
+  PageHelper.LoginAuth(page, () => {
+    if (page.value.Memberinfo.touxiang != "B") {
     show1.value = 1;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
   }
@@ -42,6 +41,9 @@ var shouquan = () => {
     show1.value = 2;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
   }
+  });
+
+  
 };
 let show1 = ref(0);
 
@@ -218,7 +220,11 @@ var payorder = () => {
     page.value.Memberinfo.shoujisq != "B" ||
     page.value.Memberinfo.touxiang != "B"
   ) {
-    shouquan();
+    PageHelper.LoginAuth(page, () => {
+      shouquan();
+    });
+    
+    
   } else {
     HttpHelper.Post("carwash/getmachineofonlie", {
       machine_id: route.query.machine_id
@@ -433,7 +439,7 @@ var usecard = e => {
     <div
       class="bg-w margin-left-14 margin-right-14 padding-top-10 padding-bottom-10 margin-bottom-14 border-radius-10"
     >
-      <div class="h-38 line-height-38 f-16 bold margin-left-14">选择已购洗车套餐</div>
+      <div class="h-38 line-height-38 f-16 bold margin-left-14 c-3 padding-bottom-6">选择已购洗车套餐</div>
       <div class="flex-row scroll-view">
         <div
           class="f-16 bold margin-left-14 padding-10 taocan border-radius-10"
@@ -452,7 +458,7 @@ var usecard = e => {
     <div
       class="bg-w margin-left-14 margin-right-14 padding-left-14 padding-right-14 padding-top-10 border-radius-10"
     >
-      <div class="h-38 line-height-38 f-16 bold">请选购洗车套餐</div>
+      <div class="h-38 line-height-38 f-16 bold c-3 padding-bottom-6">请选购洗车套餐</div>
       <div
         class="washcard padding-left-14 padding-right-14"
         v-for="(item, index) in carwashpackagelist"
@@ -475,7 +481,7 @@ var usecard = e => {
             class="isyh"
           >优惠券-{{yhprice}}元</div>
           <div v-else-if="!item.isyh" class="isyh">(暂无抵扣劵)</div>
-          <div v-else class="isyh" @click="selectyh(item)">您有优惠券可用</div>
+          <div v-else class="isyh" @click="selectyh(item)">点击选择“抵扣券”</div>
         </div>
       </div>
 
@@ -523,7 +529,7 @@ var usecard = e => {
             </div>
             <div>
               <div class="imgbox flex-between">
-                <div class="imgbox zizhu">优惠券(自助专用)</div>
+                <div class="imgbox zizhu">抵扣券(自助洗车)</div>
                 <div class="btns" @click="usecard(item)">使用</div>
               </div>
               <div class="imgbox margin-top-16">

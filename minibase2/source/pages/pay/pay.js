@@ -63,23 +63,26 @@ class Content extends AppBase {
       payret.complete = function (e) {
         console.log(e, 'eee');
         if (e.errMsg == "requestPayment:ok") {
-          that.Base.toast("支付成功");
-          var carwashapi = new CarwashApi();
-          carwashapi.carwashdetails({
-            id
-          },(e)=>{
-            console.log(e,'eeee');
-            if(e.orderstatus == 'B'){
-              wx.navigateTo({
-                url: '/pages/paysuccess/paysuccess?type=A',
-              })
-            }
-            if(e.orderstatus == 'C'){
-              wx.navigateTo({
-                url: '/pages/paysuccess/paysuccess?type=C&msg=' + e.fail,
-              })
-            }
-          })
+          setTimeout(() => {
+            wx.navigateTo({
+              url: '/pages/paysuccess/paysuccess?id=' + id,
+            })
+          }, 1000);
+          // var carwashapi = new CarwashApi();
+          // carwashapi.carwashdetails({
+          //   id
+          // },(e)=>{
+          //   console.log(e,'eeee');
+          //   if(e.orderstatus == 'B'){
+          //     that.Base.toast("支付成功");
+          //   }
+          //   if(e.orderstatus == 'C'){
+          //     that.Base.toast("支付失败");
+          //     wx.navigateTo({
+          //       url: '/pages/paysuccess/paysuccess?type=C&msg=' + e.fail,
+          //     })
+          //   }
+          // })
           
           
         } else {

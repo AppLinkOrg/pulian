@@ -23,20 +23,21 @@ let router = useRouter();
 let route = useRoute();
 let carwashplacelist = ref([]);
 const arr = new Array();
-let sign = ref(true);
 let lat = ref({});
 let lng = ref({});
 let cameraId = ref(0); //相机id
 let isScan = ref(true);
+let sign = ref(0)
 var url = ref(
   "https://apis.map.qq.com/tools/geolocation?key=HN5BZ-FHPK4-6Z2U3-DBEUG-ZHXYV-AQFQV&referer=myapp"
 );
-PageHelper.Init(page, () => {});
+PageHelper.Init(page, () => {
+  
+});
 
 var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
-
-  if (page.value.Memberinfo.touxiang != "B") {
+  PageHelper.LoginAuth(page, () => {
+    if (page.value.Memberinfo.touxiang != "B") {
     show1.value = 1;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
   }
@@ -48,6 +49,9 @@ var shouquan = () => {
     show1.value = 2;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
   }
+  });
+
+  
 };
 let show1 = ref(0);
 let timer = setInterval(() => {
@@ -78,13 +82,10 @@ var wancheng = () => {
     clearInterval(timer);
   }
 };
-const init = () => {
-  let center = new TMap.LatLng(dataMap.latitude, dataMap.lngitude);
-  dataMap.map = new TMap.Map(document.getElementById("QQMap"), {
-    center: center, //设置地图中心点坐标
-    zoom: 17.2 //设置地图缩放级别
-  });
-};
+// const init = () => {
+  
+  
+// };
 var getweizhi = () => {
   PageHelper.loadwechatconfig(() => {
     wx.getLocation({
@@ -98,11 +99,17 @@ var getweizhi = () => {
         dataMap.lngitude = longitude;
         lat.value = latitude;
         lng.value = longitude;
-        init();
+        //init
+        let center = new TMap.LatLng(dataMap.latitude, dataMap.lngitude);
+        dataMap.map = new TMap.Map(document.getElementById("QQMap"), {
+          center: center, //设置地图中心点坐标
+          zoom: 17.2, //设置地图缩放级别
+          viewMode:'2D'
+        });
         deleteSomeInfo();
         HttpHelper.Post("carwash/carwashplacelist", {
-          lng: longitude,
-          lat: latitude
+          lng1: longitude,
+          lat1: latitude
         }).then(Res => {
           Res.sort((a, b) => a.distance - b.distance);
           console.log(Res, "11");
@@ -126,9 +133,8 @@ var getweizhi = () => {
             arr.push(obj);
           }
           console.log(arr[0], "rrr");
-          if (sign.value) {
-            addMarkerLayer();
-          }
+          addMarkerLayer();
+          
         });
         window.localStorage.setItem("latitude", latitude);
         window.localStorage.setItem("longitude", longitude);
@@ -205,7 +211,8 @@ const addMarkerLayer = () => {
   // });
 };
 onMounted(() => {
-  getweizhi();
+  // init()
+  getweizhi(); 
 });
 var easeTo = () => {
   dataMap.map.easeTo({
@@ -240,7 +247,8 @@ var buycarwash = e => {
 };
 
 var selectcarwashpackage = e => {
-  wx.scanQRCode({
+  PageHelper.loadwechatconfig(()=>{
+    wx.scanQRCode({
     onlyFromCamera: false,
     success(res) {
       console.log(res, "respppp");
@@ -261,6 +269,8 @@ var selectcarwashpackage = e => {
       });
     }
   });
+  })
+  
   // HttpHelper.Post("carwash/getmachineofonlie", { machineCode: code }).then(
   //   res => {
   //     let status = res.networkstatus.onOfflines;

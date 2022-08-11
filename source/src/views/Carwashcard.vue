@@ -103,7 +103,7 @@ var payorder = () => {
   if (price.value == yhprice.value && price.value != 0) {
     Dialog.confirm({
       title: "温馨提示",
-      message: instinfo.value.tips
+      message: instinfo.value.packagetips
     })
       .then(() => {
         // on confirm
@@ -129,7 +129,7 @@ var payorder = () => {
   } else {
     Dialog.confirm({
       title: "温馨提示",
-      message: instinfo.value.tips
+      message: instinfo.value.packagetips
     })
       .then(() => {
         // on confirm
@@ -222,7 +222,7 @@ var usecard = e => {
     <div class="h-14 bg-10 wf-100"></div>
 
     <div class="bg-w margin-left-14 margin-right-14 padding-top-10 border-radius-10">
-      <div class="h-38 line-height-38 f-16 bold margin-left-14">请选购洗车套餐</div>
+      <div class="h-38 line-height-38 f-16 bold margin-left-14 padding-bottom-6 c-3">请选购洗车套餐</div>
       <div class="bg-w padding-left-14 padding-right-14 padding-top-10">
         <div
           id="washcard"
@@ -246,7 +246,7 @@ var usecard = e => {
               class="isyh"
             >优惠券-{{yhprice}}元</div>
             <div v-else-if="!item.isyh" class="isyh">(暂无抵扣劵)</div>
-            <div v-else class="isyh" @click="selectyh(item)">您有优惠券可用</div>
+            <div v-else class="isyh" @click="selectyh(item)">点击选择“抵扣券”</div>
           </div>
         </div>
       </div>
@@ -296,7 +296,7 @@ var usecard = e => {
             </div>
             <div>
               <div class="imgbox flex-between">
-                <div class="imgbox zizhu">优惠券(自助专用)</div>
+                <div class="imgbox zizhu">抵扣券(自助洗车)</div>
                 <div class="btns" @click="usecard(item)">使用</div>
               </div>
               <div class="imgbox margin-top-16">

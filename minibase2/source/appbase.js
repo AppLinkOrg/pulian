@@ -111,7 +111,7 @@ export class AppBase {
       /**
        * 用户点击右上角分享
        */
-      onShareAppMessage: base.onShareAppMessage,
+      // onShareAppMessage: base.onShareAppMessage,
       onMyShow: base.onMyShow,
       phonenoCallback: base.phonenoCallback,
       viewPhoto: base.viewPhoto,
@@ -461,9 +461,23 @@ export class AppBase {
   onReachBottom() {
     console.log("onReachBottom");
   }
-  onShareAppMessage() {
-
-  }
+  // onShareAppMessage(options){
+  //   let that = this;
+  //   var index=options.webViewUrl.lastIndexOf("/#/");
+  //   console.log( index,' options.webViewUrl')
+  //   var obj2=options.webViewUrl.substring(index+3,options.webViewUrl.length);
+  //   console.log( obj2,' options.webViewUrl')
+  //   console.log( options.webViewUrl,' options.webViewUrl')
+  //       console.log( that.Base.getMyData().testUrl,' options.webViewUrl')
+  //   return {
+  //     title: '',
+  //     path: '/pages/home/home?url2=' + obj2,
+  //     success: (res) => {
+  //       console.log( options.webViewUrl,' options.webViewUrl')
+  //       console.log( obj2,' options.webViewUrl')
+  //     }
+  //   }
+  // }
 
   dataReturn(data) {
     var pages = getCurrentPages();

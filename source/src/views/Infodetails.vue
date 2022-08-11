@@ -44,7 +44,7 @@ var buti=(e)=>{
 <template>
   <div v-if="page.Res!=null">
       <div class=" margin-left-14 margin-right-14">
-          <div class="f-20 bold ">
+          <div class="f-20 bold margin-top-14 margin-bottom-14">
               {{infodetails.title}}
           </div>
           <div class="">

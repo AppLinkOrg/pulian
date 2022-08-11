@@ -470,7 +470,7 @@ const routes = [{
   name: 'Deductionbond',
   component:Deductionbond, 
   meta: {
-    'name': '我的优惠券'
+    'name': '我的抵扣券'
   }
 },{
   path: '/purchasedpackage',

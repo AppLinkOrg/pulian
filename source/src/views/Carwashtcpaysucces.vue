@@ -18,7 +18,21 @@ type.value = route.query.type;
 PageHelper.LoginAuth(page, () => {});
 
 var goindex = e => {
-  router.push("/carwash");
+  router.push("/purchasedpackage");
+  // let viewer = window.navigator.userAgent.toLowerCase();
+  // if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+  //   wx.miniProgram.getEnv(resrnv => {
+  //     if (resrnv.miniprogram) {
+  //       alert('1')
+  //       wx.miniProgram.reLaunch({
+  //         url: "/pages/carwash/carwash"
+  //       });
+  //     } else {
+  //       // 微信浏览器
+  //       router.push("/carwash");
+  //     }
+  //   });
+  // }
 };
 </script>
 
@@ -35,7 +49,7 @@ var goindex = e => {
       <div class="margin-top-20 margin-bottom-20"></div>
     </div>
     <div class="flex-row flex-around margin-top-40">
-      <div class="backbtn imgbox column flex-center c-3 border" @click="goindex">返回首页</div>
+      <div class="backbtn imgbox column flex-center c-3 border" @click="goindex">查看订单</div>
     </div>
   </div>
 </template>

@@ -1,7 +1,7 @@
 <script setup>
 import { PageHelper } from "../PageHelper";
 import { HttpHelper } from "../HttpHelper";
-import { ref, reactive,onMounted} from "vue";
+import { ref, reactive, onMounted } from "vue";
 import { Utils } from "../Utils";
 import { NModal } from "naive-ui";
 import { useRouter, useRoute } from "vue-router";
@@ -20,13 +20,12 @@ var anniulist = ref([]);
 var servicelist = ref([]);
 var storelist = ref([]);
 var show = ref(false);
-let show1 = ref(0)
+let show1 = ref(0);
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {});
 var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
-
-  if (page.value.Memberinfo.touxiang != "B") {
+  PageHelper.LoginAuth(page, () => {
+    if (page.value.Memberinfo.touxiang != "B") {
     show1.value = 1;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
   }
@@ -38,6 +37,9 @@ var shouquan = () => {
     show1.value = 2;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
   }
+  });
+
+  
 };
 let timer = setInterval(() => {
   //需要定时执行的代码
@@ -66,7 +68,7 @@ var wancheng = () => {
   }
 };
 // 轮播图
-HttpHelper.Post("inst/indexbanner", {}).then((indexbanner) => {
+HttpHelper.Post("inst/indexbanner", {}).then(indexbanner => {
   console.log("进来了");
   console.log(indexbanner);
   indexbanner1.value = indexbanner;
@@ -75,17 +77,17 @@ HttpHelper.Post("inst/indexbanner", {}).then((indexbanner) => {
 // store/allcategory
 // anniu/anniulist
 var allcategory = ref({});
-HttpHelper.Post("store/allcategory", { tuiguan: "Y" }).then((res) => {
+HttpHelper.Post("store/allcategory", { tuiguan: "Y" }).then(res => {
   for (let items of res) {
     items.type = "B";
   }
 
-  HttpHelper.Post("anniu/anniulist", {}).then((resss) => {
+  HttpHelper.Post("anniu/anniulist", {}).then(resss => {
     // allcategory.value = res;
 
     for (let item of resss) {
       item.type = "A";
-      res.push(item);
+      res.unshift(item);
     }
 
     anniulist.value = res;
@@ -94,25 +96,23 @@ HttpHelper.Post("store/allcategory", { tuiguan: "Y" }).then((res) => {
 
 // 首页资讯列表
 let information = ref([]);
-HttpHelper.Post("carwash/information", {}).then((Res) => {
+HttpHelper.Post("carwash/information", {}).then(Res => {
   information.value = Res;
 });
 // 跳转资讯详情页
-var zixun = (index) => {
-  HttpHelper.Post("carwash/addviews", {id:index}).then((Res) => {
-    
-  });
+var zixun = index => {
+  HttpHelper.Post("carwash/addviews", { id: index }).then(Res => {});
   router.push("/infodetails?id=" + index);
 };
 
 // 首页中部广告列表
 let guangaolist = ref([]);
-HttpHelper.Post("guangao/guangaolist", {}).then((Res) => {
+HttpHelper.Post("guangao/guangaolist", {}).then(Res => {
   guangaolist.value = Res;
 });
 
 // 服务列表
-HttpHelper.Post("service/servicelist", {}).then((res) => {
+HttpHelper.Post("service/servicelist", {}).then(res => {
   servicelist.value = res;
 
   filtratestore(store.state.biaoindex);
@@ -125,14 +125,14 @@ HttpHelper.Post("service/servicelist", {}).then((res) => {
 
 console.log("进来了");
 console.log(indexbanner1);
-var diaozhuan = (item) => {
+var diaozhuan = item => {
   router.push(item);
   router.afterEach((to, from, next) => {
     window.scrollTo(0, 0);
   });
 };
 // 跳转店铺详情页
-var dianpu = (index) => {
+var dianpu = index => {
   // '/storedetail?id=1'
   router.push("/storedetail?id=" + index + "&service_id=" + service_id.value);
 };
@@ -167,9 +167,9 @@ let memberinfo = ref({});
 let neirongdetail = ref(null);
 PageHelper.LoginAuth(page, () => {
   // 判断是否禁用
-  HttpHelper.Post("neirong/panduan", { type: "D" }).then((res) => {
+  HttpHelper.Post("neirong/panduan", { type: "D" }).then(res => {
     if (res == 0) {
-      HttpHelper.Post("neirong/neirongdetail", { id: 5 }).then((res) => {
+      HttpHelper.Post("neirong/neirongdetail", { id: 5 }).then(res => {
         neirongdetail.value = res;
 
         if (page.value.Memberinfo.shoujisq == "B") {
@@ -198,7 +198,7 @@ PageHelper.LoginAuth(page, () => {
 
 var service_id = ref("");
 let showsele = ref(0);
-var filtratestore = (index) => {
+var filtratestore = index => {
   store.changebiaoindex(index);
 
   var id = servicelist.value[index].id;
@@ -215,8 +215,8 @@ var filtratestore = (index) => {
     mylat,
     mylng,
     cityid,
-    limit: "A",
-  }).then((res) => {
+    limit: "A"
+  }).then(res => {
     for (let item of res) {
       item.distance2 = Utils.GetMileTxt(item.distance);
       item.shownum = false;
@@ -227,7 +227,7 @@ var filtratestore = (index) => {
 };
 
 // tiaozhaun 首页按钮跳转
-var tiaozhaun = (item) => {
+var tiaozhaun = item => {
   if (item.url == "") {
     Toast("暂未开放");
     return;
@@ -249,12 +249,12 @@ var tiaozhaun = (item) => {
     router.push(urls);
   } else {
     // 页面外部跳转
-  let viewer = window.navigator.userAgent.toLowerCase();
+    let viewer = window.navigator.userAgent.toLowerCase();
     if (viewer.match(/MicroMessenger/i) == "micromessenger") {
-      wx.miniProgram.getEnv((resrnv) => {
+      wx.miniProgram.getEnv(resrnv => {
         if (resrnv.miniprogram) {
           wx.miniProgram.navigateTo({
-            url: "/pages/newopen/newopen?url=" + item.url,
+            url: "/pages/newopen/newopen?url=" + item.url
           });
         } else {
           location.href = item.url;
@@ -274,10 +274,10 @@ var tiaozhaun = (item) => {
     let viewer = window.navigator.userAgent.toLowerCase();
 
     if (viewer.match(/MicroMessenger/i) == "micromessenger") {
-      wx.miniProgram.getEnv((resrnv) => {
+      wx.miniProgram.getEnv(resrnv => {
         if (resrnv.miniprogram) {
           wx.miniProgram.navigateTo({
-            url: "/pages/newopen/newopen?url=" + item.url,
+            url: "/pages/newopen/newopen?url=" + item.url
           });
         } else {
           location.href = item.url;
@@ -289,11 +289,11 @@ var tiaozhaun = (item) => {
   router.push(url);
 };
 
-var tostorelist = (id) => {
+var tostorelist = id => {
   router.push("/storelist?bigcategory_id=" + id);
 };
 
-var tiao = (index) => {
+var tiao = index => {
   var item = anniulist.value[index];
   if (item.type == "B") {
     router.push(
@@ -311,7 +311,7 @@ var chefu = () => {
 };
 
 // tiaozhaun 推广页跳转路径
-var newtiao = (index) => {
+var newtiao = index => {
   var url = guangaolist.value[index].url;
   if (url == "") {
     return;
@@ -321,7 +321,7 @@ var newtiao = (index) => {
 
 // 设置默认车辆
 let mycarlist = ref(null);
-HttpHelper.Post("member/mycarlist", { isdefault: "Y" }).then((res) => {
+HttpHelper.Post("member/mycarlist", { isdefault: "Y" }).then(res => {
   if (res.length > 0) {
     mycarlist.value = res[0];
   }
@@ -336,7 +336,7 @@ var che = () => {
   router.push("/garage");
 };
 var addmycar = () => {
-  HttpHelper.Post("member/mycarlist", {}).then((res) => {
+  HttpHelper.Post("member/mycarlist", {}).then(res => {
     if (res.length > 0) {
       router.push("/editvegicle?first=A");
     } else {
@@ -366,13 +366,12 @@ var zhucetupian = () => {
   });
 };
 
-
 var close = () => {
   show.value = false;
   jinru.value = 0;
 };
 
-var fuwuall = (e) => {
+var fuwuall = e => {
   storelist.value[e].shownum = true;
   // for(let item of storelist.value){
   //    item.distance2=Utils.GetMileTxt(item.distance)
@@ -391,7 +390,7 @@ var fuwuall = (e) => {
     <!-- <img
       :src="page.uploadpath + 'resource/' + page.Res.sybg"
       style="width: 100%"
-    /> -->
+    />-->
     <div
       class="h-170"
       :style="{
@@ -403,34 +402,21 @@ var fuwuall = (e) => {
     <!-- <div class="margin-top-f95"></div> -->
     <div class="margin-top-f170"></div>
 
-    <div
-      class="
-        flex-row flex-center
-        margin-left-14 margin-right-14
-        h-min-50
-        margin-bottom-20
-      "
-    >
+    <div class="flex-row flex-center margin-left-14 margin-right-14 h-min-50 margin-bottom-20">
       <div class="flex-row flex-center" @click="chengshi()">
         <!-- <div class="c-w f-15 bold  " v-if="page.Memberinfo ==null&& store.state.cityname==''&& page.Inst.cities_city=='' ">未获取到位置</div> -->
         <!-- <div class="c-w f-15 bold " v-else>{{store.state.cityname==''? page.Memberinfo.city_id_name:store.state.cityname}}</div> -->
 
-        <div
-          class="c-w f-15 bold"
-          v-if="page.Memberinfo != null && page.Inst != null"
-        >
+        <div class="c-w f-15 bold" v-if="page.Memberinfo != null && page.Inst != null">
           {{
-            store.state.cityname != ""
-              ? store.state.cityname
-              : page.Memberinfo.city_id_name == ""
-              ? page.Inst.cities_city
-              : page.Memberinfo.city_id_name
+          store.state.cityname != ""
+          ? store.state.cityname
+          : page.Memberinfo.city_id_name == ""
+          ? page.Inst.cities_city
+          : page.Memberinfo.city_id_name
           }}
         </div>
-        <img
-          :src="page.uploadpath + 'resource/' + page.Res.xiala"
-          class="icon-12 margin-left-4"
-        />
+        <img :src="page.uploadpath + 'resource/' + page.Res.xiala" class="icon-12 margin-left-4" />
       </div>
       <div class="flex-1"></div>
 
@@ -441,40 +427,29 @@ var fuwuall = (e) => {
             <div class="flex-row">
               <div class="f-14 bold c-w">{{ mycarlist.plateno }}</div>
             </div>
-            <div class="c-w f-12 margin-top-5">
-              {{ mycarlist.carseries_name }}
-            </div>
+            <div class="c-w f-12 margin-top-5">{{ mycarlist.carseries_name }}</div>
           </div>
         </div>
       </div>
       <div class="top_blue" v-else>
-        <div class="c-w f-16 f-bold margin-left-24" @click="addmycar()">
-          +添加我的爱车
-        </div>
+        <div class="c-w f-16 f-bold margin-left-24" @click="addmycar()">+添加我的爱车</div>
         <div class="radius_block"></div>
       </div>
     </div>
 
     <!-- 轮播图 -->
-    <van-swipe
-      class="my-swipe indexbanner"
-      :autoplay="3000"
-      indicator-color="white"
-    >
+    <van-swipe class="my-swipe indexbanner" :autoplay="3000" indicator-color="white">
       <van-swipe-item
         v-for="(image, index) in indexbanner1"
         :key="index"
         class="h-140"
         @click="tiaozhaun(image)"
       >
-        <img
-          :src="page.uploadpath + 'indexbanner/' + image.img"
-          class="h-140"
-        />
+        <img :src="page.uploadpath + 'indexbanner/' + image.img" class="h-140" />
       </van-swipe-item>
     </van-swipe>
     <!-- 列表 -->
-    <div
+    <!-- <div
       class="flex-row flex-center margin-top-20 margin-left-26 margin-right-26"
     >
       <div class="flex-1 flex-row flex-center">
@@ -482,7 +457,6 @@ var fuwuall = (e) => {
           :src="page.uploadpath + 'resource/' + page.Res.fuwu2"
           class="icon-15"
         />
-        <!-- @click="chefu" -->
         <div class="c-2 f-2 margin-left-4">车服中心</div>
         <div class="flex-1"></div>
       </div>
@@ -515,7 +489,7 @@ var fuwuall = (e) => {
         />
         <div class="c-1 f-2 margin-left-4">省心贴心</div>
       </div>
-    </div>
+    </div>-->
     <!-- 按钮 -->
     <!-- <div
       class="flex-row flex-wrap "  
@@ -533,7 +507,7 @@ var fuwuall = (e) => {
         />
         <div class="c-2 f-2 margin-top-7">{{ item.name }}</div>
       </div>
-    </div> -->
+    </div>-->
 
     <!-- @click="tiaozhaun(item.url)" -->
     <div class="flex-row flex-wrap">
@@ -545,31 +519,25 @@ var fuwuall = (e) => {
         @click="tiao(index)"
       >
         <img
-          v-if="item.type == 'A'"
-          :src="page.uploadpath + 'anniu/' + item.img"
+          v-if="item.type != 'A'"
+          :src="page.uploadpath + 'bigcategory/' + item.icon"
           class="icon-42 displat-block margin-auto"
         />
         <img
           v-else
-          :src="page.uploadpath + 'bigcategory/' + item.icon"
+          :src="page.uploadpath + 'anniu/' + item.img"
           class="icon-42 displat-block margin-auto"
         />
-        <div class="c-2 f-2 margin-top-7">{{ item.name }}</div>
+
+        <div class="c-2 f-14 margin-top-7">{{ item.name }}</div>
       </div>
     </div>
     <!-- 新人礼包 -->
     <div class="margin-top-23 margin-left-14 margin-right-14">
       <!-- guangaolist -->
       <van-swipe :autoplay="3000" lazy-render>
-        <van-swipe-item
-          v-for="(image, index) in guangaolist"
-          :key="index"
-          @click="newtiao(index)"
-        >
-          <img
-            :src="page.uploadpath + 'guangao/' + image.img"
-            class="h-93 wf-100"
-          />
+        <van-swipe-item v-for="(image, index) in guangaolist" :key="index" @click="newtiao(index)">
+          <img :src="page.uploadpath + 'guangao/' + image.img" class="h-93 wf-100" />
         </van-swipe-item>
       </van-swipe>
       <!-- 热门资讯 -->
@@ -584,25 +552,16 @@ var fuwuall = (e) => {
         class="margin-bottom-15"
       >
         <div class="flex-row">
-          <img
-            :src="page.uploadpath + 'information/' + item.img"
-            class="icon-84 border-radius-5"
-          />
+          <img :src="page.uploadpath + 'information/' + item.img" class="icon-84 border-radius-5" />
           <div class="margin-left-10 imgbox column flex-between">
             <div class="bold f-15 c-2 f-15">{{ item.name }}</div>
             <div class="f-15 c-2 imgbox flex-between">
               <div class="f-13 c-1">
-                <img
-                  :src="page.uploadpath + 'resource/' + page.Res.time"
-                  class="icon-13"
-                />
+                <img :src="page.uploadpath + 'resource/' + page.Res.time" class="icon-13" />
                 {{ item.time }}
               </div>
               <div class="f-13 c-1">
-                <img
-                  :src="page.uploadpath + 'resource/' + page.Res.views"
-                  class="icon-13"
-                />
+                <img :src="page.uploadpath + 'resource/' + page.Res.views" class="icon-13" />
                 {{ item.views }}
               </div>
             </div>
@@ -613,7 +572,7 @@ var fuwuall = (e) => {
       <!-- <div class="flex-row flex-center margin-top-26">
         <div class="shu1"></div>
         <div class="margin-left-10 bold f-17 c-2">附近门店</div>
-      </div> -->
+      </div>-->
       <!-- 分类 -->
       <!-- 
       <div
@@ -643,7 +602,7 @@ var fuwuall = (e) => {
         >
           {{ item.name }}
         </div>
-      </div> -->
+      </div>-->
     </div>
     <!-- 店铺 -->
     <!-- <div
@@ -690,8 +649,8 @@ var fuwuall = (e) => {
         </div>
       </div>
       <div class="bg-1 h-4"></div>
-    </div> -->
-<!-- 
+    </div>-->
+    <!-- 
     <div
       v-for="(item, index) in storelist"
       :key="index"
@@ -846,7 +805,7 @@ var fuwuall = (e) => {
         </div>
       </div>
       <div class="bg-1 h-4"></div>
-    </div> -->
+    </div>-->
 
     <div class="h-93 w-100f"></div>
 

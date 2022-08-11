@@ -14,22 +14,39 @@ let router = useRouter();
 let route = useRoute();
 var type = ref({});
 var msg = ref({});
-PageHelper.Init(page, () => {type.value = route.query.type});
+PageHelper.Init(page, () => {
+  type.value = route.query.type;
+});
 //优惠券
-type.value = route.query.type
-msg.value = route.query.msg
+type.value = route.query.type;
+msg.value = route.query.msg;
 console.log(msg.value);
 localStorage.removeItem("localpackage");
 PageHelper.LoginAuth(page, () => {
-  type.value = route.query.type
-  msg.value = route.query.msg
+  type.value = route.query.type;
+  msg.value = route.query.msg;
   console.log(msg.value);
-  
+
   localStorage.removeItem("localpackage");
 });
 var goindex = e => {
   localStorage.removeItem("localpackage");
-  router.push("/carwash");
+  router.push("/");
+  // let viewer = window.navigator.userAgent.toLowerCase();
+  // if (viewer.match(/MicroMessenger/i) == "micromessenger") {
+  //   wx.miniProgram.getEnv(resrnv => {
+  //     if (resrnv.miniprogram) {
+  //       alert('1')
+  //       wx.miniProgram.reLaunch({
+  //         url: "/pages/carwash/carwash"
+  //       });
+  //     } else {
+  //       alert('2')
+  //       // 微信浏览器
+  //       router.push("/carwash");
+  //     }
+  //   });
+  // }
 };
 </script>
 

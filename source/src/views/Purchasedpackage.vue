@@ -26,11 +26,14 @@ HttpHelper.Post("inst/instinfo", {}).then((Res) => {
 //扫码
 var selectcarwashpackage = (e) => {
   localStorage.setItem("localpackage",e);
-    wx.scanQRCode({
+    PageHelper.loadwechatconfig(()=>{
+      wx.scanQRCode({
+      
       onlyFromCamera: true,
       success(res) {
         console.log(res,'respppp')
         if(res.errMsg=='scanCode:ok'){ 
+          
           console.log(res,'res.path');
           wx.navigateTo({
             url: res.path,
@@ -47,6 +50,8 @@ var selectcarwashpackage = (e) => {
         })
       },
     })
+    })
+    
   
   // HttpHelper.Post("carwash/getmachineofonlie", {}).then((res) => {
   //   router.push("/selectcarwashpackage?id=" + '1');

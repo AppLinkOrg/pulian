@@ -12,6 +12,7 @@ let page = ref({ kk: "/" });
 let imglist = ref({});
 let title = ref({});
 let pathname = ref("");
+let cur = ref(1)
 HttpHelper.Post("anni/bottom", {}).then((res) => {
   res.sort((a, b) => a.seq - b.seq);
   imglist.value = res;
@@ -20,6 +21,26 @@ console.log(route.path, "store.state.name");
 store.changeName(route.path);
 console.log("router", router.currentRoute._rawValue.path);
 var active = ref("firsthome");
+if(route.path == '/'){
+  console.log('11111');
+
+  cur.value = 1;
+}
+if(route.path == '/integral'){
+  console.log('22222');
+  active.value = 'integral'
+  cur.value = 2;
+}
+if(route.path == '/carwash'){
+  console.log('33333');
+  cur.value = 3;
+  active.value = "carwash"
+}
+if(route.path == '/myselef'){
+  console.log('44444');
+  cur.value = 4;
+  active.value = "/myselef";
+}
 
 PageHelper.Init(page, () => {});
 
@@ -58,7 +79,6 @@ watch(route, (newVal, oldVal) => {
 // console.log(props.pathname, "可以拿到父组件的数据");
 
 //
-var cur = ref(1);
 var tz = (num) => {
   cur.value = num;
   console.log(num);
@@ -67,20 +87,23 @@ var tz = (num) => {
   if (num == 1) {
     router.push("/");
     //   active='firsthome'
-
+    cur.value = 1;
     active.value = "firsthome";
   }
   if (num == 2) {
+    cur.value = 2;
     router.push("/integral");
     //  active='integral'
     //  this.active='integral'
     active.value = "integral";
   }
   if (num == 3) {
+    cur.value = 3;
     router.push("/carwash");
     active.value = "carwash";
   }
   if (num == 4) {
+    cur.value = 4;
     router.push("/myselef");
     active.value = "myself";
   }

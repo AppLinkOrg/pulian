@@ -119,7 +119,7 @@ var fault = (str) => {
     }"
     style="background-size: 100%; background-repeat: no-repeat"
   >
-    <div style="padding-bottom-20">
+    <div >
       <div class="wf-100 padding-left-14 padding-right-14 imgbox flex-between">
         <div class="imgbox flex-star">
           <div class="margin-right-10">
@@ -153,7 +153,7 @@ var fault = (str) => {
                 :src="page.uploadpath + 'resource/' + page.Res.card"
               />
             </div>
-            <div class="c-1 line-height-22">洗车券表</div>
+            <div class="c-1 line-height-22">自洗抵扣券</div>
           </div>
           <div @click="jifen()" class="flex-row">
             <div class="margin-right-10">

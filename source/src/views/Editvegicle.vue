@@ -265,9 +265,8 @@ var insertStr = (soure, start, newStr) => {
 };
 let show1 = ref(0);
 var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
-
-  if (page.value.Memberinfo.touxiang != "B") {
+  PageHelper.LoginAuth(page, () => {
+    if (page.value.Memberinfo.touxiang != "B") {
     show1.value = 1;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
   }
@@ -278,7 +277,11 @@ var shouquan = () => {
   ) {
     show1.value = 2;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+    
   }
+  });
+
+  
 };
 let timer = setInterval(() => {
   //需要定时执行的代码

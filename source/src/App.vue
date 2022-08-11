@@ -769,6 +769,9 @@ button {
 .padding-L-R-15 {
   padding: 0 15px;
 }
+.padding-bottom-6 {
+  padding-bottom: 6px;
+}
 .padding-bottom-15 {
   padding-bottom: 15px;
 }

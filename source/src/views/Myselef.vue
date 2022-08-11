@@ -22,20 +22,20 @@ var dindan = () => {
 // 授权页面点击
 // alert(1111)
 var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
-
-  if (page.value.Memberinfo.touxiang != "B") {
-    show.value = 1;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
-  }
-  // alert(page.value.Memberinfo.shoujisq)
-  if (
-    page.value.Memberinfo.shoujisq != "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    show.value = 2;
-    wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
-  }
+  PageHelper.LoginAuth(page, () => {
+    if (page.value.Memberinfo.touxiang != "B") {
+      show.value = 1;
+      wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+    }
+    // alert(page.value.Memberinfo.shoujisq)
+    if (
+      page.value.Memberinfo.shoujisq != "B" &&
+      page.value.Memberinfo.touxiang == "B"
+    ) {
+      show.value = 2;
+      wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+    }
+  });
 };
 
 let show = ref(0);
@@ -72,7 +72,7 @@ var cheku = () => {
 
 // 点击添加车
 var addaiche = () => {
-  HttpHelper.Post("member/mycarlist", {}).then((res) => {
+  HttpHelper.Post("member/mycarlist", {}).then(res => {
     if (res.length > 0) {
       router.push("/editvegicle?first=A");
     } else {
@@ -90,22 +90,22 @@ var dizhi = () => {
 
 // kazhuan 点击卡券
 var kazhuan = () => {
-  router.push("/myvoucher");
+  router.push("/deductionbond");
 };
-var myjifen = (e) => {
+var myjifen = e => {
   router.push("/mypoints");
 };
-var myself = (e) => {
+var myself = e => {
   router.push("/personalcenter");
 };
-var deductionbond = (e) => {
+var deductionbond = e => {
   router.push("/myvoucher");
 };
 let mycarlist = ref([]);
 //查询车库的数目
 HttpHelper.Post("member/mycarlist", {
-  isdefault: "Y",
-}).then((res) => {
+  isdefault: "Y"
+}).then(res => {
   mycarlist.value = res;
 });
 
@@ -126,7 +126,7 @@ var shoucan = () => {
 
 // hehuo 合伙
 var hehuo = () => {
-  HttpHelper.Post("neirong/panduan", { type: "B" }).then((res) => {
+  HttpHelper.Post("neirong/panduan", { type: "B" }).then(res => {
     if (res == 0) {
       router.push("/partnership?type=B");
     } else {
@@ -137,7 +137,7 @@ var hehuo = () => {
 
 // Aboutus
 var guaunyu = () => {
-  HttpHelper.Post("neirong/panduan", { type: "C" }).then((res) => {
+  HttpHelper.Post("neirong/panduan", { type: "C" }).then(res => {
     if (res == 0) {
       router.push("/aboutus");
     } else {
@@ -153,7 +153,7 @@ var fankui = () => {
 
 // 使用说明
 var shiyong = () => {
-  HttpHelper.Post("neirong/panduan", { type: "A" }).then((res) => {
+  HttpHelper.Post("neirong/panduan", { type: "A" }).then(res => {
     if (res == 0) {
       router.push("/partnership?type=A");
     } else {
@@ -179,24 +179,24 @@ var lianxigg = () => {
 let len = ref({});
 
 HttpHelper.Post("couponorder/couponorderlist", {
-  shownum: "A",
-}).then((res) => {
+  shownum: "A"
+}).then(res => {
   len.value = res.length;
 });
 
 // 查询 卡卷  收藏的数目
 let shumu = ref(null);
 var chaxun = () => {
-  HttpHelper.Post("chaxun/shumu", {}).then((Res) => {
+  HttpHelper.Post("chaxun/shumu", {}).then(Res => {
     shumu.value = Res;
   });
 };
 chaxun();
 
-var carwashorder = (e) => {
+var carwashorder = e => {
   router.push("/carwashorder");
 };
-var daifu = (e) => {
+var daifu = e => {
   router.push("/myorder?type=" + e);
 };
 
@@ -204,7 +204,7 @@ var guanbi = () => {
   kfshow.value = false;
 };
 
-var fuzhi = (str) => {
+var fuzhi = str => {
   PageHelper.Copy(str);
 };
 </script>
@@ -233,13 +233,7 @@ var fuzhi = (str) => {
       </div>
       <div class="flex-1"></div>
       <div
-        class="
-          h-30
-          padding-left-10 padding-right-10
-          mubo
-          flex-row flex-center
-          bd-2
-        "
+        class="h-30 padding-left-10 padding-right-10 mubo flex-row flex-center bd-2"
         @click="qiandao()"
       >
         <img
@@ -271,33 +265,24 @@ var fuzhi = (str) => {
         <div class="margin-top-10 c-2 f-12 center">收藏</div>
       </div>
       <div class="flex-1"></div>
-    </div> -->
+    </div>-->
     <!-- 我的订单 -->
     <div class="imgbox flex-around f-14 margin-top-20 padding-left-14 padding-right-14">
       <div @click="myself()" class="flex-row">
         <div class="margin-right-10">
-          <img
-            class="icon-20"
-            :src="page.uploadpath + 'resource/' + page.Res.gocar"
-          />
+          <img class="icon-20" :src="page.uploadpath + 'resource/' + page.Res.gocar" />
         </div>
         <div class="c-1 line-height-22">自助洗车</div>
       </div>
       <div @click="kazhuan()" class="flex-row">
         <div class="margin-right-10">
-          <img
-            class="icon-20"
-            :src="page.uploadpath + 'resource/' + page.Res.card2"
-          />
+          <img class="icon-20" :src="page.uploadpath + 'resource/' + page.Res.card" />
         </div>
-        <div class="c-1 line-height-22">保养券表</div>
+        <div class="c-1 line-height-22">自洗抵扣券</div>
       </div>
       <div @click="myjifen()" class="flex-row">
         <div class="margin-right-10">
-          <img
-            class="icon-20"
-            :src="page.uploadpath + 'resource/' + page.Res.integral"
-          />
+          <img class="icon-20" :src="page.uploadpath + 'resource/' + page.Res.integral" />
         </div>
         <div class="c-1 line-height-22">我的积分</div>
       </div>
@@ -308,8 +293,7 @@ var fuzhi = (str) => {
           'url(' + page.uploadpath + 'resource/' + page.Res.gocarwashod + ')',
       }"
       style="background-size: 100%; background-repeat: no-repeat"
-      class="padding-15 flex-row flex-between h-70
-       margin-left-14 margin-right-14 margin-top-20"
+      class="padding-15 flex-row flex-between h-70 margin-left-14 margin-right-14 margin-top-20"
     >
       <div class="c-w">
         <div class="f-15">洗车订单</div>
@@ -317,15 +301,7 @@ var fuzhi = (str) => {
       </div>
       <div class="btn c-3" @click="carwashorder()">进入订单</div>
     </div>
-    <div
-      class="
-        margin-left-14 margin-right-14
-        bg-w
-        border-radius-9
-        padding-15
-        margin-top-20
-      "
-    >
+    <div class="margin-left-14 margin-right-14 bg-w border-radius-9 padding-15 margin-top-20">
       <div class="flex-row flex-center">
         <div class="f-15 bold c-2">保养订单</div>
         <div class="flex-1"></div>
@@ -370,15 +346,7 @@ var fuzhi = (str) => {
       <div class="margin-top-10"></div>
     </div>
     <!-- 我的爱车 -->
-    <div
-      class="
-        margin-left-14 margin-right-14
-        bg-w
-        border-radius-9
-        padding-15
-        margin-top-10
-      "
-    >
+    <div class="margin-left-14 margin-right-14 bg-w border-radius-9 padding-15 margin-top-10">
       <div class="flex-row flex-center">
         <div class="f-15 bold c-2">我的爱车</div>
         <div class="flex-1"></div>
@@ -390,20 +358,12 @@ var fuzhi = (str) => {
           />
         </div>
       </div>
-      <div class="" v-if="mycarlist.length > 0">
-        <div
-          class="
-            margin-top-10 margin-left-14 margin-right-14
-            bg-w
-            border-radius-9
-          "
-        >
+      <div class v-if="mycarlist.length > 0">
+        <div class="margin-top-10 margin-left-14 margin-right-14 bg-w border-radius-9">
           <div class="flex-row flex-center padding-20">
             <div class="flex-1">
               <div class="f-20 c-2 bold">{{ mycarlist[0].plateno }}</div>
-              <div class="margin-top-14 c-1 f-13">
-                {{ mycarlist[0].carseries_id_name }}
-              </div>
+              <div class="margin-top-14 c-1 f-13">{{ mycarlist[0].carseries_id_name }}</div>
             </div>
             <img :src="mycarlist[0].carbrand_logo" class="icon-60" />
           </div>
@@ -419,15 +379,7 @@ var fuzhi = (str) => {
       </div>
     </div>
     <!-- 更多服务 -->
-    <div
-      class="
-        margin-left-14 margin-right-14
-        bg-w
-        border-radius-9
-        padding-15
-        margin-top-10
-      "
-    >
+    <div class="margin-left-14 margin-right-14 bg-w border-radius-9 padding-15 margin-top-10">
       <div class="f-15 bold c-2">更多服务</div>
       <div class="flex-row flex-center margin-top-20">
         <div class="flex-1" @click="shiyong">
@@ -502,15 +454,8 @@ var fuzhi = (str) => {
             />
             <div class="flex-row margin-top-20">
               <div class="flex-1"></div>
-              <div class="f-18 bold c-2 f-18">
-                客服微信:{{ page.Inst.wxhao }}
-              </div>
-              <div
-                class="margin-left-10 f-16 c-6"
-                @click="fuzhi(page.Inst.wxhao)"
-              >
-                复制
-              </div>
+              <div class="f-18 bold c-2 f-18">客服微信:{{ page.Inst.wxhao }}</div>
+              <div class="margin-left-10 f-16 c-6" @click="fuzhi(page.Inst.wxhao)">复制</div>
               <div class="flex-1"></div>
             </div>
           </div>

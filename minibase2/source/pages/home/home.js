@@ -110,8 +110,9 @@ console.log(str,'strrrrr');
     var index=options.webViewUrl.lastIndexOf("/#/");
     console.log( index,' options.webViewUrl')
     var obj2=options.webViewUrl.substring(index+3,options.webViewUrl.length);
-    console.log( obj2,' options.webViewUrl')
-    // console.log( options.webViewUrl,' options.webViewUrl')
+    
+    console.log( obj2,' options.webViewUrl9999')
+    console.log( options.webViewUrl,' options.webViewUrl')
         console.log( that.Base.getMyData().testUrl,' options.webViewUrl')
     return {
       title: '',

@@ -12,9 +12,14 @@ let morendetail = ref({});
 let pointsmadetail = ref({});
 let addressid = ref("");
 let show = ref(false);
-
+let integral = ref(0);
 PageHelper.Init(page, () => {});
-PageHelper.LoginAuth(page, () => {});
+PageHelper.LoginAuth(page, () => {
+  HttpHelper.Post("integral/selectintegral2", {tel:page.value.Memberinfo.mobile}).then((Res) => {
+  console.log(Res,'11');  
+  integral.value = Res.integral;
+});
+});
 
 addressid.value = localStorage.getItem("addressid");
 
@@ -38,6 +43,7 @@ var xzdizhi = () => {
 };
 
 // 提交订单
+
 var tijiao = () => {
   // HttpHelper.Post('coupon/pintrecordadd',{
   //     pointsmall_id:route.query.id,
@@ -50,7 +56,7 @@ var tijiao = () => {
     return;
   }
   // 判断用户积分是否足够
-  if (pointsmadetail.value.point * 1 > page.value.Memberinfo.jifen * 1) {
+  if (pointsmadetail.value.point * 1 > integral.value * 1) {
     show.value = true;
     return;
   }

@@ -23,9 +23,8 @@ PageHelper.LoginAuth(page, () => {});
 // });
 // 初始化展示列表
 var shouquan = () => {
-  PageHelper.LoginAuth(page, () => {});
-
-  if (page.value.Memberinfo.touxiang != "B") {
+  PageHelper.LoginAuth(page, () => {
+    if (page.value.Memberinfo.touxiang != "B") {
     show1.value = 1;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
   }
@@ -37,6 +36,9 @@ var shouquan = () => {
     show1.value = 2;
     wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
   }
+  });
+
+  
 };
 let timer = setInterval(() => {
   //需要定时执行的代码
@@ -65,6 +67,7 @@ var wancheng = () => {
 setTimeout(() => {
   HttpHelper.Post("pointsmall/pointsmallist", { leixinss: leixin.value }).then(
     res => {
+      res.sort((a,b)=>a.seq-b.seq)
       pointsmallist.value = res;
     }
   );
@@ -89,6 +92,7 @@ var dianji = e => {
 // 积分物品 列表
 var poinlist = e => {
   HttpHelper.Post("pointsmall/pointsmallist", { leixinss: e }).then(res => {
+    res.sort((a,b)=>a.seq-b.seq)
     pointsmallist.value = res;
   });
 };
@@ -100,6 +104,7 @@ var xinqing = e => {
     page.value.Memberinfo.touxiang != "B"
   ) {
     shouquan();
+    
   } else {
     router.push(
       "/materialdetail?id=" + e.id + "&type=" + e.type + "&yhid=" + e.coupon_id
@@ -483,7 +488,7 @@ HttpHelper.Post("taskintegral/detail", {}).then(res => {
   height: 110px; */
 
   width: 160px;
-  height: 106px;
+  height: 96px;
 }
 .sty1 {
   background: linear-gradient(90deg, #409eff 0%, #67b0fd 100%);

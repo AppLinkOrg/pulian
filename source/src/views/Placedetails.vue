@@ -25,15 +25,18 @@ HttpHelper.Post("carwash/placedetails", {
 });
 
 PageHelper.LoginAuth(page, () => {
-  liebiao();
 });
 
 var openarea = (e) => {
   let latstor = route.query.lat;
   let lngstor = route.query.lng;
   let name = e;
+  console.log(latstor);
+   console.log(latstor);
+    console.log(lngstor);
+  
   // alert(latstor)
-  var json = { latitude: latstor * 1, longitude: lngstor * 1, scale: 18, name };
+  var json = { latitude: latstor * 1, longitude: lngstor * 1, scale: 18,name};
 
   PageHelper.loadwechatconfig(() => {
     // alert("loadwechatconfig");
