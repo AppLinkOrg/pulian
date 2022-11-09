@@ -49,7 +49,7 @@ var shouquan = () => {
 let timer = setInterval(() => {
   //需要定时执行的代码
   wancheng();
-}, 1000);
+}, 1000); 
 var wancheng = () => {
   if (page.value.Memberinfo == null) {
     PageHelper.LoginAuth(page, () => {});

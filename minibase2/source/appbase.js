@@ -61,9 +61,9 @@ export class AppBase {
     //ApiConfig.SetToken("10e991a4ca7a93c60794628c11edaea3");
   }
   setPageTitle(instinfo) {
-  //   wx.setNavigationBarTitle({
-  //     title: instinfo.name,
-  //   })
+    //   wx.setNavigationBarTitle({
+    //     title: instinfo.name,
+    //   })
   }
   generateBodyJson() {
     var base = this;
@@ -144,26 +144,26 @@ export class AppBase {
       tishi3: base.tishi3,
       clock: base.clock,
       close: base.close,
-      search:base.search,
+      search: base.search,
       BackPage: base.BackPage,
       toHome: base.toHome,
       goarticle: base.goarticle,
       addresscallback: base.addresscallback,
 
-      btnClick : base.btnClick,
-      btnClickTo : base.btnClickTo,
-      start : base.start,
-      fadeInDlg:base.fadeInDlg,
-      fadeOutDlg:base.fadeOutDlg,
-      preventTouchMove:base.preventTouchMove,
-      ketai:base.ketai,
-      ketai1:base.ketai1,
+      btnClick: base.btnClick,
+      btnClickTo: base.btnClickTo,
+      start: base.start,
+      fadeInDlg: base.fadeInDlg,
+      fadeOutDlg: base.fadeOutDlg,
+      preventTouchMove: base.preventTouchMove,
+      ketai: base.ketai,
+      ketai1: base.ketai1,
     }
   }
   log() {
     console.log("yeah!");
   }
-  search(){
+  search() {
     wx.navigateTo({
       url: '/pages/search/search',
     })
@@ -208,13 +208,13 @@ export class AppBase {
 
   }
 
-  addresscallback(res){
+  addresscallback(res) {
     // city_code   city
     var memberapi = new MemberApi();
     var that = this;
 
     memberapi.updatelocation({
-      city_id:res.ad_info.city
+      city_id: res.ad_info.city
     }, (res) => {
       // this.Base.setMyData({
       //   memberinfo: info
@@ -224,9 +224,9 @@ export class AppBase {
 
 
 
-    console.log("addresscallback",res,res.ad_info.city_code);
+    console.log("addresscallback", res, res.ad_info.city_code);
 
-  
+
 
 
 
@@ -242,7 +242,7 @@ export class AppBase {
       title: '需要您授权才能正常使用小程序',
       content: '请点击“去设置”并启用“用户信息”，然后确定即可正常使用',
       confirmText: "去设置",
-      success: function(res) {
+      success: function (res) {
         if (res.confirm) {
           wx.openSetting({
 
@@ -260,10 +260,10 @@ export class AppBase {
   onReady() {
     console.log("onReady");
   }
-  
+
   onShow() {
     var that = this;
-    
+ 
     var instapi = new InstApi();
     instapi.resources({}, (res) => {
       this.Base.setMyData({
@@ -286,25 +286,27 @@ export class AppBase {
       }
     }, false);
     console.log(AppBase.UserInfo.openid, 'instinfo')
-    
-      if (AppBase.UserInfo.unionid == undefined) {
-    // if (AppBase.UserInfo.openid == undefined) {
+
+    if (AppBase.UserInfo.unionid == undefined) {
+      // if (AppBase.UserInfo.openid == undefined) {
       // 登录
+      
       console.log("onShow");
       wx.login({
+        
         success: res => {
           // 发送 res.code 到后台换取 openId, sessionKey, unionId
-
-          console.log("res777",res);
+          
+          console.log("res777", res);
 
           console.log(res);
           // getUserInfo
-          // getUserProfile
+          // getUserProfile 
           wx.getUserInfo({
             desc: '用于完善会员资料',
             success: userres => {
               AppBase.UserInfo = userres.userInfo;
-              console.log(userres,'res777');
+              console.log(userres, 'res777');
 
               var memberapi = new MemberApi();
               memberapi.getuserinfo({
@@ -312,23 +314,34 @@ export class AppBase {
                 grant_type: "authorization_code"
               }, data => {
                 console.log("here");
-                console.log(data);
+                console.log(data,'res77777');
                 AppBase.UserInfo.openid = data.openid;
                 AppBase.UserInfo.session_key = data.session_key;
                 AppBase.UserInfo.unionid = data.unionid;
+                this.Base.setMyData({
+                  useropenid: data.openid
+                })
+                this.Base.setMyData({
+                  userunionid: data.unionid
+                })
+                console.log(this.Base.getMyData().useropenid,'res77777');
                 console.log(AppBase.UserInfo);
                 // ApiConfig.SetToken(data.openid);
                 // wx.setStorageSync('token',data.openid)
                 ApiConfig.SetToken(data.unionid);
-                wx.setStorageSync('token',data.unionid)
-                
+                wx.setStorageSync('token', data.unionid)
+
                 // wx.showToast({
                 //   title: '进来了',
                 // })
 
 
-                this.Base.setMyData({useropenid:data.openid})
-                this.Base.setMyData({userunionid:data.unionid})
+                this.Base.setMyData({
+                  useropenid: data.openid
+                })
+                this.Base.setMyData({
+                  userunionid: data.unionid
+                })
 
 
                 console.log("goto update info");
@@ -336,7 +349,7 @@ export class AppBase {
 
 
                 that.onMyShow();
-              
+
                 memberapi.update(AppBase.UserInfo, () => {
                   console.log(AppBase.UserInfo);
                   that.Base.setMyData({
@@ -382,10 +395,14 @@ export class AppBase {
             }
           });
 
+        },
+        fail: res => {
+          console.log("res7777", res.errMsg);
         }
+        
       })
-
-      return false;
+      
+       
     } else {
       if (that.setMyData != undefined) {
         that.setMyData({
@@ -401,8 +418,10 @@ export class AppBase {
       that.Base.setMyData({
         UserInfo: AppBase.UserInfo
       });
-      this.Base.setMyData({userunionid:AppBase.UserInfo.unionid })
-      
+      this.Base.setMyData({
+        userunionid: AppBase.UserInfo.unionid
+      })
+
 
       that.onMyShow();
       // that.checkPermission();
@@ -419,22 +438,27 @@ export class AppBase {
         memberinfo: info
       });
     });
-    
-    this.Base.getAddress((res)=>{
-      console.log("resssssss",res);
+
+    this.Base.getAddress((res) => {
+      console.log("resssssss", res);
       this.addresscallback(res);
       //this.Base.setMyData({cityname:res.address_component.city})
-      this.Base.setMyData({cityname:AppBase.CITYNAME})
+      this.Base.setMyData({
+        cityname: AppBase.CITYNAME
+      })
 
-      this.Base.setMyData({lat:res.ad_info.location.lat,lng:res.ad_info.location.lng})
+      this.Base.setMyData({
+        lat: res.ad_info.location.lat,
+        lng: res.ad_info.location.lng
+      })
       that.onMyShow();
-    },(failres)=>{
+    }, (failres) => {
 
       console.log("failres", failres);
     });
 
 
-    
+
     // that.onMyShow();
 
   }
@@ -501,7 +525,7 @@ export class AppBase {
     return this.Page.data;
   }
   getPhoneNo(e) {
-    console.log(e,'e====');
+    console.log(e, 'e====');
     var that = this;
 
     var api = new WechatApi();
@@ -509,17 +533,19 @@ export class AppBase {
     e.detail.session_key = AppBase.UserInfo.session_key;
     e.detail.openid = AppBase.UserInfo.openid;
     // e.detail.shoujisq='B'
- 
+
 
     api.decrypteddata(e.detail, (ret) => {
       console.log(ret, '最最最');
       // AppBase.usmobile = ret.return.phoneNumber
-      this.Base.setMyData({mobile:ret.return.phoneNumber})
-      
-      console.log(ret.return.phoneNumber,'phoneNumber')
-     
+      this.Base.setMyData({
+        mobile: ret.return.phoneNumber
+      })
 
-      if (ret.return.phoneNumber!=undefined ) {
+      console.log(ret.return.phoneNumber, 'phoneNumber')
+
+
+      if (ret.return.phoneNumber != undefined) {
         that.phonenoCallback(ret.return.phoneNumber, e, ret.code);
       }
 
@@ -549,9 +575,16 @@ export class AppBase {
             title: '获取成功',
             icon: 'none'
           })
-           wx.navigateBack({
-        delta: -1,
-      })
+          if(e.currentTarget.dataset.id>0){
+            wx.navigateTo({
+              url: '/pages/land/land',
+            })
+          }else{
+            wx.navigateBack({
+              delta: -1,
+            })
+          }
+          
 
         });
 
@@ -599,7 +632,7 @@ export class AppBase {
     console.log("getmyaddress");
     if (lat == undefined && lng == undefined) {
       wx.getLocation({
-        success: function(res) {
+        success: function (res) {
           lat = res.latitude;
           lng = res.longitude;
           AppBase.QQMAP.reverseGeocoder({
@@ -607,22 +640,22 @@ export class AppBase {
               latitude: lat,
               longitude: lng
             },
-            success: function(res) {
+            success: function (res) {
               //that.setMyData({ addressinfo:res.result });
               callback(res.result);
             },
-            fail: function(res) {
+            fail: function (res) {
               console.log("fail get location");
               callback(res.result);
               console.log(res);
             },
-            complete: function(res) {
+            complete: function (res) {
               console.log("complete");
               console.log(res);
             }
           });
         },
-        fail: function(res) {
+        fail: function (res) {
           console.log("fail open location");
           console.log(res);
           if (failcallback != undefined) {
@@ -636,16 +669,16 @@ export class AppBase {
           latitude: lat,
           longitude: lng
         },
-        success: function(res) {
+        success: function (res) {
           console.log("success");
           console.log(res);
           callback(res.result);
         },
-        fail: function(res) {
+        fail: function (res) {
           console.log("fail");
           console.log(res);
         },
-        complete: function(res) {
+        complete: function (res) {
           console.log("complete");
           console.log(res);
         }
@@ -662,7 +695,7 @@ export class AppBase {
     var address = e.currentTarget.id;
     AppBase.QQMAP.geocoder({
       address: address,
-      success: function(res) {
+      success: function (res) {
         if (res.status == 0) {
           var lat = res.result.location.lat;
           var lng = res.result.location.lng;
@@ -672,16 +705,16 @@ export class AppBase {
             address: address,
             latitude: lat,
             longitude: lng,
-            success: function(res) {
+            success: function (res) {
 
             }
           })
         }
       },
-      fail: function(res) {
+      fail: function (res) {
         console.log(res);
       },
-      complete: function(res) {
+      complete: function (res) {
         console.log(res);
       }
     });
@@ -702,7 +735,7 @@ export class AppBase {
         "field": "file"
       },
 
-      success: function(res) {
+      success: function (res) {
         console.log(res);
         var data = res.data
         if (data.substr(0, 7) == "success") {
@@ -726,7 +759,7 @@ export class AppBase {
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       count: count,
-      success: function(res) {
+      success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         console.log(res.tempFilePaths);
         //that.setData({
@@ -743,7 +776,7 @@ export class AppBase {
               'module': modul,
               "field": "file"
             },
-            success: function(res) {
+            success: function (res) {
               console.log(res);
               var data = res.data
               if (data.substr(0, 7) == "success") {
@@ -774,7 +807,7 @@ export class AppBase {
       sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       count: 1,
-      success: function(res) {
+      success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         console.log(res.tempFilePaths);
         //that.setData({
@@ -791,7 +824,7 @@ export class AppBase {
               'module': modul,
               "field": "file"
             },
-            success: function(res) {
+            success: function (res) {
               console.log(res);
               var data = res.data
               if (data.substr(0, 7) == "success") {
@@ -822,7 +855,7 @@ export class AppBase {
       compressed: true, // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
       maxDuration: 60,
-      success: function(res) {
+      success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         console.log(res.tempFilePaths);
         //that.setData({
@@ -841,7 +874,7 @@ export class AppBase {
               'module': modul,
               "field": "file"
             },
-            success: function(res) {
+            success: function (res) {
               console.log(res);
               var data = res.data
               if (data.substr(0, 7) == "success") {
@@ -872,7 +905,7 @@ export class AppBase {
       count: 1,
       sizeType: ['original'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
-      success: function(res) {
+      success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         console.log(res.tempFilePaths);
         //that.setData({
@@ -889,7 +922,7 @@ export class AppBase {
               'module': modul,
               "field": "file"
             },
-            success: function(res) {
+            success: function (res) {
               console.log(res);
               var data = res.data
               if (data.substr(0, 7) == "success") {
@@ -919,7 +952,7 @@ export class AppBase {
       sizeType: ['original'], // 可以指定是原图还是压缩图，默认二者都有
       sourceType: ['camera'], // 可以指定来源是相册还是相机，默认二者都有
       maxDuration: 60,
-      success: function(res) {
+      success: function (res) {
         // 返回选定照片的本地文件路径列表，tempFilePath可以作为img标签的src属性显示图片
         console.log(res.tempFilePaths);
         //that.setData({
@@ -936,7 +969,7 @@ export class AppBase {
               'module': modul,
               "field": "file"
             },
-            success: function(res) {
+            success: function (res) {
               console.log(res);
               var data = res.data
               if (data.substr(0, 7) == "success") {
@@ -1066,17 +1099,17 @@ export class AppBase {
   download(url, callback, open = false) {
     wx.downloadFile({
       url: url, //仅为示例，并非真实的资源
-      success: function(res) {
+      success: function (res) {
         // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
         if (res.statusCode === 200) {
           var tempFilePath = res.tempFilePath;
           console.log("tempFilePath", tempFilePath);
           wx.saveFile({
             tempFilePath: tempFilePath,
-            fail: function(savefail) {
+            fail: function (savefail) {
               console.log("savefail", savefail);
             },
-            success: function(res) {
+            success: function (res) {
               var savedFilePath = res.savedFilePath;
               console.log("savedFilePath", savedFilePath, res);
               if (open == true) {
@@ -1199,18 +1232,18 @@ export class AppBase {
         AppBase.UserInfo.openid = openid;
         AppBase.UserInfo.session_key = session_key;
 
-        AppBase.UserInfo.touxiang='B'
-        AppBase.UserInfo.type='A'
+        AppBase.UserInfo.touxiang = 'B'
+        AppBase.UserInfo.type = 'A'
         // AppBase.UserInfo.unionid = data.unionid;
         // AppBase.UserInfo.unionid = this.Base.getMyData().userunionid;
-        
+
 
         console.log("loginres4", userres);
-        
+
         console.log(this.Base.getMyData().memberinfo, '11');
         var memberinfo = this.Base.getMyData().memberinfo;
         var json = null;
-          json = AppBase.UserInfo;
+        json = AppBase.UserInfo;
         memberapi.update(json, () => {
           console.log(AppBase.UserInfo);
           that.Base.setMyData({
@@ -1237,7 +1270,7 @@ export class AppBase {
         //   console.log("loginres6", AppBase.UserInfo);
         //   var json = null;
         //   json = AppBase.UserInfo;
-          
+
         //   json.primary_id = memberinfo.id;
         //   memberapi.update(json, () => {
         //     console.log(AppBase.UserInfo);
@@ -1262,7 +1295,7 @@ export class AppBase {
         if (that.Base.needauth == true) {
 
         }
-        
+
       }
     })
   }
@@ -1293,8 +1326,10 @@ export class AppBase {
   }
 
   btnClickTo() {
-    this.Base.setMyData({popup:true});
-    
+    this.Base.setMyData({
+      popup: true
+    });
+
     var animation = wx.createAnimation({
       transformOrigin: "50% 50%",
       duration: 400,
@@ -1306,10 +1341,12 @@ export class AppBase {
     this.setData({
       animation: animation.export()
     })
-   
+
   }
-  btnClick () {
-    this.Base.setMyData({popup:false}); 
+  btnClick() {
+    this.Base.setMyData({
+      popup: false
+    });
     var animation = wx.createAnimation({
       transformOrigin: "50% 50%",
       duration: 400,
@@ -1320,29 +1357,29 @@ export class AppBase {
     animation.translateY(1000).step()
     this.setData({
       animation: animation.export(),
-      
+
     })
-    
-    
+
+
   }
-  start(){
-    var  animation = wx.createAnimation({
+  start() {
+    var animation = wx.createAnimation({
       transformOrigin: "0% 0%",
       duration: 0,
       timingFunction: "linear",
       delay: 0
-    }) 
+    })
     animation.translateY(1000).step()
     this.setData({
       animation: animation.export(),
     })
   }
-  fadeInDlg(){ 
+  fadeInDlg() {
     var animation = wx.createAnimation({
-      duration:0,
-      timingFunction:'step-start',
+      duration: 0,
+      timingFunction: 'step-start',
     })
-    animation.opacity(0).scale(0.8,0.8).step();
+    animation.opacity(0).scale(0.8, 0.8).step();
     this.setData({
       animationData: animation.export()
     })
@@ -1350,9 +1387,9 @@ export class AppBase {
       duration: 500,
       timingFunction: 'ease',
     })
-    animation.opacity(1).scale(1,1).step()
+    animation.opacity(1).scale(1, 1).step()
     this.setData({
-      animationData:animation.export()
+      animationData: animation.export()
     })
 
     var animationBg = wx.createAnimation({
@@ -1361,23 +1398,23 @@ export class AppBase {
     })
     animationBg.opacity(0).step()
     animationBg = wx.createAnimation({
-      duration:500,
-      timingFunction:'ease',
+      duration: 500,
+      timingFunction: 'ease',
     })
     animationBg.opacity(0.5).step()
     this.setData({
-      animationBgData:animationBg.export()
+      animationBgData: animationBg.export()
     })
   }
-  fadeOutDlg(){
+  fadeOutDlg() {
     var _this = this
     var animation = wx.createAnimation({
-      duration:200,
-      timingFunction:'ease',
+      duration: 200,
+      timingFunction: 'ease',
     })
     animation.opacity(0).scale(0.8, 0.8).step();
     this.setData({
-      animationData:animation.export()
+      animationData: animation.export()
     })
 
     var animationBg = wx.createAnimation({
@@ -1389,105 +1426,105 @@ export class AppBase {
       animationBgData: animationBg.export()
     })
 
- 
+
   }
   preventTouchMove() {
     //阻止触摸
   }
-  ketai(e){
+  ketai(e) {
     var id = e.currentTarget.id;
     wx.navigateTo({
-      url: '/pages/playtate/playtate?id='+id,
+      url: '/pages/playtate/playtate?id=' + id,
     })
   }
-  ketai1(e){
+  ketai1(e) {
     var id = e.currentTarget.id;
     wx.navigateTo({
-      url: '/pages/gueststate/gueststate?id='+id,
+      url: '/pages/gueststate/gueststate?id=' + id,
     })
   }
 
 
-//    withData(param){
-//     return param < 10 ? '0' + param : '' + param;
-//      }
-//      getLoopArray(start,end){
-//        var start = start || 0;
-//      var end = end || 1;
-//      var array = [];
-//       for (var i = start; i <= end; i++) {
-//         array.push(withData(i));
-//   }
-//       return array;
-//    }
-//     getMonthDay(year,month){
-//       var flag = year % 400 == 0 || (year % 4 == 0 && year % 100 != 0), array = null;
-   
-//      switch (month) {
-//       case '01':
-//        case '03':
-//        case '05':
-//         case '07':
-//         case '08':
-//         case '10':
-//        case '12':
-//           array = getLoopArray(1, 31)
-//           break;
-//        case '04':
-//     case '06':
-//       case '09':
-//     case '11':
-//        array = getLoopArray(1, 30)
-//       break;
-//      case '02':
-//      array = flag ? getLoopArray(1, 29) : getLoopArray(1, 28)
-//        break;
-//      default:
-//      array = '月份格式不正确，请重新输入！'
-//    }
-//   return array;
-//  }
-//   getNewDateArry(){
-//    // 当前时间的处理
-//    var newDate = new Date();
-//    var year = withData(newDate.getFullYear()),
-//       mont = withData(newDate.getMonth() + 1),
-//        date = withData(newDate.getDate()),
-//        hour = withData(newDate.getHours()),
-//        minu = withData(newDate.getMinutes()),
-//         seco = withData(newDate.getSeconds());
+  //    withData(param){
+  //     return param < 10 ? '0' + param : '' + param;
+  //      }
+  //      getLoopArray(start,end){
+  //        var start = start || 0;
+  //      var end = end || 1;
+  //      var array = [];
+  //       for (var i = start; i <= end; i++) {
+  //         array.push(withData(i));
+  //   }
+  //       return array;
+  //    }
+  //     getMonthDay(year,month){
+  //       var flag = year % 400 == 0 || (year % 4 == 0 && year % 100 != 0), array = null;
 
-//    return [year, mont, date, hour, minu, seco];
-//  }
-//   dateTimePicker(startYear,endYear,date) {
-//   // 返回默认显示的数组和联动数组的声明
-//    var dateTime = [], dateTimeArray = [[],[],[],[],[],[]];
-//    var start = startYear || 1978;
-//    var end = endYear || 2100;
-//    // 默认开始显示数据
-//     var defaultDate = date ? [...date.split(' ')[0].split('-'), ...date.split(' ')[1].split(':')] : getNewDateArry();
-//    // 处理联动列表数据
-//    /*年月日 时分秒*/ 
-//    dateTimeArray[0] = getLoopArray(start,end);
-//   dateTimeArray[1] = getLoopArray(1, 12);
-//   dateTimeArray[2] = getMonthDay(defaultDate[0], defaultDate[1]);
-//   dateTimeArray[3] = getLoopArray(0, 23);
-//    dateTimeArray[4] = getLoopArray(0, 59);
-//    dateTimeArray[5] = getLoopArray(0, 59);
+  //      switch (month) {
+  //       case '01':
+  //        case '03':
+  //        case '05':
+  //         case '07':
+  //         case '08':
+  //         case '10':
+  //        case '12':
+  //           array = getLoopArray(1, 31)
+  //           break;
+  //        case '04':
+  //     case '06':
+  //       case '09':
+  //     case '11':
+  //        array = getLoopArray(1, 30)
+  //       break;
+  //      case '02':
+  //      array = flag ? getLoopArray(1, 29) : getLoopArray(1, 28)
+  //        break;
+  //      default:
+  //      array = '月份格式不正确，请重新输入！'
+  //    }
+  //   return array;
+  //  }
+  //   getNewDateArry(){
+  //    // 当前时间的处理
+  //    var newDate = new Date();
+  //    var year = withData(newDate.getFullYear()),
+  //       mont = withData(newDate.getMonth() + 1),
+  //        date = withData(newDate.getDate()),
+  //        hour = withData(newDate.getHours()),
+  //        minu = withData(newDate.getMinutes()),
+  //         seco = withData(newDate.getSeconds());
 
-//    dateTimeArray.forEach((current,index) => {
-//      dateTime.push(current.indexOf(defaultDate[index]));
-//    });
- 
-//    return {
-//      dateTimeArray: dateTimeArray,
-//      dateTime: dateTime
-//    }
-//  }
-//  module.exports = {
-//    dateTimePicker: dateTimePicker,
-//   getMonthDay: getMonthDay
-//   }
+  //    return [year, mont, date, hour, minu, seco];
+  //  }
+  //   dateTimePicker(startYear,endYear,date) {
+  //   // 返回默认显示的数组和联动数组的声明
+  //    var dateTime = [], dateTimeArray = [[],[],[],[],[],[]];
+  //    var start = startYear || 1978;
+  //    var end = endYear || 2100;
+  //    // 默认开始显示数据
+  //     var defaultDate = date ? [...date.split(' ')[0].split('-'), ...date.split(' ')[1].split(':')] : getNewDateArry();
+  //    // 处理联动列表数据
+  //    /*年月日 时分秒*/ 
+  //    dateTimeArray[0] = getLoopArray(start,end);
+  //   dateTimeArray[1] = getLoopArray(1, 12);
+  //   dateTimeArray[2] = getMonthDay(defaultDate[0], defaultDate[1]);
+  //   dateTimeArray[3] = getLoopArray(0, 23);
+  //    dateTimeArray[4] = getLoopArray(0, 59);
+  //    dateTimeArray[5] = getLoopArray(0, 59);
+
+  //    dateTimeArray.forEach((current,index) => {
+  //      dateTime.push(current.indexOf(defaultDate[index]));
+  //    });
+
+  //    return {
+  //      dateTimeArray: dateTimeArray,
+  //      dateTime: dateTime
+  //    }
+  //  }
+  //  module.exports = {
+  //    dateTimePicker: dateTimePicker,
+  //   getMonthDay: getMonthDay
+  //   }
 
 
 }

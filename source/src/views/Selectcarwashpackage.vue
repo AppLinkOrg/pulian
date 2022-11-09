@@ -90,6 +90,7 @@ onMounted(() => {
   var localpackage_id = localStorage.getItem("localpackage");
   if (route.query.machine_id * 1 > 0 && localpackage_id * 1 > 0) {
     console.log("2222222");
+    // alert(route.query.machine_id + '----')
     localpackage.value = localpackage_id;
     HttpHelper.Post("carwash/getmachineofonlie", {
       machine_id: route.query.machine_id
@@ -520,19 +521,19 @@ var usecard = e => {
         >
           <div class="imgbox shadow">
             <div class="borderleft"></div>
-            <div class="padding-10">
-              <div class="jian status1">
+            <div class="padding-10" @click="usecard(item)">
+              <div class="jian status1" >
                 <span style="font-size:15px">¥</span>
                 {{ item.jainshao }}
               </div>
               <div>满{{item.manmoney}}可用</div>
             </div>
             <div>
-              <div class="imgbox flex-between">
+              <div class="imgbox flex-between " @click="usecard(item)">
                 <div class="imgbox zizhu">抵扣券(自助洗车)</div>
-                <div class="btns" @click="usecard(item)">使用</div>
+                <div class="btns" >使用</div>
               </div>
-              <div class="imgbox margin-top-16">
+              <div class="imgbox margin-top-16 " @click="usecard(item)">
                 <div class="c-7">{{item.star_time+'-'+item.end_time}}</div>
                 <div></div>
               </div>

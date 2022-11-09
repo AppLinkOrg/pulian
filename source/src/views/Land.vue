@@ -14,22 +14,27 @@ let show1 = ref(0);
 let integral = ref(0);
 PageHelper.Init(page, () => {});
 PageHelper.LoginAuth(page, () => {
-  HttpHelper.Post("integral/selectintegral2", {
-    tel: page.value.Memberinfo.mobile
-  }).then(Res => {
-    console.log(Res, "11");
-    integral.value = Res.integral;
-  });
+  // HttpHelper.Post("integral/selectintegral2", {
+  //   tel: page.value.Memberinfo.mobile
+  // }).then(Res => {
+  //   console.log(Res, "11");
+  //   integral.value = Res.integral;
+  // });
 });
+
 let landdetail = ref({});
-HttpHelper.Post("land/landdetail", { id: route.query.id }).then(res => {
-  landdetail.value = res;
+// setTimeout(() => {
+  
+// }, 1000);
+HttpHelper.Post("land/landdetail", { id: 1 }).then(res => {
+    landdetail.value = res;
 });
 var shouquan = () => {
   PageHelper.LoginAuth(page, () => {
     if (page.value.Memberinfo.touxiang != "B") {
       show1.value = 1;
-      wx.miniProgram.navigateTo({ url: "/pages/login/login?type=A" });
+      wx.miniProgram.redirectTo({ url: "/pages/login/login?type=A&temp=1" });
+      return;
     }
     // alert(page.value.Memberinfo.shoujisq)
     if (
@@ -37,34 +42,12 @@ var shouquan = () => {
       page.value.Memberinfo.touxiang == "B"
     ) {
       show1.value = 2;
-      wx.miniProgram.navigateTo({ url: "/pages/login/login?type=B" });
+      wx.miniProgram.redirectTo({ url: "/pages/login/login?type=B&temp=1" });
+      return;
     }
   });
 };
-let timer = setInterval(() => {
-  //需要定时执行的代码
-  wancheng();
-}, 1000);
-var wancheng = () => {
-  if (page.value.Memberinfo == null) {
-    PageHelper.LoginAuth(page, () => {});
-    return;
-  }
-  if (show1.value == 1 && page.value.Memberinfo.touxiang != "B") {
-    PageHelper.LoginAuth(page, () => {});
-  }
 
-  if (show1.value == 2 && page.value.Memberinfo.shoujisq != "B") {
-    PageHelper.LoginAuth(page, () => {});
-  }
-
-  if (
-    page.value.Memberinfo.shoujisq == "B" &&
-    page.value.Memberinfo.touxiang == "B"
-  ) {
-    clearInterval(timer);
-  }
-};
 
 var lingquan = () => {
   if (

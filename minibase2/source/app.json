@@ -1,5 +1,6 @@
 {
     "pages": [
+        "pages/land/land",
         "pages/home/home",
         "pages/login/login",
         "pages/daohan/daohan",
@@ -9,7 +10,7 @@
         "pages/newopen/newopen",
         "pages/pay/pay",
         "pages/paysuccess/paysuccess",
-        "pages/land/land",
+        
         "pages/taocan/taocan",
         "pages/carwash/carwash",
         "pages/integral/integral"

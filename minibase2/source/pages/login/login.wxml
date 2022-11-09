@@ -37,7 +37,7 @@
 </button>
 
 
-<button open-type="getPhoneNumber" class="clear-button" hover-class="none"  wx:else bindgetphonenumber="getPhoneNo" >
+<button open-type="getPhoneNumber" class="clear-button" hover-class="none"  wx:else bindgetphonenumber="getPhoneNo" data-id="{{temp}}">
   <view class="margin-top margin-left-50 margin-right-50 h-88 bg-1 line-height-88 txt-white txt-bold f-32 border-radius-44 text-center">
   授权手机号
   </view>
