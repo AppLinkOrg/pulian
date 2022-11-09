@@ -1,10 +1,10 @@
-<web-view src="https://uat20.helpfooter.com/#/land?rand=1667901795926id=1?openid=ojmtq5rYGCUvstLuKRkaMZdCpBPA" bindmessage="bindGetMsg"></web-view>
-
-<!-- <view>1111111111</view> -->
+<web-view src="{{url}}"></web-view>
 
 
 
 
- 
+
+
+
 
 

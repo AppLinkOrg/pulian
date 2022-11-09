@@ -26,7 +26,7 @@ let landdetail = ref({});
 // setTimeout(() => {
   
 // }, 1000);
-HttpHelper.Post("land/landdetail", { id: 1 }).then(res => {
+HttpHelper.Post("land/landdetail", { id: "1" }).then(res => {
     landdetail.value = res;
 });
 var shouquan = () => {
@@ -79,6 +79,7 @@ var lingquan = () => {
 </script>
 
 <template>
+
   <div @click="lingquan()" class="padding-left-10 padding-right-10">
     <div
       :style="{
@@ -95,7 +96,7 @@ var lingquan = () => {
   </div>
 </template>
 <style scoped>
-/* /deep/ .htmlimg > p {
+/deep/ .htmlimg > p {
   margin: 0 !important;
 }
 /deep/ .htmlimg p > img {
@@ -104,5 +105,6 @@ var lingquan = () => {
 
 /deep/ .htmlimg p > a > img {
   width: 100% !important;
-} */
+}
+
 </style>
