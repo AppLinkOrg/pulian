@@ -23,6 +23,8 @@ border-radius: 20rpx;
 .h-88{
   height: 88rpx;
 }
+
+
 .bg-1{
   background: linear-gradient(90deg, #409EFF 0%, #67B0FD 100%);
 }
@@ -34,4 +36,25 @@ border-radius: 20rpx;
 }
 .bd-1{
   border: 1px solid #1890FE;
+}
+.avatar{
+  margin-top: 50rpx;
+  width: 160rpx;
+  height: 160rpx;
+  padding:0;
+  background: none;
+}
+.avatar image{
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 100rpx;
+}
+.weui-input{
+  width: 90%;
+  height: 100rpx;
+  margin:50rpx auto;
+  background: #eee;
+  border-radius: 5rpx;
+  padding-left: 15rpx;
+  text-align: center;
 }

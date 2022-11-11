@@ -1,6 +1,3 @@
-
-
-
 <!-- <view class="flex-row flex-column" style="height: 100vh;">
 <view class="flex-1"></view>
 
@@ -17,39 +14,33 @@
 <view class="flex-1"></view>
 </view> -->
 <view class='cu-custom white-block'>
-	<view class="cu-bar fixed white-block" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
-		<navigator class='action' bindtap="backGo" open-type="navigateBack" delta="1" hover-class="none">
-			<text class='cuIcon-back' style="color:#000000"></text>
-		</navigator>
-		<view class='content txt-bold' style='top:{{StatusBar}}px;color:#000000'></view>
-	</view>
+  <view class="cu-bar fixed white-block" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+    <navigator class='action' bindtap="backGo" open-type="navigateBack" delta="1" hover-class="none">
+      <text class='cuIcon-back' style="color:#000000"></text>
+    </navigator>
+    <view class='content txt-bold' style='top:{{StatusBar}}px;color:#000000'></view>
+  </view>
 </view>
 
-<image  src='{{uploadpath}}resource/{{res.logoicon}}' class="img-login"></image>
+<image src='{{uploadpath}}resource/{{res.logoicon}}' class="img-login"></image>
 
 <view class="text-center margin-top-20 c-2   txt-bold">车主服务</view>
 
-
-<button  open-type="getUserInfo" class="clear-button " hover-class="none"  wx:if="{{memberinfo.touxiang!='B'}}"  bindtap="getUserInfo"  >
-  <view class="margin-top margin-left-50 margin-right-50 h-88 bd-1 line-height-88 txt-white txt-bold f-32 border-radius-44 text-center" style="color: #1890FE;">
-    授权头像昵称
+<view wx:if="{{memberinfo.touxiang!='B'}}">
+  <input type="nickname" class="weui-input" placeholder="请输入昵称" bindinput="wxname" />
+  <view bindtap="getUserInfo2" class="margin-top margin-left-50 margin-right-50 h-88 bd-1 line-height-88 txt-white txt-bold f-32 border-radius-44 text-center" style="color: #1890FE;">
+    授权昵称
   </view>
-</button>
+</view>
+ 
 
 
-<button open-type="getPhoneNumber" class="clear-button" hover-class="none"  wx:else bindgetphonenumber="getPhoneNo" data-id="{{temp}}">
+<button open-type="getPhoneNumber" class="clear-button" hover-class="none" wx:else bindgetphonenumber="getPhoneNo" data-id="{{temp}}">
   <view class="margin-top margin-left-50 margin-right-50 h-88 bg-1 line-height-88 txt-white txt-bold f-32 border-radius-44 text-center">
-  授权手机号
+    授权手机号
   </view>
-</button>
+</button> 
+
 
 
 <!-- <view  bindtap="saoma">saoma</view> -->
-
-
-
-
-
-
-
-

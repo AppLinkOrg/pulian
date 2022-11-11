@@ -103,12 +103,6 @@ console.log(str,'strrrrr');
     })
    
   }
-
-  goland(){
-    wx.navigateTo({
-      url: '/pages/land/land',
-    })
-  }
   onShareAppMessage(options){
     let that = this;
     var index=options.webViewUrl.lastIndexOf("/#/");
@@ -137,7 +131,6 @@ var body = content.generateBodyJson();
 body.onLoad = content.onLoad;
 body.onMyShow = content.onMyShow;
 body.handleGetMessage = content.handleGetMessage;
-body.goland=content.goland;
 body.bindGetMsg = content.bindGetMsg;
 body.onShareAppMessage = content.onShareAppMessage;
 

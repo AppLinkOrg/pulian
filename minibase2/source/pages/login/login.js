@@ -17,7 +17,8 @@ class Content extends AppBase {
     super.onLoad(options);
     this.Base.setMyData({
       type:this.Base.options.type,
-      temp:this.Base.options.temp
+      temp:this.Base.options.temp,
+      avatarUrl:'https://appwx.chefuzhongxin.com/Users/upload/resource/cd6f9fd63aafa84713fc1a3cec265040_220716160219_1112122816.jpg'
     })
   }
   onMyShow() {
@@ -35,54 +36,59 @@ class Content extends AppBase {
 
 
   }
+  wxname(e){
+    console.log(e.detail.value);
+    this.Base.setMyData({
+      vname:e.detail.value,
+    })
+  }
+  onChooseAvatar(e) {
+    console.log(e,'666');
+    const { avatarUrl } = e.detail 
+    this.setData({
+      avatarUrl,
+    })
+  }
   getUserInfo2(e) {
-    console.log('getUserInfo2')
-
+    
+   
     var that = this;
     var memberapi = new MemberApi();
-    console.log('getUserInfodddd2')
-    wx.getUserProfile({
-      desc: '用于完善会员资料',
-      success: userres => {
-        console.log('getUserIddnfodddd3')
-        var openid = AppBase.UserInfo.openid;
-        var session_key = AppBase.UserInfo.session_key;
-        AppBase.UserInfo = userres.userInfo;
-        AppBase.UserInfo.openid = openid;
-        AppBase.UserInfo.session_key = session_key;
-        console.log("loginres4", userres);
-
-        // this.denglu2(2);
-        var memberinfo = this.Base.getMyData().memberinfo;
-        var json = null;
-        json = AppBase.UserInfo;
-        json.mobile = this.Base.getMyData().mobile
-
-
-        //   memberapi.register2(json, (register) => {
-        //     console.log('denglu', 333+ register.return)
-        //     wx.setStorageSync('token', register.return);
-        //     console.log(AppBase.UserInfo);
-        //     that.Base.setMyData({
-        //       UserInfo: AppBase.UserInfo
-        //     });
-
-         
-        //     that.checkPermission();
+    var openid = AppBase.UserInfo.openid;
+    var session_key = AppBase.UserInfo.session_key;
+    var nickName = this.Base.getMyData().vname;
+    console.log(nickName)
+    if(!nickName){
+      console.log('nickName666')
+      return;
+    }
+    var avatarUrl = this.Base.getMyData().avatarUrl;
+    if(! avatarUrl){
+      console.log('avatarUrl')
+      return;
+    }
+    AppBase.UserInfo.nickName = nickName;
+    AppBase.UserInfo.avatarUrl = avatarUrl;
+    AppBase.UserInfo.openid = openid;
+    AppBase.UserInfo.session_key = session_key;
     
+    AppBase.UserInfo.touxiang = 'B'
+    AppBase.UserInfo.type = 'A'
+    AppBase.UserInfo.language = 'zh_CN'
+    var json=AppBase.UserInfo
+    console.log(json,'openid');
+    memberapi.update(json, () => {
+      console.log(AppBase.UserInfo,'666');
+      that.Base.setMyData({
+        UserInfo: AppBase.UserInfo
+      });
 
-        //   });
-
-
-      },
-      fail: userloginres => {
-        console.log("auth fail");
-        console.log(userloginres);
-        console.log('denglu', 444)
-
-
-      }
-    })
+      memberapi.info({}, (info) => {
+        this.Base.setMyData({
+          memberinfo: info
+        });
+      })
+    });
   }
 
   backGo(){
@@ -116,8 +122,8 @@ var content = new Content();
 var body = content.generateBodyJson();
 body.onLoad = content.onLoad; 
 body.onMyShow = content.onMyShow;
-
-
+body.wxname=content.wxname;
+body.onChooseAvatar=content.onChooseAvatar;
 body.saoma = content.saoma;
 body.getUserInfo2 = content.getUserInfo2;
 body.backGo = content.backGo;

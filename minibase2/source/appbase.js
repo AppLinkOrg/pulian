@@ -395,9 +395,6 @@ export class AppBase {
             }
           });
 
-        },
-        fail: res => {
-          console.log("res7777", res.errMsg);
         }
         
       })
@@ -1213,14 +1210,18 @@ export class AppBase {
   getUserInfo() {
     var that = this;
     var memberapi = new MemberApi();
-    // var memberinfo = this.Base.getMyData().memberinfo
-    // if (memberinfo == null) {
-    //   memberapi.info({}, (info) => {
-    //     this.Base.setMyData({
-    //       memberinfo: info
-    //     });
-    //   })
-    // }
+    var memberinfo = this.Base.getMyData().memberinfo
+    console.log(memberinfo,'memberinfo');
+    if (memberinfo == null) {
+      memberapi.info({}, (info) => {
+        console.log(info,'6666');
+
+        this.Base.setMyData({
+          memberinfo: info
+        });
+      })
+      return
+    }
     // getUserInfo
     // getUserProfile
     wx.getUserProfile({
