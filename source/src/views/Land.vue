@@ -70,7 +70,7 @@ var lingquan = () => {
         if (res.code == 0) {
           router.push("/deductionbond");
         } else {
-          Toast("领取失败");
+          Toast("该优惠券只能领取一次，您已经领取过了");
         }
       });
     }
