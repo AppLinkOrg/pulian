@@ -50,8 +50,6 @@ class Content extends AppBase {
     })
   }
   getUserInfo2(e) {
-    
-   
     var that = this;
     var memberapi = new MemberApi();
     var openid = AppBase.UserInfo.openid;
@@ -80,13 +78,19 @@ class Content extends AppBase {
     memberapi.update(json, () => {
       console.log(AppBase.UserInfo,'666');
       that.Base.setMyData({
-        UserInfo: AppBase.UserInfo
+        UserInfo: AppBase.UserInfo,
+        memberinfo: []
       });
-
       memberapi.info({}, (info) => {
-        this.Base.setMyData({
-          memberinfo: info
-        });
+      if(info == null || info == ''){
+        wx.showToast({
+          title: '获取用户信息失败！',
+          icon: 'none'
+        })
+      }
+      that.Base.setMyData({
+        memberinfo: info
+      });
       })
     });
   }
